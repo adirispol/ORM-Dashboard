@@ -186,6 +186,7 @@ footer .br{color:var(--gold);font-weight:600;}
   </div>
   <div class="cs"><div class="cs-t">Google Sheet</div>
     <div class="cr"><label>Sheet ID</label><input id="c_id" value="1k1osWbOmpyU4WB-sQkdgaKlUn0UKlUY5T0zTMx6fA20"></div>
+    <div class="cr"><label>Published Base ID (from publish URL after /e/)</label><input id="c_pubBase" value="2PACX-1vQFv6U02jXum9LWA3EpM1Y_kr3USUM952lNVR7nc8Dpbi_FsqXT5YBMa3PjnMbtuZjFVv8sfVK3v48E"></div>
   </div>
   <div class="cs"><div class="cs-t">Reddit</div>
     <div class="cr"><label>Tab Name</label><input id="c_rTab" value="Reddit"></div>
@@ -442,6 +443,8 @@ footer .br{color:var(--gold);font-weight:600;}
 // ── DEFAULTS ─────────────────────────────────────────────────
 const DEF={
   id:'1k1osWbOmpyU4WB-sQkdgaKlUn0UKlUY5T0zTMx6fA20',
+  pubBase:'2PACX-1vQFv6U02jXum9LWA3EpM1Y_kr3USUM952lNVR7nc8Dpbi_FsqXT5YBMa3PjnMbtuZjFVv8sfVK3v48E',
+  rGid:'0', qGid:'798948706', pstGid:'1594247981', ytGid:'431577379', nGid:'2123559774', mGid:'1909778130',
   rTab:'Reddit', rLink:'Post Link', rPosts:'Posts', rComm:'Comments', rImp:'Impressions',
   qTab:'Quora', qQL:'Question Link', qAL:'Answer Link', qImp:'Impressions',
   pstTab:'PST Quora', pstLink:'Post Link', pstImp:'Impressions',
@@ -508,10 +511,20 @@ function mkC(id,type,labels,datasets,extra={}){
 
 // ── CSV FETCH ─────────────────────────────────────────────────
 async function fetchTab(tab){
-  if(!C.id)throw new Error('No Sheet ID configured');
-  const url=`https://docs.google.com/spreadsheets/d/${C.id}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tab)}`;
-  const r=await fetch(url);
-  if(!r.ok)throw new Error(`HTTP ${r.status} — tab "${tab}" not found or not published as CSV`);
+  if(!C.pubBase) throw new Error('Published Base ID not configured');
+  const tabMap = {
+    [C.rTab]:   C.rGid  || '0',
+    [C.qTab]:   C.qGid  || '',
+    [C.pstTab]: C.pstGid|| '',
+    [C.ytTab]:  C.ytGid || '',
+    [C.nTab]:   C.nGid  || '',
+    [C.mTab]:   C.mGid  || ''
+  };
+  const gid = tabMap[tab];
+  if(gid === undefined || gid === '') throw new Error(`No GID configured for tab "${tab}"`);
+  const url = `https://docs.google.com/spreadsheets/d/e/${C.pubBase}/pub?single=true&output=csv&gid=${gid}`;
+  const r = await fetch(url);
+  if(!r.ok) throw new Error(`HTTP ${r.status} — check tab is published as CSV`);
   return parseCSV(await r.text());
 }
 function parseCSV(txt){
@@ -725,7 +738,7 @@ function st(id,btn){
 }
 
 // ── CONFIG ────────────────────────────────────────────────────
-const FLDS=['id','rTab','rLink','rPosts','rComm','rImp','qTab','qQL','qAL','qImp','pstTab','pstLink','pstImp','ytTab','ytCol','nTab','nPub','mTab','mLink','title'];
+const FLDS=['id','pubBase','rTab','rLink','rPosts','rComm','rImp','qTab','qQL','qAL','qImp','pstTab','pstLink','pstImp','ytTab','ytCol','nTab','nPub','mTab','mLink','title'];
 function loadCfg(){const s=localStorage.getItem('p_orm_v4');if(s)C={...DEF,...JSON.parse(s)};FLDS.forEach(k=>{const e=document.getElementById('c_'+k);if(e)e.value=C[k]||'';});set('dashTitle',C.title);}
 function saveCfg(){FLDS.forEach(k=>{const e=document.getElementById('c_'+k);if(e)C[k]=e.value.trim();});localStorage.setItem('p_orm_v4',JSON.stringify(C));set('dashTitle',C.title);closeCfg();loadAll();}
 function resetCfg(){if(!confirm('Reset all settings?'))return;C={...DEF};localStorage.removeItem('p_orm_v4');loadCfg();}
@@ -733,20 +746,24 @@ function resetCfg(){if(!confirm('Reset all settings?'))return;C={...DEF};localSt
 async function testConn(){
   const id=document.getElementById('c_id').value.trim();
   if(!id){setH('testOut','<div class="tfail">✗ Enter Sheet ID first</div>');return;}
+  const pubBase = document.getElementById('c_pubBase').value.trim();
+  if(!pubBase){setH('testOut','<div class="tfail">✗ Enter Published Base ID first</div>');return;}
   const tabs=[
-    {f:'c_rTab',l:'Reddit'},{f:'c_qTab',l:'Quora Seeding'},
-    {f:'c_pstTab',l:'PST Quora'},{f:'c_ytTab',l:'YouTube'},
-    {f:'c_nTab',l:'Newspaper PR'},{f:'c_mTab',l:'Medium'}
+    {l:'Reddit',   gid:document.getElementById('c_rGid')  ?.value||'0'},
+    {l:'Quora',    gid:document.getElementById('c_qGid')  ?.value||'798948706'},
+    {l:'PST Quora',gid:document.getElementById('c_pstGid')?.value||'1594247981'},
+    {l:'YouTube',  gid:document.getElementById('c_ytGid') ?.value||'431577379'},
+    {l:'Newspaper',gid:document.getElementById('c_nGid')  ?.value||'2123559774'},
+    {l:'Medium',   gid:document.getElementById('c_mGid')  ?.value||'1909778130'}
   ];
   setH('testOut','<div style="color:var(--gold);font-size:11px;margin-top:8px;">Testing all 6 tabs...</div>');
   const res=await Promise.all(tabs.map(async t=>{
-    const tab=document.getElementById(t.f).value;
     try{
-      const url=`https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tab)}`;
+      const url=`https://docs.google.com/spreadsheets/d/e/${pubBase}/pub?single=true&output=csv&gid=${t.gid}`;
       const r=await fetch(url);
-      if(!r.ok)return{l:t.l,ok:false,m:`HTTP ${r.status}`};
+      if(!r.ok)return{l:t.l,ok:false,m:`HTTP ${r.status} — not published as CSV`};
       const rows=(await r.text()).trim().split('\n').length-1;
-      return{l:t.l,ok:true,m:`${rows} rows found ✓`};
+      return{l:t.l,ok:true,m:`${rows} data rows ✓`};
     }catch(e){return{l:t.l,ok:false,m:e.message};}
   }));
   setH('testOut',res.map(r=>`<div class="${r.ok?'tok':'tfail'}">${r.ok?'✓':'✗'} <b>${r.l}</b>: ${r.m}</div>`).join(''));
