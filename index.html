@@ -6,11 +6,9 @@
 <title>ORM Dashboard — Polaris School of Technology</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
-:root{--gold:#FFCC3F;--orange:#FF9A3F;--amber:#D88100;--black:#020202;--white:#FFF;--purple:#5939A8;--green:#099B5A;--red:#BA0E13;--card:#161616;--card2:#0F0F0F;--border:rgba(255,255,255,0.07);--text:#C8C8C8;--muted:#555;--faint:#1E1E1E;--reddit:#FF4500;--quora:#B92B27;--yt:#FF0000;--news:#D88100;--med:#1A8917;}
+:root{--gold:#FFCC3F;--orange:#FF9A3F;--amber:#D88100;--black:#020202;--white:#FFF;--purple:#5939A8;--green:#099B5A;--red:#BA0E13;--card:#161616;--card2:#0F0F0F;--border:rgba(255,255,255,0.07);--text:#C8C8C8;--muted:#555;--faint:#1E1E1E;}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:#080808;color:var(--text);font-family:'Poppins',sans-serif;font-size:13px;min-height:100vh;}
-
-/* NAV */
 .nav{background:rgba(2,2,2,0.97);border-bottom:1px solid rgba(255,204,63,0.2);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:100;}
 .logo{display:flex;align-items:center;gap:10px;}
 .logo-icon{width:30px;height:30px;background:var(--gold);border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--black);}
@@ -26,25 +24,22 @@ body{background:#080808;color:var(--text);font-family:'Poppins',sans-serif;font-
 .btn-sync:hover{background:var(--gold);color:var(--black);}
 .btn-cfg{background:transparent;border:1px solid var(--faint);color:var(--muted);width:30px;height:30px;border-radius:6px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
 .btn-cfg:hover{border-color:var(--gold);color:var(--gold);}
-
-/* CONFIG */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:none;}
 .overlay.open{display:block;}
-.cfg{position:fixed;right:0;top:0;bottom:0;width:360px;background:#0A0A0A;border-left:1px solid rgba(255,204,63,.18);z-index:201;overflow-y:auto;padding:22px;display:none;}
+.cfg{position:fixed;right:0;top:0;bottom:0;width:340px;background:#0A0A0A;border-left:1px solid rgba(255,204,63,.18);z-index:201;overflow-y:auto;padding:20px;display:none;}
 .cfg.open{display:block;}
 .cfg-x{position:absolute;top:14px;right:14px;background:transparent;border:none;color:var(--muted);font-size:15px;cursor:pointer;}
 .cfg h2{font-size:15px;color:var(--white);margin-bottom:2px;font-weight:600;}
-.cfg-sub{font-size:10px;color:var(--muted);margin-bottom:14px;line-height:1.5;}
-.cfg-hint{background:rgba(255,204,63,.04);border:1px solid rgba(255,204,63,.1);border-radius:7px;padding:9px 11px;font-size:10px;color:var(--muted);line-height:1.7;margin-bottom:14px;}
+.cfg-sub{font-size:10px;color:var(--muted);margin-bottom:12px;line-height:1.5;}
+.cfg-hint{background:rgba(255,204,63,.04);border:1px solid rgba(255,204,63,.1);border-radius:7px;padding:9px 11px;font-size:10px;color:var(--muted);line-height:1.7;margin-bottom:12px;}
 .cfg-hint b{color:var(--gold);}
-.cs{margin-bottom:12px;}
-.cs-t{font-size:9px;font-weight:600;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;margin-bottom:7px;padding-bottom:4px;border-bottom:1px solid var(--faint);}
-.cr{margin-bottom:6px;}
+.cs{margin-bottom:10px;}
+.cs-t{font-size:9px;font-weight:600;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px;padding-bottom:3px;border-bottom:1px solid var(--faint);}
+.cr{margin-bottom:5px;}
 .cr label{display:block;font-size:10px;color:var(--muted);margin-bottom:2px;}
 .cr input{width:100%;background:#141414;border:1px solid var(--faint);color:var(--white);padding:6px 9px;border-radius:5px;font-family:'Poppins',sans-serif;font-size:11px;}
 .cr input:focus{outline:none;border-color:rgba(255,204,63,.4);}
-.logic-note{background:rgba(9,155,90,.05);border:1px solid rgba(9,155,90,.15);border-radius:5px;padding:6px 9px;font-size:10px;color:#0CC76A;margin-top:5px;}
-.cfg-acts{display:flex;gap:7px;margin-top:14px;flex-wrap:wrap;}
+.cfg-acts{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap;}
 .btn-save{background:var(--gold);color:var(--black);border:none;padding:8px 18px;border-radius:6px;font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;cursor:pointer;}
 .btn-save:hover{background:var(--orange);}
 .btn-test{background:transparent;border:1px solid var(--green);color:var(--green);padding:8px 13px;border-radius:6px;font-family:'Poppins',sans-serif;font-size:12px;cursor:pointer;}
@@ -52,115 +47,106 @@ body{background:#080808;color:var(--text);font-family:'Poppins',sans-serif;font-
 .test-out{margin-top:10px;font-size:11px;}
 .tok{color:var(--green);display:flex;align-items:center;gap:5px;margin-bottom:2px;}
 .tfail{color:var(--red);display:flex;align-items:center;gap:5px;margin-bottom:2px;}
-
-/* MAIN */
-.main{padding:22px 28px;max-width:1500px;margin:0 auto;}
-.sec-lbl{font-size:10px;font-weight:600;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:13px;}
+.main{padding:20px 28px;max-width:1500px;margin:0 auto;}
+.sec-lbl{font-size:10px;font-weight:600;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;}
 .sec-lbl span{display:inline-block;padding-bottom:3px;border-bottom:2px solid var(--gold);}
 
-/* SUMMARY */
-.summary-grid{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:28px;}
-.summary-card{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:20px 22px;position:relative;overflow:hidden;}
-.summary-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--gold);}
-.summary-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-.summary-title{font-size:11px;font-weight:600;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;}
-.summary-date{font-size:10px;color:var(--muted);}
-.summary-text{font-size:13px;color:var(--text);line-height:1.85;font-weight:300;}
-.summary-text b{color:var(--white);font-weight:600;}
-.summary-text .hi{color:var(--gold);font-weight:500;}
-.summary-text .up{color:#0CC76A;font-weight:500;}
-.summary-text .dn{color:var(--red);font-weight:500;}
+/* ── VISUAL SUMMARY ── */
+.vsummary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:28px;}
+.vs-main{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:20px;position:relative;overflow:hidden;grid-column:1/3;}
+.vs-main::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--gold);}
+.vs-title{font-size:10px;font-weight:600;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;}
+.vs-date{font-size:10px;color:var(--muted);margin-bottom:14px;}
+.vs-text{font-size:12px;color:var(--text);line-height:1.8;font-weight:300;}
+.vs-text b{color:var(--white);font-weight:600;}
+.vs-text .hi{color:var(--gold);font-weight:500;}
+.vs-text .up{color:#0CC76A;font-weight:500;}
+.vs-text .dn{color:var(--red);font-weight:500;}
 .sum-loading{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12px;}
-.sum-spin{width:16px;height:16px;border:2px solid var(--faint);border-top-color:var(--gold);border-radius:50%;animation:sp .7s linear infinite;flex-shrink:0;}
-.insights-col{display:flex;flex-direction:column;gap:10px;}
+.sum-spin{width:14px;height:14px;border:2px solid var(--faint);border-top-color:var(--gold);border-radius:50%;animation:sp .7s linear infinite;flex-shrink:0;}
+.vs-charts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;}
+.vs-chart-card{background:var(--card2);border:1px solid var(--faint);border-radius:9px;padding:12px;}
+.vs-chart-title{font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;}
+.vs-chart-wrap{position:relative;height:140px;}
+.vs-sidebar{display:flex;flex-direction:column;gap:10px;}
 .ins-card{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:14px 16px;flex:1;}
-.ins-lbl{font-size:9px;font-weight:600;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;}
+.ins-lbl{font-size:9px;font-weight:600;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px;}
 .ins-val{font-size:20px;font-weight:700;color:var(--white);line-height:1;margin-bottom:3px;}
 .ins-sub{font-size:10px;color:var(--muted);}
-.ins-bar{height:3px;border-radius:2px;margin-top:8px;background:var(--faint);}
+.ins-bar{height:3px;border-radius:2px;margin-top:7px;background:var(--faint);}
 .ins-fill{height:3px;border-radius:2px;background:var(--gold);transition:width .8s ease;}
 
-/* KPI STRIP — 6 platforms */
-.kpi-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:26px;}
-.kpi{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:15px 13px;position:relative;overflow:hidden;transition:transform .18s;}
+/* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:24px;}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 13px;position:relative;overflow:hidden;transition:transform .18s;}
 .kpi:hover{transform:translateY(-2px);}
 .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--ac,var(--gold));}
-.kpi-lbl{font-size:9px;font-weight:500;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;}
-.kpi-val{font-size:22px;font-weight:700;color:var(--white);line-height:1;margin-bottom:4px;font-variant-numeric:tabular-nums;}
+.kpi-lbl{font-size:9px;font-weight:500;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px;}
+.kpi-val{font-size:22px;font-weight:700;color:var(--white);line-height:1;margin-bottom:3px;font-variant-numeric:tabular-nums;}
 .kpi-sub{font-size:10px;}
 .du{color:#0CC76A;font-size:10px;font-weight:500;}
 .dd{color:var(--red);font-size:10px;font-weight:500;}
 .dn{color:var(--muted);font-size:10px;}
 
 /* TABS */
-.tabs{display:flex;margin-bottom:20px;border-bottom:1px solid var(--faint);overflow-x:auto;}
+.tabs{display:flex;margin-bottom:18px;border-bottom:1px solid var(--faint);overflow-x:auto;}
 .tabs::-webkit-scrollbar{display:none;}
-.tb{background:transparent;border:none;color:var(--muted);padding:9px 16px;cursor:pointer;font-family:'Poppins',sans-serif;font-size:12px;font-weight:500;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s;white-space:nowrap;display:flex;align-items:center;gap:5px;}
+.tb{background:transparent;border:none;color:var(--muted);padding:8px 15px;cursor:pointer;font-family:'Poppins',sans-serif;font-size:12px;font-weight:500;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s;white-space:nowrap;display:flex;align-items:center;gap:5px;}
 .tb:hover{color:var(--white);}
 .tb.active{color:var(--gold);border-bottom-color:var(--gold);}
 .tb-badge{background:rgba(255,204,63,.1);color:var(--gold);border-radius:9px;padding:1px 6px;font-size:9px;font-weight:600;}
-
-/* PLATFORM SECTIONS */
 .plat{display:none;}
 .plat.active{display:block;}
-.ph{display:flex;align-items:center;gap:9px;margin-bottom:16px;}
+.ph{display:flex;align-items:center;gap:9px;margin-bottom:14px;}
 .pbadge{padding:3px 11px;border-radius:18px;font-size:9px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;}
 .pdesc{font-size:11px;color:var(--muted);}
 .logic-pill{display:inline-flex;align-items:center;gap:4px;background:rgba(9,155,90,.08);border:1px solid rgba(9,155,90,.2);border-radius:12px;padding:2px 8px;font-size:9px;color:#0CC76A;font-weight:500;}
-.mrow{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
-.mc{background:var(--card2);border:1px solid var(--faint);border-radius:9px;padding:11px 14px;min-width:120px;flex:1;}
+.mrow{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+.mc{background:var(--card2);border:1px solid var(--faint);border-radius:9px;padding:10px 13px;min-width:120px;flex:1;}
 .mc-v{font-size:20px;font-weight:700;color:var(--white);font-variant-numeric:tabular-nums;}
 .mc-l{font-size:9px;font-weight:500;color:var(--muted);letter-spacing:.07em;text-transform:uppercase;margin-top:2px;}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:13px;}
-.g1{margin-bottom:13px;}
-.card{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:16px;}
-.card-t{font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:13px;}
-.cw{position:relative;height:195px;}
-.tw{max-height:280px;overflow-y:auto;border-radius:8px;border:1px solid var(--faint);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.g1{margin-bottom:12px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:15px;}
+.card-t{font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;}
+.cw{position:relative;height:190px;}
+.tw{max-height:260px;overflow-y:auto;border-radius:8px;border:1px solid var(--faint);}
 .tw::-webkit-scrollbar{width:3px;}
 .tw::-webkit-scrollbar-thumb{background:var(--faint);border-radius:2px;}
 table{width:100%;border-collapse:collapse;font-size:11px;}
-thead th{background:#0A0A0A;color:rgba(255,204,63,.65);font-weight:600;font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:8px 11px;text-align:left;border-bottom:1px solid var(--faint);position:sticky;top:0;}
-tbody td{padding:8px 11px;border-bottom:1px solid rgba(255,255,255,.025);color:var(--text);vertical-align:middle;}
+thead th{background:#0A0A0A;color:rgba(255,204,63,.65);font-weight:600;font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:8px 10px;text-align:left;border-bottom:1px solid var(--faint);position:sticky;top:0;}
+tbody td{padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.025);color:var(--text);vertical-align:middle;}
 tbody tr:hover td{background:rgba(255,204,63,.025);}
 .nc{text-align:right;font-variant-numeric:tabular-nums;color:var(--white);}
-.lnk{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;background:rgba(255,204,63,.07);border:1px solid rgba(255,204,63,.16);border-radius:4px;color:var(--gold);font-size:10px;text-decoration:none;font-family:'Poppins',sans-serif;transition:all .15s;}
+.lnk{display:inline-flex;align-items:center;gap:3px;padding:3px 7px;background:rgba(255,204,63,.07);border:1px solid rgba(255,204,63,.16);border-radius:4px;color:var(--gold);font-size:10px;text-decoration:none;transition:all .15s;}
 .lnk:hover{background:rgba(255,204,63,.14);}
 .lnk.q{background:rgba(185,43,39,.07);border-color:rgba(185,43,39,.2);color:#E05A57;}
-.lnk.q:hover{background:rgba(185,43,39,.14);}
-
-/* BIG NUMBER (Medium & YouTube) */
-.big-num-wrap{display:flex;align-items:center;justify-content:center;padding:48px 20px;}
-.big-num-inner{text-align:center;}
+.lnk.p{background:rgba(124,58,237,.07);border-color:rgba(124,58,237,.2);color:#A78BFA;}
+.lnk.n{background:rgba(26,137,23,.07);border-color:rgba(26,137,23,.2);color:#2CC52A;}
+.big-wrap{display:flex;align-items:center;justify-content:center;padding:48px 20px;}
+.big-inner{text-align:center;}
 .big-num{font-size:80px;font-weight:700;color:var(--gold);line-height:1;font-variant-numeric:tabular-nums;}
-.big-label{font-size:14px;color:var(--muted);margin-top:10px;letter-spacing:.05em;}
-.big-sub{font-size:11px;color:var(--muted);margin-top:5px;opacity:.6;}
-
-/* NEWSPAPER PUB CARDS */
+.big-label{font-size:14px;color:var(--muted);margin-top:10px;}
+.big-sub{font-size:11px;color:var(--muted);margin-top:4px;opacity:.6;}
 .pub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;}
-.pub-card{background:var(--card2);border:1px solid var(--faint);border-radius:9px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;}
+.pub-card{background:var(--card2);border:1px solid var(--faint);border-radius:9px;padding:13px 15px;display:flex;align-items:center;justify-content:space-between;}
 .pub-name{font-size:12px;color:var(--white);font-weight:500;}
-.pub-count{font-size:20px;font-weight:700;color:var(--gold);font-variant-numeric:tabular-nums;}
+.pub-count{font-size:20px;font-weight:700;color:var(--gold);}
 .pub-lbl{font-size:9px;color:var(--muted);}
-
-/* STATES */
-.sbox{padding:44px;text-align:center;color:var(--muted);}
-.spin{width:26px;height:26px;border:2px solid var(--faint);border-top-color:var(--gold);border-radius:50%;animation:sp .7s linear infinite;margin:0 auto 10px;}
+.sbox{padding:40px;text-align:center;color:var(--muted);}
+.spin{width:24px;height:24px;border:2px solid var(--faint);border-top-color:var(--gold);border-radius:50%;animation:sp .7s linear infinite;margin:0 auto 10px;}
 @keyframes sp{to{transform:rotate(360deg);}}
-.sbox.err p{color:var(--red);font-size:12px;}
+.sbox.err p{color:var(--red);}
 .sbox p{font-size:12px;}
-.sbox .hint{font-size:10px;color:var(--muted);margin-top:5px;line-height:1.6;}
-
-footer{text-align:center;padding:20px;color:var(--muted);font-size:10px;border-top:1px solid var(--faint);margin-top:36px;}
+.sbox .hint{font-size:10px;color:var(--muted);margin-top:5px;line-height:1.5;}
+footer{text-align:center;padding:18px;color:var(--muted);font-size:10px;border-top:1px solid var(--faint);margin-top:32px;}
 footer .br{color:var(--gold);font-weight:600;}
-
-@media(max-width:1300px){.kpi-strip{grid-template-columns:repeat(3,1fr);}.summary-grid{grid-template-columns:1fr;}}
+@media(max-width:1300px){.kpi-strip{grid-template-columns:repeat(3,1fr);}.vsummary{grid-template-columns:1fr;}.vs-main{grid-column:1/2;}}
 @media(max-width:900px){.kpi-strip{grid-template-columns:repeat(2,1fr);}.g2{grid-template-columns:1fr;}.nav-title{display:none;}}
-@media(max-width:500px){.kpi-strip{grid-template-columns:1fr 1fr;}.cfg{width:100%;}.main{padding:13px 14px;}}
+@media(max-width:500px){.kpi-strip{grid-template-columns:1fr 1fr;}.cfg{width:100%;}.main{padding:12px 14px;}}
 </style>
 </head>
 <body>
-
 <nav class="nav">
   <div class="logo">
     <div class="logo-icon">P</div>
@@ -174,80 +160,54 @@ footer .br{color:var(--gold);font-weight:600;}
     <button class="btn-cfg" onclick="openCfg()">⚙</button>
   </div>
 </nav>
-
 <div class="overlay" id="ov" onclick="closeCfg()"></div>
 <div class="cfg" id="cfgPanel">
   <button class="cfg-x" onclick="closeCfg()">✕</button>
-  <h2>⚙ Dashboard Settings</h2>
-  <p class="cfg-sub">Configure your Google Sheets. Auto-saved in browser.</p>
-  <div class="cfg-hint">
-    <b>One-time setup:</b> Google Sheet → File → Share → Publish to web → select each tab → CSV → Publish → tick "Automatically republish when changes are made" ✓<br><br>
-    <b>Counting logic:</b> Rows are only counted when a live link exists in that row. Empty rows in your calendar are ignored automatically.
-  </div>
+  <h2>⚙ Settings</h2>
+  <p class="cfg-sub">Auto-saved in browser.</p>
+  <div class="cfg-hint"><b>Published Base ID</b> — from your Google Sheets publish URL (the part after /e/ and before /pub)</div>
   <div class="cs"><div class="cs-t">Google Sheet</div>
-    <div class="cr"><label>Sheet ID</label><input id="c_id" value="1k1osWbOmpyU4WB-sQkdgaKlUn0UKlUY5T0zTMx6fA20"></div>
-    <div class="cr"><label>Published Base ID (from publish URL after /e/)</label><input id="c_pubBase" value="2PACX-1vQFv6U02jXum9LWA3EpM1Y_kr3USUM952lNVR7nc8Dpbi_FsqXT5YBMa3PjnMbtuZjFVv8sfVK3v48E"></div>
+    <div class="cr"><label>Published Base ID</label><input id="c_pub" value="2PACX-1vQFv6U02jXum9LWA3EpM1Y_kr3USUM952lNVR7nc8Dpbi_FsqXT5YBMa3PjnMbtuZjFVv8sfVK3v48E"></div>
   </div>
-  <div class="cs"><div class="cs-t">Reddit</div>
-    <div class="cr"><label>Tab Name</label><input id="c_rTab" value="Reddit"></div>
-    <div class="cr"><label>Live Link Column <span style="color:var(--green)">(triggers counting)</span></label><input id="c_rLink" value="Post Link"></div>
-    <div class="cr"><label>Posts Column</label><input id="c_rPosts" value="Posts"></div>
-    <div class="cr"><label>Comments Column</label><input id="c_rComm" value="Comments"></div>
-    <div class="cr"><label>Impressions Column</label><input id="c_rImp" value="Impressions"></div>
-    <div class="logic-note">✓ Only rows with a value in Live Link column are counted</div>
-  </div>
-  <div class="cs"><div class="cs-t">Quora Seeding</div>
-    <div class="cr"><label>Tab Name</label><input id="c_qTab" value="Quora"></div>
-    <div class="cr"><label>Question Live Link Column <span style="color:var(--green)">(triggers counting)</span></label><input id="c_qQL" value="Question Link"></div>
-    <div class="cr"><label>Answer Link Column</label><input id="c_qAL" value="Answer Link"></div>
-    <div class="cr"><label>Impressions Column</label><input id="c_qImp" value="Impressions"></div>
-    <div class="logic-note">✓ Only rows with a Question Live Link are counted</div>
-  </div>
-  <div class="cs"><div class="cs-t">Quora Official Page (PST)</div>
-    <div class="cr"><label>Tab Name</label><input id="c_pstTab" value="PST Quora"></div>
-    <div class="cr"><label>Post Link Column <span style="color:var(--green)">(triggers counting)</span></label><input id="c_pstLink" value="Post Link"></div>
-    <div class="cr"><label>Impressions Column</label><input id="c_pstImp" value="Impressions"></div>
-    <div class="logic-note">✓ Only rows with a Post Link are counted</div>
-  </div>
-  <div class="cs"><div class="cs-t">YouTube Comments</div>
-    <div class="cr"><label>Tab Name</label><input id="c_ytTab" value="Youtube Comments"></div>
-    <div class="cr"><label>Comments Seeded Column</label><input id="c_ytCol" value="Comments Seeded"></div>
-  </div>
-  <div class="cs"><div class="cs-t">Newspaper PR</div>
-    <div class="cr"><label>Tab Name</label><input id="c_nTab" value="Newspaper PR"></div>
-    <div class="cr"><label>Publication Name Column</label><input id="c_nPub" value="Publication Name"></div>
-  </div>
-  <div class="cs"><div class="cs-t">Medium</div>
-    <div class="cr"><label>Tab Name</label><input id="c_mTab" value="Medium"></div>
-    <div class="cr"><label>Live Link Column <span style="color:var(--green)">(triggers counting)</span></label><input id="c_mLink" value="Live Link"></div>
-    <div class="logic-note">✓ Only rows with a live link are counted</div>
+  <div class="cs"><div class="cs-t">Tab GIDs (from sheet URL)</div>
+    <div class="cr"><label>Reddit GID</label><input id="c_rGid" value="0"></div>
+    <div class="cr"><label>Quora GID</label><input id="c_qGid" value="798948706"></div>
+    <div class="cr"><label>PST Quora GID</label><input id="c_pstGid" value="1594247981"></div>
+    <div class="cr"><label>Youtube Comments GID</label><input id="c_ytGid" value="431577379"></div>
+    <div class="cr"><label>Newspaper PR GID</label><input id="c_nGid" value="2123559774"></div>
+    <div class="cr"><label>Medium GID</label><input id="c_mGid" value="1909778130"></div>
   </div>
   <div class="cs"><div class="cs-t">Display</div>
     <div class="cr"><label>Dashboard Title</label><input id="c_title" value="ORM Intelligence Dashboard"></div>
   </div>
   <div class="cfg-acts">
     <button class="btn-save" onclick="saveCfg()">Save &amp; Sync</button>
-    <button class="btn-test" onclick="testConn()">Test All Tabs</button>
+    <button class="btn-test" onclick="testConn()">Test All</button>
     <button class="btn-rst" onclick="resetCfg()">Reset</button>
   </div>
   <div class="test-out" id="testOut"></div>
 </div>
 
 <main class="main">
-
-  <!-- EXECUTIVE SUMMARY -->
-  <div class="sec-lbl" style="margin-bottom:13px;"><span>Executive Summary</span></div>
-  <div class="summary-grid">
-    <div class="summary-card">
-      <div class="summary-header">
-        <div class="summary-title">ORM Performance Snapshot</div>
-        <div class="summary-date" id="sumDate">—</div>
-      </div>
-      <div id="summaryText" class="summary-text">
-        <div class="sum-loading"><div class="sum-spin"></div> Analysing data across all platforms...</div>
+  <!-- VISUAL SUMMARY -->
+  <div class="sec-lbl" style="margin-bottom:12px;"><span>Executive Summary</span></div>
+  <div class="vsummary">
+    <div class="vs-main">
+      <div class="vs-title">ORM Performance Snapshot</div>
+      <div class="vs-date" id="sumDate">—</div>
+      <div id="summaryText" class="vs-text"><div class="sum-loading"><div class="sum-spin"></div> Analysing data...</div></div>
+      <div class="vs-charts">
+        <div class="vs-chart-card">
+          <div class="vs-chart-title">Reach by Platform</div>
+          <div class="vs-chart-wrap"><canvas id="ch_summary_reach"></canvas></div>
+        </div>
+        <div class="vs-chart-card">
+          <div class="vs-chart-title">Content Mix</div>
+          <div class="vs-chart-wrap"><canvas id="ch_summary_mix"></canvas></div>
+        </div>
       </div>
     </div>
-    <div class="insights-col">
+    <div class="vs-sidebar">
       <div class="ins-card">
         <div class="ins-lbl">Top Platform</div>
         <div class="ins-val" id="ins_top">—</div>
@@ -257,45 +217,51 @@ footer .br{color:var(--gold);font-weight:600;}
       <div class="ins-card">
         <div class="ins-lbl">Total Reach</div>
         <div class="ins-val" id="ins_reach">—</div>
-        <div class="ins-sub">impressions (live content only)</div>
+        <div class="ins-sub">live impressions</div>
         <div class="ins-bar"><div class="ins-fill" style="width:100%;background:var(--orange)"></div></div>
       </div>
       <div class="ins-card">
-        <div class="ins-lbl">Live Content Pieces</div>
+        <div class="ins-lbl">Live Content</div>
         <div class="ins-val" id="ins_content">—</div>
-        <div class="ins-sub" id="ins_contentSub">across all channels</div>
+        <div class="ins-sub" id="ins_contentSub">pieces published</div>
         <div class="ins-bar"><div class="ins-fill" style="width:70%;background:var(--green)"></div></div>
+      </div>
+      <div class="ins-card">
+        <div class="ins-lbl">YT Comments</div>
+        <div class="ins-val" id="ins_yt">—</div>
+        <div class="ins-sub">seeded total</div>
+        <div class="ins-bar"><div class="ins-fill" style="width:60%;background:var(--red)"></div></div>
       </div>
     </div>
   </div>
 
-  <!-- KPI STRIP — 6 platforms -->
+  <!-- KPI STRIP -->
   <div class="sec-lbl"><span>Live Platform Overview</span></div>
   <div class="kpi-strip">
-    <div class="kpi" style="--ac:var(--reddit)">
+    <div class="kpi" style="--ac:#FF4500">
       <div class="kpi-lbl">Reddit</div>
       <div class="kpi-val" id="k_rImp">—</div>
-      <div class="dn" style="margin-bottom:2px;">Impressions</div>
+      <div class="dn" style="margin-bottom:2px;font-size:9px;">Impressions</div>
       <div id="k_rD" class="dn">—</div>
     </div>
-    <div class="kpi" style="--ac:var(--quora)">
+    <div class="kpi" style="--ac:#B92B27">
       <div class="kpi-lbl">Quora Seeding</div>
       <div class="kpi-val" id="k_qImp">—</div>
-      <div class="dn" style="margin-bottom:2px;">Impressions</div>
+      <div class="dn" style="margin-bottom:2px;font-size:9px;">Impressions</div>
       <div id="k_qD" class="dn">—</div>
     </div>
     <div class="kpi" style="--ac:#7C3AED">
       <div class="kpi-lbl">Quora Official</div>
       <div class="kpi-val" id="k_pstImp">—</div>
-      <div class="dn" style="margin-bottom:2px;">Impressions</div>
+      <div class="dn" style="margin-bottom:2px;font-size:9px;">Impressions</div>
       <div id="k_pstD" class="dn">—</div>
     </div>
-    <div class="kpi" style="--ac:var(--yt)">
+    <div class="kpi" style="--ac:#FF0000">
       <div class="kpi-lbl">YouTube</div>
       <div class="kpi-val" id="k_ytSum">—</div>
       <div class="dn">Comments seeded</div>
     </div>
-    <div class="kpi" style="--ac:var(--news)">
+    <div class="kpi" style="--ac:#D88100">
       <div class="kpi-lbl">Newspaper PR</div>
       <div class="kpi-val" id="k_nCount">—</div>
       <div class="dn">Articles published</div>
@@ -321,21 +287,21 @@ footer .br{color:var(--gold);font-weight:600;}
   <div class="plat active" id="tab_reddit">
     <div class="ph">
       <div class="pbadge" style="background:rgba(255,69,0,.1);color:#FF6B35;border:1px solid rgba(255,69,0,.2)">Reddit</div>
-      <div class="pdesc">Posts · Comments · Impressions</div>
-      <div class="logic-pill">✓ Live links only</div>
+      <div class="pdesc">Posts · Comments · Impressions — live entries only</div>
+      <div class="logic-pill">✓ Question Link triggers count</div>
     </div>
     <div class="mrow">
-      <div class="mc"><div class="mc-v" id="r_posts">—</div><div class="mc-l">Posts (live)</div></div>
-      <div class="mc"><div class="mc-v" id="r_comm">—</div><div class="mc-l">Comments (live)</div></div>
-      <div class="mc"><div class="mc-v" id="r_imp">—</div><div class="mc-l">Impressions</div></div>
-      <div class="mc"><div class="mc-v" id="r_avg">—</div><div class="mc-l">Avg Imp / Entry</div></div>
-      <div class="mc"><div class="mc-v" id="r_live">—</div><div class="mc-l">Live Entries</div></div>
+      <div class="mc"><div class="mc-v" id="r_posts">—</div><div class="mc-l">Live Posts</div></div>
+      <div class="mc"><div class="mc-v" id="r_comm">—</div><div class="mc-l">Answer Links</div></div>
+      <div class="mc"><div class="mc-v" id="r_qimp">—</div><div class="mc-l">Post Impressions</div></div>
+      <div class="mc"><div class="mc-v" id="r_aimp">—</div><div class="mc-l">Answer Impressions</div></div>
+      <div class="mc"><div class="mc-v" id="r_total">—</div><div class="mc-l">Total Impressions</div></div>
     </div>
     <div class="g2">
-      <div class="card"><div class="card-t">Impressions Trend (live only)</div><div class="cw"><canvas id="ch_rImp"></canvas></div></div>
-      <div class="card"><div class="card-t">Posts vs Comments</div><div class="cw"><canvas id="ch_rPC"></canvas></div></div>
+      <div class="card"><div class="card-t">Post Impressions</div><div class="cw"><canvas id="ch_rImp"></canvas></div></div>
+      <div class="card"><div class="card-t">Answer Impressions by Post</div><div class="cw"><canvas id="ch_rAns"></canvas></div></div>
     </div>
-    <div class="card g1"><div class="card-t">Live Entries Only</div>
+    <div class="card g1"><div class="card-t">Live Posts</div>
       <div class="tw" id="tbl_r"><div class="sbox"><div class="spin"></div><p>Fetching...</p></div></div>
     </div>
   </div>
@@ -345,16 +311,16 @@ footer .br{color:var(--gold);font-weight:600;}
     <div class="ph">
       <div class="pbadge" style="background:rgba(185,43,39,.1);color:#E05A57;border:1px solid rgba(185,43,39,.2)">Quora Seeding</div>
       <div class="pdesc">Impressions · Question &amp; Answer links</div>
-      <div class="logic-pill">✓ Question link required</div>
+      <div class="logic-pill">✓ Answer Live Link triggers count</div>
     </div>
     <div class="mrow">
-      <div class="mc"><div class="mc-v" id="q_imp">—</div><div class="mc-l">Impressions</div></div>
-      <div class="mc"><div class="mc-v" id="q_qlinks">—</div><div class="mc-l">Question Links</div></div>
-      <div class="mc"><div class="mc-v" id="q_alinks">—</div><div class="mc-l">Answer Links</div></div>
-      <div class="mc"><div class="mc-v" id="q_avg">—</div><div class="mc-l">Avg Imp / Entry</div></div>
+      <div class="mc"><div class="mc-v" id="q_qlive">—</div><div class="mc-l">Question Links</div></div>
+      <div class="mc"><div class="mc-v" id="q_alive">—</div><div class="mc-l">Answer Links</div></div>
+      <div class="mc"><div class="mc-v" id="q_imp">—</div><div class="mc-l">Total Impressions</div></div>
+      <div class="mc"><div class="mc-v" id="q_avg">—</div><div class="mc-l">Avg Imp / Answer</div></div>
     </div>
     <div class="g2">
-      <div class="card"><div class="card-t">Impressions Trend</div><div class="cw"><canvas id="ch_qImp"></canvas></div></div>
+      <div class="card"><div class="card-t">Impressions per Answer</div><div class="cw"><canvas id="ch_qImp"></canvas></div></div>
       <div class="card"><div class="card-t">Impressions Distribution</div><div class="cw"><canvas id="ch_qDist"></canvas></div></div>
     </div>
     <div class="card g1"><div class="card-t">Live Q&amp;A Log — sorted by impressions</div>
@@ -362,24 +328,24 @@ footer .br{color:var(--gold);font-weight:600;}
     </div>
   </div>
 
-  <!-- QUORA OFFICIAL PST -->
+  <!-- PST QUORA -->
   <div class="plat" id="tab_pst">
     <div class="ph">
-      <div class="pbadge" style="background:rgba(124,58,237,.1);color:#A78BFA;border:1px solid rgba(124,58,237,.2)">Quora Official Page</div>
-      <div class="pdesc">PST Quora — post links &amp; impressions</div>
-      <div class="logic-pill">✓ Post link required</div>
+      <div class="pbadge" style="background:rgba(124,58,237,.1);color:#A78BFA;border:1px solid rgba(124,58,237,.2)">Quora Official</div>
+      <div class="pdesc">PST Quora page — answers &amp; impressions</div>
+      <div class="logic-pill">✓ Live Link triggers count</div>
     </div>
     <div class="mrow">
-      <div class="mc"><div class="mc-v" id="pst_posts">—</div><div class="mc-l">Posts (live)</div></div>
+      <div class="mc"><div class="mc-v" id="pst_live">—</div><div class="mc-l">Live Answers</div></div>
       <div class="mc"><div class="mc-v" id="pst_imp">—</div><div class="mc-l">Total Impressions</div></div>
-      <div class="mc"><div class="mc-v" id="pst_avg">—</div><div class="mc-l">Avg Imp / Post</div></div>
+      <div class="mc"><div class="mc-v" id="pst_avg">—</div><div class="mc-l">Avg Imp / Answer</div></div>
       <div class="mc"><div class="mc-v" id="pst_peak">—</div><div class="mc-l">Peak Impressions</div></div>
     </div>
     <div class="g2">
-      <div class="card"><div class="card-t">Impressions Trend</div><div class="cw"><canvas id="ch_pstImp"></canvas></div></div>
-      <div class="card"><div class="card-t">Post Performance</div><div class="cw"><canvas id="ch_pstBar"></canvas></div></div>
+      <div class="card"><div class="card-t">Impressions per Answer</div><div class="cw"><canvas id="ch_pstImp"></canvas></div></div>
+      <div class="card"><div class="card-t">Performance Distribution</div><div class="cw"><canvas id="ch_pstDist"></canvas></div></div>
     </div>
-    <div class="card g1"><div class="card-t">Official Post Log — sorted by impressions</div>
+    <div class="card g1"><div class="card-t">Official Answers — sorted by impressions</div>
       <div class="tw" id="tbl_pst"><div class="sbox"><div class="spin"></div><p>Fetching...</p></div></div>
     </div>
   </div>
@@ -388,14 +354,20 @@ footer .br{color:var(--gold);font-weight:600;}
   <div class="plat" id="tab_youtube">
     <div class="ph">
       <div class="pbadge" style="background:rgba(255,0,0,.07);color:#FF5555;border:1px solid rgba(255,0,0,.16)">YouTube</div>
-      <div class="pdesc">Sum of all comments seeded</div>
+      <div class="pdesc">Sum of Comments Seeded column</div>
     </div>
-    <div class="big-num-wrap">
-      <div class="big-num-inner">
-        <div class="big-num" id="yt_big">—</div>
-        <div class="big-label">Total Comments Seeded</div>
-        <div class="big-sub" id="yt_sub">Updates every 2 minutes</div>
-      </div>
+    <div class="mrow">
+      <div class="mc"><div class="mc-v" id="yt_sum">—</div><div class="mc-l">Total Seeded</div></div>
+      <div class="mc"><div class="mc-v" id="yt_rows">—</div><div class="mc-l">Channels</div></div>
+      <div class="mc"><div class="mc-v" id="yt_avg">—</div><div class="mc-l">Avg Per Channel</div></div>
+      <div class="mc"><div class="mc-v" id="yt_peak">—</div><div class="mc-l">Peak</div></div>
+    </div>
+    <div class="g2">
+      <div class="card"><div class="card-t">Comments Seeded by Channel</div><div class="cw"><canvas id="ch_ytBar"></canvas></div></div>
+      <div class="card"><div class="card-t">Volume Distribution</div><div class="cw"><canvas id="ch_ytDist"></canvas></div></div>
+    </div>
+    <div class="card g1"><div class="card-t">Top Channels by Comments Seeded</div>
+      <div class="tw" id="tbl_yt"><div class="sbox"><div class="spin"></div><p>Fetching...</p></div></div>
     </div>
   </div>
 
@@ -403,7 +375,7 @@ footer .br{color:var(--gold);font-weight:600;}
   <div class="plat" id="tab_newspaper">
     <div class="ph">
       <div class="pbadge" style="background:rgba(216,129,0,.1);color:#FFAA44;border:1px solid rgba(216,129,0,.2)">Newspaper PR</div>
-      <div class="pdesc">Articles count · by publication</div>
+      <div class="pdesc">Articles by publication</div>
     </div>
     <div class="mrow">
       <div class="mc"><div class="mc-v" id="n_count">—</div><div class="mc-l">Total Articles</div></div>
@@ -423,110 +395,61 @@ footer .br{color:var(--gold);font-weight:600;}
   <div class="plat" id="tab_medium">
     <div class="ph">
       <div class="pbadge" style="background:rgba(26,137,23,.1);color:#2CC52A;border:1px solid rgba(26,137,23,.2)">Medium</div>
-      <div class="pdesc">Count of live article links only</div>
-      <div class="logic-pill">✓ Live links only</div>
+      <div class="pdesc">Live articles — counted when Status = Posted and Live Link exists</div>
+      <div class="logic-pill">✓ Live Link column triggers count</div>
     </div>
-    <div class="big-num-wrap">
-      <div class="big-num-inner">
+    <div class="big-wrap">
+      <div class="big-inner">
         <div class="big-num" id="med_big">—</div>
         <div class="big-label">Live Articles on Medium</div>
         <div class="big-sub" id="med_sub">Updates every 2 minutes</div>
       </div>
     </div>
   </div>
-
 </main>
-<footer><span class="br">POLARIS</span> School of Technology &nbsp;·&nbsp; ORM Intelligence Dashboard &nbsp;·&nbsp; Auto-syncs every 2 minutes · Live-link-only counting &nbsp;·&nbsp; Built by Aditya</footer>
+<footer><span class="br">POLARIS</span> School of Technology &nbsp;·&nbsp; ORM Intelligence Dashboard &nbsp;·&nbsp; Auto-syncs every 2 minutes &nbsp;·&nbsp; Built by Aditya</footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <script>
-// ── DEFAULTS ─────────────────────────────────────────────────
-const DEF={
-  id:'1k1osWbOmpyU4WB-sQkdgaKlUn0UKlUY5T0zTMx6fA20',
-  pubBase:'2PACX-1vQFv6U02jXum9LWA3EpM1Y_kr3USUM952lNVR7nc8Dpbi_FsqXT5YBMa3PjnMbtuZjFVv8sfVK3v48E',
-  rGid:'0', qGid:'798948706', pstGid:'1594247981', ytGid:'431577379', nGid:'2123559774', mGid:'1909778130',
-  rTab:'Reddit', rLink:'Post Link', rPosts:'Posts', rComm:'Comments', rImp:'Impressions',
-  qTab:'Quora', qQL:'Question Link', qAL:'Answer Link', qImp:'Impressions',
-  pstTab:'PST Quora', pstLink:'Post Link', pstImp:'Impressions',
-  ytTab:'Youtube Comments', ytCol:'Comments Seeded',
-  nTab:'Newspaper PR', nPub:'Publication Name',
-  mTab:'Medium', mLink:'Live Link',
-  title:'ORM Intelligence Dashboard'
-};
-let C={...DEF}, timer=null;
+const DEF={pub:'2PACX-1vQFv6U02jXum9LWA3EpM1Y_kr3USUM952lNVR7nc8Dpbi_FsqXT5YBMa3PjnMbtuZjFVv8sfVK3v48E',rGid:'0',qGid:'798948706',pstGid:'1594247981',ytGid:'431577379',nGid:'2123559774',mGid:'1909778130',title:'ORM Intelligence Dashboard'};
+let C={...DEF},timer=null;
 const CH={};
-
-// ── CHART DEFAULTS ────────────────────────────────────────────
 Chart.defaults.color='#444';
 Chart.defaults.borderColor='rgba(255,255,255,0.03)';
 Chart.defaults.font.family="'Poppins',sans-serif";
 Chart.defaults.font.size=11;
-const PAL=['#FFCC3F','#FF9A3F','#5939A8','#099B5A','#BA0E13','#D88100','#FF4500','#B92B27'];
+const PAL=['#FFCC3F','#FF9A3F','#5939A8','#099B5A','#BA0E13','#D88100','#FF4500','#B92B27','#7C3AED','#1A8917'];
 
-// ── UTILS ─────────────────────────────────────────────────────
 const toN=v=>parseFloat(String(v||'').replace(/[^0-9.-]/g,''))||0;
 const sumA=a=>a.reduce((s,v)=>s+v,0);
 const avgA=a=>a.length?sumA(a)/a.length:0;
 const maxA=a=>a.length?Math.max(...a):0;
-const isLive=v=>v&&v.trim().length>0&&(v.startsWith('http')||v.startsWith('www')||v.length>5);
+const isLive=v=>v&&String(v).trim().length>3&&(String(v).startsWith('http')||String(v).startsWith('www'));
 
-function fmt(n){
-  if(n===null||n===undefined||n===''||isNaN(n))return'—';
-  n=Number(n);
-  if(n>=1000000)return(n/1000000).toFixed(1)+'M';
-  if(n>=1000)return(n/1000).toFixed(1)+'K';
-  return n.toLocaleString();
-}
+function fmt(n){if(n===null||n===undefined||n===''||isNaN(n))return'—';n=Number(n);if(n>=1000000)return(n/1000000).toFixed(1)+'M';if(n>=1000)return(n/1000).toFixed(1)+'K';return n.toLocaleString();}
 function pct(a,b){if(!b)return 0;return((a-b)/b*100);}
-function dlt(vals){
-  if(vals.length<2)return'<span class="dn">No trend yet</span>';
-  const l=toN(vals[vals.length-1]),p=toN(vals[vals.length-2]);
-  if(!p)return'<span class="dn">—</span>';
-  const d=pct(l,p).toFixed(1);
-  return Number(d)>=0
-    ?`<span class="du">▲ ${d}% vs prev</span>`
-    :`<span class="dd">▼ ${Math.abs(d)}% vs prev</span>`;
-}
+function dlt(vals){if(vals.length<2)return'<span class="dn">—</span>';const l=toN(vals[vals.length-1]),p=toN(vals[vals.length-2]);if(!p)return'<span class="dn">—</span>';const d=pct(l,p).toFixed(1);return Number(d)>=0?`<span class="du">▲${d}%</span>`:`<span class="dd">▼${Math.abs(d)}%</span>`;}
 function set(id,v){const e=document.getElementById(id);if(e)e.textContent=v;}
 function setH(id,v){const e=document.getElementById(id);if(e)e.innerHTML=v;}
-function sbox(id,type,msg,hint=''){
-  const e=document.getElementById(id);
-  if(e)e.innerHTML=`<div class="sbox${type==='err'?' err':''}"><div class="${type==='loading'?'spin':''}"></div><p>${msg}</p>${hint?`<p class="hint">${hint}</p>`:''}</div>`;
-}
+function sbox(id,type,msg,hint=''){const e=document.getElementById(id);if(e)e.innerHTML=`<div class="sbox${type==='err'?' err':''}"><div class="${type==='loading'?'spin':''}"></div><p>${msg}</p>${hint?`<p class="hint">${hint}</p>`:''}</div>`;}
+
 function mkC(id,type,labels,datasets,extra={}){
   if(CH[id])CH[id].destroy();
   const el=document.getElementById(id);if(!el)return;
   CH[id]=new Chart(el,{type,data:{labels,datasets},options:{
     responsive:true,maintainAspectRatio:false,
-    plugins:{
-      legend:{labels:{color:'#444',usePointStyle:true,pointStyleWidth:7,boxHeight:7,padding:10}},
-      tooltip:{backgroundColor:'#0F0F0F',borderColor:'rgba(255,204,63,0.2)',borderWidth:1,titleColor:'#FFCC3F',bodyColor:'#888',padding:9,cornerRadius:7}
-    },
-    scales:type!=='doughnut'&&type!=='pie'?{
-      x:{grid:{color:'rgba(255,255,255,0.02)'},ticks:{color:'#333',maxRotation:38}},
-      y:{grid:{color:'rgba(255,255,255,0.02)'},ticks:{color:'#333'}}
-    }:undefined,...extra
+    plugins:{legend:{labels:{color:'#444',usePointStyle:true,pointStyleWidth:7,boxHeight:7,padding:10}},tooltip:{backgroundColor:'#0F0F0F',borderColor:'rgba(255,204,63,0.2)',borderWidth:1,titleColor:'#FFCC3F',bodyColor:'#888',padding:9,cornerRadius:7}},
+    scales:type!=='doughnut'&&type!=='pie'?{x:{grid:{color:'rgba(255,255,255,0.02)'},ticks:{color:'#333',maxRotation:38}},y:{grid:{color:'rgba(255,255,255,0.02)'},ticks:{color:'#333'}}}:undefined,...extra
   }});
 }
 
-// ── CSV FETCH ─────────────────────────────────────────────────
-async function fetchTab(tab){
-  if(!C.pubBase) throw new Error('Published Base ID not configured');
-  const tabMap = {
-    [C.rTab]:   C.rGid  || '0',
-    [C.qTab]:   C.qGid  || '',
-    [C.pstTab]: C.pstGid|| '',
-    [C.ytTab]:  C.ytGid || '',
-    [C.nTab]:   C.nGid  || '',
-    [C.mTab]:   C.mGid  || ''
-  };
-  const gid = tabMap[tab];
-  if(gid === undefined || gid === '') throw new Error(`No GID configured for tab "${tab}"`);
-  const url = `https://docs.google.com/spreadsheets/d/e/${C.pubBase}/pub?single=true&output=csv&gid=${gid}`;
-  const r = await fetch(url);
-  if(!r.ok) throw new Error(`HTTP ${r.status} — check tab is published as CSV`);
+async function fetchGid(gid){
+  const url=`https://docs.google.com/spreadsheets/d/e/${C.pub}/pub?single=true&output=csv&gid=${gid}`;
+  const r=await fetch(url);
+  if(!r.ok)throw new Error(`HTTP ${r.status}`);
   return parseCSV(await r.text());
 }
+
 function parseCSV(txt){
   const rows=[];let inQ=false,f='',row=[];
   for(let i=0;i<txt.length;i++){
@@ -541,237 +464,278 @@ function parseCSV(txt){
   return rows.slice(1).filter(r=>r.some(c=>c)).map(r=>{const o={};h.forEach((k,i)=>o[k]=r[i]||'');return o;});
 }
 
-// ── DATA STORE ────────────────────────────────────────────────
-const DS={reddit:null,quora:null,pst:null,youtube:null,newspaper:null,medium:null};
+const DS={};
 
-// ── SUMMARY ───────────────────────────────────────────────────
+// ── SUMMARY + VISUAL ─────────────────────────────────────────
 function buildSummary(){
   const r=DS.reddit,q=DS.quora,pst=DS.pst,yt=DS.youtube,n=DS.newspaper,m=DS.medium;
-  if(!r&&!q&&!pst&&!yt&&!n&&!m){setH('summaryText','<div class="sum-loading"><div class="sum-spin"></div> Waiting for data...</div>');return;}
+  if(!r&&!q&&!pst&&!yt&&!n&&!m)return;
 
-  const rLive=r?r.filter(x=>isLive(x[C.rLink])):[];
-  const rImps=sumA(rLive.map(x=>toN(x[C.rImp])));
-  const rPosts=sumA(rLive.map(x=>toN(x[C.rPosts])));
-
-  const qLive=q?q.filter(x=>isLive(x[C.qQL])):[];
-  const qImps=sumA(qLive.map(x=>toN(x[C.qImp])));
-  const qQLinks=qLive.length;
-  const qALinks=qLive.filter(x=>isLive(x[C.qAL])).length;
-
-  const pstLive=pst?pst.filter(x=>isLive(x[C.pstLink])):[];
-  const pstImps=sumA(pstLive.map(x=>toN(x[C.pstImp])));
-
-  const ytTotal=yt?sumA(yt.map(x=>toN(x[C.ytCol]))):0;
-  const nCount=n?n.length:0;
-  const mLive=m?m.filter(x=>isLive(x[C.mLink])).length:0;
-
+  const rImps=r?r.totalImp:0;
+  const qImps=q?q.totalImp:0;
+  const pstImps=pst?pst.totalImp:0;
+  const ytTotal=yt?yt.total:0;
+  const nCount=n?n.count:0;
+  const mLive=m?m.live:0;
   const totalReach=rImps+qImps+pstImps;
-  const totalContent=rPosts+nCount+mLive+qQLinks;
+  const totalContent=(r?r.posts:0)+nCount+mLive+(q?q.aLive:0);
 
-  const platsByReach=[
-    {name:'Reddit',val:rImps},{name:'Quora Seeding',val:qImps},{name:'Quora Official',val:pstImps}
-  ].filter(p=>p.val>0).sort((a,b)=>b.val-a.val);
+  // Summary charts
+  const reachData=[rImps,qImps,pstImps].filter(v=>v>0);
+  const reachLabels=['Reddit','Quora Seeding','Quora Official'].filter((_,i)=>[rImps,qImps,pstImps][i]>0);
+  mkC('ch_summary_reach','doughnut',reachLabels,[{data:reachData,backgroundColor:['rgba(255,69,0,0.8)','rgba(185,43,39,0.8)','rgba(124,58,237,0.8)'],borderColor:'#161616',borderWidth:2}],{plugins:{legend:{position:'right',labels:{color:'#555',boxHeight:9,padding:8}},tooltip:{backgroundColor:'#0F0F0F',titleColor:'#FFCC3F',bodyColor:'#888',padding:9,cornerRadius:7}}});
+
+  const mixLabels=[],mixData=[],mixColors=[];
+  if(r&&r.posts>0){mixLabels.push('Reddit Posts');mixData.push(r.posts);mixColors.push('rgba(255,69,0,0.75)');}
+  if(q&&q.aLive>0){mixLabels.push('Quora Answers');mixData.push(q.aLive);mixColors.push('rgba(185,43,39,0.75)');}
+  if(pst&&pst.live>0){mixLabels.push('PST Answers');mixData.push(pst.live);mixColors.push('rgba(124,58,237,0.75)');}
+  if(nCount>0){mixLabels.push('PR Articles');mixData.push(nCount);mixColors.push('rgba(216,129,0,0.75)');}
+  if(mLive>0){mixLabels.push('Medium');mixData.push(mLive);mixColors.push('rgba(26,137,23,0.75)');}
+  mkC('ch_summary_mix','doughnut',mixLabels,[{data:mixData,backgroundColor:mixColors,borderColor:'#161616',borderWidth:2}],{plugins:{legend:{position:'right',labels:{color:'#555',boxHeight:9,padding:8}},tooltip:{backgroundColor:'#0F0F0F',titleColor:'#FFCC3F',bodyColor:'#888',padding:9,cornerRadius:7}}});
+
+  // Insight cards
+  const platsByReach=[{name:'Reddit',val:rImps},{name:'Quora Seeding',val:qImps},{name:'Quora Official',val:pstImps}].filter(p=>p.val>0).sort((a,b)=>b.val-a.val);
   const top=platsByReach[0]||{name:'—',val:0};
   const topPct=totalReach>0?Math.round((top.val/totalReach)*100):0;
-
-  const rImpArr=rLive.map(x=>toN(x[C.rImp]));
-  const qImpArr=qLive.map(x=>toN(x[C.qImp]));
-  const pstImpArr=pstLive.map(x=>toN(x[C.pstImp]));
-
-  let lines=[];
-
-  if(totalReach>0) lines.push(`Polaris has generated <b class="hi">${fmt(totalReach)}</b> total impressions from live content across Reddit, Quora Seeding, and the Official Quora Page.`);
-
-  if(rLive.length>0){
-    let s=`<b>Reddit</b> — <b class="hi">${rLive.length}</b> live posts contributing <b class="hi">${fmt(rImps)}</b> impressions`;
-    const rT=rImpArr.length>=2?pct(rImpArr[rImpArr.length-1],rImpArr[rImpArr.length-2]):null;
-    if(rT!==null) s+=rT>=0?`, trending <span class="up">▲ ${rT.toFixed(1)}%</span>.`:`, down <span class="dn">▼ ${Math.abs(rT).toFixed(1)}%</span> — consider increasing post frequency.`;
-    else s+='.';
-    lines.push(s);
-  }
-
-  if(qLive.length>0){
-    let s=`<b>Quora Seeding</b> — <b class="hi">${qQLinks}</b> questions and <b>${qALinks}</b> answers live, generating <b class="hi">${fmt(qImps)}</b> impressions`;
-    const qT=qImpArr.length>=2?pct(qImpArr[qImpArr.length-1],qImpArr[qImpArr.length-2]):null;
-    if(qT!==null&&qT!==0) s+=qT>=0?`. Impressions <span class="up">growing ▲${qT.toFixed(1)}%</span>.`:`. Impressions <span class="dn">down ▼${Math.abs(qT).toFixed(1)}%</span>.`;
-    else s+='.';
-    lines.push(s);
-  }
-
-  if(pstLive.length>0){
-    let s=`<b>Quora Official Page</b> (PST) — <b class="hi">${pstLive.length}</b> live posts with <b class="hi">${fmt(pstImps)}</b> impressions`;
-    const pT=pstImpArr.length>=2?pct(pstImpArr[pstImpArr.length-1],pstImpArr[pstImpArr.length-2]):null;
-    if(pT!==null&&pT!==0) s+=pT>=0?`, trending <span class="up">▲${pT.toFixed(1)}%</span>.`:`, <span class="dn">▼${Math.abs(pT).toFixed(1)}%</span>.`;
-    else s+='.';
-    lines.push(s);
-  }
-
-  if(yt&&yt.length>0) lines.push(`<b>YouTube</b> — <b class="hi">${fmt(ytTotal)}</b> comments seeded across ${yt.length} entries.`);
-
-  if(n&&n.length>0){
-    const pubMap={};n.forEach(x=>{const p=x[C.nPub]||'Unknown';pubMap[p]=(pubMap[p]||0)+1;});
-    const topPub=Object.entries(pubMap).sort((a,b)=>b[1]-a[1])[0];
-    lines.push(`<b>Newspaper PR</b> — <b class="hi">${nCount}</b> articles across ${Object.keys(pubMap).length} publications${topPub?`. Top: <b>${topPub[0]}</b> (${topPub[1]} article${topPub[1]>1?'s':''})`:''}.`);
-  }
-
-  if(m) lines.push(`<b>Medium</b> — <b class="hi">${mLive}</b> live article${mLive!==1?'s':''} published${m.length>mLive?` out of ${m.length} total entries in sheet`:''}. ${mLive===m.length&&mLive>0?'All entries live ✓':''}`);
-
-  if(platsByReach.length>1) lines.push(`<b>Key focus:</b> <span class="hi">${top.name}</span> leads with <b>${topPct}%</b> of total reach. <span style="color:var(--orange)">${platsByReach[platsByReach.length-1].name}</span> has the most room to grow.`);
-
-  set('ins_top',top.name);
-  set('ins_topSub',`${fmt(top.val)} imp · ${topPct}% of reach`);
+  set('ins_top',top.name);set('ins_topSub',`${fmt(top.val)} imp · ${topPct}% share`);
   document.getElementById('ins_topBar').style.width=topPct+'%';
-  set('ins_reach',fmt(totalReach));
-  set('ins_content',totalContent);
-  set('ins_contentSub',`${rPosts} posts · ${nCount} PR · ${mLive} Medium`);
+  set('ins_reach',fmt(totalReach));set('ins_content',totalContent);
+  set('ins_contentSub',`${(r?r.posts:0)} posts · ${nCount} PR · ${mLive} Medium`);
+  set('ins_yt',fmt(ytTotal));
+
+  // Text narrative
+  let lines=[];
+  if(totalReach>0) lines.push(`Total live impression reach: <b class="hi">${fmt(totalReach)}</b> across Reddit, Quora Seeding, and Quora Official.`);
+  if(r&&r.posts>0){
+    lines.push(`<b>Reddit</b> — <b class="hi">${r.posts}</b> live posts · <b>${r.aLive}</b> answer links · <b class="hi">${fmt(rImps)}</b> total impressions.`);
+  }
+  if(q&&q.aLive>0){
+    lines.push(`<b>Quora Seeding</b> — <b class="hi">${q.qLive}</b> questions · <b>${q.aLive}</b> answers live · <b class="hi">${fmt(qImps)}</b> impressions · avg <b>${fmt(Math.round(q.avgImp))}</b> per answer.`);
+  }
+  if(pst&&pst.live>0){
+    lines.push(`<b>Quora Official</b> — <b class="hi">${pst.live}</b> live answers · <b class="hi">${fmt(pstImps)}</b> impressions.`);
+  }
+  if(yt) lines.push(`<b>YouTube</b> — <b class="hi">${fmt(ytTotal)}</b> comments seeded across <b>${yt.rows}</b> channels.`);
+  if(n&&nCount>0) lines.push(`<b>Newspaper PR</b> — <b class="hi">${nCount}</b> articles published across <b>${n.pubs}</b> publication${n.pubs>1?'s':''}.`);
+  if(m) lines.push(`<b>Medium</b> — <b class="hi">${mLive}</b> live article${mLive!==1?'s':''} out of ${m.total} total entries.`);
+  if(platsByReach.length>1) lines.push(`<b>Focus:</b> <span class="hi">${top.name}</span> leads at <b>${topPct}%</b> of total reach.`);
+
   set('sumDate','As of '+new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}));
-  setH('summaryText',lines.map(l=>`<p style="margin-bottom:10px;">${l}</p>`).join(''));
+  setH('summaryText',lines.map(l=>`<p style="margin-bottom:8px;">${l}</p>`).join(''));
 }
 
-// ── LOADERS ───────────────────────────────────────────────────
+// ── REDDIT ────────────────────────────────────────────────────
+// Structure: S.No(A) Question(B) Question Link(C) Question Impressions(D) Answers(E) Answers Link(F) Answer Impression(G)
+// Logic: count rows where C (Question Link) has value = live posts
+//        count rows where F (Answers Link) has value = live answer links
+//        sum D where C has value = post impressions
+//        sum G where F has value = answer impressions
 async function loadReddit(){
-  sbox('tbl_r','loading','Fetching Reddit data...');
+  sbox('tbl_r','loading','Fetching Reddit...');
   try{
-    const d=await fetchTab(C.rTab); DS.reddit=d;
-    const live=d.filter(x=>isLive(x[C.rLink]));
-    if(!live.length){sbox('tbl_r','empty','No live links found in Reddit tab — add links to the Post Link column to see data');buildSummary();return;}
-    const posts=live.map(r=>toN(r[C.rPosts]));
-    const comms=live.map(r=>toN(r[C.rComm]));
-    const imps=live.map(r=>toN(r[C.rImp]));
-    set('k_rImp',fmt(sumA(imps)));setH('k_rD',dlt(imps));
-    set('r_posts',fmt(sumA(posts)));set('r_comm',fmt(sumA(comms)));set('r_imp',fmt(sumA(imps)));set('r_avg',fmt(Math.round(avgA(imps))));set('r_live',live.length);set('tb_r',live.length+' live');
-    mkC('ch_rImp','line',live.map((_,i)=>`E${i+1}`),[{label:'Impressions',data:imps,borderColor:'#FFCC3F',backgroundColor:'rgba(255,204,63,0.05)',tension:0.4,pointRadius:3,pointHoverRadius:5,fill:true,borderWidth:2}]);
-    mkC('ch_rPC','bar',live.map((_,i)=>`E${i+1}`),[{label:'Posts',data:posts,backgroundColor:'rgba(255,204,63,0.6)',borderRadius:4},{label:'Comments',data:comms,backgroundColor:'rgba(255,154,63,0.6)',borderRadius:4}]);
-    document.getElementById('tbl_r').innerHTML=`<table><thead><tr><th>#</th><th>Link</th><th class="nc">Posts</th><th class="nc">Comments</th><th class="nc">Impressions</th></tr></thead><tbody>${live.map((r,i)=>`<tr><td style="color:var(--muted);font-size:10px;">${i+1}</td><td><a href="${r[C.rLink]}" target="_blank" class="lnk">View ↗</a></td><td class="nc">${fmt(r[C.rPosts])}</td><td class="nc">${fmt(r[C.rComm])}</td><td class="nc">${fmt(r[C.rImp])}</td></tr>`).join('')}</tbody></table>`;
+    const d=await fetchGid(C.rGid);
+    // Find correct column headers
+    const headers=Object.keys(d[0]||{});
+    // Map by position: col0=S.No, col1=Question, col2=Question Link, col3=Question Impressions, col4=Answers, col5=Answers Link, col6=Answer Impression
+    const colQ=headers[1]||'Question';
+    const colQL=headers[2]||'Question Link';
+    const colQI=headers[3]||'Question Impressions';
+    const colAL=headers[5]||'Answers Link';
+    const colAI=headers[6]||'Answer Impression';
+
+    const livePosts=d.filter(r=>isLive(r[colQL]));
+    const liveAnswers=d.filter(r=>isLive(r[colAL]));
+    const postImp=sumA(livePosts.map(r=>toN(r[colQI])));
+    const ansImp=sumA(liveAnswers.map(r=>toN(r[colAI])));
+    const totalImp=postImp+ansImp;
+
+    DS.reddit={posts:livePosts.length,aLive:liveAnswers.length,postImp,ansImp,totalImp};
+    set('k_rImp',fmt(totalImp));setH('k_rD',`<span class="dn">${livePosts.length} live posts</span>`);
+    set('r_posts',livePosts.length);set('r_comm',liveAnswers.length);
+    set('r_qimp',fmt(postImp));set('r_aimp',fmt(ansImp));set('r_total',fmt(totalImp));
+    set('tb_r',livePosts.length+' posts');
+
+    mkC('ch_rImp','bar',livePosts.map((_,i)=>`P${i+1}`),[{label:'Post Impressions',data:livePosts.map(r=>toN(r[colQI])),backgroundColor:'rgba(255,69,0,0.6)',borderRadius:4}]);
+    mkC('ch_rAns','bar',liveAnswers.map((_,i)=>`A${i+1}`),[{label:'Answer Impressions',data:liveAnswers.map(r=>toN(r[colAI])),backgroundColor:'rgba(255,154,63,0.6)',borderRadius:4}]);
+
+    document.getElementById('tbl_r').innerHTML=`<table><thead><tr><th>#</th><th>Post Link</th><th class="nc">Post Imp</th><th>Answer Link</th><th class="nc">Ans Imp</th></tr></thead><tbody>
+    ${livePosts.map((r,i)=>{
+      const matchAns=liveAnswers.find(a=>a[colQ]===r[colQ])||liveAnswers[i]||{};
+      return`<tr><td style="color:var(--muted);font-size:10px;">${i+1}</td>
+      <td>${isLive(r[colQL])?`<a href="${r[colQL]}" target="_blank" class="lnk">Post ↗</a>`:'—'}</td>
+      <td class="nc">${fmt(r[colQI])}</td>
+      <td>${isLive(matchAns[colAL])?`<a href="${matchAns[colAL]}" target="_blank" class="lnk">Ans ↗</a>`:'—'}</td>
+      <td class="nc">${fmt(matchAns[colAI])}</td></tr>`;
+    }).join('')}</tbody></table>`;
     buildSummary();
-  }catch(e){DS.reddit=null;sbox('tbl_r','err',`Reddit: ${e.message}`,'Check tab name in ⚙ Settings');buildSummary();}
+  }catch(e){DS.reddit=null;sbox('tbl_r','err',`Reddit: ${e.message}`,'Check GID in ⚙ Settings');buildSummary();}
 }
 
+// ── QUORA SEEDING ─────────────────────────────────────────────
+// Structure: DATE(A) QUESTION(B) ANSWERS(C) Q Word Count(D) A Word Count(E) Question Live Link(F) Answer Live Link(G) Impressions(H)
+// Logic: count rows where G (Answer Live Link) has value
+//        count rows where F (Question Live Link) has value
+//        sum H where G has value = impressions
 async function loadQuora(){
-  sbox('tbl_q','loading','Fetching Quora Seeding data...');
+  sbox('tbl_q','loading','Fetching Quora Seeding...');
   try{
-    const d=await fetchTab(C.qTab); DS.quora=d;
-    const live=d.filter(x=>isLive(x[C.qQL]));
-    if(!live.length){sbox('tbl_q','empty','No live question links found — add Question Links to see data');buildSummary();return;}
-    const imps=live.map(r=>toN(r[C.qImp]));
-    const aLinks=live.filter(r=>isLive(r[C.qAL])).length;
-    set('k_qImp',fmt(sumA(imps)));setH('k_qD',dlt(imps));
-    set('q_imp',fmt(sumA(imps)));set('q_qlinks',live.length);set('q_alinks',aLinks);set('q_avg',fmt(Math.round(avgA(imps))));set('tb_q',live.length+' live');
-    mkC('ch_qImp','line',live.map((_,i)=>`E${i+1}`),[{label:'Impressions',data:imps,borderColor:'#B92B27',backgroundColor:'rgba(185,43,39,0.05)',tension:0.4,pointRadius:3,fill:true,borderWidth:2}]);
-    const bkts=[0,0,0,0];imps.forEach(v=>{if(v<=100)bkts[0]++;else if(v<=500)bkts[1]++;else if(v<=2000)bkts[2]++;else bkts[3]++;});
-    mkC('ch_qDist','doughnut',['0–100','101–500','501–2K','2K+'],[{data:bkts,backgroundColor:['#252525','rgba(185,43,39,0.4)','rgba(185,43,39,0.65)','#B92B27'],borderColor:'#161616',borderWidth:2}],{plugins:{legend:{position:'right',labels:{color:'#444',boxHeight:9,padding:10}},tooltip:{backgroundColor:'#0F0F0F',titleColor:'#FFCC3F',bodyColor:'#888',padding:9,cornerRadius:7}}});
-    const sorted=[...live].sort((a,b)=>toN(b[C.qImp])-toN(a[C.qImp]));
-    document.getElementById('tbl_q').innerHTML=`<table><thead><tr><th>#</th><th>Question</th><th>Answer</th><th class="nc">Impressions</th></tr></thead><tbody>${sorted.map((r,i)=>`<tr><td style="color:var(--muted);font-size:10px;">${i+1}</td><td><a href="${r[C.qQL]}" target="_blank" class="lnk q">Q ↗</a></td><td>${isLive(r[C.qAL])?`<a href="${r[C.qAL]}" target="_blank" class="lnk q">A ↗</a>`:'<span style="color:var(--muted);font-size:10px;">Pending</span>'}</td><td class="nc">${fmt(r[C.qImp])}</td></tr>`).join('')}</tbody></table>`;
+    const d=await fetchGid(C.qGid);
+    const headers=Object.keys(d[0]||{});
+    const colQL=headers[5]||'Question Live Link';
+    const colAL=headers[6]||'Answer Live Link';
+    const colImp=headers[7]||'Impressions';
+
+    const liveA=d.filter(r=>isLive(r[colAL]));
+    const liveQ=d.filter(r=>isLive(r[colQL]));
+    const totalImp=sumA(liveA.map(r=>toN(r[colImp])));
+    const avgImp=avgA(liveA.map(r=>toN(r[colImp])));
+    const imps=liveA.map(r=>toN(r[colImp]));
+
+    DS.quora={qLive:liveQ.length,aLive:liveA.length,totalImp,avgImp};
+    set('k_qImp',fmt(totalImp));setH('k_qD',`<span class="dn">${liveA.length} answers</span>`);
+    set('q_qlive',liveQ.length);set('q_alive',liveA.length);set('q_imp',fmt(totalImp));set('q_avg',fmt(Math.round(avgImp)));set('tb_q',liveA.length+' answers');
+
+    const sorted=[...liveA].sort((a,b)=>toN(b[colImp])-toN(a[colImp]));
+    mkC('ch_qImp','bar',sorted.map((_,i)=>`A${i+1}`),[{label:'Impressions',data:sorted.map(r=>toN(r[colImp])),backgroundColor:'rgba(185,43,39,0.65)',borderRadius:4}]);
+    const bkts=[0,0,0,0];imps.forEach(v=>{if(v<=50)bkts[0]++;else if(v<=150)bkts[1]++;else if(v<=300)bkts[2]++;else bkts[3]++;});
+    mkC('ch_qDist','doughnut',['0–50','51–150','151–300','300+'],[{data:bkts,backgroundColor:['#252525','rgba(185,43,39,0.4)','rgba(185,43,39,0.65)','#B92B27'],borderColor:'#161616',borderWidth:2}],{plugins:{legend:{position:'right',labels:{color:'#444',boxHeight:9,padding:8}},tooltip:{backgroundColor:'#0F0F0F',titleColor:'#FFCC3F',bodyColor:'#888',padding:9,cornerRadius:7}}});
+
+    document.getElementById('tbl_q').innerHTML=`<table><thead><tr><th>#</th><th>Question</th><th>Answer</th><th class="nc">Impressions</th></tr></thead><tbody>
+    ${sorted.map((r,i)=>`<tr><td style="color:var(--muted);font-size:10px;">${i+1}</td>
+    <td>${isLive(r[colQL])?`<a href="${r[colQL]}" target="_blank" class="lnk q">Q ↗</a>`:'—'}</td>
+    <td><a href="${r[colAL]}" target="_blank" class="lnk q">A ↗</a></td>
+    <td class="nc">${fmt(r[colImp])}</td></tr>`).join('')}</tbody></table>`;
     buildSummary();
-  }catch(e){DS.quora=null;sbox('tbl_q','err',`Quora: ${e.message}`,'Check tab name in ⚙ Settings');buildSummary();}
+  }catch(e){DS.quora=null;sbox('tbl_q','err',`Quora: ${e.message}`,'Check GID in ⚙ Settings');buildSummary();}
 }
 
+// ── PST QUORA ─────────────────────────────────────────────────
+// Structure: #(A) Question(B) Full Answer(C) Facts Used(D) Live Link(E) Impressions(F)
+// Logic: count rows where E (Live Link) has value
 async function loadPST(){
-  sbox('tbl_pst','loading','Fetching Quora Official data...');
+  sbox('tbl_pst','loading','Fetching PST Quora...');
   try{
-    const d=await fetchTab(C.pstTab); DS.pst=d;
-    const live=d.filter(x=>isLive(x[C.pstLink]));
-    if(!live.length){sbox('tbl_pst','empty','No live post links found — add Post Links to see data');buildSummary();return;}
-    const imps=live.map(r=>toN(r[C.pstImp]));
-    set('k_pstImp',fmt(sumA(imps)));setH('k_pstD',dlt(imps));
-    set('pst_posts',live.length);set('pst_imp',fmt(sumA(imps)));set('pst_avg',fmt(Math.round(avgA(imps))));set('pst_peak',fmt(maxA(imps)));set('tb_pst',live.length+' live');
-    mkC('ch_pstImp','line',live.map((_,i)=>`P${i+1}`),[{label:'Impressions',data:imps,borderColor:'#7C3AED',backgroundColor:'rgba(124,58,237,0.05)',tension:0.4,pointRadius:3,fill:true,borderWidth:2}]);
-    mkC('ch_pstBar','bar',live.map((_,i)=>`P${i+1}`),[{label:'Impressions',data:imps,backgroundColor:'rgba(124,58,237,0.6)',borderRadius:4}]);
-    const sorted=[...live].sort((a,b)=>toN(b[C.pstImp])-toN(a[C.pstImp]));
-    document.getElementById('tbl_pst').innerHTML=`<table><thead><tr><th>#</th><th>Post Link</th><th class="nc">Impressions</th></tr></thead><tbody>${sorted.map((r,i)=>`<tr><td style="color:var(--muted);font-size:10px;">${i+1}</td><td><a href="${r[C.pstLink]}" target="_blank" class="lnk" style="background:rgba(124,58,237,.07);border-color:rgba(124,58,237,.2);color:#A78BFA;">Post ↗</a></td><td class="nc">${fmt(r[C.pstImp])}</td></tr>`).join('')}</tbody></table>`;
+    const d=await fetchGid(C.pstGid);
+    const headers=Object.keys(d[0]||{});
+    const colLink=headers[4]||'Live Link';
+    const colImp=headers[5]||'Impressions';
+
+    const live=d.filter(r=>isLive(r[colLink]));
+    const imps=live.map(r=>toN(r[colImp]));
+    const totalImp=sumA(imps);
+
+    DS.pst={live:live.length,totalImp};
+    set('k_pstImp',fmt(totalImp));setH('k_pstD',`<span class="dn">${live.length} answers</span>`);
+    set('pst_live',live.length);set('pst_imp',fmt(totalImp));set('pst_avg',fmt(Math.round(avgA(imps))));set('pst_peak',fmt(maxA(imps)));set('tb_pst',live.length+' live');
+
+    const sorted=[...live].sort((a,b)=>toN(b[colImp])-toN(a[colImp]));
+    mkC('ch_pstImp','bar',sorted.map((_,i)=>`A${i+1}`),[{label:'Impressions',data:sorted.map(r=>toN(r[colImp])),backgroundColor:'rgba(124,58,237,0.65)',borderRadius:4}]);
+    const bkts=[0,0,0,0];imps.forEach(v=>{if(v<=5)bkts[0]++;else if(v<=20)bkts[1]++;else if(v<=50)bkts[2]++;else bkts[3]++;});
+    mkC('ch_pstDist','doughnut',['0–5','6–20','21–50','50+'],[{data:bkts,backgroundColor:['#252525','rgba(124,58,237,0.4)','rgba(124,58,237,0.65)','#7C3AED'],borderColor:'#161616',borderWidth:2}],{plugins:{legend:{position:'right',labels:{color:'#444',boxHeight:9,padding:8}},tooltip:{backgroundColor:'#0F0F0F',titleColor:'#FFCC3F',bodyColor:'#888',padding:9,cornerRadius:7}}});
+
+    document.getElementById('tbl_pst').innerHTML=`<table><thead><tr><th>#</th><th>Answer Link</th><th class="nc">Impressions</th></tr></thead><tbody>
+    ${sorted.map((r,i)=>`<tr><td style="color:var(--muted);font-size:10px;">${i+1}</td>
+    <td><a href="${r[colLink]}" target="_blank" class="lnk p">Answer ↗</a></td>
+    <td class="nc">${fmt(r[colImp])}</td></tr>`).join('')}</tbody></table>`;
     buildSummary();
-  }catch(e){DS.pst=null;sbox('tbl_pst','err',`PST Quora: ${e.message}`,'Check tab name is "PST Quora" in ⚙ Settings');buildSummary();}
+  }catch(e){DS.pst=null;sbox('tbl_pst','err',`PST Quora: ${e.message}`,'Check GID in ⚙ Settings');buildSummary();}
 }
 
+// ── YOUTUBE ───────────────────────────────────────────────────
+// Structure: Date(A) Name(B) Platform(C) Type(D) Video Link(E) Comments Seeded(F)
+// Logic: sum column F
 async function loadYoutube(){
   try{
-    const d=await fetchTab(C.ytTab); DS.youtube=d;
-    const vals=d.map(r=>toN(r[C.ytCol]));
+    const d=await fetchGid(C.ytGid);
+    const headers=Object.keys(d[0]||{});
+    const colName=headers[1]||'Name';
+    const colSeeded=headers[5]||'Comments Seeded';
+    const vals=d.map(r=>toN(r[colSeeded]));
     const total=sumA(vals);
-    set('k_ytSum',fmt(total));set('yt_big',fmt(total));set('tb_yt',fmt(total));
-    set('yt_sub',`${d.length} rows in sheet · avg ${fmt(Math.round(avgA(vals)))} per row · updates every 2 min`);
+    DS.youtube={total,rows:d.length};
+    set('k_ytSum',fmt(total));set('yt_sum',fmt(total));set('yt_rows',d.length);set('yt_avg',fmt(Math.round(avgA(vals))));set('yt_peak',fmt(maxA(vals)));set('tb_yt',fmt(total));
+
+    const sorted=[...d].sort((a,b)=>toN(b[colSeeded])-toN(a[colSeeded]));
+    const top20=sorted.slice(0,20);
+    mkC('ch_ytBar','bar',top20.map(r=>r[colName]?r[colName].slice(0,12):'?'),[{label:'Seeded',data:top20.map(r=>toN(r[colSeeded])),backgroundColor:'rgba(255,0,0,0.55)',borderRadius:4}]);
+    const bkts=[0,0,0,0,0];vals.forEach(v=>{if(v===0)bkts[0]++;else if(v<=10)bkts[1]++;else if(v<=30)bkts[2]++;else if(v<=100)bkts[3]++;else bkts[4]++;});
+    mkC('ch_ytDist','doughnut',['Zero','1–10','11–30','31–100','100+'],[{data:bkts,backgroundColor:['#252525','rgba(255,100,0,0.5)','rgba(255,150,0,0.65)','rgba(255,69,0,0.75)','#FF0000'],borderColor:'#161616',borderWidth:2}],{plugins:{legend:{position:'right',labels:{color:'#444',boxHeight:9,padding:8}},tooltip:{backgroundColor:'#0F0F0F',titleColor:'#FFCC3F',bodyColor:'#888',padding:9,cornerRadius:7}}});
+
+    document.getElementById('tbl_yt').innerHTML=`<table><thead><tr><th>#</th><th>Channel</th><th class="nc">Comments Seeded</th></tr></thead><tbody>
+    ${sorted.slice(0,50).map((r,i)=>`<tr><td style="color:var(--muted);font-size:10px;">${i+1}</td><td>${r[colName]||'—'}</td><td class="nc">${fmt(r[colSeeded])}</td></tr>`).join('')}</tbody></table>`;
     buildSummary();
-  }catch(e){DS.youtube=null;set('yt_big','Error');set('yt_sub',e.message);buildSummary();}
+  }catch(e){DS.youtube=null;set('k_ytSum','Err');buildSummary();}
 }
 
+// ── NEWSPAPER ─────────────────────────────────────────────────
+// Structure: Publication Name(A) Language(B) Publish Date(C) Published Link(D)
 async function loadNewspaper(){
   document.getElementById('newsPubGrid').innerHTML='<div class="sbox"><div class="spin"></div><p>Fetching...</p></div>';
   try{
-    const d=await fetchTab(C.nTab); DS.newspaper=d;
-    if(!d.length){document.getElementById('newsPubGrid').innerHTML='<div class="sbox"><p>No data found</p></div>';buildSummary();return;}
-    const pubMap={};d.forEach(r=>{const p=r[C.nPub]||'Unknown';pubMap[p]=(pubMap[p]||0)+1;});
+    const d=await fetchGid(C.nGid);
+    const headers=Object.keys(d[0]||{});
+    const colPub=headers[0]||'Publication Name';
+    const pubMap={};d.forEach(r=>{const p=r[colPub]||'Unknown';pubMap[p]=(pubMap[p]||0)+1;});
     const entries=Object.entries(pubMap).sort((a,b)=>b[1]-a[1]);
+    DS.newspaper={count:d.length,pubs:entries.length};
     set('k_nCount',d.length);set('n_count',d.length);set('n_pubs',entries.length);set('n_top',entries[0]?entries[0][0]:'—');set('tb_n',d.length);
     mkC('ch_nBar','bar',entries.map(e=>e[0]),[{label:'Articles',data:entries.map(e=>e[1]),backgroundColor:entries.map((_,i)=>PAL[i%PAL.length]+'BB'),borderRadius:5}]);
     mkC('ch_nPie','doughnut',entries.map(e=>e[0]),[{data:entries.map(e=>e[1]),backgroundColor:entries.map((_,i)=>PAL[i%PAL.length]+'CC'),borderColor:'#161616',borderWidth:2}],{plugins:{legend:{position:'right',labels:{color:'#444',boxHeight:9,padding:8}},tooltip:{backgroundColor:'#0F0F0F',titleColor:'#FFCC3F',bodyColor:'#888',padding:9,cornerRadius:7}}});
     document.getElementById('newsPubGrid').innerHTML=entries.map(([pub,count])=>`<div class="pub-card"><div><div class="pub-name">${pub}</div><div class="pub-lbl">articles</div></div><div class="pub-count">${count}</div></div>`).join('');
     buildSummary();
-  }catch(e){DS.newspaper=null;document.getElementById('newsPubGrid').innerHTML=`<div class="sbox err"><p>${e.message}</p><p class="hint">Check tab name in ⚙ Settings</p></div>`;buildSummary();}
+  }catch(e){DS.newspaper=null;document.getElementById('newsPubGrid').innerHTML=`<div class="sbox err"><p>${e.message}</p></div>`;buildSummary();}
 }
 
+// ── MEDIUM ────────────────────────────────────────────────────
+// Structure: Date(A) Type(B) Title(C) Status(D) Author(E) Perspective(F) Live Link(G)
+// Logic: count rows where G (Live Link) has value
 async function loadMedium(){
   try{
-    const d=await fetchTab(C.mTab); DS.medium=d;
-    const live=d.filter(r=>isLive(r[C.mLink])).length;
+    const d=await fetchGid(C.mGid);
+    const headers=Object.keys(d[0]||{});
+    const colLink=headers[6]||'Live Link';
+    const live=d.filter(r=>isLive(r[colLink])).length;
+    DS.medium={live,total:d.length};
     set('k_mCount',live);set('med_big',live);set('tb_m',live+' live');
     set('med_sub',`${live} of ${d.length} entries have live links · updates every 2 min`);
     buildSummary();
-  }catch(e){DS.medium=null;set('med_big','—');set('med_sub','Could not load — check tab name in ⚙ Settings');buildSummary();}
+  }catch(e){DS.medium=null;set('med_big','—');buildSummary();}
 }
 
-// ── LOAD ALL ──────────────────────────────────────────────────
 async function loadAll(){
   set('syncLbl','Syncing...');
-  setH('summaryText','<div class="sum-loading"><div class="sum-spin"></div> Fetching live data from all platforms...</div>');
+  setH('summaryText','<div class="sum-loading"><div class="sum-spin"></div> Fetching from all platforms...</div>');
   await Promise.allSettled([loadReddit(),loadQuora(),loadPST(),loadYoutube(),loadNewspaper(),loadMedium()]);
   set('syncLbl','Synced '+new Date().toLocaleTimeString());
   if(timer)clearInterval(timer);
   timer=setInterval(loadAll,2*60*1000);
 }
 
-// ── TAB SWITCH ────────────────────────────────────────────────
-function st(id,btn){
-  document.querySelectorAll('.plat').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('active'));
-  document.getElementById('tab_'+id).classList.add('active');
-  btn.classList.add('active');
-}
+function st(id,btn){document.querySelectorAll('.plat').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.tb').forEach(b=>b.classList.remove('active'));document.getElementById('tab_'+id).classList.add('active');btn.classList.add('active');}
 
-// ── CONFIG ────────────────────────────────────────────────────
-const FLDS=['id','pubBase','rTab','rLink','rPosts','rComm','rImp','qTab','qQL','qAL','qImp','pstTab','pstLink','pstImp','ytTab','ytCol','nTab','nPub','mTab','mLink','title'];
-function loadCfg(){const s=localStorage.getItem('p_orm_v4');if(s)C={...DEF,...JSON.parse(s)};FLDS.forEach(k=>{const e=document.getElementById('c_'+k);if(e)e.value=C[k]||'';});set('dashTitle',C.title);}
-function saveCfg(){FLDS.forEach(k=>{const e=document.getElementById('c_'+k);if(e)C[k]=e.value.trim();});localStorage.setItem('p_orm_v4',JSON.stringify(C));set('dashTitle',C.title);closeCfg();loadAll();}
-function resetCfg(){if(!confirm('Reset all settings?'))return;C={...DEF};localStorage.removeItem('p_orm_v4');loadCfg();}
+const FLDS=['pub','rGid','qGid','pstGid','ytGid','nGid','mGid','title'];
+function loadCfg(){const s=localStorage.getItem('p_orm_v5');if(s)C={...DEF,...JSON.parse(s)};FLDS.forEach(k=>{const e=document.getElementById('c_'+k);if(e)e.value=C[k]||'';});set('dashTitle',C.title);}
+function saveCfg(){FLDS.forEach(k=>{const e=document.getElementById('c_'+k);if(e)C[k]=e.value.trim();});localStorage.setItem('p_orm_v5',JSON.stringify(C));set('dashTitle',C.title);closeCfg();loadAll();}
+function resetCfg(){if(!confirm('Reset?'))return;C={...DEF};localStorage.removeItem('p_orm_v5');loadCfg();}
 
 async function testConn(){
-  const id=document.getElementById('c_id').value.trim();
-  if(!id){setH('testOut','<div class="tfail">✗ Enter Sheet ID first</div>');return;}
-  const pubBase = document.getElementById('c_pubBase').value.trim();
-  if(!pubBase){setH('testOut','<div class="tfail">✗ Enter Published Base ID first</div>');return;}
-  const tabs=[
-    {l:'Reddit',   gid:document.getElementById('c_rGid')  ?.value||'0'},
-    {l:'Quora',    gid:document.getElementById('c_qGid')  ?.value||'798948706'},
-    {l:'PST Quora',gid:document.getElementById('c_pstGid')?.value||'1594247981'},
-    {l:'YouTube',  gid:document.getElementById('c_ytGid') ?.value||'431577379'},
-    {l:'Newspaper',gid:document.getElementById('c_nGid')  ?.value||'2123559774'},
-    {l:'Medium',   gid:document.getElementById('c_mGid')  ?.value||'1909778130'}
-  ];
-  setH('testOut','<div style="color:var(--gold);font-size:11px;margin-top:8px;">Testing all 6 tabs...</div>');
+  const pub=document.getElementById('c_pub').value.trim();
+  if(!pub){setH('testOut','<div class="tfail">✗ Enter Published Base ID first</div>');return;}
+  const tabs=[{l:'Reddit',g:'c_rGid'},{l:'Quora',g:'c_qGid'},{l:'PST Quora',g:'c_pstGid'},{l:'YouTube',g:'c_ytGid'},{l:'Newspaper PR',g:'c_nGid'},{l:'Medium',g:'c_mGid'}];
+  setH('testOut','<div style="color:var(--gold);font-size:11px;margin-top:8px;">Testing...</div>');
   const res=await Promise.all(tabs.map(async t=>{
+    const gid=document.getElementById(t.g).value;
     try{
-      const url=`https://docs.google.com/spreadsheets/d/e/${pubBase}/pub?single=true&output=csv&gid=${t.gid}`;
-      const r=await fetch(url);
-      if(!r.ok)return{l:t.l,ok:false,m:`HTTP ${r.status} — not published as CSV`};
+      const url=`https://docs.google.com/spreadsheets/d/e/${pub}/pub?single=true&output=csv&gid=${gid}`;
+      const r=await fetch(url);if(!r.ok)return{l:t.l,ok:false,m:`HTTP ${r.status}`};
       const rows=(await r.text()).trim().split('\n').length-1;
-      return{l:t.l,ok:true,m:`${rows} data rows ✓`};
+      return{l:t.l,ok:true,m:`${rows} rows ✓`};
     }catch(e){return{l:t.l,ok:false,m:e.message};}
   }));
   setH('testOut',res.map(r=>`<div class="${r.ok?'tok':'tfail'}">${r.ok?'✓':'✗'} <b>${r.l}</b>: ${r.m}</div>`).join(''));
 }
 function openCfg(){document.getElementById('cfgPanel').classList.add('open');document.getElementById('ov').classList.add('open');}
 function closeCfg(){document.getElementById('cfgPanel').classList.remove('open');document.getElementById('ov').classList.remove('open');}
-
-// ── INIT ──────────────────────────────────────────────────────
 loadCfg();
 loadAll();
 </script>
