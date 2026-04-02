@@ -3,193 +3,248 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Polaris Live — ORM Dashboard</title>
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <title>POLARIS // Strategic ORM App</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #050505; color: #fff; }
-        .glass { background: rgba(23, 23, 23, 0.7); border: 1px solid #262626; backdrop-filter: blur(12px); }
-        .gold-glow { box-shadow: 0 0 50px rgba(255, 204, 63, 0.1); }
+        :root {
+            --gold: #FFCC3F; --bg: #080808; --surface: #141414;
+        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: #fff; }
+        .glass { background: rgba(20, 20, 20, 0.7); border: 1px solid #222; backdrop-filter: blur(20px); }
+        .gold-glow { box-shadow: 0 0 40px rgba(255, 204, 63, 0.08); }
+        .sidebar-active { border-left: 3px solid var(--gold); background: rgba(255,204,63,0.05); }
     </style>
 </head>
 <body>
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect } = React;
+        const { useState, useEffect, useMemo } = React;
 
-        // CONFIGURATION: Replace with your actual IDs from the Polaris file
-        const CONFIG = {
-            SHEET_ID: '2PACX-1vS2u...', // Use the "Published" long ID here
-            TABS: [
-                { name: 'Reddit', gid: '0' },
-                { name: 'Quora', gid: '2027962453' },
-                { name: 'YouTube', gid: '694205561' },
-                { name: 'News', gid: '143900986' },
-                { name: 'Medium', gid: '1853488880' }
-            ]
-        };
+        const App = () => {
+            const [sheetId, setSheetId] = useState('2PACX-1vS2u7-...'); // Replace with your ID
+            const [gids] = useState({
+                reddit: '0', quora: '2027962453', youtube: '694205561', news: '143900986', medium: '1853488880'
+            });
+            const [allData, setAllData] = useState([]);
+            const [loading, setLoading] = useState(false);
+            const [activeTab, setActiveTab] = useState('Overview');
+            const [healthStatus, setHealthStatus] = useState({});
 
-        const Dashboard = () => {
-            const [rawLogs, setRawLogs] = useState([]);
-            const [loading, setLoading] = useState(true);
-            const [stats, setStats] = useState({ northStar: 0, totalMentions: 0, positive: 0 });
-
-            useEffect(() => {
-                fetchAllData();
-                const interval = setInterval(fetchAllData, 60000); // Auto-refresh every minute
-                return () => clearInterval(interval);
-            }, []);
-
-            const fetchAllData = async () => {
+            // 1. DATA FETCHING ENGINE (The "Sync")
+            const syncData = async () => {
                 setLoading(true);
-                let combinedData = [];
+                const health = {};
+                let combined = [];
 
-                try {
-                    const promises = CONFIG.TABS.map(tab => {
-                        return new Promise((resolve) => {
-                            Papa.parse(`https://docs.google.com/spreadsheets/d/e/${CONFIG.SHEET_ID}/pub?gid=${tab.gid}&single=true&output=csv`, {
-                                download: true,
-                                header: true,
-                                complete: (results) => {
-                                    const rows = results.data.map(r => ({ ...r, platform: tab.name }));
-                                    resolve(rows);
-                                }
-                            });
+                const promises = Object.entries(gids).map(async ([key, gid]) => {
+                    const url = `https://docs.google.com/spreadsheets/d/e/${sheetId}/pub?gid=${gid}&single=true&output=csv`;
+                    try {
+                        const res = await fetch(url);
+                        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                        const text = await res.text();
+                        // Minimal CSV parser (you can integrate PapaParse here for more robust parsing)
+                        const rows = text.split('\n').slice(1).map(row => {
+                            const cols = row.split(',');
+                            return { 
+                                platform: key, 
+                                summary: cols[1], 
+                                sentiment: cols[3], 
+                                link: cols[5],
+                                rating: parseInt(cols[2]) || 0 
+                            };
                         });
-                    });
+                        health[key] = { status: 'OK', rows: rows.length };
+                        return rows;
+                    } catch (e) {
+                        health[key] = { status: 'ERROR', msg: e.message };
+                        return [];
+                    }
+                });
 
-                    const allResults = await Promise.all(promises);
-                    combinedData = allResults.flat().filter(r => r.Summary || r.Title);
-                    
-                    // Logic to calculate North Star (e.g., % of mentions that are positive)
-                    const posCount = combinedData.filter(r => r.Sentiment?.toLowerCase().includes('pos') || r.Rating > 3).length;
-                    const score = combinedData.length > 0 ? Math.round((posCount / combinedData.length) * 100) : 0;
-
-                    setStats({
-                        northStar: score,
-                        totalMentions: combinedData.length,
-                        positive: posCount
-                    });
-                    setRawLogs(combinedData.slice(0, 10)); // Show latest 10
-                } catch (e) {
-                    console.error("Data fetch error", e);
-                }
+                const results = await Promise.all(promises);
+                setAllData(results.flat().filter(r => r.summary));
+                setHealthStatus(health);
                 setLoading(false);
                 setTimeout(() => lucide.createIcons(), 100);
             };
 
+            useEffect(() => { syncData(); }, []);
+
+            // 2. INTELLIGENCE ENGINE (Calculates the North Star)
+            const analytics = useMemo(() => {
+                const total = allData.length || 1;
+                const pos = allData.filter(r => r.sentiment?.toLowerCase().includes('pos')).length;
+                const neg = allData.filter(r => r.sentiment?.toLowerCase().includes('neg')).length;
+                const score = Math.round((pos / total) * 100);
+                
+                // Keyword extractor
+                const keywords = allData.map(d => d.summary).join(' ').toLowerCase().split(' ')
+                    .filter(w => w.length > 5).slice(0, 10);
+
+                return { score, pos, neg, total, keywords };
+            }, [allData]);
+
             return (
-                <div className="max-w-6xl mx-auto p-4 md:p-10 space-y-8">
-                    {/* Header */}
-                    <div className="flex justify-between items-center border-b border-zinc-800 pb-6">
-                        <div>
-                            <h1 className="text-3xl font-extrabold tracking-tighter italic">POLARIS <span className="text-yellow-500 text-sm align-top">LIVE</span></h1>
-                            <p className="text-zinc-500 text-xs font-medium uppercase tracking-widest mt-1">ORM Real-time Intelligence</p>
+                <div className="flex min-h-screen">
+                    {/* Sidebar */}
+                    <aside className="w-64 border-r border-zinc-800 p-6 flex flex-col gap-8">
+                        <div className="text-xl font-extrabold tracking-tighter italic">POLARIS <span className="text-yellow-500">v2</span></div>
+                        <nav className="flex flex-col gap-2">
+                            {['Overview', 'Intelligence', 'Roadmap', 'Settings'].map(t => (
+                                <button 
+                                    key={t} 
+                                    onClick={() => setActiveTab(t)}
+                                    className={`text-left px-4 py-3 rounded-lg text-sm font-medium transition ${activeTab === t ? 'sidebar-active text-white' : 'text-zinc-500 hover:bg-zinc-900'}`}
+                                >
+                                    {t}
+                                </button>
+                            ))}
+                        </nav>
+                        <div className="mt-auto p-4 glass rounded-xl text-[10px] text-zinc-500 uppercase tracking-widest font-bold">
+                            Sync Status: {loading ? 'UPDATING...' : 'LIVE'}
                         </div>
-                        <div className="flex items-center gap-3">
-                            {loading && <div className="w-2 h-2 bg-yellow-500 rounded-full animate-ping"></div>}
-                            <button onClick={fetchAllData} className="glass px-4 py-2 rounded-lg text-xs font-bold hover:bg-zinc-800 transition">REFRESH</button>
-                        </div>
-                    </div>
+                    </aside>
 
-                    {/* North Star Section */}
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div className="lg:col-span-2 glass p-10 rounded-[2rem] gold-glow relative overflow-hidden bg-gradient-to-br from-zinc-900 to-black">
-                            <div className="relative z-10">
-                                <h2 className="text-zinc-400 text-sm font-bold uppercase tracking-widest">The North Star Metric</h2>
-                                <div className="flex items-baseline gap-4 mt-2">
-                                    <span className="text-8xl font-black text-white leading-none">{stats.northStar}%</span>
-                                    <span className="text-green-500 font-bold flex items-center gap-1"><i data-lucide="trending-up" className="w-4 h-4"></i> Stable</span>
-                                </div>
-                                <p className="text-zinc-500 mt-6 max-w-sm text-sm font-medium">This score represents the aggregate positive sentiment across all 6 monitored platforms.</p>
-                                
-                                <div className="mt-10 space-y-2">
-                                    <div className="flex justify-between text-[10px] font-bold text-zinc-600 uppercase">
-                                        <span>Current Performance</span>
-                                        <span>Target: 95%</span>
+                    {/* Main Content */}
+                    <main className="flex-1 p-10 overflow-y-auto">
+                        
+                        {/* 1. OVERVIEW (The North Star Focus) */}
+                        {activeTab === 'Overview' && (
+                            <div className="space-y-10">
+                                <header className="flex justify-between items-center">
+                                    <h2 className="text-3xl font-bold tracking-tight">Strategy Dashboard</h2>
+                                    <button onClick={syncData} className="bg-yellow-500 text-black px-6 py-2 rounded-full text-sm font-bold shadow-lg shadow-yellow-500/10">Refresh Data</button>
+                                </header>
+
+                                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                                    <div className="lg:col-span-2 glass p-10 rounded-[2.5rem] gold-glow relative">
+                                        <h3 className="text-zinc-500 text-xs font-bold uppercase tracking-widest">Brand Trust Score (North Star)</h3>
+                                        <div className="text-[9rem] font-black leading-none mt-4 text-white tracking-tighter">{analytics.score}%</div>
+                                        <p className="text-zinc-400 mt-4 max-w-sm">Calculated as (Positive Mentions / Total Volume) across all 5 integrated nodes.</p>
+                                        <div className="mt-10 h-2 w-full bg-zinc-800 rounded-full overflow-hidden">
+                                            <div className="h-full bg-yellow-500 transition-all duration-1000" style={{width: `${analytics.score}%`}}></div>
+                                        </div>
                                     </div>
-                                    <div className="w-full bg-zinc-800/50 h-3 rounded-full p-0.5">
-                                        <div className="h-full bg-yellow-500 rounded-full transition-all duration-1000 shadow-[0_0_15px_rgba(234,179,8,0.4)]" style={{width: `${stats.northStar}%`}}></div>
+
+                                    <div className="space-y-6">
+                                        <div className="glass p-6 rounded-2xl border-l-4 border-green-500">
+                                            <span className="text-zinc-500 text-[10px] font-bold uppercase">Positive Reach</span>
+                                            <p className="text-3xl font-bold">{analytics.pos}</p>
+                                        </div>
+                                        <div className="glass p-6 rounded-2xl border-l-4 border-red-500">
+                                            <span className="text-zinc-500 text-[10px] font-bold uppercase">Risk Alerts</span>
+                                            <p className="text-3xl font-bold">{analytics.neg}</p>
+                                        </div>
+                                        <div className="bg-zinc-900 p-6 rounded-2xl border border-yellow-500/30">
+                                            <span className="text-yellow-500 text-[10px] font-bold uppercase flex items-center gap-2"><i data-lucide="zap" className="w-3 h-3"></i> Quick Action</span>
+                                            <p className="text-sm font-medium mt-2">
+                                                {analytics.score < 80 ? "Crisis Mode: Address Negative Quora/Reddit threads immediately." : "Healthy Growth: Generate 5-star reviews to keep momentum."}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        )}
 
-                        <div className="space-y-6">
-                            <div className="glass p-6 rounded-2xl">
-                                <span className="text-zinc-500 text-[10px] font-bold uppercase">Total Mentions</span>
-                                <p className="text-3xl font-bold mt-1 text-white">{stats.totalMentions}</p>
-                                <div className="mt-4 flex gap-2 overflow-hidden">
-                                    {CONFIG.TABS.map(t => <div key={t.name} className="h-1 flex-1 bg-zinc-800 rounded-full overflow-hidden"><div className="h-full bg-yellow-600" style={{width: '60%'}}></div></div>)}
+                        {/* 2. INTELLIGENCE (The Sentiment/Keyword Section) */}
+                        {activeTab === 'Intelligence' && (
+                            <div className="space-y-8">
+                                <h2 className="text-2xl font-bold italic text-yellow-500 uppercase tracking-widest">Analysis Engine</h2>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div className="glass p-8 rounded-3xl">
+                                        <h3 className="font-bold mb-6 text-sm uppercase tracking-widest">Keyword Trends</h3>
+                                        <div className="flex flex-wrap gap-2">
+                                            {analytics.keywords.map((k, i) => (
+                                                <span key={i} className="px-4 py-2 bg-zinc-800 rounded-full text-xs font-medium border border-white/5 hover:border-yellow-500 transition cursor-default">#{k}</span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div className="glass p-8 rounded-3xl bg-gradient-to-br from-zinc-900 to-black">
+                                        <h3 className="font-bold mb-6 text-sm uppercase tracking-widest">Sentiment Mix</h3>
+                                        <div className="flex h-12 w-full rounded-xl overflow-hidden border border-white/10">
+                                            <div className="bg-green-500 h-full" style={{width: `${(analytics.pos/analytics.total)*100}%`}}></div>
+                                            <div className="bg-red-500 h-full" style={{width: `${(analytics.neg/analytics.total)*100}%`}}></div>
+                                        </div>
+                                        <div className="flex justify-between mt-4 text-[10px] font-bold text-zinc-500 uppercase tracking-widest">
+                                            <span>Green: Positive Index</span>
+                                            <span>Red: Negative Risk</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="glass p-6 rounded-2xl bg-yellow-500/5 border-yellow-500/20">
-                                <span className="text-yellow-500 text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
-                                    <i data-lucide="zap" className="w-3 h-3"></i> Top Actionable
-                                </span>
-                                <p className="text-sm font-semibold text-zinc-200 mt-2">
-                                    {stats.northStar < 80 ? "High Volume of Neutral Mentions detected on Reddit. Engage with FAQ updates." : "Sentiment is healthy. Focus on Review Generation."}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                        )}
 
-                    {/* Interactive Table with Live Links */}
-                    <div className="glass rounded-3xl overflow-hidden">
-                        <div className="p-6 border-b border-zinc-800 bg-zinc-900/30 flex justify-between items-center">
-                            <h3 className="font-bold text-sm uppercase tracking-widest flex items-center gap-2">
-                                <i data-lucide="list" className="w-4 h-4 text-yellow-500"></i> Platform Live Feed
-                            </h3>
-                        </div>
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-left">
-                                <thead className="bg-black/40 text-[10px] font-black text-zinc-500 uppercase tracking-widest">
-                                    <tr>
-                                        <th className="px-8 py-4">Source</th>
-                                        <th className="px-8 py-4">Title / Summary</th>
-                                        <th className="px-8 py-4">Sentiment</th>
-                                        <th className="px-8 py-4 text-right">Verification</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-zinc-800/50">
-                                    {rawLogs.length > 0 ? rawLogs.map((row, i) => (
-                                        <tr key={i} className="hover:bg-white/[0.02] transition-colors group">
-                                            <td className="px-8 py-5">
-                                                <span className="bg-zinc-800 text-zinc-400 px-3 py-1 rounded-full text-[10px] font-bold uppercase group-hover:bg-yellow-500 group-hover:text-black transition">
-                                                    {row.platform}
-                                                </span>
-                                            </td>
-                                            <td className="px-8 py-5">
-                                                <p className="text-sm text-zinc-300 font-medium truncate max-w-xs">{row.Summary || row.Title || "No data"}</p>
-                                            </td>
-                                            <td className="px-8 py-5">
-                                                <div className={`w-2 h-2 rounded-full ${row.Sentiment?.includes('Pos') ? 'bg-green-500' : 'bg-red-500'}`}></div>
-                                            </td>
-                                            <td className="px-8 py-5 text-right">
-                                                <a href={row.Link || row.URL || "#"} target="_blank" className="text-yellow-500 hover:text-white text-xs font-bold transition flex items-center justify-end gap-1">
-                                                    OPEN <i data-lucide="arrow-up-right" className="w-3 h-3"></i>
-                                                </a>
-                                            </td>
+                        {/* 3. ROADMAP (Actionables + Live Links) */}
+                        {activeTab === 'Roadmap' && (
+                            <div className="glass rounded-[2rem] overflow-hidden">
+                                <div className="p-8 border-b border-zinc-800 bg-white/5">
+                                    <h3 className="font-bold text-xs uppercase tracking-widest">Strategic Verification Log</h3>
+                                </div>
+                                <table className="w-full text-left">
+                                    <thead className="bg-black/50 text-[10px] font-bold text-zinc-500 uppercase">
+                                        <tr>
+                                            <th className="px-8 py-4">Node</th>
+                                            <th className="px-8 py-4">Context / Review</th>
+                                            <th className="px-8 py-4">Priority</th>
+                                            <th className="px-8 py-4 text-right">Live Link</th>
                                         </tr>
-                                    )) : (
-                                        <tr><td colSpan="4" className="p-10 text-center text-zinc-600 italic">No data found in provided GIDs</td></tr>
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                                    </thead>
+                                    <tbody className="divide-y divide-zinc-800/50">
+                                        {allData.map((row, i) => (
+                                            <tr key={i} className="hover:bg-white/[0.02] transition">
+                                                <td className="px-8 py-6"><span className="text-[10px] font-bold px-2 py-1 rounded bg-zinc-800 text-zinc-400 uppercase tracking-tighter">{row.platform}</span></td>
+                                                <td className="px-8 py-6 text-sm text-zinc-300 max-w-sm truncate">{row.summary}</td>
+                                                <td className="px-8 py-6">
+                                                    <span className={`text-[10px] font-bold ${row.sentiment?.includes('Neg') ? 'text-red-500' : 'text-green-500'}`}>
+                                                        {row.sentiment?.includes('Neg') ? 'CRITICAL' : 'OPTIMAL'}
+                                                    </span>
+                                                </td>
+                                                <td className="px-8 py-6 text-right">
+                                                    <a href={row.link} target="_blank" className="text-yellow-500 hover:underline text-xs font-bold uppercase tracking-widest flex items-center justify-end gap-1">
+                                                        VERIFY <i data-lucide="external-link" className="w-3 h-3"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+
+                        {/* 4. SETTINGS (Debugging GIDs) */}
+                        {activeTab === 'Settings' && (
+                            <div className="max-w-xl space-y-8">
+                                <h2 className="text-2xl font-bold">System Configuration</h2>
+                                <div className="space-y-4">
+                                    <label className="text-[10px] font-bold text-zinc-500 uppercase">Master Sheet Publish ID</label>
+                                    <input value={sheetId} onChange={(e) => setSheetId(e.target.value)} className="w-full bg-zinc-900 border border-zinc-800 p-4 rounded-xl font-mono text-xs focus:border-yellow-500 outline-none transition" />
+                                </div>
+                                <div className="space-y-4">
+                                    <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Node Health Status</label>
+                                    <div className="grid grid-cols-1 gap-2">
+                                        {Object.entries(healthStatus).map(([key, val]) => (
+                                            <div key={key} className="p-4 glass rounded-xl flex justify-between items-center">
+                                                <span className="text-xs font-bold uppercase text-zinc-400">{key}</span>
+                                                <span className={`text-[10px] font-bold ${val.status === 'OK' ? 'text-green-500' : 'text-red-500'}`}>{val.status} ({val.rows || val.msg})</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </main>
                 </div>
             );
         };
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<Dashboard />);
+        root.render(<App />);
     </script>
 </body>
 </html>
