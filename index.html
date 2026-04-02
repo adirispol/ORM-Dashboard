@@ -12,12 +12,12 @@
   --text:#E8E8E8;--text2:#AAAAAA;--text3:#666666;
   --gold:#FFCC3F;--orange:#FF9A3F;
   /* Platform colors — high contrast, all distinct */
-  --reddit: #FF1744;
-  --quora-seed: #FF4081;
-  --quora-off: #9B59E8;
-  --youtube: #00E5FF;
-  --newspaper: #FFEA00;
-  --medium: #00E676;
+  --reddit:#FF6314;
+  --quora-seed:#E84040;
+  --quora-off:#9B59E8;
+  --youtube:#FF2D2D;
+  --newspaper:#F5A623;
+  --medium:#2ECC71;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;font-size:13px;min-height:100vh;}
@@ -42,14 +42,21 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;fon
 /* DATE FILTER BAR */
 .filter-bar{background:#141414;border-bottom:1px solid var(--border);padding:10px 24px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 .filter-label{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-right:4px;}
-.filter-btn{background:var(--surface2);border:1px solid var(--border);color:var(--text2);padding:5px 12px;border-radius:6px;cursor:pointer;font-family:'Poppins',sans-serif;font-size:11px;transition:all .15s;}
-.filter-btn:hover{border-color:var(--gold);color:var(--gold);}
-.filter-btn.active{background:rgba(255,204,63,.12);border-color:var(--gold);color:var(--gold);font-weight:600;}
-.date-inputs{display:flex;align-items:center;gap:6px;margin-left:4px;}
-.date-input{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:5px 9px;border-radius:6px;font-family:'Poppins',sans-serif;font-size:11px;cursor:pointer;}
+.date-input{background:#1A1A1A;border:1px solid var(--border);color:var(--text);padding:5px 9px;border-radius:6px;font-family:'Poppins',sans-serif;font-size:11px;cursor:pointer;width:110px;}
 .date-input:focus{outline:none;border-color:var(--gold);}
-.filter-sep{width:1px;height:20px;background:var(--border);margin:0 4px;}
-.filter-active-badge{background:rgba(255,204,63,.1);border:1px solid rgba(255,204,63,.3);border-radius:12px;padding:2px 8px;font-size:10px;color:var(--gold);font-weight:500;}
+.date-dropdown-wrap{position:relative;}
+.date-drop-btn{background:rgba(255,204,63,.1);border:1px solid rgba(255,204,63,.3);color:var(--gold);padding:6px 14px;border-radius:8px;cursor:pointer;font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;display:flex;align-items:center;gap:2px;transition:all .15s;}
+.date-drop-btn:hover{background:rgba(255,204,63,.18);}
+.date-drop-menu{position:absolute;top:calc(100% + 6px);left:0;background:#1A1A1A;border:1px solid var(--border2);border-radius:10px;padding:6px;min-width:200px;z-index:300;display:none;box-shadow:0 8px 32px rgba(0,0,0,.6);}
+.date-drop-menu.open{display:block;}
+.drop-opt{display:block;width:100%;background:transparent;border:none;color:var(--text2);padding:8px 12px;border-radius:6px;cursor:pointer;font-family:'Poppins',sans-serif;font-size:12px;text-align:left;transition:all .12s;}
+.drop-opt:hover{background:rgba(255,255,255,.06);color:#fff;}
+.drop-opt.active{background:rgba(255,204,63,.1);color:var(--gold);font-weight:600;}
+.drop-sep{height:1px;background:var(--border);margin:5px 0;}
+.drop-custom-label{font-size:9px;font-weight:700;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;padding:4px 12px 6px;}
+.drop-custom-row{display:flex;align-items:center;gap:5px;padding:0 8px 8px;}
+.drop-apply{background:var(--gold);color:#000;border:none;padding:5px 10px;border-radius:5px;cursor:pointer;font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;white-space:nowrap;}
+.drop-apply:hover{background:var(--orange);}
 
 /* OVERLAY + CONFIG */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;}
@@ -193,17 +200,27 @@ footer .br{color:var(--gold);font-weight:700;}
 <!-- DATE FILTER BAR -->
 <div class="filter-bar">
   <span class="filter-label">Filter by date</span>
-  <button class="filter-btn active" onclick="setFilter('all',this)">All time</button>
-  <button class="filter-btn" onclick="setFilter('today',this)">Today</button>
-  <button class="filter-btn" onclick="setFilter('week',this)">This week</button>
-  <button class="filter-btn" onclick="setFilter('lastweek',this)">Last week</button>
-  <button class="filter-btn" onclick="setFilter('month',this)">This month</button>
-  <div class="filter-sep"></div>
-  <span class="filter-label">Custom</span>
-  <input type="date" class="date-input" id="dateFrom" value="2026-01-01" min="2026-01-01" onchange="setFilter('custom',null)">
-  <span style="color:var(--text3);font-size:11px;">→</span>
-  <input type="date" class="date-input" id="dateTo" onchange="setFilter('custom',null)">
-  <span class="filter-active-badge" id="filterBadge">All time</span>
+  <div class="date-dropdown-wrap" id="dateDropWrap">
+    <button class="date-drop-btn" onclick="toggleDateDrop(event)">
+      <span id="filterBadge">All time</span>
+      <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left:6px;"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+    <div class="date-drop-menu" id="dateDrop">
+      <button class="drop-opt active" onclick="setFilter('all',this)">All time</button>
+      <button class="drop-opt" onclick="setFilter('today',this)">Today</button>
+      <button class="drop-opt" onclick="setFilter('week',this)">This week</button>
+      <button class="drop-opt" onclick="setFilter('lastweek',this)">Last week</button>
+      <button class="drop-opt" onclick="setFilter('month',this)">This month</button>
+      <div class="drop-sep"></div>
+      <div class="drop-custom-label">Custom range</div>
+      <div class="drop-custom-row">
+        <input type="date" class="date-input" id="dateFrom" value="2026-01-01" min="2026-01-01" onchange="setFilter('custom',null)">
+        <span style="color:var(--text3);font-size:11px;">→</span>
+        <input type="date" class="date-input" id="dateTo" onchange="setFilter('custom',null)">
+        <button class="drop-apply" onclick="setFilter('custom',null)">Apply</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="overlay" id="ov" onclick="closeCfg()"></div>
@@ -574,11 +591,11 @@ function filterByDate(rows,dateCol){
 
 function setFilter(type,btn){
   activeFilter=type;
-  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.drop-opt').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
   const labels={'all':'All time','today':'Today','week':'This week','lastweek':'Last week','month':'This month','custom':'Custom range'};
   set('filterBadge',labels[type]||type);
-  // Re-render with filter applied
+  if(type!=='custom')document.getElementById('dateDrop').classList.remove('open');
   if(Object.keys(rawData).length>0)renderAll();
 }
 
@@ -831,6 +848,9 @@ async function testConn(){
   }));
   setH('testOut',res.map(r=>`<div class="${r.ok?'tok':'tfail'}">${r.ok?'✓':'✗'} <b>${r.l}</b>: ${r.m}</div>`).join(''));
 }
+
+function toggleDateDrop(e){e.stopPropagation();document.getElementById('dateDrop').classList.toggle('open');}
+document.addEventListener('click',function(e){const w=document.getElementById('dateDropWrap');if(w&&!w.contains(e.target))document.getElementById('dateDrop').classList.remove('open');});
 
 function openCfg(){document.getElementById('cfgPanel').classList.add('open');document.getElementById('ov').classList.add('open');}
 function closeCfg(){document.getElementById('cfgPanel').classList.remove('open');document.getElementById('ov').classList.remove('open');}
