@@ -1,864 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ORM Dashboard — Polaris</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#0D0D0D;--surface:#181818;--surface2:#202020;--surface3:#282828;
-  --border:#2E2E2E;--border2:#3A3A3A;
-  --text:#E8E8E8;--text2:#AAAAAA;--text3:#666666;
-  --gold:#FFCC3F;--orange:#FF9A3F;
-  /* Platform colors — high contrast, all distinct */
-  --reddit:#FF6314;
-  --quora-seed:#E84040;
-  --quora-off:#9B59E8;
-  --youtube:#FF2D2D;
-  --newspaper:#F5A623;
-  --medium:#2ECC71;
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;font-size:13px;min-height:100vh;}
-
-/* NAV */
-.nav{background:#111;border-bottom:2px solid var(--gold);height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:100;}
-.logo{display:flex;align-items:center;gap:10px;}
-.logo-box{width:32px;height:32px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#000;}
-.logo-name{font-weight:700;font-size:15px;color:#fff;letter-spacing:.05em;}
-.logo-sub{font-size:8px;color:var(--gold);letter-spacing:.16em;text-transform:uppercase;}
-.nav-c{font-family:'Playfair Display',serif;font-size:17px;color:#fff;}
-.nav-r{display:flex;align-items:center;gap:8px;}
-.live-pill{display:flex;align-items:center;gap:5px;background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.35);border-radius:20px;padding:3px 10px;font-size:10px;font-weight:600;color:#2ECC71;letter-spacing:.04em;}
-.live-dot{width:6px;height:6px;border-radius:50%;background:#2ECC71;animation:lp 1.8s ease-in-out infinite;}
-@keyframes lp{0%,100%{opacity:1}50%{opacity:.3}}
-.sync-t{font-size:10px;color:var(--text3);}
-.btn-n{background:transparent;border:1px solid var(--border2);color:var(--text2);padding:5px 13px;border-radius:6px;cursor:pointer;font-family:'Poppins',sans-serif;font-size:11px;font-weight:500;transition:all .18s;}
-.btn-n:hover{border-color:var(--gold);color:var(--gold);}
-.btn-gold{background:var(--gold);color:#000;border:none;padding:5px 13px;border-radius:6px;cursor:pointer;font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;transition:all .18s;}
-.btn-gold:hover{background:var(--orange);}
-
-/* DATE FILTER BAR */
-.filter-bar{background:#141414;border-bottom:1px solid var(--border);padding:10px 24px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.filter-label{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-right:4px;}
-.date-input{background:#1A1A1A;border:1px solid var(--border);color:var(--text);padding:5px 9px;border-radius:6px;font-family:'Poppins',sans-serif;font-size:11px;cursor:pointer;width:110px;}
-.date-input:focus{outline:none;border-color:var(--gold);}
-.date-dropdown-wrap{position:relative;}
-.date-drop-btn{background:rgba(255,204,63,.1);border:1px solid rgba(255,204,63,.3);color:var(--gold);padding:6px 14px;border-radius:8px;cursor:pointer;font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;display:flex;align-items:center;gap:2px;transition:all .15s;}
-.date-drop-btn:hover{background:rgba(255,204,63,.18);}
-.date-drop-menu{position:absolute;top:calc(100% + 6px);left:0;background:#1A1A1A;border:1px solid var(--border2);border-radius:10px;padding:6px;min-width:200px;z-index:300;display:none;box-shadow:0 8px 32px rgba(0,0,0,.6);}
-.date-drop-menu.open{display:block;}
-.drop-opt{display:block;width:100%;background:transparent;border:none;color:var(--text2);padding:8px 12px;border-radius:6px;cursor:pointer;font-family:'Poppins',sans-serif;font-size:12px;text-align:left;transition:all .12s;}
-.drop-opt:hover{background:rgba(255,255,255,.06);color:#fff;}
-.drop-opt.active{background:rgba(255,204,63,.1);color:var(--gold);font-weight:600;}
-.drop-sep{height:1px;background:var(--border);margin:5px 0;}
-.drop-custom-label{font-size:9px;font-weight:700;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;padding:4px 12px 6px;}
-.drop-custom-row{display:flex;align-items:center;gap:5px;padding:0 8px 8px;}
-.drop-apply{background:var(--gold);color:#000;border:none;padding:5px 10px;border-radius:5px;cursor:pointer;font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;white-space:nowrap;}
-.drop-apply:hover{background:var(--orange);}
-
-/* OVERLAY + CONFIG */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;}
-.overlay.open{display:block;}
-.cfg{position:fixed;right:0;top:0;bottom:0;width:340px;background:#111;border-left:2px solid var(--gold);z-index:201;overflow-y:auto;padding:20px;display:none;}
-.cfg.open{display:block;}
-.cfg-x{position:absolute;top:14px;right:14px;background:transparent;border:none;color:var(--text3);font-size:16px;cursor:pointer;}
-.cfg h2{font-size:15px;color:#fff;margin-bottom:3px;}
-.cfg-sub{font-size:10px;color:var(--text3);margin-bottom:14px;}
-.cfg-hint{background:rgba(255,204,63,.05);border:1px solid rgba(255,204,63,.12);border-radius:7px;padding:9px 11px;font-size:10px;color:var(--text3);line-height:1.7;margin-bottom:12px;}
-.cfg-hint b{color:var(--gold);}
-.cs{margin-bottom:12px;}
-.cs-t{font-size:9px;font-weight:600;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border);}
-.cr{margin-bottom:5px;}
-.cr label{display:block;font-size:10px;color:var(--text3);margin-bottom:2px;}
-.cr input{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:6px 9px;border-radius:5px;font-family:'Poppins',sans-serif;font-size:11px;}
-.cr input:focus{outline:none;border-color:rgba(255,204,63,.5);}
-.cfg-acts{display:flex;gap:7px;margin-top:12px;}
-.btn-save{background:var(--gold);color:#000;border:none;padding:8px 18px;border-radius:6px;font-family:'Poppins',sans-serif;font-weight:700;font-size:12px;cursor:pointer;}
-.btn-test{background:transparent;border:1px solid #2ECC71;color:#2ECC71;padding:8px 13px;border-radius:6px;font-family:'Poppins',sans-serif;font-size:12px;cursor:pointer;}
-.test-out{margin-top:10px;font-size:11px;}
-.tok{color:#2ECC71;display:flex;align-items:center;gap:5px;margin-bottom:2px;}
-.tfail{color:#E84040;display:flex;align-items:center;gap:5px;margin-bottom:2px;}
-
-/* MAIN */
-.main{padding:20px 24px;max-width:1600px;margin:0 auto;}
-.sec-h{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
-.sec-h::after{content:'';flex:1;height:1px;background:var(--border);}
-
-/* SUMMARY */
-.summary-wrap{display:grid;grid-template-columns:1.8fr 1fr;gap:14px;margin-bottom:24px;}
-.sum-card{background:var(--surface);border:1px solid var(--border2);border-radius:14px;padding:20px 22px;position:relative;overflow:hidden;}
-.sum-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--gold),var(--orange));}
-.sum-title{font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;}
-.sum-date{font-size:10px;color:var(--text3);margin-bottom:14px;}
-.sum-text{font-size:12.5px;color:var(--text2);line-height:1.9;}
-.sum-text b{color:var(--text);font-weight:600;}
-.sum-text .hi{color:var(--gold);font-weight:600;}
-.sum-text .up{color:#2ECC71;font-weight:600;}
-.sum-text .dn{color:#E84040;font-weight:600;}
-.sum-loading{display:flex;align-items:center;gap:10px;color:var(--text3);font-size:12px;}
-.sum-spin{width:14px;height:14px;border:2px solid var(--border2);border-top-color:var(--gold);border-radius:50%;animation:sp .7s linear infinite;flex-shrink:0;}
-.sum-charts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;}
-.sum-chart-card{background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:12px 14px;}
-.sum-chart-title{font-size:9px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;}
-.sum-chart-h{position:relative;height:130px;}
-.ins-col{display:flex;flex-direction:column;gap:10px;}
-.ins{background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:14px 16px;flex:1;position:relative;overflow:hidden;}
-.ins-accent{position:absolute;top:0;left:0;right:0;height:2px;}
-.ins-lbl{font-size:9px;font-weight:600;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px;}
-.ins-val{font-size:22px;font-weight:700;color:#fff;line-height:1;margin-bottom:3px;font-variant-numeric:tabular-nums;}
-.ins-sub{font-size:10px;color:var(--text3);}
-.ins-bar{height:3px;background:var(--surface3);border-radius:2px;margin-top:8px;}
-.ins-fill{height:3px;border-radius:2px;transition:width 1s ease;}
-
-/* KPI STRIP */
-.kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:24px;}
-.kpi{background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:16px 14px;position:relative;overflow:hidden;transition:transform .15s,box-shadow .15s;cursor:default;}
-.kpi:hover{transform:translateY(-3px);box-shadow:0 6px 24px rgba(0,0,0,.4);}
-.kpi-top{height:3px;border-radius:2px 2px 0 0;position:absolute;top:0;left:0;right:0;}
-.kpi-platform{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;margin-top:4px;}
-.kpi-val{font-size:26px;font-weight:700;line-height:1;margin-bottom:4px;font-variant-numeric:tabular-nums;}
-.kpi-metric{font-size:9px;color:var(--text3);margin-bottom:5px;text-transform:uppercase;letter-spacing:.05em;}
-.kpi-delta{font-size:10px;font-weight:500;}
-.du{color:#2ECC71;} .dd{color:#E84040;} .dn{color:var(--text3);}
-
-/* TABS */
-.tabs{display:flex;gap:0;margin-bottom:20px;border-bottom:2px solid var(--border);overflow-x:auto;}
-.tabs::-webkit-scrollbar{display:none;}
-.tb{background:transparent;border:none;padding:10px 18px;cursor:pointer;font-family:'Poppins',sans-serif;font-size:12px;font-weight:500;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .15s;white-space:nowrap;display:flex;align-items:center;gap:6px;color:var(--text3);}
-.tb:hover{color:var(--text);}
-.tb.active{font-weight:600;}
-.tb-cnt{border-radius:9px;padding:1px 7px;font-size:9px;font-weight:700;}
-
-/* PLATFORM SECTIONS */
-.plat{display:none;}
-.plat.active{display:block;}
-.ph{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
-.pbadge{padding:4px 13px;border-radius:20px;font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;}
-.pdesc{font-size:11px;color:var(--text3);}
-.logic-tag{display:inline-flex;align-items:center;gap:4px;background:rgba(46,204,113,.08);border:1px solid rgba(46,204,113,.25);border-radius:12px;padding:2px 9px;font-size:9px;color:#2ECC71;font-weight:600;}
-.mrow{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
-.mc{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 15px;min-width:120px;flex:1;position:relative;overflow:hidden;}
-.mc-accent{position:absolute;bottom:0;left:0;right:0;height:2px;}
-.mc-v{font-size:22px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums;}
-.mc-l{font-size:9px;font-weight:600;color:var(--text3);letter-spacing:.07em;text-transform:uppercase;margin-top:3px;}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
-.g1{margin-bottom:12px;}
-.card{background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:16px;}
-.card-t{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;}
-.cw{position:relative;height:190px;}
-.tw{max-height:280px;overflow-y:auto;border-radius:9px;border:1px solid var(--border);}
-.tw::-webkit-scrollbar{width:3px;}
-.tw::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
-table{width:100%;border-collapse:collapse;font-size:11px;}
-thead th{background:#111;color:rgba(255,204,63,.8);font-weight:700;font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:9px 11px;text-align:left;border-bottom:1px solid var(--border2);position:sticky;top:0;}
-tbody td{padding:8px 11px;border-bottom:1px solid rgba(255,255,255,.03);color:var(--text2);vertical-align:middle;}
-tbody tr:nth-child(even) td{background:rgba(255,255,255,.015);}
-tbody tr:hover td{background:rgba(255,204,63,.04);}
-.nc{text-align:right;font-variant-numeric:tabular-nums;color:#fff;font-weight:600;}
-.lnk{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:5px;font-size:10px;text-decoration:none;font-family:'Poppins',sans-serif;font-weight:600;transition:all .15s;}
-.big-wrap{display:flex;align-items:center;justify-content:center;padding:40px;}
-.big-inner{text-align:center;}
-.big-num{font-size:76px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;}
-.big-label{font-size:13px;color:var(--text3);margin-top:8px;letter-spacing:.04em;}
-.big-sub{font-size:11px;color:var(--text3);margin-top:4px;opacity:.6;}
-.pub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;}
-.pub-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;}
-.pub-name{font-size:12px;color:#fff;font-weight:600;}
-.pub-count{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;}
-.pub-lbl{font-size:9px;color:var(--text3);}
-.sbox{padding:40px;text-align:center;color:var(--text3);}
-.spin{width:24px;height:24px;border:2px solid var(--border2);border-top-color:var(--gold);border-radius:50%;animation:sp .7s linear infinite;margin:0 auto 10px;}
-@keyframes sp{to{transform:rotate(360deg);}}
-.sbox.err p{color:#E84040;}
-.sbox p{font-size:12px;}
-.sbox .hint{font-size:10px;color:var(--text3);margin-top:5px;}
-.no-data-msg{background:rgba(255,204,63,.05);border:1px solid rgba(255,204,63,.15);border-radius:8px;padding:12px 16px;font-size:11px;color:var(--text3);text-align:center;}
-footer{text-align:center;padding:18px;color:var(--text3);font-size:10px;border-top:1px solid var(--border);margin-top:32px;}
-footer .br{color:var(--gold);font-weight:700;}
-@media(max-width:1300px){.kpi-grid{grid-template-columns:repeat(3,1fr);}.summary-wrap{grid-template-columns:1fr;}}
-@media(max-width:900px){.kpi-grid{grid-template-columns:repeat(2,1fr);}.g2{grid-template-columns:1fr;}.nav-c{display:none;}}
-@media(max-width:500px){.kpi-grid{grid-template-columns:1fr 1fr;}.cfg{width:100%;}.main{padding:12px 14px;}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polaris Live — ORM Dashboard</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #050505; color: #fff; }
+        .glass { background: rgba(23, 23, 23, 0.7); border: 1px solid #262626; backdrop-filter: blur(12px); }
+        .gold-glow { box-shadow: 0 0 50px rgba(255, 204, 63, 0.1); }
+    </style>
 </head>
 <body>
-<nav class="nav">
-  <div class="logo">
-    <div class="logo-box">P</div>
-    <div><div class="logo-name">POLARIS</div><div class="logo-sub">School of Technology</div></div>
-  </div>
-  <div class="nav-c" id="dashTitle">ORM Intelligence Dashboard</div>
-  <div class="nav-r">
-    <div class="live-pill"><span class="live-dot"></span>LIVE</div>
-    <span class="sync-t" id="syncLbl">Not synced</span>
-    <button class="btn-gold" onclick="loadAll()">↻ Sync Now</button>
-    <button class="btn-n" onclick="openCfg()">⚙</button>
-  </div>
-</nav>
+    <div id="root"></div>
 
-<!-- DATE FILTER BAR -->
-<div class="filter-bar">
-  <span class="filter-label">Filter by date</span>
-  <div class="date-dropdown-wrap" id="dateDropWrap">
-    <button class="date-drop-btn" onclick="toggleDateDrop(event)">
-      <span id="filterBadge">All time</span>
-      <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left:6px;"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-    </button>
-    <div class="date-drop-menu" id="dateDrop">
-      <button class="drop-opt active" onclick="setFilter('all',this)">All time</button>
-      <button class="drop-opt" onclick="setFilter('today',this)">Today</button>
-      <button class="drop-opt" onclick="setFilter('week',this)">This week</button>
-      <button class="drop-opt" onclick="setFilter('lastweek',this)">Last week</button>
-      <button class="drop-opt" onclick="setFilter('month',this)">This month</button>
-      <div class="drop-sep"></div>
-      <div class="drop-custom-label">Custom range</div>
-      <div class="drop-custom-row">
-        <input type="date" class="date-input" id="dateFrom" value="2026-01-01" min="2026-01-01" onchange="setFilter('custom',null)">
-        <span style="color:var(--text3);font-size:11px;">→</span>
-        <input type="date" class="date-input" id="dateTo" onchange="setFilter('custom',null)">
-        <button class="drop-apply" onclick="setFilter('custom',null)">Apply</button>
-      </div>
-    </div>
-  </div>
-</div>
+    <script type="text/babel">
+        const { useState, useEffect } = React;
 
-<div class="overlay" id="ov" onclick="closeCfg()"></div>
-<div class="cfg" id="cfgPanel">
-  <button class="cfg-x" onclick="closeCfg()">✕</button>
-  <h2>⚙ Settings</h2>
-  <p class="cfg-sub">Auto-saved in your browser.</p>
-  <div class="cfg-hint"><b>Published Base ID</b> — from your Google Sheets publish URL (part after /e/ and before /pub)</div>
-  <div class="cs"><div class="cs-t">Google Sheet</div>
-    <div class="cr"><label>Published Base ID</label><input id="c_pub" value="2PACX-1vQFv6U02jXum9LWA3EpM1Y_kr3USUM952lNVR7nc8Dpbi_FsqXT5YBMa3PjnMbtuZjFVv8sfVK3v48E"></div>
-  </div>
-  <div class="cs"><div class="cs-t">Tab GIDs</div>
-    <div class="cr"><label>Reddit GID</label><input id="c_rGid" value="0"></div>
-    <div class="cr"><label>Quora Seeding GID</label><input id="c_qGid" value="798948706"></div>
-    <div class="cr"><label>PST Quora GID</label><input id="c_pstGid" value="1594247981"></div>
-    <div class="cr"><label>YouTube Comments GID</label><input id="c_ytGid" value="431577379"></div>
-    <div class="cr"><label>Newspaper PR GID</label><input id="c_nGid" value="2123559774"></div>
-    <div class="cr"><label>Medium GID</label><input id="c_mGid" value="1909778130"></div>
-  </div>
-  <div class="cs"><div class="cs-t">Display</div>
-    <div class="cr"><label>Dashboard Title</label><input id="c_title" value="ORM Intelligence Dashboard"></div>
-  </div>
-  <div class="cfg-acts">
-    <button class="btn-save" onclick="saveCfg()">Save &amp; Sync</button>
-    <button class="btn-test" onclick="testConn()">Test All</button>
-  </div>
-  <div class="test-out" id="testOut"></div>
-</div>
+        // CONFIGURATION: Replace with your actual IDs from the Polaris file
+        const CONFIG = {
+            SHEET_ID: '2PACX-1vS2u...', // Use the "Published" long ID here
+            TABS: [
+                { name: 'Reddit', gid: '0' },
+                { name: 'Quora', gid: '2027962453' },
+                { name: 'YouTube', gid: '694205561' },
+                { name: 'News', gid: '143900986' },
+                { name: 'Medium', gid: '1853488880' }
+            ]
+        };
 
-<main class="main">
-  <!-- EXECUTIVE SUMMARY -->
-  <div class="sec-h">Executive Summary</div>
-  <div class="summary-wrap">
-    <div class="sum-card">
-      <div class="sum-title">ORM Performance Snapshot</div>
-      <div class="sum-date" id="sumDate">—</div>
-      <div id="summaryText" class="sum-text"><div class="sum-loading"><div class="sum-spin"></div> Analysing all platforms...</div></div>
-      <div class="sum-charts">
-        <div class="sum-chart-card">
-          <div class="sum-chart-title">Reach by Platform</div>
-          <div class="sum-chart-h"><canvas id="ch_reach"></canvas></div>
-        </div>
-        <div class="sum-chart-card">
-          <div class="sum-chart-title">Content Mix</div>
-          <div class="sum-chart-h"><canvas id="ch_mix"></canvas></div>
-        </div>
-      </div>
-    </div>
-    <div class="ins-col">
-      <div class="ins">
-        <div class="ins-accent" style="background:var(--gold)"></div>
-        <div class="ins-lbl">Top Platform</div>
-        <div class="ins-val" id="ins_top">—</div>
-        <div class="ins-sub" id="ins_topSub">by impressions</div>
-        <div class="ins-bar"><div class="ins-fill" id="ins_topBar" style="width:0%;background:var(--gold)"></div></div>
-      </div>
-      <div class="ins">
-        <div class="ins-accent" style="background:var(--orange)"></div>
-        <div class="ins-lbl">Total Reach</div>
-        <div class="ins-val" id="ins_reach">—</div>
-        <div class="ins-sub">live impressions</div>
-        <div class="ins-bar"><div class="ins-fill" style="width:100%;background:var(--orange)"></div></div>
-      </div>
-      <div class="ins">
-        <div class="ins-accent" style="background:var(--medium)"></div>
-        <div class="ins-lbl">Live Content</div>
-        <div class="ins-val" id="ins_content">—</div>
-        <div class="ins-sub" id="ins_contentSub">pieces published</div>
-        <div class="ins-bar"><div class="ins-fill" style="width:70%;background:var(--medium)"></div></div>
-      </div>
-      <div class="ins">
-        <div class="ins-accent" style="background:var(--youtube)"></div>
-        <div class="ins-lbl">YT Comments</div>
-        <div class="ins-val" id="ins_yt">—</div>
-        <div class="ins-sub">seeded total</div>
-        <div class="ins-bar"><div class="ins-fill" style="width:55%;background:var(--youtube)"></div></div>
-      </div>
-    </div>
-  </div>
+        const Dashboard = () => {
+            const [rawLogs, setRawLogs] = useState([]);
+            const [loading, setLoading] = useState(true);
+            const [stats, setStats] = useState({ northStar: 0, totalMentions: 0, positive: 0 });
 
-  <!-- KPI STRIP -->
-  <div class="sec-h">Live Platform Overview</div>
-  <div class="kpi-grid">
-    <div class="kpi">
-      <div class="kpi-top" style="background:var(--reddit)"></div>
-      <div class="kpi-platform" style="color:var(--reddit)">Reddit</div>
-      <div class="kpi-val" id="k_rImp" style="color:var(--reddit)">—</div>
-      <div class="kpi-metric">Impressions</div>
-      <div id="k_rD" class="kpi-delta dn">—</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-top" style="background:var(--quora-seed)"></div>
-      <div class="kpi-platform" style="color:var(--quora-seed)">Quora Seeding</div>
-      <div class="kpi-val" id="k_qImp" style="color:var(--quora-seed)">—</div>
-      <div class="kpi-metric">Impressions</div>
-      <div id="k_qD" class="kpi-delta dn">—</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-top" style="background:var(--quora-off)"></div>
-      <div class="kpi-platform" style="color:var(--quora-off)">Quora Official</div>
-      <div class="kpi-val" id="k_pstImp" style="color:var(--quora-off)">—</div>
-      <div class="kpi-metric">Impressions</div>
-      <div id="k_pstD" class="kpi-delta dn">—</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-top" style="background:var(--youtube)"></div>
-      <div class="kpi-platform" style="color:var(--youtube)">YouTube</div>
-      <div class="kpi-val" id="k_ytSum" style="color:var(--youtube)">—</div>
-      <div class="kpi-metric">Comments Seeded</div>
-      <div class="kpi-delta dn">Total</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-top" style="background:var(--newspaper)"></div>
-      <div class="kpi-platform" style="color:var(--newspaper)">Newspaper PR</div>
-      <div class="kpi-val" id="k_nCount" style="color:var(--newspaper)">—</div>
-      <div class="kpi-metric">Articles Published</div>
-      <div class="kpi-delta dn">Count</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-top" style="background:var(--medium)"></div>
-      <div class="kpi-platform" style="color:var(--medium)">Medium</div>
-      <div class="kpi-val" id="k_mCount" style="color:var(--medium)">—</div>
-      <div class="kpi-metric">Live Articles</div>
-      <div class="kpi-delta dn">Published</div>
-    </div>
-  </div>
+            useEffect(() => {
+                fetchAllData();
+                const interval = setInterval(fetchAllData, 60000); // Auto-refresh every minute
+                return () => clearInterval(interval);
+            }, []);
 
-  <!-- TABS -->
-  <div class="tabs">
-    <button class="tb active" style="color:var(--reddit);border-bottom-color:var(--reddit);" id="tab_btn_reddit" onclick="st('reddit',this,'--reddit')">
-      Reddit <span class="tb-cnt" id="tb_r" style="background:rgba(255,99,20,.15);color:var(--reddit)">—</span>
-    </button>
-    <button class="tb" id="tab_btn_quora" onclick="st('quora',this,'--quora-seed')">
-      Quora Seeding <span class="tb-cnt" id="tb_q" style="background:rgba(232,64,64,.15);color:var(--quora-seed)">—</span>
-    </button>
-    <button class="tb" id="tab_btn_pst" onclick="st('pst',this,'--quora-off')">
-      Quora Official <span class="tb-cnt" id="tb_pst" style="background:rgba(155,89,232,.15);color:var(--quora-off)">—</span>
-    </button>
-    <button class="tb" id="tab_btn_youtube" onclick="st('youtube',this,'--youtube')">
-      YouTube <span class="tb-cnt" id="tb_yt" style="background:rgba(255,45,45,.15);color:var(--youtube)">—</span>
-    </button>
-    <button class="tb" id="tab_btn_newspaper" onclick="st('newspaper',this,'--newspaper')">
-      Newspaper PR <span class="tb-cnt" id="tb_n" style="background:rgba(245,166,35,.15);color:var(--newspaper)">—</span>
-    </button>
-    <button class="tb" id="tab_btn_medium" onclick="st('medium',this,'--medium')">
-      Medium <span class="tb-cnt" id="tb_m" style="background:rgba(46,204,113,.15);color:var(--medium)">—</span>
-    </button>
-  </div>
+            const fetchAllData = async () => {
+                setLoading(true);
+                let combinedData = [];
 
-  <!-- REDDIT -->
-  <div class="plat active" id="tab_reddit">
-    <div class="ph">
-      <div class="pbadge" style="background:rgba(255,99,20,.12);color:var(--reddit);border:1px solid rgba(255,99,20,.3)">Reddit</div>
-      <div class="pdesc">Posts · Comments · Impressions</div>
-      <div class="logic-tag">✓ Post Link triggers count</div>
-    </div>
-    <div class="mrow">
-      <div class="mc"><div class="mc-accent" style="background:var(--reddit)"></div><div class="mc-v" id="r_posts">—</div><div class="mc-l">Live Posts</div></div>
-      <div class="mc"><div class="mc-accent" style="background:var(--reddit)"></div><div class="mc-v" id="r_comm">—</div><div class="mc-l">Answer Links</div></div>
-      <div class="mc"><div class="mc-accent" style="background:var(--reddit)"></div><div class="mc-v" id="r_qimp">—</div><div class="mc-l">Post Impressions</div></div>
-      <div class="mc"><div class="mc-accent" style="background:rgba(255,99,20,.5)"></div><div class="mc-v" id="r_aimp">—</div><div class="mc-l">Answer Impressions</div></div>
-      <div class="mc"><div class="mc-accent" style="background:var(--gold)"></div><div class="mc-v" id="r_total" style="color:var(--gold)">—</div><div class="mc-l">Total Impressions</div></div>
-    </div>
-    <div class="g2">
-      <div class="card"><div class="card-t">Post Impressions</div><div class="cw"><canvas id="ch_rImp"></canvas></div></div>
-      <div class="card"><div class="card-t">Answer Impressions</div><div class="cw"><canvas id="ch_rAns"></canvas></div></div>
-    </div>
-    <div class="card g1"><div class="card-t">Live Entries</div>
-      <div class="tw" id="tbl_r"><div class="sbox"><div class="spin"></div><p>Fetching...</p></div></div>
-    </div>
-  </div>
+                try {
+                    const promises = CONFIG.TABS.map(tab => {
+                        return new Promise((resolve) => {
+                            Papa.parse(`https://docs.google.com/spreadsheets/d/e/${CONFIG.SHEET_ID}/pub?gid=${tab.gid}&single=true&output=csv`, {
+                                download: true,
+                                header: true,
+                                complete: (results) => {
+                                    const rows = results.data.map(r => ({ ...r, platform: tab.name }));
+                                    resolve(rows);
+                                }
+                            });
+                        });
+                    });
 
-  <!-- QUORA SEEDING -->
-  <div class="plat" id="tab_quora">
-    <div class="ph">
-      <div class="pbadge" style="background:rgba(232,64,64,.12);color:var(--quora-seed);border:1px solid rgba(232,64,64,.3)">Quora Seeding</div>
-      <div class="pdesc">Questions · Answers · Impressions</div>
-      <div class="logic-tag">✓ Answer Live Link triggers count</div>
-    </div>
-    <div class="mrow">
-      <div class="mc"><div class="mc-accent" style="background:var(--quora-seed)"></div><div class="mc-v" id="q_qlive">—</div><div class="mc-l">Question Links</div></div>
-      <div class="mc"><div class="mc-accent" style="background:var(--quora-seed)"></div><div class="mc-v" id="q_alive">—</div><div class="mc-l">Answer Links</div></div>
-      <div class="mc"><div class="mc-accent" style="background:var(--quora-seed)"></div><div class="mc-v" id="q_imp">—</div><div class="mc-l">Total Impressions</div></div>
-      <div class="mc"><div class="mc-accent" style="background:rgba(232,64,64,.5)"></div><div class="mc-v" id="q_avg">—</div><div class="mc-l">Avg / Answer</div></div>
-    </div>
-    <div class="g2">
-      <div class="card"><div class="card-t">Impressions per Answer</div><div class="cw"><canvas id="ch_qImp"></canvas></div></div>
-      <div class="card"><div class="card-t">Distribution</div><div class="cw"><canvas id="ch_qDist"></canvas></div></div>
-    </div>
-    <div class="card g1"><div class="card-t">Live Q&amp;A Log — sorted by impressions</div>
-      <div class="tw" id="tbl_q"><div class="sbox"><div class="spin"></div><p>Fetching...</p></div></div>
-    </div>
-  </div>
+                    const allResults = await Promise.all(promises);
+                    combinedData = allResults.flat().filter(r => r.Summary || r.Title);
+                    
+                    // Logic to calculate North Star (e.g., % of mentions that are positive)
+                    const posCount = combinedData.filter(r => r.Sentiment?.toLowerCase().includes('pos') || r.Rating > 3).length;
+                    const score = combinedData.length > 0 ? Math.round((posCount / combinedData.length) * 100) : 0;
 
-  <!-- PST QUORA -->
-  <div class="plat" id="tab_pst">
-    <div class="ph">
-      <div class="pbadge" style="background:rgba(155,89,232,.12);color:var(--quora-off);border:1px solid rgba(155,89,232,.3)">Quora Official</div>
-      <div class="pdesc">PST page — answers &amp; impressions</div>
-      <div class="logic-tag">✓ Live Link triggers count</div>
-    </div>
-    <div class="mrow">
-      <div class="mc"><div class="mc-accent" style="background:var(--quora-off)"></div><div class="mc-v" id="pst_live">—</div><div class="mc-l">Live Answers</div></div>
-      <div class="mc"><div class="mc-accent" style="background:var(--quora-off)"></div><div class="mc-v" id="pst_imp">—</div><div class="mc-l">Total Impressions</div></div>
-      <div class="mc"><div class="mc-accent" style="background:var(--quora-off)"></div><div class="mc-v" id="pst_avg">—</div><div class="mc-l">Avg / Answer</div></div>
-      <div class="mc"><div class="mc-accent" style="background:rgba(155,89,232,.5)"></div><div class="mc-v" id="pst_peak">—</div><div class="mc-l">Peak</div></div>
-    </div>
-    <div class="g2">
-      <div class="card"><div class="card-t">Impressions per Answer</div><div class="cw"><canvas id="ch_pstImp"></canvas></div></div>
-      <div class="card"><div class="card-t">Distribution</div><div class="cw"><canvas id="ch_pstDist"></canvas></div></div>
-    </div>
-    <div class="card g1"><div class="card-t">Official Answers — sorted by impressions</div>
-      <div class="tw" id="tbl_pst"><div class="sbox"><div class="spin"></div><p>Fetching...</p></div></div>
-    </div>
-  </div>
+                    setStats({
+                        northStar: score,
+                        totalMentions: combinedData.length,
+                        positive: posCount
+                    });
+                    setRawLogs(combinedData.slice(0, 10)); // Show latest 10
+                } catch (e) {
+                    console.error("Data fetch error", e);
+                }
+                setLoading(false);
+                setTimeout(() => lucide.createIcons(), 100);
+            };
 
-  <!-- YOUTUBE -->
-  <div class="plat" id="tab_youtube">
-    <div class="ph">
-      <div class="pbadge" style="background:rgba(255,45,45,.1);color:var(--youtube);border:1px solid rgba(255,45,45,.25)">YouTube</div>
-      <div class="pdesc">Sum of all comments seeded</div>
-    </div>
-    <div class="mrow">
-      <div class="mc"><div class="mc-accent" style="background:var(--youtube)"></div><div class="mc-v" id="yt_sum" style="color:var(--youtube)">—</div><div class="mc-l">Total Seeded</div></div>
-      <div class="mc"><div class="mc-accent" style="background:var(--youtube)"></div><div class="mc-v" id="yt_rows">—</div><div class="mc-l">Channels</div></div>
-      <div class="mc"><div class="mc-accent" style="background:rgba(255,45,45,.5)"></div><div class="mc-v" id="yt_avg">—</div><div class="mc-l">Avg Per Channel</div></div>
-      <div class="mc"><div class="mc-accent" style="background:rgba(255,45,45,.5)"></div><div class="mc-v" id="yt_peak">—</div><div class="mc-l">Peak</div></div>
-    </div>
-    <div class="g2">
-      <div class="card"><div class="card-t">Top 20 Channels by Seeded Comments</div><div class="cw"><canvas id="ch_ytBar"></canvas></div></div>
-      <div class="card"><div class="card-t">Volume Distribution</div><div class="cw"><canvas id="ch_ytDist"></canvas></div></div>
-    </div>
-    <div class="card g1"><div class="card-t">All Channels — sorted by comments seeded</div>
-      <div class="tw" id="tbl_yt"><div class="sbox"><div class="spin"></div><p>Fetching...</p></div></div>
-    </div>
-  </div>
+            return (
+                <div className="max-w-6xl mx-auto p-4 md:p-10 space-y-8">
+                    {/* Header */}
+                    <div className="flex justify-between items-center border-b border-zinc-800 pb-6">
+                        <div>
+                            <h1 className="text-3xl font-extrabold tracking-tighter italic">POLARIS <span className="text-yellow-500 text-sm align-top">LIVE</span></h1>
+                            <p className="text-zinc-500 text-xs font-medium uppercase tracking-widest mt-1">ORM Real-time Intelligence</p>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            {loading && <div className="w-2 h-2 bg-yellow-500 rounded-full animate-ping"></div>}
+                            <button onClick={fetchAllData} className="glass px-4 py-2 rounded-lg text-xs font-bold hover:bg-zinc-800 transition">REFRESH</button>
+                        </div>
+                    </div>
 
-  <!-- NEWSPAPER -->
-  <div class="plat" id="tab_newspaper">
-    <div class="ph">
-      <div class="pbadge" style="background:rgba(245,166,35,.1);color:var(--newspaper);border:1px solid rgba(245,166,35,.25)">Newspaper PR</div>
-      <div class="pdesc">Articles by publication</div>
-    </div>
-    <div class="mrow">
-      <div class="mc"><div class="mc-accent" style="background:var(--newspaper)"></div><div class="mc-v" id="n_count" style="color:var(--newspaper)">—</div><div class="mc-l">Total Articles</div></div>
-      <div class="mc"><div class="mc-accent" style="background:var(--newspaper)"></div><div class="mc-v" id="n_pubs">—</div><div class="mc-l">Publications</div></div>
-      <div class="mc"><div class="mc-accent" style="background:rgba(245,166,35,.5)"></div><div class="mc-v" id="n_top">—</div><div class="mc-l">Top Publication</div></div>
-    </div>
-    <div class="g2">
-      <div class="card"><div class="card-t">Articles by Publication</div><div class="cw"><canvas id="ch_nBar"></canvas></div></div>
-      <div class="card"><div class="card-t">Publication Share</div><div class="cw"><canvas id="ch_nPie"></canvas></div></div>
-    </div>
-    <div class="card g1"><div class="card-t">Publication Breakdown</div>
-      <div class="pub-grid" id="newsPubGrid"><div class="sbox"><div class="spin"></div><p>Fetching...</p></div></div>
-    </div>
-  </div>
+                    {/* North Star Section */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div className="lg:col-span-2 glass p-10 rounded-[2rem] gold-glow relative overflow-hidden bg-gradient-to-br from-zinc-900 to-black">
+                            <div className="relative z-10">
+                                <h2 className="text-zinc-400 text-sm font-bold uppercase tracking-widest">The North Star Metric</h2>
+                                <div className="flex items-baseline gap-4 mt-2">
+                                    <span className="text-8xl font-black text-white leading-none">{stats.northStar}%</span>
+                                    <span className="text-green-500 font-bold flex items-center gap-1"><i data-lucide="trending-up" className="w-4 h-4"></i> Stable</span>
+                                </div>
+                                <p className="text-zinc-500 mt-6 max-w-sm text-sm font-medium">This score represents the aggregate positive sentiment across all 6 monitored platforms.</p>
+                                
+                                <div className="mt-10 space-y-2">
+                                    <div className="flex justify-between text-[10px] font-bold text-zinc-600 uppercase">
+                                        <span>Current Performance</span>
+                                        <span>Target: 95%</span>
+                                    </div>
+                                    <div className="w-full bg-zinc-800/50 h-3 rounded-full p-0.5">
+                                        <div className="h-full bg-yellow-500 rounded-full transition-all duration-1000 shadow-[0_0_15px_rgba(234,179,8,0.4)]" style={{width: `${stats.northStar}%`}}></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-  <!-- MEDIUM -->
-  <div class="plat" id="tab_medium">
-    <div class="ph">
-      <div class="pbadge" style="background:rgba(46,204,113,.1);color:var(--medium);border:1px solid rgba(46,204,113,.25)">Medium</div>
-      <div class="pdesc">Live articles — counted when Live Link exists</div>
-      <div class="logic-tag">✓ Live Link column triggers count</div>
-    </div>
-    <div class="big-wrap">
-      <div class="big-inner">
-        <div class="big-num" style="color:var(--medium)" id="med_big">—</div>
-        <div class="big-label">Live Articles on Medium</div>
-        <div class="big-sub" id="med_sub">Updates every 2 minutes</div>
-      </div>
-    </div>
-  </div>
-</main>
-<footer><span class="br">POLARIS</span> School of Technology &nbsp;·&nbsp; ORM Intelligence Dashboard &nbsp;·&nbsp; Auto-syncs every 2 min &nbsp;·&nbsp; Built by Aditya</footer>
+                        <div className="space-y-6">
+                            <div className="glass p-6 rounded-2xl">
+                                <span className="text-zinc-500 text-[10px] font-bold uppercase">Total Mentions</span>
+                                <p className="text-3xl font-bold mt-1 text-white">{stats.totalMentions}</p>
+                                <div className="mt-4 flex gap-2 overflow-hidden">
+                                    {CONFIG.TABS.map(t => <div key={t.name} className="h-1 flex-1 bg-zinc-800 rounded-full overflow-hidden"><div className="h-full bg-yellow-600" style={{width: '60%'}}></div></div>)}
+                                </div>
+                            </div>
+                            <div className="glass p-6 rounded-2xl bg-yellow-500/5 border-yellow-500/20">
+                                <span className="text-yellow-500 text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
+                                    <i data-lucide="zap" className="w-3 h-3"></i> Top Actionable
+                                </span>
+                                <p className="text-sm font-semibold text-zinc-200 mt-2">
+                                    {stats.northStar < 80 ? "High Volume of Neutral Mentions detected on Reddit. Engage with FAQ updates." : "Sentiment is healthy. Focus on Review Generation."}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
-<script>
-const DEF={pub:'2PACX-1vQFv6U02jXum9LWA3EpM1Y_kr3USUM952lNVR7nc8Dpbi_FsqXT5YBMa3PjnMbtuZjFVv8sfVK3v48E',rGid:'0',qGid:'798948706',pstGid:'1594247981',ytGid:'431577379',nGid:'2123559774',mGid:'1909778130',title:'ORM Intelligence Dashboard'};
-let C={...DEF},timer=null,activeFilter='all',rawData={};
-const CH={};
+                    {/* Interactive Table with Live Links */}
+                    <div className="glass rounded-3xl overflow-hidden">
+                        <div className="p-6 border-b border-zinc-800 bg-zinc-900/30 flex justify-between items-center">
+                            <h3 className="font-bold text-sm uppercase tracking-widest flex items-center gap-2">
+                                <i data-lucide="list" className="w-4 h-4 text-yellow-500"></i> Platform Live Feed
+                            </h3>
+                        </div>
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left">
+                                <thead className="bg-black/40 text-[10px] font-black text-zinc-500 uppercase tracking-widest">
+                                    <tr>
+                                        <th className="px-8 py-4">Source</th>
+                                        <th className="px-8 py-4">Title / Summary</th>
+                                        <th className="px-8 py-4">Sentiment</th>
+                                        <th className="px-8 py-4 text-right">Verification</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-zinc-800/50">
+                                    {rawLogs.length > 0 ? rawLogs.map((row, i) => (
+                                        <tr key={i} className="hover:bg-white/[0.02] transition-colors group">
+                                            <td className="px-8 py-5">
+                                                <span className="bg-zinc-800 text-zinc-400 px-3 py-1 rounded-full text-[10px] font-bold uppercase group-hover:bg-yellow-500 group-hover:text-black transition">
+                                                    {row.platform}
+                                                </span>
+                                            </td>
+                                            <td className="px-8 py-5">
+                                                <p className="text-sm text-zinc-300 font-medium truncate max-w-xs">{row.Summary || row.Title || "No data"}</p>
+                                            </td>
+                                            <td className="px-8 py-5">
+                                                <div className={`w-2 h-2 rounded-full ${row.Sentiment?.includes('Pos') ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                                            </td>
+                                            <td className="px-8 py-5 text-right">
+                                                <a href={row.Link || row.URL || "#"} target="_blank" className="text-yellow-500 hover:text-white text-xs font-bold transition flex items-center justify-end gap-1">
+                                                    OPEN <i data-lucide="arrow-up-right" className="w-3 h-3"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    )) : (
+                                        <tr><td colSpan="4" className="p-10 text-center text-zinc-600 italic">No data found in provided GIDs</td></tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
 
-// Platform colors matching CSS vars
-const PC={reddit:'#FF6314',quoraSeed:'#E84040',quoraOff:'#9B59E8',youtube:'#FF2D2D',newspaper:'#F5A623',medium:'#2ECC71',gold:'#FFCC3F',orange:'#FF9A3F'};
-
-Chart.defaults.color='#666';
-Chart.defaults.borderColor='rgba(255,255,255,0.04)';
-Chart.defaults.font.family="'Poppins',sans-serif";
-Chart.defaults.font.size=11;
-
-const toN=v=>parseFloat(String(v||'').replace(/[^0-9.-]/g,''))||0;
-const sumA=a=>a.reduce((s,v)=>s+v,0);
-const avgA=a=>a.length?sumA(a)/a.length:0;
-const maxA=a=>a.length?Math.max(...a):0;
-const isLive=v=>v&&String(v).trim().length>3&&(String(v).startsWith('http')||String(v).startsWith('www'));
-
-function fmt(n){if(n===null||n===undefined||n===''||isNaN(n))return'—';n=Number(n);if(n>=1000000)return(n/1000000).toFixed(1)+'M';if(n>=1000)return(n/1000).toFixed(1)+'K';return n.toLocaleString();}
-function set(id,v){const e=document.getElementById(id);if(e)e.textContent=v;}
-function setH(id,v){const e=document.getElementById(id);if(e)e.innerHTML=v;}
-function sbox(id,type,msg,hint=''){const e=document.getElementById(id);if(e)e.innerHTML=`<div class="sbox${type==='err'?' err':''}"><div class="${type==='loading'?'spin':''}"></div><p>${msg}</p>${hint?`<p class="hint">${hint}</p>`:''}</div>`;}
-
-function mkC(id,type,labels,datasets,extra={}){
-  if(CH[id])CH[id].destroy();
-  const el=document.getElementById(id);if(!el)return;
-  CH[id]=new Chart(el,{type,data:{labels,datasets},options:{
-    responsive:true,maintainAspectRatio:false,
-    plugins:{
-      legend:{labels:{color:'#666',usePointStyle:true,pointStyleWidth:8,boxHeight:8,padding:12}},
-      tooltip:{backgroundColor:'#1A1A1A',borderColor:'rgba(255,204,63,0.3)',borderWidth:1,titleColor:PC.gold,bodyColor:'#AAA',padding:10,cornerRadius:8}
-    },
-    scales:type!=='doughnut'&&type!=='pie'?{
-      x:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#555',maxRotation:40}},
-      y:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#555'}}
-    }:undefined,...extra
-  }});
-}
-
-// ── DATE FILTER ───────────────────────────────────────────────
-function parseDate(str){
-  if(!str)return null;
-  // Handle formats: "26 Mar", "26/03", "26-03-2026", "Jan 1", "9 Jan", "1 Apr", etc.
-  const months={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
-  str=str.trim();
-  // "26 Mar" or "Mar 26"
-  const m1=str.match(/^(\d{1,2})\s+([A-Za-z]{3})(?:\s+(\d{4}))?$/);
-  if(m1){const mo=months[m1[2].toLowerCase()];if(mo!==undefined)return new Date(parseInt(m1[3]||'2026'),mo,parseInt(m1[1]));}
-  const m2=str.match(/^([A-Za-z]{3})\s+(\d{1,2})(?:\s+(\d{4}))?$/);
-  if(m2){const mo=months[m2[1].toLowerCase()];if(mo!==undefined)return new Date(parseInt(m2[3]||'2026'),mo,parseInt(m2[2]));}
-  // "9 Jan" etc
-  const m3=str.match(/^(\d{1,2})\s+([A-Za-z]{3,})$/i);
-  if(m3){const mo=months[m3[2].toLowerCase().slice(0,3)];if(mo!==undefined)return new Date(2026,mo,parseInt(m3[1]));}
-  // ISO
-  const d=new Date(str);if(!isNaN(d))return d;
-  return null;
-}
-
-function getFilterRange(){
-  const now=new Date();
-  const today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
-  if(activeFilter==='all')return null;
-  if(activeFilter==='today')return{from:today,to:new Date(today.getTime()+86399999)};
-  if(activeFilter==='week'){
-    const dow=today.getDay();const mon=new Date(today);mon.setDate(today.getDate()-(dow===0?6:dow-1));
-    return{from:mon,to:new Date(mon.getTime()+6*86400000+86399999)};
-  }
-  if(activeFilter==='lastweek'){
-    const dow=today.getDay();const mon=new Date(today);mon.setDate(today.getDate()-(dow===0?6:dow-1)-7);
-    return{from:mon,to:new Date(mon.getTime()+6*86400000+86399999)};
-  }
-  if(activeFilter==='month')return{from:new Date(now.getFullYear(),now.getMonth(),1),to:new Date(now.getFullYear(),now.getMonth()+1,0,23,59,59)};
-  if(activeFilter==='custom'){
-    const f=document.getElementById('dateFrom').value;
-    const t=document.getElementById('dateTo').value;
-    if(f&&t)return{from:new Date(f),to:new Date(t+'T23:59:59')};
-  }
-  return null;
-}
-
-function filterByDate(rows,dateCol){
-  const range=getFilterRange();
-  if(!range)return rows;
-  return rows.filter(r=>{
-    const raw=r[dateCol]||Object.values(r)[0]||'';
-    const d=parseDate(raw);
-    if(!d)return true;// include if unparseable
-    return d>=range.from&&d<=range.to;
-  });
-}
-
-function setFilter(type,btn){
-  activeFilter=type;
-  document.querySelectorAll('.drop-opt').forEach(b=>b.classList.remove('active'));
-  if(btn)btn.classList.add('active');
-  const labels={'all':'All time','today':'Today','week':'This week','lastweek':'Last week','month':'This month','custom':'Custom range'};
-  set('filterBadge',labels[type]||type);
-  if(type!=='custom')document.getElementById('dateDrop').classList.remove('open');
-  if(Object.keys(rawData).length>0)renderAll();
-}
-
-// ── FETCH ─────────────────────────────────────────────────────
-async function fetchGid(gid){
-  const url=`https://docs.google.com/spreadsheets/d/e/${C.pub}/pub?single=true&output=csv&gid=${gid}`;
-  const r=await fetch(url);
-  if(!r.ok)throw new Error(`HTTP ${r.status}`);
-  return parseCSV(await r.text());
-}
-
-function parseCSV(txt){
-  const rows=[];let inQ=false,f='',row=[];
-  for(let i=0;i<txt.length;i++){
-    const c=txt[i];
-    if(c==='"'){inQ=!inQ;continue;}
-    if(!inQ&&c===','){row.push(f.trim());f='';continue;}
-    if(!inQ&&(c==='\n'||(c==='\r'&&txt[i+1]==='\n'))){if(c==='\r')i++;row.push(f.trim());rows.push(row);row=[];f='';continue;}
-    f+=c;
-  }
-  if(f||row.length){row.push(f.trim());rows.push(row);}
-  const h=rows[0]||[];
-  return rows.slice(1).filter(r=>r.some(c=>c)).map(r=>{const o={};h.forEach((k,i)=>o[k]=r[i]||'');return o;});
-}
-
-// ── RENDER FUNCTIONS ──────────────────────────────────────────
-function renderReddit(){
-  const d=filterByDate(rawData.reddit||[],'Question');// date col not present but filter passes through
-  const h=Object.keys(d[0]||{});
-  const colQL=h[2]||'Question Link';
-  const colQI=h[3]||'Question Impressions';
-  const colAL=h[5]||'Answers Link';
-  const colAI=h[6]||'Answer Impression';
-  const livePosts=d.filter(r=>isLive(r[colQL]));
-  const liveAns=d.filter(r=>isLive(r[colAL]));
-  const postImp=sumA(livePosts.map(r=>toN(r[colQI])));
-  const ansImp=sumA(liveAns.map(r=>toN(r[colAI])));
-  const total=postImp+ansImp;
-  set('k_rImp',fmt(total));setH('k_rD',`<span class="dn">${livePosts.length} posts</span>`);
-  set('r_posts',livePosts.length);set('r_comm',liveAns.length);set('r_qimp',fmt(postImp));set('r_aimp',fmt(ansImp));set('r_total',fmt(total));set('tb_r',livePosts.length);
-  mkC('ch_rImp','bar',livePosts.map((_,i)=>`P${i+1}`),[{label:'Post Imp',data:livePosts.map(r=>toN(r[colQI])),backgroundColor:PC.reddit+'BB',borderRadius:5}]);
-  mkC('ch_rAns','bar',liveAns.map((_,i)=>`A${i+1}`),[{label:'Answer Imp',data:liveAns.map(r=>toN(r[colAI])),backgroundColor:PC.orange+'BB',borderRadius:5}]);
-  if(!livePosts.length){document.getElementById('tbl_r').innerHTML='<div class="no-data-msg">No live posts in selected date range</div>';return;}
-  document.getElementById('tbl_r').innerHTML=`<table><thead><tr><th>#</th><th>Post Link</th><th class="nc">Post Imp</th><th>Answer Link</th><th class="nc">Ans Imp</th></tr></thead><tbody>
-  ${livePosts.map((r,i)=>{const a=liveAns[i]||{};return`<tr><td style="color:var(--text3);font-size:10px;">${i+1}</td>
-  <td><a href="${r[colQL]}" target="_blank" class="lnk" style="background:rgba(255,99,20,.1);border:1px solid rgba(255,99,20,.3);color:var(--reddit)">Post ↗</a></td>
-  <td class="nc">${fmt(r[colQI])}</td>
-  <td>${isLive(a[colAL])?`<a href="${a[colAL]}" target="_blank" class="lnk" style="background:rgba(255,154,63,.1);border:1px solid rgba(255,154,63,.3);color:var(--orange)">Ans ↗</a>`:'<span style="color:var(--text3);font-size:10px;">—</span>'}</td>
-  <td class="nc">${fmt(a[colAI])}</td></tr>`}).join('')}</tbody></table>`;
-}
-
-function renderQuora(){
-  const d=filterByDate(rawData.quora||[],'DATE');
-  const h=Object.keys(d[0]||{});
-  const colQL=h[5]||'Question Live Link';
-  const colAL=h[6]||'Answer Live Link';
-  const colImp=h[7]||'Impressions';
-  const liveA=d.filter(r=>isLive(r[colAL]));
-  const liveQ=d.filter(r=>isLive(r[colQL]));
-  const total=sumA(liveA.map(r=>toN(r[colImp])));
-  const avg=avgA(liveA.map(r=>toN(r[colImp])));
-  const imps=liveA.map(r=>toN(r[colImp]));
-  set('k_qImp',fmt(total));setH('k_qD',`<span class="dn">${liveA.length} answers</span>`);
-  set('q_qlive',liveQ.length);set('q_alive',liveA.length);set('q_imp',fmt(total));set('q_avg',fmt(Math.round(avg)));set('tb_q',liveA.length);
-  const sorted=[...liveA].sort((a,b)=>toN(b[colImp])-toN(a[colImp]));
-  mkC('ch_qImp','bar',sorted.map((_,i)=>`A${i+1}`),[{label:'Impressions',data:sorted.map(r=>toN(r[colImp])),backgroundColor:PC.quoraSeed+'BB',borderRadius:5}]);
-  const bkts=[0,0,0,0];imps.forEach(v=>{if(v<=50)bkts[0]++;else if(v<=150)bkts[1]++;else if(v<=300)bkts[2]++;else bkts[3]++;});
-  mkC('ch_qDist','doughnut',['0–50','51–150','151–300','300+'],[{data:bkts,backgroundColor:['#333',PC.quoraSeed+'66',PC.quoraSeed+'99',PC.quoraSeed],borderColor:'#181818',borderWidth:2}],{plugins:{legend:{position:'right',labels:{color:'#666',boxHeight:9,padding:8}},tooltip:{backgroundColor:'#1A1A1A',titleColor:PC.gold,bodyColor:'#AAA',padding:9,cornerRadius:7}}});
-  if(!liveA.length){document.getElementById('tbl_q').innerHTML='<div class="no-data-msg">No live answers in selected date range</div>';return;}
-  document.getElementById('tbl_q').innerHTML=`<table><thead><tr><th>#</th><th>Question</th><th>Answer</th><th class="nc">Impressions</th></tr></thead><tbody>
-  ${sorted.map((r,i)=>`<tr><td style="color:var(--text3);font-size:10px;">${i+1}</td>
-  <td>${isLive(r[colQL])?`<a href="${r[colQL]}" target="_blank" class="lnk" style="background:rgba(232,64,64,.1);border:1px solid rgba(232,64,64,.3);color:var(--quora-seed)">Q ↗</a>`:'—'}</td>
-  <td><a href="${r[colAL]}" target="_blank" class="lnk" style="background:rgba(232,64,64,.1);border:1px solid rgba(232,64,64,.3);color:var(--quora-seed)">A ↗</a></td>
-  <td class="nc">${fmt(r[colImp])}</td></tr>`).join('')}</tbody></table>`;
-}
-
-function renderPST(){
-  const d=filterByDate(rawData.pst||[],Object.keys((rawData.pst||[{}])[0]||{})[0]);
-  const h=Object.keys(d[0]||{});
-  const colLink=h[4]||'Live Link';
-  const colImp=h[5]||'Impressions';
-  const live=d.filter(r=>isLive(r[colLink]));
-  const imps=live.map(r=>toN(r[colImp]));
-  const total=sumA(imps);
-  set('k_pstImp',fmt(total));setH('k_pstD',`<span class="dn">${live.length} answers</span>`);
-  set('pst_live',live.length);set('pst_imp',fmt(total));set('pst_avg',fmt(Math.round(avgA(imps))));set('pst_peak',fmt(maxA(imps)));set('tb_pst',live.length);
-  const sorted=[...live].sort((a,b)=>toN(b[colImp])-toN(a[colImp]));
-  mkC('ch_pstImp','bar',sorted.map((_,i)=>`A${i+1}`),[{label:'Impressions',data:sorted.map(r=>toN(r[colImp])),backgroundColor:PC.quoraOff+'BB',borderRadius:5}]);
-  const bkts=[0,0,0,0];imps.forEach(v=>{if(v<=5)bkts[0]++;else if(v<=20)bkts[1]++;else if(v<=50)bkts[2]++;else bkts[3]++;});
-  mkC('ch_pstDist','doughnut',['0–5','6–20','21–50','50+'],[{data:bkts,backgroundColor:['#333',PC.quoraOff+'55',PC.quoraOff+'88',PC.quoraOff],borderColor:'#181818',borderWidth:2}],{plugins:{legend:{position:'right',labels:{color:'#666',boxHeight:9,padding:8}},tooltip:{backgroundColor:'#1A1A1A',titleColor:PC.gold,bodyColor:'#AAA',padding:9,cornerRadius:7}}});
-  if(!live.length){document.getElementById('tbl_pst').innerHTML='<div class="no-data-msg">No live answers in selected date range</div>';return;}
-  document.getElementById('tbl_pst').innerHTML=`<table><thead><tr><th>#</th><th>Answer Link</th><th class="nc">Impressions</th></tr></thead><tbody>
-  ${sorted.map((r,i)=>`<tr><td style="color:var(--text3);font-size:10px;">${i+1}</td>
-  <td><a href="${r[colLink]}" target="_blank" class="lnk" style="background:rgba(155,89,232,.1);border:1px solid rgba(155,89,232,.3);color:var(--quora-off)">Answer ↗</a></td>
-  <td class="nc">${fmt(r[colImp])}</td></tr>`).join('')}</tbody></table>`;
-}
-
-function renderYoutube(){
-  const d=filterByDate(rawData.youtube||[],'Date');
-  const h=Object.keys(d[0]||{});
-  const colName=h[1]||'Name';
-  const colSeeded=h[5]||'Comments Seeded';
-  const vals=d.map(r=>toN(r[colSeeded]));
-  const total=sumA(vals);
-  set('k_ytSum',fmt(total));set('yt_sum',fmt(total));set('yt_rows',d.length);set('yt_avg',fmt(Math.round(avgA(vals))));set('yt_peak',fmt(maxA(vals)));set('tb_yt',fmt(total));
-  set('ins_yt',fmt(total));
-  const sorted=[...d].sort((a,b)=>toN(b[colSeeded])-toN(a[colSeeded]));
-  const top20=sorted.slice(0,20);
-  mkC('ch_ytBar','bar',top20.map(r=>(r[colName]||'?').slice(0,14)),[{label:'Seeded',data:top20.map(r=>toN(r[colSeeded])),backgroundColor:PC.youtube+'AA',borderRadius:5}]);
-  const bkts=[0,0,0,0,0];vals.forEach(v=>{if(v===0)bkts[0]++;else if(v<=10)bkts[1]++;else if(v<=30)bkts[2]++;else if(v<=100)bkts[3]++;else bkts[4]++;});
-  mkC('ch_ytDist','doughnut',['Zero','1–10','11–30','31–100','100+'],[{data:bkts,backgroundColor:['#333','rgba(255,100,0,.55)','rgba(255,150,0,.65)',PC.youtube+'99',PC.youtube],borderColor:'#181818',borderWidth:2}],{plugins:{legend:{position:'right',labels:{color:'#666',boxHeight:9,padding:8}},tooltip:{backgroundColor:'#1A1A1A',titleColor:PC.gold,bodyColor:'#AAA',padding:9,cornerRadius:7}}});
-  document.getElementById('tbl_yt').innerHTML=`<table><thead><tr><th>#</th><th>Channel</th><th class="nc">Comments Seeded</th></tr></thead><tbody>
-  ${sorted.slice(0,50).map((r,i)=>`<tr><td style="color:var(--text3);font-size:10px;">${i+1}</td><td>${r[colName]||'—'}</td><td class="nc">${fmt(r[colSeeded])}</td></tr>`).join('')}</tbody></table>`;
-}
-
-function renderNewspaper(){
-  const d=filterByDate(rawData.newspaper||[],'Publish Date');
-  const h=Object.keys(d[0]||{});
-  const colPub=h[0]||'Publication Name';
-  const pubMap={};d.forEach(r=>{const p=r[colPub]||'Unknown';pubMap[p]=(pubMap[p]||0)+1;});
-  const entries=Object.entries(pubMap).sort((a,b)=>b[1]-a[1]);
-  set('k_nCount',d.length);set('n_count',d.length);set('n_pubs',entries.length);set('n_top',entries[0]?entries[0][0]:'—');set('tb_n',d.length);
-  mkC('ch_nBar','bar',entries.map(e=>e[0]),[{label:'Articles',data:entries.map(e=>e[1]),backgroundColor:PC.newspaper+'BB',borderRadius:5}]);
-  mkC('ch_nPie','doughnut',entries.map(e=>e[0]),[{data:entries.map(e=>e[1]),backgroundColor:entries.map((_,i)=>[PC.newspaper,PC.gold,PC.orange,'#FF6B35','#2ECC71'][i%5]+'CC'),borderColor:'#181818',borderWidth:2}],{plugins:{legend:{position:'right',labels:{color:'#666',boxHeight:9,padding:8}},tooltip:{backgroundColor:'#1A1A1A',titleColor:PC.gold,bodyColor:'#AAA',padding:9,cornerRadius:7}}});
-  document.getElementById('newsPubGrid').innerHTML=entries.map(([pub,count])=>`<div class="pub-card"><div><div class="pub-name">${pub}</div><div class="pub-lbl">articles</div></div><div><div class="pub-count" style="color:var(--newspaper)">${count}</div></div></div>`).join('');
-}
-
-function renderMedium(){
-  const d=rawData.medium||[];
-  const h=Object.keys(d[0]||{});
-  const colLink=h[6]||'Live Link';
-  const filtered=filterByDate(d,'Date');
-  const live=filtered.filter(r=>isLive(r[colLink])).length;
-  set('k_mCount',live);set('med_big',live);set('tb_m',live+' live');
-  set('med_sub',`${live} of ${d.length} total entries have live links · updates every 2 min`);
-}
-
-function renderAll(){
-  renderReddit();renderQuora();renderPST();renderYoutube();renderNewspaper();renderMedium();
-  buildSummary();
-}
-
-function buildSummary(){
-  const rTotal=toN(document.getElementById('r_total').textContent.replace(/[^0-9.KM]/g,'')||0);
-  const qImp=toN(document.getElementById('q_imp').textContent.replace(/[^0-9.KM]/g,'')||0);
-  const pstImp=toN(document.getElementById('pst_imp').textContent.replace(/[^0-9.KM]/g,'')||0);
-  const ytTotal=toN(document.getElementById('yt_sum').textContent.replace(/[^0-9.KM]/g,'')||0);
-  const nCount=toN(document.getElementById('n_count').textContent||0);
-  const mLive=toN(document.getElementById('med_big').textContent||0);
-
-  // Get actual numbers from DS
-  const r=rawData.reddit||[],q=rawData.quora||[],pst=rawData.pst||[],yt=rawData.youtube||[],n=rawData.newspaper||[],m=rawData.medium||[];
-  const rh=Object.keys(r[0]||{});const qh=Object.keys(q[0]||{});const psth=Object.keys(pst[0]||{});const yth=Object.keys(yt[0]||{});const mh=Object.keys(m[0]||{});
-
-  const fr=filterByDate(r,'');const fq=filterByDate(q,'DATE');const fpst=filterByDate(pst,'');const fyt=filterByDate(yt,'Date');const fn=filterByDate(n,'Publish Date');const fm=filterByDate(m,'Date');
-
-  const rPosts=fr.filter(x=>isLive(x[rh[2]])).length;
-  const rImpTotal=sumA(fr.filter(x=>isLive(x[rh[2]])).map(x=>toN(x[rh[3]])))+sumA(fr.filter(x=>isLive(x[rh[5]])).map(x=>toN(x[rh[6]])));
-  const qALive=fq.filter(x=>isLive(x[qh[6]])).length;
-  const qQLive=fq.filter(x=>isLive(x[qh[5]])).length;
-  const qImpReal=sumA(fq.filter(x=>isLive(x[qh[6]])).map(x=>toN(x[qh[7]])));
-  const pstLive=fpst.filter(x=>isLive(x[psth[4]])).length;
-  const pstImpReal=sumA(fpst.filter(x=>isLive(x[psth[4]])).map(x=>toN(x[psth[5]])));
-  const ytTotalReal=sumA(fyt.map(x=>toN(x[yth[5]])));
-  const nCountReal=fn.length;
-  const mLiveReal=fm.filter(x=>isLive(x[mh[6]])).length;
-  const totalReach=rImpTotal+qImpReal+pstImpReal;
-  const totalContent=rPosts+nCountReal+mLiveReal;
-
-  // Insight cards
-  const plats=[{name:'Reddit',val:rImpTotal,c:PC.reddit},{name:'Quora Seeding',val:qImpReal,c:PC.quoraSeed},{name:'Quora Official',val:pstImpReal,c:PC.quoraOff}].filter(p=>p.val>0).sort((a,b)=>b.val-a.val);
-  const top=plats[0]||{name:'—',val:0,c:PC.gold};
-  const topPct=totalReach>0?Math.round((top.val/totalReach)*100):0;
-  set('ins_top',top.name);set('ins_topSub',`${fmt(top.val)} imp · ${topPct}% share`);
-  document.getElementById('ins_topBar').style.width=topPct+'%';
-  document.getElementById('ins_topBar').style.background=top.c;
-  set('ins_reach',fmt(totalReach));set('ins_content',totalContent);
-  set('ins_contentSub',`${rPosts} posts · ${nCountReal} PR · ${mLiveReal} Medium`);
-  set('ins_yt',fmt(ytTotalReal));
-
-  // Charts
-  const reachVals=[rImpTotal,qImpReal,pstImpReal].filter(v=>v>0);
-  const reachLbls=['Reddit','Quora Seeding','Quora Official'].filter((_,i)=>[rImpTotal,qImpReal,pstImpReal][i]>0);
-  mkC('ch_reach','doughnut',reachLbls,[{data:reachVals,backgroundColor:[PC.reddit+'CC',PC.quoraSeed+'CC',PC.quoraOff+'CC'],borderColor:'#181818',borderWidth:3}],{plugins:{legend:{position:'right',labels:{color:'#666',boxHeight:10,padding:10}},tooltip:{backgroundColor:'#1A1A1A',titleColor:PC.gold,bodyColor:'#AAA',padding:9,cornerRadius:7}}});
-
-  const mixD=[],mixL=[],mixC=[];
-  if(rPosts>0){mixL.push('Reddit Posts');mixD.push(rPosts);mixC.push(PC.reddit+'CC');}
-  if(qALive>0){mixL.push('Quora Ans');mixD.push(qALive);mixC.push(PC.quoraSeed+'CC');}
-  if(pstLive>0){mixL.push('PST Ans');mixD.push(pstLive);mixC.push(PC.quoraOff+'CC');}
-  if(nCountReal>0){mixL.push('PR Articles');mixD.push(nCountReal);mixC.push(PC.newspaper+'CC');}
-  if(mLiveReal>0){mixL.push('Medium');mixD.push(mLiveReal);mixC.push(PC.medium+'CC');}
-  mkC('ch_mix','doughnut',mixL,[{data:mixD,backgroundColor:mixC,borderColor:'#181818',borderWidth:3}],{plugins:{legend:{position:'right',labels:{color:'#666',boxHeight:10,padding:10}},tooltip:{backgroundColor:'#1A1A1A',titleColor:PC.gold,bodyColor:'#AAA',padding:9,cornerRadius:7}}});
-
-  // Text
-  let lines=[];
-  if(totalReach>0)lines.push(`Total live impression reach: <b class="hi">${fmt(totalReach)}</b> across all platforms.`);
-  if(rPosts>0)lines.push(`<b>Reddit</b> — <b class="hi">${rPosts}</b> live posts · <b class="hi">${fmt(rImpTotal)}</b> impressions.`);
-  if(qALive>0)lines.push(`<b>Quora Seeding</b> — <b class="hi">${qQLive}</b> questions · <b>${qALive}</b> answers live · <b class="hi">${fmt(qImpReal)}</b> impressions.`);
-  if(pstLive>0)lines.push(`<b>Quora Official</b> — <b class="hi">${pstLive}</b> answers · <b class="hi">${fmt(pstImpReal)}</b> impressions.`);
-  if(ytTotalReal>0)lines.push(`<b>YouTube</b> — <b class="hi">${fmt(ytTotalReal)}</b> comments seeded across ${fyt.length} channels.`);
-  if(nCountReal>0)lines.push(`<b>Newspaper PR</b> — <b class="hi">${nCountReal}</b> articles published.`);
-  if(mLiveReal>0)lines.push(`<b>Medium</b> — <b class="hi">${mLiveReal}</b> live articles.`);
-  if(plats.length>1)lines.push(`<b>Focus:</b> <span class="hi">${top.name}</span> leads at <b>${topPct}%</b> of total reach.`);
-  set('sumDate','As of '+new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}));
-  setH('summaryText',lines.map(l=>`<p style="margin-bottom:7px;">${l}</p>`).join(''));
-}
-
-// ── LOAD ALL ──────────────────────────────────────────────────
-async function loadAll(){
-  set('syncLbl','Syncing...');
-  const gids=[{k:'reddit',g:C.rGid},{k:'quora',g:C.qGid},{k:'pst',g:C.pstGid},{k:'youtube',g:C.ytGid},{k:'newspaper',g:C.nGid},{k:'medium',g:C.mGid}];
-  await Promise.allSettled(gids.map(async({k,g})=>{
-    try{rawData[k]=await fetchGid(g);}
-    catch(e){console.error(k,e);rawData[k]=[];}
-  }));
-  renderAll();
-  set('syncLbl','Synced '+new Date().toLocaleTimeString());
-  if(timer)clearInterval(timer);
-  timer=setInterval(loadAll,2*60*1000);
-}
-
-function st(id,btn,colorVar){
-  document.querySelectorAll('.plat').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.tb').forEach(b=>{b.classList.remove('active');b.style.color='var(--text3)';b.style.borderBottomColor='transparent';});
-  document.getElementById('tab_'+id).classList.add('active');
-  btn.classList.add('active');
-  const col=getComputedStyle(document.documentElement).getPropertyValue(colorVar.replace('--','--')).trim()||'var(--gold)';
-  btn.style.color=`var(${colorVar})`;
-  btn.style.borderBottomColor=`var(${colorVar})`;
-}
-
-const FLDS=['pub','rGid','qGid','pstGid','ytGid','nGid','mGid','title'];
-function loadCfg(){const s=localStorage.getItem('p_orm_v6');if(s)C={...DEF,...JSON.parse(s)};FLDS.forEach(k=>{const e=document.getElementById('c_'+k);if(e)e.value=C[k]||'';});set('dashTitle',C.title);}
-function saveCfg(){FLDS.forEach(k=>{const e=document.getElementById('c_'+k);if(e)C[k]=e.value.trim();});localStorage.setItem('p_orm_v6',JSON.stringify(C));set('dashTitle',C.title);closeCfg();loadAll();}
-function resetCfg(){if(!confirm('Reset?'))return;C={...DEF};localStorage.removeItem('p_orm_v6');loadCfg();}
-
-async function testConn(){
-  const pub=document.getElementById('c_pub').value.trim();
-  if(!pub){setH('testOut','<div class="tfail">✗ Enter Published Base ID first</div>');return;}
-  const tabs=[{l:'Reddit',g:'c_rGid'},{l:'Quora',g:'c_qGid'},{l:'PST Quora',g:'c_pstGid'},{l:'YouTube',g:'c_ytGid'},{l:'Newspaper PR',g:'c_nGid'},{l:'Medium',g:'c_mGid'}];
-  setH('testOut','<div style="color:var(--gold);font-size:11px;margin-top:8px;">Testing all 6...</div>');
-  const res=await Promise.all(tabs.map(async t=>{
-    const gid=document.getElementById(t.g).value;
-    try{
-      const r=await fetch(`https://docs.google.com/spreadsheets/d/e/${pub}/pub?single=true&output=csv&gid=${gid}`);
-      if(!r.ok)return{l:t.l,ok:false,m:`HTTP ${r.status}`};
-      const rows=(await r.text()).trim().split('\n').length-1;
-      return{l:t.l,ok:true,m:`${rows} rows ✓`};
-    }catch(e){return{l:t.l,ok:false,m:e.message};}
-  }));
-  setH('testOut',res.map(r=>`<div class="${r.ok?'tok':'tfail'}">${r.ok?'✓':'✗'} <b>${r.l}</b>: ${r.m}</div>`).join(''));
-}
-
-function toggleDateDrop(e){e.stopPropagation();document.getElementById('dateDrop').classList.toggle('open');}
-document.addEventListener('click',function(e){const w=document.getElementById('dateDropWrap');if(w&&!w.contains(e.target))document.getElementById('dateDrop').classList.remove('open');});
-
-function openCfg(){document.getElementById('cfgPanel').classList.add('open');document.getElementById('ov').classList.add('open');}
-function closeCfg(){document.getElementById('cfgPanel').classList.remove('open');document.getElementById('ov').classList.remove('open');}
-
-// Set default dateTo to today
-document.getElementById('dateTo').value=new Date().toISOString().split('T')[0];
-loadCfg();
-loadAll();
-</script>
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<Dashboard />);
+    </script>
 </body>
 </html>
