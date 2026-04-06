@@ -3,860 +3,569 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ORM Dashboard — Polaris</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<title>Polaris ORM Intelligence Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-:root{
-  --bg:#0D0D0D;--surface:#181818;--surface2:#202020;--surface3:#282828;
-  --border:#2E2E2E;--border2:#3A3A3A;
-  --text:#E8E8E8;--text2:#AAAAAA;--text3:#666666;
-  --gold:#FFCC3F;--orange:#FF9A3F;
-  /* Platform colors — high contrast, all distinct */
-  --reddit:#FF6314;
-  --quora-seed:#E84040;
-  --quora-off:#9B59E8;
-  --youtube:#FF2D2D;
-  --newspaper:#F5A623;
-  --medium:#2ECC71;
+:root {
+  --gold: #FFCC3F; --orange: #FF9A3F; --amber: #D88100;
+  --black: #020202; --purple: #5939A8; --green: #099B5A; --red: #BA0E13;
+  --card: #1A1A1A; --border: #2A2A2A;
+  --reddit: #FF4500; --quora: #B92B27; --youtube: #FF0000;
 }
-*{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;font-size:13px;min-height:100vh;}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Poppins',sans-serif; background:#0A0A0A; color:#E0E0E0; }
 
 /* NAV */
-.nav{background:#111;border-bottom:2px solid var(--gold);height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:100;}
-.logo{display:flex;align-items:center;gap:10px;}
-.logo-box{width:32px;height:32px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#000;}
-.logo-name{font-weight:700;font-size:15px;color:#fff;letter-spacing:.05em;}
-.logo-sub{font-size:8px;color:var(--gold);letter-spacing:.16em;text-transform:uppercase;}
-.nav-c{font-family:'Playfair Display',serif;font-size:17px;color:#fff;}
-.nav-r{display:flex;align-items:center;gap:8px;}
-.live-pill{display:flex;align-items:center;gap:5px;background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.35);border-radius:20px;padding:3px 10px;font-size:10px;font-weight:600;color:#2ECC71;letter-spacing:.04em;}
-.live-dot{width:6px;height:6px;border-radius:50%;background:#2ECC71;animation:lp 1.8s ease-in-out infinite;}
-@keyframes lp{0%,100%{opacity:1}50%{opacity:.3}}
-.sync-t{font-size:10px;color:var(--text3);}
-.btn-n{background:transparent;border:1px solid var(--border2);color:var(--text2);padding:5px 13px;border-radius:6px;cursor:pointer;font-family:'Poppins',sans-serif;font-size:11px;font-weight:500;transition:all .18s;}
-.btn-n:hover{border-color:var(--gold);color:var(--gold);}
-.btn-gold{background:var(--gold);color:#000;border:none;padding:5px 13px;border-radius:6px;cursor:pointer;font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;transition:all .18s;}
-.btn-gold:hover{background:var(--orange);}
+.nav { background:var(--black); border-bottom:2px solid var(--gold); height:64px; display:flex; align-items:center; justify-content:space-between; padding:0 20px; position:sticky; top:0; z-index:100; gap:10px; }
+.logo { font-size:12px; font-weight:700; letter-spacing:.14em; color:var(--gold); white-space:nowrap; }
+.logo span { color:var(--orange); }
+.nav-title { font-family:'Playfair Display',serif; font-size:14px; color:#fff; flex:1; text-align:center; }
+.nav-r { display:flex; align-items:center; gap:8px; }
+.ts { font-size:10px; color:#555; white-space:nowrap; }
+.btn { background:rgba(255,204,63,.1); border:1px solid rgba(255,204,63,.3); color:var(--gold); font:600 11px 'Poppins',sans-serif; padding:6px 11px; border-radius:6px; cursor:pointer; transition:.2s; }
+.btn:hover { background:rgba(255,204,63,.2); }
+.gear { background:none; border:1px solid #2A2A2A; color:#777; width:34px; height:34px; border-radius:8px; cursor:pointer; font-size:15px; transition:.2s; }
+.gear:hover { border-color:var(--gold); color:var(--gold); }
 
-/* DATE FILTER BAR */
-.filter-bar{background:#141414;border-bottom:1px solid var(--border);padding:10px 24px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.filter-label{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-right:4px;}
-.date-input{background:#1A1A1A;border:1px solid var(--border);color:var(--text);padding:5px 9px;border-radius:6px;font-family:'Poppins',sans-serif;font-size:11px;cursor:pointer;width:110px;}
-.date-input:focus{outline:none;border-color:var(--gold);}
-.date-dropdown-wrap{position:relative;}
-.date-drop-btn{background:rgba(255,204,63,.1);border:1px solid rgba(255,204,63,.3);color:var(--gold);padding:6px 14px;border-radius:8px;cursor:pointer;font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;display:flex;align-items:center;gap:2px;transition:all .15s;}
-.date-drop-btn:hover{background:rgba(255,204,63,.18);}
-.date-drop-menu{position:absolute;top:calc(100% + 6px);left:0;background:#1A1A1A;border:1px solid var(--border2);border-radius:10px;padding:6px;min-width:200px;z-index:300;display:none;box-shadow:0 8px 32px rgba(0,0,0,.6);}
-.date-drop-menu.open{display:block;}
-.drop-opt{display:block;width:100%;background:transparent;border:none;color:var(--text2);padding:8px 12px;border-radius:6px;cursor:pointer;font-family:'Poppins',sans-serif;font-size:12px;text-align:left;transition:all .12s;}
-.drop-opt:hover{background:rgba(255,255,255,.06);color:#fff;}
-.drop-opt.active{background:rgba(255,204,63,.1);color:var(--gold);font-weight:600;}
-.drop-sep{height:1px;background:var(--border);margin:5px 0;}
-.drop-custom-label{font-size:9px;font-weight:700;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;padding:4px 12px 6px;}
-.drop-custom-row{display:flex;align-items:center;gap:5px;padding:0 8px 8px;}
-.drop-apply{background:var(--gold);color:#000;border:none;padding:5px 10px;border-radius:5px;cursor:pointer;font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;white-space:nowrap;}
-.drop-apply:hover{background:var(--orange);}
-
-/* OVERLAY + CONFIG */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;}
-.overlay.open{display:block;}
-.cfg{position:fixed;right:0;top:0;bottom:0;width:340px;background:#111;border-left:2px solid var(--gold);z-index:201;overflow-y:auto;padding:20px;display:none;}
-.cfg.open{display:block;}
-.cfg-x{position:absolute;top:14px;right:14px;background:transparent;border:none;color:var(--text3);font-size:16px;cursor:pointer;}
-.cfg h2{font-size:15px;color:#fff;margin-bottom:3px;}
-.cfg-sub{font-size:10px;color:var(--text3);margin-bottom:14px;}
-.cfg-hint{background:rgba(255,204,63,.05);border:1px solid rgba(255,204,63,.12);border-radius:7px;padding:9px 11px;font-size:10px;color:var(--text3);line-height:1.7;margin-bottom:12px;}
-.cfg-hint b{color:var(--gold);}
-.cs{margin-bottom:12px;}
-.cs-t{font-size:9px;font-weight:600;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border);}
-.cr{margin-bottom:5px;}
-.cr label{display:block;font-size:10px;color:var(--text3);margin-bottom:2px;}
-.cr input{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:6px 9px;border-radius:5px;font-family:'Poppins',sans-serif;font-size:11px;}
-.cr input:focus{outline:none;border-color:rgba(255,204,63,.5);}
-.cfg-acts{display:flex;gap:7px;margin-top:12px;}
-.btn-save{background:var(--gold);color:#000;border:none;padding:8px 18px;border-radius:6px;font-family:'Poppins',sans-serif;font-weight:700;font-size:12px;cursor:pointer;}
-.btn-test{background:transparent;border:1px solid #2ECC71;color:#2ECC71;padding:8px 13px;border-radius:6px;font-family:'Poppins',sans-serif;font-size:12px;cursor:pointer;}
-.test-out{margin-top:10px;font-size:11px;}
-.tok{color:#2ECC71;display:flex;align-items:center;gap:5px;margin-bottom:2px;}
-.tfail{color:#E84040;display:flex;align-items:center;gap:5px;margin-bottom:2px;}
+/* CONFIG */
+.ov { display:none; position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:200; }
+.ov.on { display:block; }
+.cfg { position:fixed; top:0; right:-440px; width:440px; height:100vh; background:#111; border-left:2px solid var(--gold); z-index:201; overflow-y:auto; transition:right .3s; padding:22px; }
+.cfg.on { right:0; }
+.cfg-h { font-size:13px; font-weight:700; color:var(--gold); margin-bottom:18px; letter-spacing:.08em; text-transform:uppercase; }
+.cg { margin-bottom:18px; }
+.cg-l { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:#444; margin-bottom:7px; padding-bottom:5px; border-bottom:1px solid #1E1E1E; }
+.cf { margin-bottom:8px; }
+.cf label { font-size:11px; color:#777; display:block; margin-bottom:3px; }
+.cf input, .cf select { width:100%; background:#1A1A1A; border:1px solid #2A2A2A; color:#DDD; font:12px 'Poppins',sans-serif; padding:7px 10px; border-radius:6px; outline:none; }
+.cf input:focus, .cf select:focus { border-color:var(--gold); }
+.ch { font-size:10px; color:#444; margin-top:2px; }
+.save { width:100%; background:var(--gold); color:#000; font:700 13px 'Poppins',sans-serif; padding:11px; border:none; border-radius:8px; cursor:pointer; margin-top:14px; }
+.save:hover { background:#FFD966; }
 
 /* MAIN */
-.main{padding:20px 24px;max-width:1600px;margin:0 auto;}
-.sec-h{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
-.sec-h::after{content:'';flex:1;height:1px;background:var(--border);}
+.main { max-width:1300px; margin:0 auto; padding:22px 18px; }
 
-/* SUMMARY */
-.summary-wrap{display:grid;grid-template-columns:1.8fr 1fr;gap:14px;margin-bottom:24px;}
-.sum-card{background:var(--surface);border:1px solid var(--border2);border-radius:14px;padding:20px 22px;position:relative;overflow:hidden;}
-.sum-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--gold),var(--orange));}
-.sum-title{font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;}
-.sum-date{font-size:10px;color:var(--text3);margin-bottom:14px;}
-.sum-text{font-size:12.5px;color:var(--text2);line-height:1.9;}
-.sum-text b{color:var(--text);font-weight:600;}
-.sum-text .hi{color:var(--gold);font-weight:600;}
-.sum-text .up{color:#2ECC71;font-weight:600;}
-.sum-text .dn{color:#E84040;font-weight:600;}
-.sum-loading{display:flex;align-items:center;gap:10px;color:var(--text3);font-size:12px;}
-.sum-spin{width:14px;height:14px;border:2px solid var(--border2);border-top-color:var(--gold);border-radius:50%;animation:sp .7s linear infinite;flex-shrink:0;}
-.sum-charts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;}
-.sum-chart-card{background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:12px 14px;}
-.sum-chart-title{font-size:9px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;}
-.sum-chart-h{position:relative;height:130px;}
-.ins-col{display:flex;flex-direction:column;gap:10px;}
-.ins{background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:14px 16px;flex:1;position:relative;overflow:hidden;}
-.ins-accent{position:absolute;top:0;left:0;right:0;height:2px;}
-.ins-lbl{font-size:9px;font-weight:600;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px;}
-.ins-val{font-size:22px;font-weight:700;color:#fff;line-height:1;margin-bottom:3px;font-variant-numeric:tabular-nums;}
-.ins-sub{font-size:10px;color:var(--text3);}
-.ins-bar{height:3px;background:var(--surface3);border-radius:2px;margin-top:8px;}
-.ins-fill{height:3px;border-radius:2px;transition:width 1s ease;}
+/* NORTH STAR */
+.ns { background:linear-gradient(135deg,#1A1200,#0A0A0A); border:1px solid rgba(255,204,63,.18); border-radius:12px; padding:18px 22px; margin-bottom:20px; box-shadow:0 0 0 1px rgba(255,204,63,.06); }
+.ns-h { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px; }
+.ns-lbl { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--gold); }
+.ns-sub { font-size:11px; color:#555; }
+.ns-num { font-size:22px; font-weight:700; color:var(--gold); }
+.track { background:#1A1A1A; border-radius:8px; height:9px; overflow:hidden; }
+.fill { height:100%; border-radius:8px; background:linear-gradient(90deg,var(--gold),var(--orange)); transition:width .8s ease; }
 
-/* KPI STRIP */
-.kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:24px;}
-.kpi{background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:16px 14px;position:relative;overflow:hidden;transition:transform .15s,box-shadow .15s;cursor:default;}
-.kpi:hover{transform:translateY(-3px);box-shadow:0 6px 24px rgba(0,0,0,.4);}
-.kpi-top{height:3px;border-radius:2px 2px 0 0;position:absolute;top:0;left:0;right:0;}
-.kpi-platform{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;margin-top:4px;}
-.kpi-val{font-size:26px;font-weight:700;line-height:1;margin-bottom:4px;font-variant-numeric:tabular-nums;}
-.kpi-metric{font-size:9px;color:var(--text3);margin-bottom:5px;text-transform:uppercase;letter-spacing:.05em;}
-.kpi-delta{font-size:10px;font-weight:500;}
-.du{color:#2ECC71;} .dd{color:#E84040;} .dn{color:var(--text3);}
+/* KPI */
+.kpis { display:grid; grid-template-columns:repeat(6,1fr); gap:11px; margin-bottom:20px; }
+.kc { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:14px 12px; box-shadow:0 0 0 1px rgba(255,204,63,.05); transition:.2s; }
+.kc:hover { transform:translateY(-2px); border-color:rgba(255,204,63,.2); }
+.ki { margin-bottom:7px; opacity:.7; }
+.kn { font-size:24px; font-weight:700; color:var(--gold); line-height:1; margin-bottom:3px; }
+.kl { font-size:9px; font-weight:600; text-transform:uppercase; letter-spacing:.1em; color:#444; margin-bottom:5px; }
+.kd { font-size:10px; font-weight:600; color:#555; }
+
+/* SECTION HEADING */
+.sh { display:flex; align-items:center; gap:10px; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid #181818; }
+.sh h2 { font-size:15px; font-weight:700; color:#FFF; }
+.sh-acc { width:38px; height:3px; border-radius:2px; background:var(--gold); margin-top:2px; }
 
 /* TABS */
-.tabs{display:flex;gap:0;margin-bottom:20px;border-bottom:2px solid var(--border);overflow-x:auto;}
-.tabs::-webkit-scrollbar{display:none;}
-.tb{background:transparent;border:none;padding:10px 18px;cursor:pointer;font-family:'Poppins',sans-serif;font-size:12px;font-weight:500;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .15s;white-space:nowrap;display:flex;align-items:center;gap:6px;color:var(--text3);}
-.tb:hover{color:var(--text);}
-.tb.active{font-weight:600;}
-.tb-cnt{border-radius:9px;padding:1px 7px;font-size:9px;font-weight:700;}
+.tabs { display:flex; gap:4px; margin-bottom:18px; flex-wrap:wrap; }
+.tb { padding:7px 13px; border-radius:8px; border:1px solid #2A2A2A; background:#141414; color:#555; font:600 11px 'Poppins',sans-serif; cursor:pointer; transition:.2s; }
+.tb.on { background:rgba(255,204,63,.1); border-color:rgba(255,204,63,.35); color:var(--gold); }
+.tb:hover:not(.on) { color:#999; border-color:#333; }
+.tp { display:none; }
+.tp.on { display:block; }
 
-/* PLATFORM SECTIONS */
-.plat{display:none;}
-.plat.active{display:block;}
-.ph{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
-.pbadge{padding:4px 13px;border-radius:20px;font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;}
-.pdesc{font-size:11px;color:var(--text3);}
-.logic-tag{display:inline-flex;align-items:center;gap:4px;background:rgba(46,204,113,.08);border:1px solid rgba(46,204,113,.25);border-radius:12px;padding:2px 9px;font-size:9px;color:#2ECC71;font-weight:600;}
-.mrow{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
-.mc{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 15px;min-width:120px;flex:1;position:relative;overflow:hidden;}
-.mc-accent{position:absolute;bottom:0;left:0;right:0;height:2px;}
-.mc-v{font-size:22px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums;}
-.mc-l{font-size:9px;font-weight:600;color:var(--text3);letter-spacing:.07em;text-transform:uppercase;margin-top:3px;}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
-.g1{margin-bottom:12px;}
-.card{background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:16px;}
-.card-t{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;}
-.cw{position:relative;height:190px;}
-.tw{max-height:280px;overflow-y:auto;border-radius:9px;border:1px solid var(--border);}
-.tw::-webkit-scrollbar{width:3px;}
-.tw::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
-table{width:100%;border-collapse:collapse;font-size:11px;}
-thead th{background:#111;color:rgba(255,204,63,.8);font-weight:700;font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:9px 11px;text-align:left;border-bottom:1px solid var(--border2);position:sticky;top:0;}
-tbody td{padding:8px 11px;border-bottom:1px solid rgba(255,255,255,.03);color:var(--text2);vertical-align:middle;}
-tbody tr:nth-child(even) td{background:rgba(255,255,255,.015);}
-tbody tr:hover td{background:rgba(255,204,63,.04);}
-.nc{text-align:right;font-variant-numeric:tabular-nums;color:#fff;font-weight:600;}
-.lnk{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:5px;font-size:10px;text-decoration:none;font-family:'Poppins',sans-serif;font-weight:600;transition:all .15s;}
-.big-wrap{display:flex;align-items:center;justify-content:center;padding:40px;}
-.big-inner{text-align:center;}
-.big-num{font-size:76px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;}
-.big-label{font-size:13px;color:var(--text3);margin-top:8px;letter-spacing:.04em;}
-.big-sub{font-size:11px;color:var(--text3);margin-top:4px;opacity:.6;}
-.pub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;}
-.pub-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;}
-.pub-name{font-size:12px;color:#fff;font-weight:600;}
-.pub-count{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;}
-.pub-lbl{font-size:9px;color:var(--text3);}
-.sbox{padding:40px;text-align:center;color:var(--text3);}
-.spin{width:24px;height:24px;border:2px solid var(--border2);border-top-color:var(--gold);border-radius:50%;animation:sp .7s linear infinite;margin:0 auto 10px;}
-@keyframes sp{to{transform:rotate(360deg);}}
-.sbox.err p{color:#E84040;}
-.sbox p{font-size:12px;}
-.sbox .hint{font-size:10px;color:var(--text3);margin-top:5px;}
-.no-data-msg{background:rgba(255,204,63,.05);border:1px solid rgba(255,204,63,.15);border-radius:8px;padding:12px 16px;font-size:11px;color:var(--text3);text-align:center;}
-footer{text-align:center;padding:18px;color:var(--text3);font-size:10px;border-top:1px solid var(--border);margin-top:32px;}
-footer .br{color:var(--gold);font-weight:700;}
-@media(max-width:1300px){.kpi-grid{grid-template-columns:repeat(3,1fr);}.summary-wrap{grid-template-columns:1fr;}}
-@media(max-width:900px){.kpi-grid{grid-template-columns:repeat(2,1fr);}.g2{grid-template-columns:1fr;}.nav-c{display:none;}}
-@media(max-width:500px){.kpi-grid{grid-template-columns:1fr 1fr;}.cfg{width:100%;}.main{padding:12px 14px;}}
+/* CARDS */
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:18px; }
+.card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:18px; }
+.ct { font-size:11px; font-weight:600; color:#666; text-transform:uppercase; letter-spacing:.08em; margin-bottom:12px; }
+.cw { position:relative; height:190px; }
+
+/* TABLES */
+.tw { max-height:270px; overflow-y:auto; border-radius:8px; border:1px solid #1E1E1E; }
+table { width:100%; border-collapse:collapse; font-size:12px; }
+th { background:#0D0D0D; color:#666; font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; padding:9px 11px; text-align:left; border-bottom:1px solid var(--gold); position:sticky; top:0; }
+th:last-child { text-align:right; }
+tr:nth-child(odd) td { background:var(--card); }
+tr:nth-child(even) td { background:#141414; }
+tr:hover td { background:#1F1F1F; }
+td { padding:8px 11px; color:#CCC; vertical-align:middle; }
+td:last-child { text-align:right; font-weight:600; color:var(--gold); }
+.lb { display:inline-block; padding:2px 8px; background:rgba(255,204,63,.08); border:1px solid rgba(255,204,63,.22); border-radius:5px; color:var(--gold); font-size:10px; text-decoration:none; transition:.2s; }
+.lb:hover { background:rgba(255,204,63,.18); }
+.sb { display:inline-block; padding:2px 7px; border-radius:10px; font-size:9px; font-weight:600; }
+.sb.pos { background:rgba(9,155,90,.15); color:#4CAF84; }
+.sb.neg { background:rgba(186,14,19,.15); color:#E05555; }
+.sb.neu { background:rgba(100,100,100,.12); color:#777; }
+
+/* FEED */
+.feed { display:flex; flex-direction:column; gap:7px; max-height:350px; overflow-y:auto; }
+.fc { background:#141414; border:1px solid #1E1E1E; border-radius:8px; padding:11px 13px; transition:.2s; }
+.fc:hover { border-color:#333; }
+.fch { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-bottom:5px; }
+.fct { font-size:12px; color:#DDD; font-weight:500; line-height:1.4; flex:1; }
+.fcm { display:flex; gap:5px; align-items:center; flex-shrink:0; }
+.dot { width:7px; height:7px; border-radius:50%; }
+.fcs { font-size:10px; color:#444; }
+
+/* INTEL */
+.intel { background:linear-gradient(135deg,#12100A,#0A0A0A); border:1px solid rgba(255,204,63,.12); border-radius:12px; padding:18px; }
+.narr { font-size:13px; color:#AAA; line-height:1.7; margin-bottom:12px; font-style:italic; }
+.alist { display:flex; flex-direction:column; gap:7px; }
+.ai { display:flex; gap:9px; align-items:flex-start; background:rgba(255,204,63,.04); border:1px solid rgba(255,204,63,.09); border-radius:8px; padding:9px 11px; }
+.an { width:20px; height:20px; border-radius:50%; background:var(--gold); color:#000; font-size:10px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+.at { font-size:12px; color:#CCC; line-height:1.5; }
+
+/* STATES */
+.loading, .err, .empty { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:36px; text-align:center; gap:7px; }
+.sp { width:26px; height:26px; border:2px solid #2A2A2A; border-top-color:var(--gold); border-radius:50%; animation:spin .8s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.loading p, .empty p { font-size:12px; color:#444; }
+.err p { font-size:12px; color:var(--red); }
+.err .d { color:#444!important; } .err .h { color:#333!important; font-size:10px!important; }
+
+footer { text-align:center; padding:22px; font-size:10px; color:#2A2A2A; border-top:1px solid #181818; margin-top:36px; letter-spacing:.06em; }
+
+/* RESPONSIVE */
+@media(max-width:1100px){.kpis{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr);}.g2{grid-template-columns:1fr;}.cfg{width:100%;right:-100%;}}
+@media(max-width:480px){.nav-title{display:none;}}
 </style>
 </head>
 <body>
+
 <nav class="nav">
-  <div class="logo">
-    <div class="logo-box">P</div>
-    <div><div class="logo-name">POLARIS</div><div class="logo-sub">School of Technology</div></div>
-  </div>
-  <div class="nav-c" id="dashTitle">ORM Intelligence Dashboard</div>
+  <div class="logo">POLARIS <span>SCHOOL OF TECHNOLOGY</span></div>
+  <div class="nav-title">ORM Intelligence Dashboard</div>
   <div class="nav-r">
-    <div class="live-pill"><span class="live-dot"></span>LIVE</div>
-    <span class="sync-t" id="syncLbl">Not synced</span>
-    <button class="btn-gold" onclick="loadAll()">↻ Sync Now</button>
-    <button class="btn-n" onclick="openCfg()">⚙</button>
+    <span class="ts" id="ts">Not loaded</span>
+    <button class="btn" onclick="loadAll()">↺ Refresh</button>
+    <button class="gear" onclick="togCfg()">⚙</button>
   </div>
 </nav>
 
-<!-- DATE FILTER BAR -->
-<div class="filter-bar">
-  <span class="filter-label">Filter by date</span>
-  <div class="date-dropdown-wrap" id="dateDropWrap">
-    <button class="date-drop-btn" onclick="toggleDateDrop(event)">
-      <span id="filterBadge">All time</span>
-      <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left:6px;"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-    </button>
-    <div class="date-drop-menu" id="dateDrop">
-      <button class="drop-opt active" onclick="setFilter('all',this)">All time</button>
-      <button class="drop-opt" onclick="setFilter('today',this)">Today</button>
-      <button class="drop-opt" onclick="setFilter('week',this)">This week</button>
-      <button class="drop-opt" onclick="setFilter('lastweek',this)">Last week</button>
-      <button class="drop-opt" onclick="setFilter('month',this)">This month</button>
-      <div class="drop-sep"></div>
-      <div class="drop-custom-label">Custom range</div>
-      <div class="drop-custom-row">
-        <input type="date" class="date-input" id="dateFrom" value="2026-01-01" min="2026-01-01" onchange="setFilter('custom',null)">
-        <span style="color:var(--text3);font-size:11px;">→</span>
-        <input type="date" class="date-input" id="dateTo" onchange="setFilter('custom',null)">
-        <button class="drop-apply" onclick="setFilter('custom',null)">Apply</button>
-      </div>
+<div class="ov" id="ov" onclick="togCfg()"></div>
+<div class="cfg" id="cfg">
+  <div class="cfg-h">⚙ Dashboard Settings</div>
+
+  <div class="cg">
+    <div class="cg-l">Content Log Sheet (Sheet 1 — You maintain)</div>
+    <div class="cf"><label>Sheet ID</label><input id="s1" placeholder="Paste Sheet 1 ID here"><div class="ch">From URL: docs.google.com/spreadsheets/d/<b>[THIS PART]</b>/edit</div></div>
+  </div>
+
+  <div class="cg">
+    <div class="cg-l">Listening Sheet (Sheet 2 — Automated)</div>
+    <div class="cf"><label>Sheet ID</label><input id="s2" placeholder="Paste Listening Sheet ID here"></div>
+  </div>
+
+  <div class="cg">
+    <div class="cg-l">Content Log Tab Names</div>
+    <div class="cf"><label>Reddit</label><input id="t_reddit" value="Reddit"></div>
+    <div class="cf"><label>Quora Seeding</label><input id="t_quora_seed" value="Quora Seeding"></div>
+    <div class="cf"><label>PST Quora</label><input id="t_pst_quora" value="PST Quora"></div>
+    <div class="cf"><label>YouTube Comments</label><input id="t_yt" value="YouTube Comments"></div>
+    <div class="cf"><label>Newspaper PR</label><input id="t_news" value="Newspaper PR"></div>
+    <div class="cf"><label>Medium</label><input id="t_medium" value="Medium"></div>
+  </div>
+
+  <div class="cg">
+    <div class="cg-l">Listening Sheet Tab Names</div>
+    <div class="cf"><label>Brand Mentions</label><input id="t_brand" value="Brand Mentions"></div>
+    <div class="cf"><label>Competitor Mentions</label><input id="t_comp" value="Competitor Mentions"></div>
+    <div class="cf"><label>Weekly Summary</label><input id="t_weekly" value="Weekly Summary"></div>
+  </div>
+
+  <div class="cg">
+    <div class="cg-l">Goals & Display</div>
+    <div class="cf"><label>North Star goal (live content pieces)</label><input id="goal" type="number" value="500"></div>
+    <div class="cf"><label>Auto-refresh</label>
+      <select id="refr">
+        <option value="2">Every 2 min</option>
+        <option value="5" selected>Every 5 min</option>
+        <option value="10">Every 10 min</option>
+      </select>
     </div>
   </div>
-</div>
 
-<div class="overlay" id="ov" onclick="closeCfg()"></div>
-<div class="cfg" id="cfgPanel">
-  <button class="cfg-x" onclick="closeCfg()">✕</button>
-  <h2>⚙ Settings</h2>
-  <p class="cfg-sub">Auto-saved in your browser.</p>
-  <div class="cfg-hint"><b>Published Base ID</b> — from your Google Sheets publish URL (part after /e/ and before /pub)</div>
-  <div class="cs"><div class="cs-t">Google Sheet</div>
-    <div class="cr"><label>Published Base ID</label><input id="c_pub" value="2PACX-1vQFv6U02jXum9LWA3EpM1Y_kr3USUM952lNVR7nc8Dpbi_FsqXT5YBMa3PjnMbtuZjFVv8sfVK3v48E"></div>
-  </div>
-  <div class="cs"><div class="cs-t">Tab GIDs</div>
-    <div class="cr"><label>Reddit GID</label><input id="c_rGid" value="0"></div>
-    <div class="cr"><label>Quora Seeding GID</label><input id="c_qGid" value="798948706"></div>
-    <div class="cr"><label>PST Quora GID</label><input id="c_pstGid" value="1594247981"></div>
-    <div class="cr"><label>YouTube Comments GID</label><input id="c_ytGid" value="431577379"></div>
-    <div class="cr"><label>Newspaper PR GID</label><input id="c_nGid" value="2123559774"></div>
-    <div class="cr"><label>Medium GID</label><input id="c_mGid" value="1909778130"></div>
-  </div>
-  <div class="cs"><div class="cs-t">Display</div>
-    <div class="cr"><label>Dashboard Title</label><input id="c_title" value="ORM Intelligence Dashboard"></div>
-  </div>
-  <div class="cfg-acts">
-    <button class="btn-save" onclick="saveCfg()">Save &amp; Sync</button>
-    <button class="btn-test" onclick="testConn()">Test All</button>
-  </div>
-  <div class="test-out" id="testOut"></div>
+  <button class="save" onclick="saveCfg()">Save & Reload Data</button>
 </div>
 
 <main class="main">
-  <!-- EXECUTIVE SUMMARY -->
-  <div class="sec-h">Executive Summary</div>
-  <div class="summary-wrap">
-    <div class="sum-card">
-      <div class="sum-title">ORM Performance Snapshot</div>
-      <div class="sum-date" id="sumDate">—</div>
-      <div id="summaryText" class="sum-text"><div class="sum-loading"><div class="sum-spin"></div> Analysing all platforms...</div></div>
-      <div class="sum-charts">
-        <div class="sum-chart-card">
-          <div class="sum-chart-title">Reach by Platform</div>
-          <div class="sum-chart-h"><canvas id="ch_reach"></canvas></div>
-        </div>
-        <div class="sum-chart-card">
-          <div class="sum-chart-title">Content Mix</div>
-          <div class="sum-chart-h"><canvas id="ch_mix"></canvas></div>
-        </div>
+
+  <!-- NORTH STAR -->
+  <div class="ns">
+    <div class="ns-h">
+      <div>
+        <div class="ns-lbl">🎯 North Star — Live Content Goal</div>
+        <div class="ns-sub">Target: <span id="goalT">500</span> live pieces by June 2026</div>
+      </div>
+      <div style="text-align:right">
+        <div class="ns-num" id="liveC">—</div>
+        <div class="ns-sub" id="goalP">Waiting for data…</div>
       </div>
     </div>
-    <div class="ins-col">
-      <div class="ins">
-        <div class="ins-accent" style="background:var(--gold)"></div>
-        <div class="ins-lbl">Top Platform</div>
-        <div class="ins-val" id="ins_top">—</div>
-        <div class="ins-sub" id="ins_topSub">by impressions</div>
-        <div class="ins-bar"><div class="ins-fill" id="ins_topBar" style="width:0%;background:var(--gold)"></div></div>
-      </div>
-      <div class="ins">
-        <div class="ins-accent" style="background:var(--orange)"></div>
-        <div class="ins-lbl">Total Reach</div>
-        <div class="ins-val" id="ins_reach">—</div>
-        <div class="ins-sub">live impressions</div>
-        <div class="ins-bar"><div class="ins-fill" style="width:100%;background:var(--orange)"></div></div>
-      </div>
-      <div class="ins">
-        <div class="ins-accent" style="background:var(--medium)"></div>
-        <div class="ins-lbl">Live Content</div>
-        <div class="ins-val" id="ins_content">—</div>
-        <div class="ins-sub" id="ins_contentSub">pieces published</div>
-        <div class="ins-bar"><div class="ins-fill" style="width:70%;background:var(--medium)"></div></div>
-      </div>
-      <div class="ins">
-        <div class="ins-accent" style="background:var(--youtube)"></div>
-        <div class="ins-lbl">YT Comments</div>
-        <div class="ins-val" id="ins_yt">—</div>
-        <div class="ins-sub">seeded total</div>
-        <div class="ins-bar"><div class="ins-fill" style="width:55%;background:var(--youtube)"></div></div>
-      </div>
+    <div class="track"><div class="fill" id="pf" style="width:0%"></div></div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpis">
+    <div class="kc">
+      <div class="ki"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF4500" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16.72 7.99a2 2 0 1 0-2.32 3.22 4 4 0 0 1-4.8 0A2 2 0 1 0 7.28 7.99"/><circle cx="9" cy="14" r="1" fill="#FF4500"/><circle cx="15" cy="14" r="1" fill="#FF4500"/></svg></div>
+      <div class="kn" id="k_reddit">—</div>
+      <div class="kl">Reddit Posts</div>
+      <div class="kd" id="kd_reddit">Loading…</div>
+    </div>
+    <div class="kc">
+      <div class="ki"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B92B27" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M8 12h8M12 8v8"/></svg></div>
+      <div class="kn" id="k_quora">—</div>
+      <div class="kl">Quora Answers</div>
+      <div class="kd" id="kd_quora">Loading…</div>
+    </div>
+    <div class="kc">
+      <div class="ki"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF0000" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#FF0000"/></svg></div>
+      <div class="kn" id="k_yt">—</div>
+      <div class="kl">YT Comments</div>
+      <div class="kd" id="kd_yt">Loading…</div>
+    </div>
+    <div class="kc">
+      <div class="ki"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D88100" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+      <div class="kn" id="k_news">—</div>
+      <div class="kl">Newspaper PR</div>
+      <div class="kd" id="kd_news">Loading…</div>
+    </div>
+    <div class="kc">
+      <div class="ki"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#099B5A" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
+      <div class="kn" id="k_medium">—</div>
+      <div class="kl">Medium Articles</div>
+      <div class="kd" id="kd_medium">Loading…</div>
+    </div>
+    <div class="kc">
+      <div class="ki"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFCC3F" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+      <div class="kn" id="k_mentions">—</div>
+      <div class="kl">Brand Mentions</div>
+      <div class="kd" id="kd_mentions">7-day feed ↓</div>
     </div>
   </div>
 
-  <!-- KPI STRIP -->
-  <div class="sec-h">Live Platform Overview</div>
-  <div class="kpi-grid">
-    <div class="kpi">
-      <div class="kpi-top" style="background:var(--reddit)"></div>
-      <div class="kpi-platform" style="color:var(--reddit)">Reddit</div>
-      <div class="kpi-val" id="k_rImp" style="color:var(--reddit)">—</div>
-      <div class="kpi-metric">Impressions</div>
-      <div id="k_rD" class="kpi-delta dn">—</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-top" style="background:var(--quora-seed)"></div>
-      <div class="kpi-platform" style="color:var(--quora-seed)">Quora Seeding</div>
-      <div class="kpi-val" id="k_qImp" style="color:var(--quora-seed)">—</div>
-      <div class="kpi-metric">Impressions</div>
-      <div id="k_qD" class="kpi-delta dn">—</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-top" style="background:var(--quora-off)"></div>
-      <div class="kpi-platform" style="color:var(--quora-off)">Quora Official</div>
-      <div class="kpi-val" id="k_pstImp" style="color:var(--quora-off)">—</div>
-      <div class="kpi-metric">Impressions</div>
-      <div id="k_pstD" class="kpi-delta dn">—</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-top" style="background:var(--youtube)"></div>
-      <div class="kpi-platform" style="color:var(--youtube)">YouTube</div>
-      <div class="kpi-val" id="k_ytSum" style="color:var(--youtube)">—</div>
-      <div class="kpi-metric">Comments Seeded</div>
-      <div class="kpi-delta dn">Total</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-top" style="background:var(--newspaper)"></div>
-      <div class="kpi-platform" style="color:var(--newspaper)">Newspaper PR</div>
-      <div class="kpi-val" id="k_nCount" style="color:var(--newspaper)">—</div>
-      <div class="kpi-metric">Articles Published</div>
-      <div class="kpi-delta dn">Count</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-top" style="background:var(--medium)"></div>
-      <div class="kpi-platform" style="color:var(--medium)">Medium</div>
-      <div class="kpi-val" id="k_mCount" style="color:var(--medium)">—</div>
-      <div class="kpi-metric">Live Articles</div>
-      <div class="kpi-delta dn">Published</div>
-    </div>
+  <!-- PLATFORM CONTENT -->
+  <div class="sh">
+    <div><h2>Content Performance</h2><div class="sh-acc"></div></div>
   </div>
 
-  <!-- TABS -->
   <div class="tabs">
-    <button class="tb active" style="color:var(--reddit);border-bottom-color:var(--reddit);" id="tab_btn_reddit" onclick="st('reddit',this,'--reddit')">
-      Reddit <span class="tb-cnt" id="tb_r" style="background:rgba(255,99,20,.15);color:var(--reddit)">—</span>
-    </button>
-    <button class="tb" id="tab_btn_quora" onclick="st('quora',this,'--quora-seed')">
-      Quora Seeding <span class="tb-cnt" id="tb_q" style="background:rgba(232,64,64,.15);color:var(--quora-seed)">—</span>
-    </button>
-    <button class="tb" id="tab_btn_pst" onclick="st('pst',this,'--quora-off')">
-      Quora Official <span class="tb-cnt" id="tb_pst" style="background:rgba(155,89,232,.15);color:var(--quora-off)">—</span>
-    </button>
-    <button class="tb" id="tab_btn_youtube" onclick="st('youtube',this,'--youtube')">
-      YouTube <span class="tb-cnt" id="tb_yt" style="background:rgba(255,45,45,.15);color:var(--youtube)">—</span>
-    </button>
-    <button class="tb" id="tab_btn_newspaper" onclick="st('newspaper',this,'--newspaper')">
-      Newspaper PR <span class="tb-cnt" id="tb_n" style="background:rgba(245,166,35,.15);color:var(--newspaper)">—</span>
-    </button>
-    <button class="tb" id="tab_btn_medium" onclick="st('medium',this,'--medium')">
-      Medium <span class="tb-cnt" id="tb_m" style="background:rgba(46,204,113,.15);color:var(--medium)">—</span>
-    </button>
+    <button class="tb on" onclick="sw('reddit',this)"><span style="color:#FF4500">●</span> Reddit</button>
+    <button class="tb" onclick="sw('quora_seed',this)"><span style="color:#B92B27">●</span> Quora Seeding</button>
+    <button class="tb" onclick="sw('pst_quora',this)"><span style="color:#5939A8">●</span> PST Quora</button>
+    <button class="tb" onclick="sw('yt',this)"><span style="color:#FF0000">●</span> YouTube</button>
+    <button class="tb" onclick="sw('news',this)"><span style="color:#D88100">●</span> Newspaper PR</button>
+    <button class="tb" onclick="sw('medium',this)"><span style="color:#099B5A">●</span> Medium</button>
   </div>
 
-  <!-- REDDIT -->
-  <div class="plat active" id="tab_reddit">
-    <div class="ph">
-      <div class="pbadge" style="background:rgba(255,99,20,.12);color:var(--reddit);border:1px solid rgba(255,99,20,.3)">Reddit</div>
-      <div class="pdesc">Posts · Comments · Impressions</div>
-      <div class="logic-tag">✓ Post Link triggers count</div>
-    </div>
-    <div class="mrow">
-      <div class="mc"><div class="mc-accent" style="background:var(--reddit)"></div><div class="mc-v" id="r_posts">—</div><div class="mc-l">Live Posts</div></div>
-      <div class="mc"><div class="mc-accent" style="background:var(--reddit)"></div><div class="mc-v" id="r_comm">—</div><div class="mc-l">Answer Links</div></div>
-      <div class="mc"><div class="mc-accent" style="background:var(--reddit)"></div><div class="mc-v" id="r_qimp">—</div><div class="mc-l">Post Impressions</div></div>
-      <div class="mc"><div class="mc-accent" style="background:rgba(255,99,20,.5)"></div><div class="mc-v" id="r_aimp">—</div><div class="mc-l">Answer Impressions</div></div>
-      <div class="mc"><div class="mc-accent" style="background:var(--gold)"></div><div class="mc-v" id="r_total" style="color:var(--gold)">—</div><div class="mc-l">Total Impressions</div></div>
-    </div>
+  <div class="tp on" id="tp_reddit">
     <div class="g2">
-      <div class="card"><div class="card-t">Post Impressions</div><div class="cw"><canvas id="ch_rImp"></canvas></div></div>
-      <div class="card"><div class="card-t">Answer Impressions</div><div class="cw"><canvas id="ch_rAns"></canvas></div></div>
+      <div class="card"><div class="ct">Impressions Trend</div><div class="cw"><canvas id="ch_reddit"></canvas></div></div>
+      <div class="card"><div class="ct">Quick Stats</div><div id="st_reddit"></div></div>
     </div>
-    <div class="card g1"><div class="card-t">Live Entries</div>
-      <div class="tw" id="tbl_r"><div class="sbox"><div class="spin"></div><p>Fetching...</p></div></div>
-    </div>
+    <div class="card"><div class="ct">All Reddit Posts</div><div class="tw" id="tb_reddit"><div class="loading"><div class="sp"></div><p>Syncing…</p></div></div></div>
   </div>
 
-  <!-- QUORA SEEDING -->
-  <div class="plat" id="tab_quora">
-    <div class="ph">
-      <div class="pbadge" style="background:rgba(232,64,64,.12);color:var(--quora-seed);border:1px solid rgba(232,64,64,.3)">Quora Seeding</div>
-      <div class="pdesc">Questions · Answers · Impressions</div>
-      <div class="logic-tag">✓ Answer Live Link triggers count</div>
-    </div>
-    <div class="mrow">
-      <div class="mc"><div class="mc-accent" style="background:var(--quora-seed)"></div><div class="mc-v" id="q_qlive">—</div><div class="mc-l">Question Links</div></div>
-      <div class="mc"><div class="mc-accent" style="background:var(--quora-seed)"></div><div class="mc-v" id="q_alive">—</div><div class="mc-l">Answer Links</div></div>
-      <div class="mc"><div class="mc-accent" style="background:var(--quora-seed)"></div><div class="mc-v" id="q_imp">—</div><div class="mc-l">Total Impressions</div></div>
-      <div class="mc"><div class="mc-accent" style="background:rgba(232,64,64,.5)"></div><div class="mc-v" id="q_avg">—</div><div class="mc-l">Avg / Answer</div></div>
-    </div>
+  <div class="tp" id="tp_quora_seed">
     <div class="g2">
-      <div class="card"><div class="card-t">Impressions per Answer</div><div class="cw"><canvas id="ch_qImp"></canvas></div></div>
-      <div class="card"><div class="card-t">Distribution</div><div class="cw"><canvas id="ch_qDist"></canvas></div></div>
+      <div class="card"><div class="ct">Impressions Trend</div><div class="cw"><canvas id="ch_quora_seed"></canvas></div></div>
+      <div class="card"><div class="ct">Quick Stats</div><div id="st_quora_seed"></div></div>
     </div>
-    <div class="card g1"><div class="card-t">Live Q&amp;A Log — sorted by impressions</div>
-      <div class="tw" id="tbl_q"><div class="sbox"><div class="spin"></div><p>Fetching...</p></div></div>
-    </div>
+    <div class="card"><div class="ct">All Quora Seeding Answers</div><div class="tw" id="tb_quora_seed"><div class="loading"><div class="sp"></div><p>Syncing…</p></div></div></div>
   </div>
 
-  <!-- PST QUORA -->
-  <div class="plat" id="tab_pst">
-    <div class="ph">
-      <div class="pbadge" style="background:rgba(155,89,232,.12);color:var(--quora-off);border:1px solid rgba(155,89,232,.3)">Quora Official</div>
-      <div class="pdesc">PST page — answers &amp; impressions</div>
-      <div class="logic-tag">✓ Live Link triggers count</div>
-    </div>
-    <div class="mrow">
-      <div class="mc"><div class="mc-accent" style="background:var(--quora-off)"></div><div class="mc-v" id="pst_live">—</div><div class="mc-l">Live Answers</div></div>
-      <div class="mc"><div class="mc-accent" style="background:var(--quora-off)"></div><div class="mc-v" id="pst_imp">—</div><div class="mc-l">Total Impressions</div></div>
-      <div class="mc"><div class="mc-accent" style="background:var(--quora-off)"></div><div class="mc-v" id="pst_avg">—</div><div class="mc-l">Avg / Answer</div></div>
-      <div class="mc"><div class="mc-accent" style="background:rgba(155,89,232,.5)"></div><div class="mc-v" id="pst_peak">—</div><div class="mc-l">Peak</div></div>
-    </div>
+  <div class="tp" id="tp_pst_quora">
     <div class="g2">
-      <div class="card"><div class="card-t">Impressions per Answer</div><div class="cw"><canvas id="ch_pstImp"></canvas></div></div>
-      <div class="card"><div class="card-t">Distribution</div><div class="cw"><canvas id="ch_pstDist"></canvas></div></div>
+      <div class="card"><div class="ct">Impressions Trend</div><div class="cw"><canvas id="ch_pst_quora"></canvas></div></div>
+      <div class="card"><div class="ct">Quick Stats</div><div id="st_pst_quora"></div></div>
     </div>
-    <div class="card g1"><div class="card-t">Official Answers — sorted by impressions</div>
-      <div class="tw" id="tbl_pst"><div class="sbox"><div class="spin"></div><p>Fetching...</p></div></div>
-    </div>
+    <div class="card"><div class="ct">PST Quora Answers</div><div class="tw" id="tb_pst_quora"><div class="loading"><div class="sp"></div><p>Syncing…</p></div></div></div>
   </div>
 
-  <!-- YOUTUBE -->
-  <div class="plat" id="tab_youtube">
-    <div class="ph">
-      <div class="pbadge" style="background:rgba(255,45,45,.1);color:var(--youtube);border:1px solid rgba(255,45,45,.25)">YouTube</div>
-      <div class="pdesc">Sum of all comments seeded</div>
-    </div>
-    <div class="mrow">
-      <div class="mc"><div class="mc-accent" style="background:var(--youtube)"></div><div class="mc-v" id="yt_sum" style="color:var(--youtube)">—</div><div class="mc-l">Total Seeded</div></div>
-      <div class="mc"><div class="mc-accent" style="background:var(--youtube)"></div><div class="mc-v" id="yt_rows">—</div><div class="mc-l">Channels</div></div>
-      <div class="mc"><div class="mc-accent" style="background:rgba(255,45,45,.5)"></div><div class="mc-v" id="yt_avg">—</div><div class="mc-l">Avg Per Channel</div></div>
-      <div class="mc"><div class="mc-accent" style="background:rgba(255,45,45,.5)"></div><div class="mc-v" id="yt_peak">—</div><div class="mc-l">Peak</div></div>
-    </div>
+  <div class="tp" id="tp_yt">
+    <div class="card"><div class="ct">YouTube Comments Seeded</div><div class="tw" id="tb_yt"><div class="loading"><div class="sp"></div><p>Syncing…</p></div></div></div>
+  </div>
+
+  <div class="tp" id="tp_news">
     <div class="g2">
-      <div class="card"><div class="card-t">Top 20 Channels by Seeded Comments</div><div class="cw"><canvas id="ch_ytBar"></canvas></div></div>
-      <div class="card"><div class="card-t">Volume Distribution</div><div class="cw"><canvas id="ch_ytDist"></canvas></div></div>
+      <div class="card"><div class="ct">PR Coverage Trend</div><div class="cw"><canvas id="ch_news"></canvas></div></div>
+      <div class="card"><div class="ct">Quick Stats</div><div id="st_news"></div></div>
     </div>
-    <div class="card g1"><div class="card-t">All Channels — sorted by comments seeded</div>
-      <div class="tw" id="tbl_yt"><div class="sbox"><div class="spin"></div><p>Fetching...</p></div></div>
-    </div>
+    <div class="card"><div class="ct">All Newspaper Coverage</div><div class="tw" id="tb_news"><div class="loading"><div class="sp"></div><p>Syncing…</p></div></div></div>
   </div>
 
-  <!-- NEWSPAPER -->
-  <div class="plat" id="tab_newspaper">
-    <div class="ph">
-      <div class="pbadge" style="background:rgba(245,166,35,.1);color:var(--newspaper);border:1px solid rgba(245,166,35,.25)">Newspaper PR</div>
-      <div class="pdesc">Articles by publication</div>
-    </div>
-    <div class="mrow">
-      <div class="mc"><div class="mc-accent" style="background:var(--newspaper)"></div><div class="mc-v" id="n_count" style="color:var(--newspaper)">—</div><div class="mc-l">Total Articles</div></div>
-      <div class="mc"><div class="mc-accent" style="background:var(--newspaper)"></div><div class="mc-v" id="n_pubs">—</div><div class="mc-l">Publications</div></div>
-      <div class="mc"><div class="mc-accent" style="background:rgba(245,166,35,.5)"></div><div class="mc-v" id="n_top">—</div><div class="mc-l">Top Publication</div></div>
-    </div>
+  <div class="tp" id="tp_medium">
     <div class="g2">
-      <div class="card"><div class="card-t">Articles by Publication</div><div class="cw"><canvas id="ch_nBar"></canvas></div></div>
-      <div class="card"><div class="card-t">Publication Share</div><div class="cw"><canvas id="ch_nPie"></canvas></div></div>
+      <div class="card"><div class="ct">Articles Published Trend</div><div class="cw"><canvas id="ch_medium"></canvas></div></div>
+      <div class="card"><div class="ct">Quick Stats</div><div id="st_medium"></div></div>
     </div>
-    <div class="card g1"><div class="card-t">Publication Breakdown</div>
-      <div class="pub-grid" id="newsPubGrid"><div class="sbox"><div class="spin"></div><p>Fetching...</p></div></div>
+    <div class="card"><div class="ct">All Medium Articles</div><div class="tw" id="tb_medium"><div class="loading"><div class="sp"></div><p>Syncing…</p></div></div></div>
+  </div>
+
+  <!-- ORM SECTION -->
+  <div class="sh" style="margin-top:32px">
+    <div><h2>ORM Intelligence</h2><div class="sh-acc"></div></div>
+    <span style="font-size:11px;color:#444;margin-left:auto">Auto-collected · Claude-tagged</span>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="ct">Live Brand Mention Feed (last 7 days)</div>
+      <div class="feed" id="brandFeed"><div class="loading"><div class="sp"></div><p>Loading mentions…</p></div></div>
+    </div>
+    <div class="card">
+      <div class="ct">Competitor Sentiment Comparison</div>
+      <div class="cw"><canvas id="ch_comp"></canvas></div>
     </div>
   </div>
 
-  <!-- MEDIUM -->
-  <div class="plat" id="tab_medium">
-    <div class="ph">
-      <div class="pbadge" style="background:rgba(46,204,113,.1);color:var(--medium);border:1px solid rgba(46,204,113,.25)">Medium</div>
-      <div class="pdesc">Live articles — counted when Live Link exists</div>
-      <div class="logic-tag">✓ Live Link column triggers count</div>
+  <div class="g2">
+    <div class="card">
+      <div class="ct">PST Sentiment Trend (weekly)</div>
+      <div class="cw"><canvas id="ch_sent"></canvas></div>
     </div>
-    <div class="big-wrap">
-      <div class="big-inner">
-        <div class="big-num" style="color:var(--medium)" id="med_big">—</div>
-        <div class="big-label">Live Articles on Medium</div>
-        <div class="big-sub" id="med_sub">Updates every 2 minutes</div>
+    <div class="intel">
+      <div class="ct">Weekly Intelligence — Claude Generated</div>
+      <div class="narr" id="narr">Connect your Listening Sheet in ⚙ Settings to load AI-generated weekly intelligence here. This updates every Monday at 8:30 AM automatically once your Apps Script is running.</div>
+      <div class="ct" style="margin-bottom:8px">This Week's Priority Actions</div>
+      <div class="alist" id="alist">
+        <div class="ai"><div class="an">1</div><div class="at">Connect Listening Sheet ID in ⚙ Settings to unlock AI actionables</div></div>
+        <div class="ai"><div class="an">2</div><div class="at">Set up Apps Script automation — see README.md in this repo</div></div>
+        <div class="ai"><div class="an">3</div><div class="at">Run dailyCollection() manually in Apps Script to test first collection</div></div>
       </div>
     </div>
   </div>
+
 </main>
-<footer><span class="br">POLARIS</span> School of Technology &nbsp;·&nbsp; ORM Intelligence Dashboard &nbsp;·&nbsp; Auto-syncs every 2 min &nbsp;·&nbsp; Built by Aditya</footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<footer>Polaris School of Technology &nbsp;·&nbsp; ORM Intelligence Dashboard v2.0 &nbsp;·&nbsp; Built by Aditya &nbsp;·&nbsp; Data auto-syncs every 5 min</footer>
+
 <script>
-const DEF={pub:'2PACX-1vQFv6U02jXum9LWA3EpM1Y_kr3USUM952lNVR7nc8Dpbi_FsqXT5YBMa3PjnMbtuZjFVv8sfVK3v48E',rGid:'0',qGid:'798948706',pstGid:'1594247981',ytGid:'431577379',nGid:'2123559774',mGid:'1909778130',title:'ORM Intelligence Dashboard'};
-let C={...DEF},timer=null,activeFilter='all',rawData={};
-const CH={};
+const DEF = {s1:'',s2:'',t_reddit:'Reddit',t_quora_seed:'Quora Seeding',t_pst_quora:'PST Quora',t_yt:'YouTube Comments',t_news:'Newspaper PR',t_medium:'Medium',t_brand:'Brand Mentions',t_comp:'Competitor Mentions',t_weekly:'Weekly Summary',goal:500,refr:5};
+let C={}, charts={}, timer=null;
 
-// Platform colors matching CSS vars
-const PC={reddit:'#FF6314',quoraSeed:'#E84040',quoraOff:'#9B59E8',youtube:'#FF2D2D',newspaper:'#F5A623',medium:'#2ECC71',gold:'#FFCC3F',orange:'#FF9A3F'};
-
-Chart.defaults.color='#666';
-Chart.defaults.borderColor='rgba(255,255,255,0.04)';
-Chart.defaults.font.family="'Poppins',sans-serif";
-Chart.defaults.font.size=11;
-
-const toN=v=>parseFloat(String(v||'').replace(/[^0-9.-]/g,''))||0;
-const sumA=a=>a.reduce((s,v)=>s+v,0);
-const avgA=a=>a.length?sumA(a)/a.length:0;
-const maxA=a=>a.length?Math.max(...a):0;
-const isLive=v=>v&&String(v).trim().length>3&&(String(v).startsWith('http')||String(v).startsWith('www'));
-
-function fmt(n){if(n===null||n===undefined||n===''||isNaN(n))return'—';n=Number(n);if(n>=1000000)return(n/1000000).toFixed(1)+'M';if(n>=1000)return(n/1000).toFixed(1)+'K';return n.toLocaleString();}
-function set(id,v){const e=document.getElementById(id);if(e)e.textContent=v;}
-function setH(id,v){const e=document.getElementById(id);if(e)e.innerHTML=v;}
-function sbox(id,type,msg,hint=''){const e=document.getElementById(id);if(e)e.innerHTML=`<div class="sbox${type==='err'?' err':''}"><div class="${type==='loading'?'spin':''}"></div><p>${msg}</p>${hint?`<p class="hint">${hint}</p>`:''}</div>`;}
-
-function mkC(id,type,labels,datasets,extra={}){
-  if(CH[id])CH[id].destroy();
-  const el=document.getElementById(id);if(!el)return;
-  CH[id]=new Chart(el,{type,data:{labels,datasets},options:{
-    responsive:true,maintainAspectRatio:false,
-    plugins:{
-      legend:{labels:{color:'#666',usePointStyle:true,pointStyleWidth:8,boxHeight:8,padding:12}},
-      tooltip:{backgroundColor:'#1A1A1A',borderColor:'rgba(255,204,63,0.3)',borderWidth:1,titleColor:PC.gold,bodyColor:'#AAA',padding:10,cornerRadius:8}
-    },
-    scales:type!=='doughnut'&&type!=='pie'?{
-      x:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#555',maxRotation:40}},
-      y:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#555'}}
-    }:undefined,...extra
-  }});
+function loadCfg(){
+  try{const s=localStorage.getItem('p_orm');C=s?{...DEF,...JSON.parse(s)}:{...DEF};}catch(e){C={...DEF};}
+  for(const k in DEF){const el=document.getElementById(k);if(el)el.value=C[k];}
+}
+function saveCfg(){
+  for(const k in DEF){const el=document.getElementById(k);if(el)C[k]=el.type==='number'?parseInt(el.value)||DEF[k]:el.value;}
+  localStorage.setItem('p_orm',JSON.stringify(C));
+  togCfg(); loadAll();
+}
+function togCfg(){document.getElementById('cfg').classList.toggle('on');document.getElementById('ov').classList.toggle('on');}
+function sw(name,btn){
+  document.querySelectorAll('.tp').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('tp_'+name).classList.add('on');
+  btn.classList.add('on');
 }
 
-// ── DATE FILTER ───────────────────────────────────────────────
-function parseDate(str){
-  if(!str)return null;
-  // Handle formats: "26 Mar", "26/03", "26-03-2026", "Jan 1", "9 Jan", "1 Apr", etc.
-  const months={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
-  str=str.trim();
-  // "26 Mar" or "Mar 26"
-  const m1=str.match(/^(\d{1,2})\s+([A-Za-z]{3})(?:\s+(\d{4}))?$/);
-  if(m1){const mo=months[m1[2].toLowerCase()];if(mo!==undefined)return new Date(parseInt(m1[3]||'2026'),mo,parseInt(m1[1]));}
-  const m2=str.match(/^([A-Za-z]{3})\s+(\d{1,2})(?:\s+(\d{4}))?$/);
-  if(m2){const mo=months[m2[1].toLowerCase()];if(mo!==undefined)return new Date(parseInt(m2[3]||'2026'),mo,parseInt(m2[2]));}
-  // "9 Jan" etc
-  const m3=str.match(/^(\d{1,2})\s+([A-Za-z]{3,})$/i);
-  if(m3){const mo=months[m3[2].toLowerCase().slice(0,3)];if(mo!==undefined)return new Date(2026,mo,parseInt(m3[1]));}
-  // ISO
-  const d=new Date(str);if(!isNaN(d))return d;
-  return null;
-}
-
-function getFilterRange(){
-  const now=new Date();
-  const today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
-  if(activeFilter==='all')return null;
-  if(activeFilter==='today')return{from:today,to:new Date(today.getTime()+86399999)};
-  if(activeFilter==='week'){
-    const dow=today.getDay();const mon=new Date(today);mon.setDate(today.getDate()-(dow===0?6:dow-1));
-    return{from:mon,to:new Date(mon.getTime()+6*86400000+86399999)};
-  }
-  if(activeFilter==='lastweek'){
-    const dow=today.getDay();const mon=new Date(today);mon.setDate(today.getDate()-(dow===0?6:dow-1)-7);
-    return{from:mon,to:new Date(mon.getTime()+6*86400000+86399999)};
-  }
-  if(activeFilter==='month')return{from:new Date(now.getFullYear(),now.getMonth(),1),to:new Date(now.getFullYear(),now.getMonth()+1,0,23,59,59)};
-  if(activeFilter==='custom'){
-    const f=document.getElementById('dateFrom').value;
-    const t=document.getElementById('dateTo').value;
-    if(f&&t)return{from:new Date(f),to:new Date(t+'T23:59:59')};
-  }
-  return null;
-}
-
-function filterByDate(rows,dateCol){
-  const range=getFilterRange();
-  if(!range)return rows;
-  return rows.filter(r=>{
-    const raw=r[dateCol]||Object.values(r)[0]||'';
-    const d=parseDate(raw);
-    if(!d)return true;// include if unparseable
-    return d>=range.from&&d<=range.to;
-  });
-}
-
-function setFilter(type,btn){
-  activeFilter=type;
-  document.querySelectorAll('.drop-opt').forEach(b=>b.classList.remove('active'));
-  if(btn)btn.classList.add('active');
-  const labels={'all':'All time','today':'Today','week':'This week','lastweek':'Last week','month':'This month','custom':'Custom range'};
-  set('filterBadge',labels[type]||type);
-  if(type!=='custom')document.getElementById('dateDrop').classList.remove('open');
-  if(Object.keys(rawData).length>0)renderAll();
-}
-
-// ── FETCH ─────────────────────────────────────────────────────
-async function fetchGid(gid){
-  const url=`https://docs.google.com/spreadsheets/d/e/${C.pub}/pub?single=true&output=csv&gid=${gid}`;
+async function fetchCSV(sheetId,tab){
+  if(!sheetId)throw new Error('No Sheet ID — open ⚙ Settings');
+  const url=`https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tab)}`;
   const r=await fetch(url);
-  if(!r.ok)throw new Error(`HTTP ${r.status}`);
+  if(!r.ok)throw new Error('HTTP '+r.status);
   return parseCSV(await r.text());
 }
 
 function parseCSV(txt){
-  const rows=[];let inQ=false,f='',row=[];
-  for(let i=0;i<txt.length;i++){
-    const c=txt[i];
-    if(c==='"'){inQ=!inQ;continue;}
-    if(!inQ&&c===','){row.push(f.trim());f='';continue;}
-    if(!inQ&&(c==='\n'||(c==='\r'&&txt[i+1]==='\n'))){if(c==='\r')i++;row.push(f.trim());rows.push(row);row=[];f='';continue;}
-    f+=c;
-  }
-  if(f||row.length){row.push(f.trim());rows.push(row);}
-  const h=rows[0]||[];
-  return rows.slice(1).filter(r=>r.some(c=>c)).map(r=>{const o={};h.forEach((k,i)=>o[k]=r[i]||'');return o;});
+  const lines=txt.trim().split('\n');
+  const rows=lines.map(l=>{
+    const cols=[]; let cur='',inQ=false;
+    for(const c of l){if(c==='"'){inQ=!inQ;}else if(c===','&&!inQ){cols.push(cur.trim());cur='';}else{cur+=c;}}
+    cols.push(cur.trim()); return cols;
+  });
+  if(rows.length<2)return [];
+  const h=rows[0];
+  return rows.slice(1).map(r=>{const o={};h.forEach((k,i)=>o[k]=r[i]||'');return o;});
 }
 
-// ── RENDER FUNCTIONS ──────────────────────────────────────────
-function renderReddit(){
-  const d=filterByDate(rawData.reddit||[],'Question');// date col not present but filter passes through
-  const h=Object.keys(d[0]||{});
-  const colQL=h[2]||'Question Link';
-  const colQI=h[3]||'Question Impressions';
-  const colAL=h[5]||'Answers Link';
-  const colAI=h[6]||'Answer Impression';
-  const livePosts=d.filter(r=>isLive(r[colQL]));
-  const liveAns=d.filter(r=>isLive(r[colAL]));
-  const postImp=sumA(livePosts.map(r=>toN(r[colQI])));
-  const ansImp=sumA(liveAns.map(r=>toN(r[colAI])));
-  const total=postImp+ansImp;
-  set('k_rImp',fmt(total));setH('k_rD',`<span class="dn">${livePosts.length} posts</span>`);
-  set('r_posts',livePosts.length);set('r_comm',liveAns.length);set('r_qimp',fmt(postImp));set('r_aimp',fmt(ansImp));set('r_total',fmt(total));set('tb_r',livePosts.length);
-  mkC('ch_rImp','bar',livePosts.map((_,i)=>`P${i+1}`),[{label:'Post Imp',data:livePosts.map(r=>toN(r[colQI])),backgroundColor:PC.reddit+'BB',borderRadius:5}]);
-  mkC('ch_rAns','bar',liveAns.map((_,i)=>`A${i+1}`),[{label:'Answer Imp',data:liveAns.map(r=>toN(r[colAI])),backgroundColor:PC.orange+'BB',borderRadius:5}]);
-  if(!livePosts.length){document.getElementById('tbl_r').innerHTML='<div class="no-data-msg">No live posts in selected date range</div>';return;}
-  document.getElementById('tbl_r').innerHTML=`<table><thead><tr><th>#</th><th>Post Link</th><th class="nc">Post Imp</th><th>Answer Link</th><th class="nc">Ans Imp</th></tr></thead><tbody>
-  ${livePosts.map((r,i)=>{const a=liveAns[i]||{};return`<tr><td style="color:var(--text3);font-size:10px;">${i+1}</td>
-  <td><a href="${r[colQL]}" target="_blank" class="lnk" style="background:rgba(255,99,20,.1);border:1px solid rgba(255,99,20,.3);color:var(--reddit)">Post ↗</a></td>
-  <td class="nc">${fmt(r[colQI])}</td>
-  <td>${isLive(a[colAL])?`<a href="${a[colAL]}" target="_blank" class="lnk" style="background:rgba(255,154,63,.1);border:1px solid rgba(255,154,63,.3);color:var(--orange)">Ans ↗</a>`:'<span style="color:var(--text3);font-size:10px;">—</span>'}</td>
-  <td class="nc">${fmt(a[colAI])}</td></tr>`}).join('')}</tbody></table>`;
+const n=v=>parseInt(String(v).replace(/,/g,''))||0;
+const f=v=>{const x=n(v);return x>=1000?(x/1000).toFixed(1)+'k':String(x);};
+const sc=s=>{if(!s)return 'neu';const l=s.toLowerCase();if(l.includes('pos'))return 'pos';if(l.includes('neg'))return 'neg';return 'neu';};
+const sl=s=>{if(!s)return '—';const l=s.toLowerCase();if(l.includes('pos'))return 'Positive';if(l.includes('neg'))return 'Negative';return 'Neutral';};
+const trunc=(s,len)=>s&&s.length>len?s.slice(0,len)+'…':s||'—';
+
+function mkChart(id,type,labels,datasets,opts={}){
+  const canvas=document.getElementById(id);if(!canvas)return;
+  if(charts[id])charts[id].destroy();
+  Chart.defaults.color='#777';Chart.defaults.borderColor='rgba(255,255,255,0.04)';
+  Chart.defaults.font.family='Poppins,sans-serif';Chart.defaults.font.size=10;
+  charts[id]=new Chart(canvas,{type,data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#666',usePointStyle:true,pointStyleWidth:7,boxHeight:7}},tooltip:{backgroundColor:'#1A1A1A',borderColor:'#FFCC3F',borderWidth:1,titleColor:'#FFCC3F',bodyColor:'#BBB',padding:10,cornerRadius:8}},scales:{x:{grid:{color:'rgba(255,255,255,0.02)'},ticks:{color:'#444',maxRotation:30}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#444'}}},...opts}});
 }
 
-function renderQuora(){
-  const d=filterByDate(rawData.quora||[],'DATE');
-  const h=Object.keys(d[0]||{});
-  const colQL=h[5]||'Question Live Link';
-  const colAL=h[6]||'Answer Live Link';
-  const colImp=h[7]||'Impressions';
-  const liveA=d.filter(r=>isLive(r[colAL]));
-  const liveQ=d.filter(r=>isLive(r[colQL]));
-  const total=sumA(liveA.map(r=>toN(r[colImp])));
-  const avg=avgA(liveA.map(r=>toN(r[colImp])));
-  const imps=liveA.map(r=>toN(r[colImp]));
-  set('k_qImp',fmt(total));setH('k_qD',`<span class="dn">${liveA.length} answers</span>`);
-  set('q_qlive',liveQ.length);set('q_alive',liveA.length);set('q_imp',fmt(total));set('q_avg',fmt(Math.round(avg)));set('tb_q',liveA.length);
-  const sorted=[...liveA].sort((a,b)=>toN(b[colImp])-toN(a[colImp]));
-  mkC('ch_qImp','bar',sorted.map((_,i)=>`A${i+1}`),[{label:'Impressions',data:sorted.map(r=>toN(r[colImp])),backgroundColor:PC.quoraSeed+'BB',borderRadius:5}]);
-  const bkts=[0,0,0,0];imps.forEach(v=>{if(v<=50)bkts[0]++;else if(v<=150)bkts[1]++;else if(v<=300)bkts[2]++;else bkts[3]++;});
-  mkC('ch_qDist','doughnut',['0–50','51–150','151–300','300+'],[{data:bkts,backgroundColor:['#333',PC.quoraSeed+'66',PC.quoraSeed+'99',PC.quoraSeed],borderColor:'#181818',borderWidth:2}],{plugins:{legend:{position:'right',labels:{color:'#666',boxHeight:9,padding:8}},tooltip:{backgroundColor:'#1A1A1A',titleColor:PC.gold,bodyColor:'#AAA',padding:9,cornerRadius:7}}});
-  if(!liveA.length){document.getElementById('tbl_q').innerHTML='<div class="no-data-msg">No live answers in selected date range</div>';return;}
-  document.getElementById('tbl_q').innerHTML=`<table><thead><tr><th>#</th><th>Question</th><th>Answer</th><th class="nc">Impressions</th></tr></thead><tbody>
-  ${sorted.map((r,i)=>`<tr><td style="color:var(--text3);font-size:10px;">${i+1}</td>
-  <td>${isLive(r[colQL])?`<a href="${r[colQL]}" target="_blank" class="lnk" style="background:rgba(232,64,64,.1);border:1px solid rgba(232,64,64,.3);color:var(--quora-seed)">Q ↗</a>`:'—'}</td>
-  <td><a href="${r[colAL]}" target="_blank" class="lnk" style="background:rgba(232,64,64,.1);border:1px solid rgba(232,64,64,.3);color:var(--quora-seed)">A ↗</a></td>
-  <td class="nc">${fmt(r[colImp])}</td></tr>`).join('')}</tbody></table>`;
+function mkStats(id,stats){
+  const el=document.getElementById(id);if(!el)return;
+  el.innerHTML=stats.map(s=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #181818"><span style="font-size:12px;color:#777">${s.l}</span><span style="font-size:16px;font-weight:700;color:${s.c||'var(--gold)'}"> ${typeof s.v==='number'?s.v.toLocaleString():s.v}</span></div>`).join('');
 }
 
-function renderPST(){
-  const d=filterByDate(rawData.pst||[],Object.keys((rawData.pst||[{}])[0]||{})[0]);
-  const h=Object.keys(d[0]||{});
-  const colLink=h[4]||'Live Link';
-  const colImp=h[5]||'Impressions';
-  const live=d.filter(r=>isLive(r[colLink]));
-  const imps=live.map(r=>toN(r[colImp]));
-  const total=sumA(imps);
-  set('k_pstImp',fmt(total));setH('k_pstD',`<span class="dn">${live.length} answers</span>`);
-  set('pst_live',live.length);set('pst_imp',fmt(total));set('pst_avg',fmt(Math.round(avgA(imps))));set('pst_peak',fmt(maxA(imps)));set('tb_pst',live.length);
-  const sorted=[...live].sort((a,b)=>toN(b[colImp])-toN(a[colImp]));
-  mkC('ch_pstImp','bar',sorted.map((_,i)=>`A${i+1}`),[{label:'Impressions',data:sorted.map(r=>toN(r[colImp])),backgroundColor:PC.quoraOff+'BB',borderRadius:5}]);
-  const bkts=[0,0,0,0];imps.forEach(v=>{if(v<=5)bkts[0]++;else if(v<=20)bkts[1]++;else if(v<=50)bkts[2]++;else bkts[3]++;});
-  mkC('ch_pstDist','doughnut',['0–5','6–20','21–50','50+'],[{data:bkts,backgroundColor:['#333',PC.quoraOff+'55',PC.quoraOff+'88',PC.quoraOff],borderColor:'#181818',borderWidth:2}],{plugins:{legend:{position:'right',labels:{color:'#666',boxHeight:9,padding:8}},tooltip:{backgroundColor:'#1A1A1A',titleColor:PC.gold,bodyColor:'#AAA',padding:9,cornerRadius:7}}});
-  if(!live.length){document.getElementById('tbl_pst').innerHTML='<div class="no-data-msg">No live answers in selected date range</div>';return;}
-  document.getElementById('tbl_pst').innerHTML=`<table><thead><tr><th>#</th><th>Answer Link</th><th class="nc">Impressions</th></tr></thead><tbody>
-  ${sorted.map((r,i)=>`<tr><td style="color:var(--text3);font-size:10px;">${i+1}</td>
-  <td><a href="${r[colLink]}" target="_blank" class="lnk" style="background:rgba(155,89,232,.1);border:1px solid rgba(155,89,232,.3);color:var(--quora-off)">Answer ↗</a></td>
-  <td class="nc">${fmt(r[colImp])}</td></tr>`).join('')}</tbody></table>`;
+function errEl(id,msg){const el=document.getElementById(id);if(el)el.innerHTML=`<div class="err"><p>⚠ ${msg}</p><p class="h">Check: Sheet published as CSV · Tab name matches config · ID is correct</p></div>`;}
+function emptyEl(id){const el=document.getElementById(id);if(el)el.innerHTML='<div class="empty"><p>No data yet.</p><p>Open ⚙ Settings and add your Sheet ID.</p></div>';}
+
+async function doReddit(){
+  try{
+    const d=await fetchCSV(C.s1,C.t_reddit);
+    const rows=d.filter(r=>r['Post Link']||r['D']);
+    const bm={};rows.forEach(r=>{const k=(r['Date']||'').slice(3,10);bm[k]=(bm[k]||0)+n(r['Post Impressions']||r['E']||0);});
+    const ms=Object.keys(bm).slice(-8);
+    mkChart('ch_reddit','bar',ms,[{label:'Impressions',data:ms.map(m=>bm[m]),backgroundColor:'rgba(255,69,0,0.55)',borderColor:'#FF4500',borderWidth:1.5,borderRadius:4}]);
+    const ti=rows.reduce((s,r)=>s+n(r['Post Impressions']||r['E']||0),0);
+    mkStats('st_reddit',[{l:'Total Posts',v:rows.length},{l:'Total Impressions',v:ti},{l:'Avg per Post',v:rows.length?Math.round(ti/rows.length):0}]);
+    document.getElementById('tb_reddit').innerHTML=`<table><thead><tr><th>Date</th><th>Type</th><th>Question</th><th>Link</th><th>Impressions</th><th>Sentiment</th><th>Subreddit</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r['Date']||'—'}</td><td>${r['Type']||'—'}</td><td>${trunc(r['Question'],55)}</td><td>${r['Post Link']?`<a href="${r['Post Link']}" target="_blank" class="lb">View ↗</a>`:'—'}</td><td>${f(r['Post Impressions']||r['E']||0)}</td><td><span class="sb ${sc(r['Sentiment'])}">${sl(r['Sentiment'])}</span></td><td>${r['Subreddit']||'—'}</td></tr>`).join('')}</tbody></table>`;
+    document.getElementById('k_reddit').textContent=rows.length;
+    document.getElementById('kd_reddit').textContent=f(ti)+' impressions';
+    return rows.length;
+  }catch(e){errEl('tb_reddit',e.message);document.getElementById('k_reddit').textContent='—';return 0;}
 }
 
-function renderYoutube(){
-  const d=filterByDate(rawData.youtube||[],'Date');
-  const h=Object.keys(d[0]||{});
-  const colName=h[1]||'Name';
-  const colSeeded=h[5]||'Comments Seeded';
-  const vals=d.map(r=>toN(r[colSeeded]));
-  const total=sumA(vals);
-  set('k_ytSum',fmt(total));set('yt_sum',fmt(total));set('yt_rows',d.length);set('yt_avg',fmt(Math.round(avgA(vals))));set('yt_peak',fmt(maxA(vals)));set('tb_yt',fmt(total));
-  set('ins_yt',fmt(total));
-  const sorted=[...d].sort((a,b)=>toN(b[colSeeded])-toN(a[colSeeded]));
-  const top20=sorted.slice(0,20);
-  mkC('ch_ytBar','bar',top20.map(r=>(r[colName]||'?').slice(0,14)),[{label:'Seeded',data:top20.map(r=>toN(r[colSeeded])),backgroundColor:PC.youtube+'AA',borderRadius:5}]);
-  const bkts=[0,0,0,0,0];vals.forEach(v=>{if(v===0)bkts[0]++;else if(v<=10)bkts[1]++;else if(v<=30)bkts[2]++;else if(v<=100)bkts[3]++;else bkts[4]++;});
-  mkC('ch_ytDist','doughnut',['Zero','1–10','11–30','31–100','100+'],[{data:bkts,backgroundColor:['#333','rgba(255,100,0,.55)','rgba(255,150,0,.65)',PC.youtube+'99',PC.youtube],borderColor:'#181818',borderWidth:2}],{plugins:{legend:{position:'right',labels:{color:'#666',boxHeight:9,padding:8}},tooltip:{backgroundColor:'#1A1A1A',titleColor:PC.gold,bodyColor:'#AAA',padding:9,cornerRadius:7}}});
-  document.getElementById('tbl_yt').innerHTML=`<table><thead><tr><th>#</th><th>Channel</th><th class="nc">Comments Seeded</th></tr></thead><tbody>
-  ${sorted.slice(0,50).map((r,i)=>`<tr><td style="color:var(--text3);font-size:10px;">${i+1}</td><td>${r[colName]||'—'}</td><td class="nc">${fmt(r[colSeeded])}</td></tr>`).join('')}</tbody></table>`;
+async function doQuoraSeeding(){
+  try{
+    const d=await fetchCSV(C.s1,C.t_quora_seed);
+    const rows=d.filter(r=>r['Answer Live Link']||r['F']);
+    const bm={};rows.forEach(r=>{const k=(r['Date']||'').slice(3,10);bm[k]=(bm[k]||0)+n(r['Impressions']||r['G']||0);});
+    const ms=Object.keys(bm).slice(-8);
+    mkChart('ch_quora_seed','line',ms,[{label:'Impressions',data:ms.map(m=>bm[m]),borderColor:'#B92B27',backgroundColor:'rgba(185,43,39,0.12)',tension:.4,fill:true,pointRadius:4}]);
+    const ti=rows.reduce((s,r)=>s+n(r['Impressions']||r['G']||0),0);
+    mkStats('st_quora_seed',[{l:'Total Answers',v:rows.length},{l:'Total Impressions',v:ti},{l:'Avg Impressions',v:rows.length?Math.round(ti/rows.length):0}]);
+    document.getElementById('tb_quora_seed').innerHTML=`<table><thead><tr><th>Date</th><th>Question</th><th>Q Link</th><th>A Link</th><th>Impressions</th><th>Sentiment</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r['Date']||'—'}</td><td>${trunc(r['Question'],50)}</td><td>${r['Question Live Link']?`<a href="${r['Question Live Link']}" target="_blank" class="lb">Q ↗</a>`:'—'}</td><td>${r['Answer Live Link']?`<a href="${r['Answer Live Link']}" target="_blank" class="lb">A ↗</a>`:'—'}</td><td>${f(r['Impressions']||r['G']||0)}</td><td><span class="sb ${sc(r['Sentiment'])}">${sl(r['Sentiment'])}</span></td></tr>`).join('')}</tbody></table>`;
+    document.getElementById('k_quora').textContent=rows.length;
+    document.getElementById('kd_quora').textContent=f(ti)+' impressions';
+    return rows.length;
+  }catch(e){errEl('tb_quora_seed',e.message);return 0;}
 }
 
-function renderNewspaper(){
-  const d=filterByDate(rawData.newspaper||[],'Publish Date');
-  const h=Object.keys(d[0]||{});
-  const colPub=h[0]||'Publication Name';
-  const pubMap={};d.forEach(r=>{const p=r[colPub]||'Unknown';pubMap[p]=(pubMap[p]||0)+1;});
-  const entries=Object.entries(pubMap).sort((a,b)=>b[1]-a[1]);
-  set('k_nCount',d.length);set('n_count',d.length);set('n_pubs',entries.length);set('n_top',entries[0]?entries[0][0]:'—');set('tb_n',d.length);
-  mkC('ch_nBar','bar',entries.map(e=>e[0]),[{label:'Articles',data:entries.map(e=>e[1]),backgroundColor:PC.newspaper+'BB',borderRadius:5}]);
-  mkC('ch_nPie','doughnut',entries.map(e=>e[0]),[{data:entries.map(e=>e[1]),backgroundColor:entries.map((_,i)=>[PC.newspaper,PC.gold,PC.orange,'#FF6B35','#2ECC71'][i%5]+'CC'),borderColor:'#181818',borderWidth:2}],{plugins:{legend:{position:'right',labels:{color:'#666',boxHeight:9,padding:8}},tooltip:{backgroundColor:'#1A1A1A',titleColor:PC.gold,bodyColor:'#AAA',padding:9,cornerRadius:7}}});
-  document.getElementById('newsPubGrid').innerHTML=entries.map(([pub,count])=>`<div class="pub-card"><div><div class="pub-name">${pub}</div><div class="pub-lbl">articles</div></div><div><div class="pub-count" style="color:var(--newspaper)">${count}</div></div></div>`).join('');
+async function doPSTQuora(){
+  try{
+    const d=await fetchCSV(C.s1,C.t_pst_quora);
+    const rows=d.filter(r=>r['Live Link']||r['E']);
+    const ti=rows.reduce((s,r)=>s+n(r['Impressions']||r['F']||0),0);
+    const keys=rows.map((_,i)=>String(i+1)).slice(-8);
+    mkChart('ch_pst_quora','bar',keys.map(k=>'Q'+k),[{label:'Impressions',data:rows.slice(-8).map(r=>n(r['Impressions']||r['F']||0)),backgroundColor:'rgba(89,57,168,0.55)',borderColor:'#5939A8',borderWidth:1.5,borderRadius:4}]);
+    mkStats('st_pst_quora',[{l:'Total Answers',v:rows.length},{l:'Total Impressions',v:ti}]);
+    document.getElementById('tb_pst_quora').innerHTML=`<table><thead><tr><th>#</th><th>Question</th><th>Link</th><th>Impressions</th><th>Sentiment</th></tr></thead><tbody>${rows.map((r,i)=>`<tr><td>${i+1}</td><td>${trunc(r['Question'],60)}</td><td>${r['Live Link']?`<a href="${r['Live Link']}" target="_blank" class="lb">View ↗</a>`:'—'}</td><td>${f(r['Impressions']||r['F']||0)}</td><td><span class="sb ${sc(r['Sentiment'])}">${sl(r['Sentiment'])}</span></td></tr>`).join('')}</tbody></table>`;
+    return rows.length;
+  }catch(e){errEl('tb_pst_quora',e.message);return 0;}
 }
 
-function renderMedium(){
-  const d=rawData.medium||[];
-  const h=Object.keys(d[0]||{});
-  const colLink=h[6]||'Live Link';
-  const filtered=filterByDate(d,'Date');
-  const live=filtered.filter(r=>isLive(r[colLink])).length;
-  set('k_mCount',live);set('med_big',live);set('tb_m',live+' live');
-  set('med_sub',`${live} of ${d.length} total entries have live links · updates every 2 min`);
+async function doYT(){
+  try{
+    const d=await fetchCSV(C.s1,C.t_yt);
+    const total=d.reduce((s,r)=>s+n(r['Comments Seeded']||r['F']||1),0);
+    document.getElementById('tb_yt').innerHTML=`<table><thead><tr><th>Date</th><th>Channel</th><th>Type</th><th>Video</th><th>Comments Seeded</th></tr></thead><tbody>${d.map(r=>`<tr><td>${r['Date']||r['A']||'—'}</td><td>${r['Channel Name']||r['B']||'—'}</td><td>${r['Type']||r['D']||'—'}</td><td>${r['Video Link']?`<a href="${r['Video Link']}" target="_blank" class="lb">Watch ↗</a>`:'—'}</td><td>${r['Comments Seeded']||r['F']||1}</td></tr>`).join('')}</tbody></table>`;
+    document.getElementById('k_yt').textContent=total;
+    document.getElementById('kd_yt').textContent=d.length+' videos';
+    return d.length;
+  }catch(e){errEl('tb_yt',e.message);return 0;}
 }
 
-function renderAll(){
-  renderReddit();renderQuora();renderPST();renderYoutube();renderNewspaper();renderMedium();
-  buildSummary();
+async function doNewspaper(){
+  try{
+    const d=await fetchCSV(C.s1,C.t_news);
+    const rows=d.filter(r=>r['Published Link']||r['D']);
+    const bm={};rows.forEach(r=>{const k=(r['Publish Date']||r['C']||'').slice(3,10);bm[k]=(bm[k]||0)+1;});
+    const ms=Object.keys(bm).slice(-8);
+    mkChart('ch_news','bar',ms,[{label:'PR Pieces',data:ms.map(m=>bm[m]),backgroundColor:'rgba(216,129,0,0.55)',borderColor:'#D88100',borderWidth:1.5,borderRadius:4}]);
+    const pubs=new Set(rows.map(r=>r['Publication Name']||r['A'])).size;
+    mkStats('st_news',[{l:'Total PR Pieces',v:rows.length},{l:'Publications Covered',v:pubs}]);
+    document.getElementById('tb_news').innerHTML=`<table><thead><tr><th>Publication</th><th>Language</th><th>Date</th><th>Headline</th><th>Link</th><th>Sentiment</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r['Publication Name']||r['A']||'—'}</td><td>${r['Language']||r['B']||'—'}</td><td>${r['Publish Date']||r['C']||'—'}</td><td>${trunc(r['Headline']||r['E'],45)}</td><td>${(r['Published Link']||r['D'])?`<a href="${r['Published Link']||r['D']}" target="_blank" class="lb">Read ↗</a>`:'—'}</td><td><span class="sb ${sc(r['Sentiment']||r['F'])}">${sl(r['Sentiment']||r['F'])}</span></td></tr>`).join('')}</tbody></table>`;
+    document.getElementById('k_news').textContent=rows.length;
+    document.getElementById('kd_news').textContent=pubs+' publications';
+    return rows.length;
+  }catch(e){errEl('tb_news',e.message);return 0;}
 }
 
-function buildSummary(){
-  const rTotal=toN(document.getElementById('r_total').textContent.replace(/[^0-9.KM]/g,'')||0);
-  const qImp=toN(document.getElementById('q_imp').textContent.replace(/[^0-9.KM]/g,'')||0);
-  const pstImp=toN(document.getElementById('pst_imp').textContent.replace(/[^0-9.KM]/g,'')||0);
-  const ytTotal=toN(document.getElementById('yt_sum').textContent.replace(/[^0-9.KM]/g,'')||0);
-  const nCount=toN(document.getElementById('n_count').textContent||0);
-  const mLive=toN(document.getElementById('med_big').textContent||0);
-
-  // Get actual numbers from DS
-  const r=rawData.reddit||[],q=rawData.quora||[],pst=rawData.pst||[],yt=rawData.youtube||[],n=rawData.newspaper||[],m=rawData.medium||[];
-  const rh=Object.keys(r[0]||{});const qh=Object.keys(q[0]||{});const psth=Object.keys(pst[0]||{});const yth=Object.keys(yt[0]||{});const mh=Object.keys(m[0]||{});
-
-  const fr=filterByDate(r,'');const fq=filterByDate(q,'DATE');const fpst=filterByDate(pst,'');const fyt=filterByDate(yt,'Date');const fn=filterByDate(n,'Publish Date');const fm=filterByDate(m,'Date');
-
-  const rPosts=fr.filter(x=>isLive(x[rh[2]])).length;
-  const rImpTotal=sumA(fr.filter(x=>isLive(x[rh[2]])).map(x=>toN(x[rh[3]])))+sumA(fr.filter(x=>isLive(x[rh[5]])).map(x=>toN(x[rh[6]])));
-  const qALive=fq.filter(x=>isLive(x[qh[6]])).length;
-  const qQLive=fq.filter(x=>isLive(x[qh[5]])).length;
-  const qImpReal=sumA(fq.filter(x=>isLive(x[qh[6]])).map(x=>toN(x[qh[7]])));
-  const pstLive=fpst.filter(x=>isLive(x[psth[4]])).length;
-  const pstImpReal=sumA(fpst.filter(x=>isLive(x[psth[4]])).map(x=>toN(x[psth[5]])));
-  const ytTotalReal=sumA(fyt.map(x=>toN(x[yth[5]])));
-  const nCountReal=fn.length;
-  const mLiveReal=fm.filter(x=>isLive(x[mh[6]])).length;
-  const totalReach=rImpTotal+qImpReal+pstImpReal;
-  const totalContent=rPosts+nCountReal+mLiveReal;
-
-  // Insight cards
-  const plats=[{name:'Reddit',val:rImpTotal,c:PC.reddit},{name:'Quora Seeding',val:qImpReal,c:PC.quoraSeed},{name:'Quora Official',val:pstImpReal,c:PC.quoraOff}].filter(p=>p.val>0).sort((a,b)=>b.val-a.val);
-  const top=plats[0]||{name:'—',val:0,c:PC.gold};
-  const topPct=totalReach>0?Math.round((top.val/totalReach)*100):0;
-  set('ins_top',top.name);set('ins_topSub',`${fmt(top.val)} imp · ${topPct}% share`);
-  document.getElementById('ins_topBar').style.width=topPct+'%';
-  document.getElementById('ins_topBar').style.background=top.c;
-  set('ins_reach',fmt(totalReach));set('ins_content',totalContent);
-  set('ins_contentSub',`${rPosts} posts · ${nCountReal} PR · ${mLiveReal} Medium`);
-  set('ins_yt',fmt(ytTotalReal));
-
-  // Charts
-  const reachVals=[rImpTotal,qImpReal,pstImpReal].filter(v=>v>0);
-  const reachLbls=['Reddit','Quora Seeding','Quora Official'].filter((_,i)=>[rImpTotal,qImpReal,pstImpReal][i]>0);
-  mkC('ch_reach','doughnut',reachLbls,[{data:reachVals,backgroundColor:[PC.reddit+'CC',PC.quoraSeed+'CC',PC.quoraOff+'CC'],borderColor:'#181818',borderWidth:3}],{plugins:{legend:{position:'right',labels:{color:'#666',boxHeight:10,padding:10}},tooltip:{backgroundColor:'#1A1A1A',titleColor:PC.gold,bodyColor:'#AAA',padding:9,cornerRadius:7}}});
-
-  const mixD=[],mixL=[],mixC=[];
-  if(rPosts>0){mixL.push('Reddit Posts');mixD.push(rPosts);mixC.push(PC.reddit+'CC');}
-  if(qALive>0){mixL.push('Quora Ans');mixD.push(qALive);mixC.push(PC.quoraSeed+'CC');}
-  if(pstLive>0){mixL.push('PST Ans');mixD.push(pstLive);mixC.push(PC.quoraOff+'CC');}
-  if(nCountReal>0){mixL.push('PR Articles');mixD.push(nCountReal);mixC.push(PC.newspaper+'CC');}
-  if(mLiveReal>0){mixL.push('Medium');mixD.push(mLiveReal);mixC.push(PC.medium+'CC');}
-  mkC('ch_mix','doughnut',mixL,[{data:mixD,backgroundColor:mixC,borderColor:'#181818',borderWidth:3}],{plugins:{legend:{position:'right',labels:{color:'#666',boxHeight:10,padding:10}},tooltip:{backgroundColor:'#1A1A1A',titleColor:PC.gold,bodyColor:'#AAA',padding:9,cornerRadius:7}}});
-
-  // Text
-  let lines=[];
-  if(totalReach>0)lines.push(`Total live impression reach: <b class="hi">${fmt(totalReach)}</b> across all platforms.`);
-  if(rPosts>0)lines.push(`<b>Reddit</b> — <b class="hi">${rPosts}</b> live posts · <b class="hi">${fmt(rImpTotal)}</b> impressions.`);
-  if(qALive>0)lines.push(`<b>Quora Seeding</b> — <b class="hi">${qQLive}</b> questions · <b>${qALive}</b> answers live · <b class="hi">${fmt(qImpReal)}</b> impressions.`);
-  if(pstLive>0)lines.push(`<b>Quora Official</b> — <b class="hi">${pstLive}</b> answers · <b class="hi">${fmt(pstImpReal)}</b> impressions.`);
-  if(ytTotalReal>0)lines.push(`<b>YouTube</b> — <b class="hi">${fmt(ytTotalReal)}</b> comments seeded across ${fyt.length} channels.`);
-  if(nCountReal>0)lines.push(`<b>Newspaper PR</b> — <b class="hi">${nCountReal}</b> articles published.`);
-  if(mLiveReal>0)lines.push(`<b>Medium</b> — <b class="hi">${mLiveReal}</b> live articles.`);
-  if(plats.length>1)lines.push(`<b>Focus:</b> <span class="hi">${top.name}</span> leads at <b>${topPct}%</b> of total reach.`);
-  set('sumDate','As of '+new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}));
-  setH('summaryText',lines.map(l=>`<p style="margin-bottom:7px;">${l}</p>`).join(''));
+async function doMedium(){
+  try{
+    const d=await fetchCSV(C.s1,C.t_medium);
+    const rows=d.filter(r=>r['Live Link']||r['G']);
+    const bm={};rows.forEach(r=>{const k=(r['Date']||r['A']||'').slice(3,10);bm[k]=(bm[k]||0)+1;});
+    const ms=Object.keys(bm).slice(-8);
+    mkChart('ch_medium','line',ms,[{label:'Articles',data:ms.map(m=>bm[m]),borderColor:'#099B5A',backgroundColor:'rgba(9,155,90,0.1)',tension:.4,fill:true,pointRadius:4}]);
+    const tr=rows.reduce((s,r)=>s+n(r['Reads']||r['H']||0),0);
+    mkStats('st_medium',[{l:'Published Articles',v:rows.length},{l:'Total Reads',v:tr}]);
+    document.getElementById('tb_medium').innerHTML=`<table><thead><tr><th>Date</th><th>Title</th><th>Author</th><th>Link</th><th>Reads</th><th>Sentiment</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r['Date']||r['A']||'—'}</td><td>${trunc(r['Title']||r['C'],48)}</td><td>${r['Author']||r['E']||'—'}</td><td>${(r['Live Link']||r['G'])?`<a href="${r['Live Link']||r['G']}" target="_blank" class="lb">Read ↗</a>`:'—'}</td><td>${f(r['Reads']||r['H']||0)}</td><td><span class="sb ${sc(r['Sentiment']||r['I'])}">${sl(r['Sentiment']||r['I'])}</span></td></tr>`).join('')}</tbody></table>`;
+    document.getElementById('k_medium').textContent=rows.length;
+    document.getElementById('kd_medium').textContent=f(tr)+' reads';
+    return rows.length;
+  }catch(e){errEl('tb_medium',e.message);return 0;}
 }
 
-// ── LOAD ALL ──────────────────────────────────────────────────
+async function doBrandFeed(){
+  if(!C.s2){document.getElementById('brandFeed').innerHTML='<div class="empty"><p>Add Listening Sheet ID in ⚙ Settings</p></div>';document.getElementById('k_mentions').textContent='—';return;}
+  try{
+    const d=await fetchCSV(C.s2,C.t_brand);
+    document.getElementById('k_mentions').textContent=d.length;
+    const pc={'Reddit':'#FF4500','YouTube':'#FF0000','News':'#D88100','Quora':'#B92B27'};
+    if(!d.length){document.getElementById('brandFeed').innerHTML='<div class="empty"><p>No mentions yet. Run dailyCollection() in Apps Script.</p></div>';return;}
+    document.getElementById('brandFeed').innerHTML=d.slice(0,20).map(r=>`
+      <div class="fc">
+        <div class="fch">
+          <div class="fct">${r['Title / Headline']||r['C']||'Untitled'}</div>
+          <div class="fcm"><div class="dot" style="background:${pc[r['Source Platform']]||'#555'}"></div><span class="sb ${sc(r['Sentiment']||r['H'])}" style="font-size:9px">${sl(r['Sentiment']||r['H'])}</span></div>
+        </div>
+        <div class="fcs">${r['Source Platform']||'—'} · ${r['Author / Channel']||r['F']||'—'} · ${(r['Date Collected']||r['A']||'—').slice(0,10)}${(r['Link']||r['E'])?' · <a href="'+(r['Link']||r['E'])+'" target="_blank" class="lb" style="font-size:9px">View ↗</a>':''}</div>
+      </div>`).join('');
+  }catch(e){document.getElementById('brandFeed').innerHTML=`<div class="err"><p>⚠ ${e.message}</p><p class="h">Check Listening Sheet ID in ⚙ Settings</p></div>`;}
+}
+
+async function doCompetitor(){
+  if(!C.s2){mkChart('ch_comp','bar',['PST','Scaler','Newton','upGrad'],[{label:'Positive %',data:[0,0,0,0],backgroundColor:['rgba(255,204,63,0.5)','rgba(255,154,63,0.4)','rgba(89,57,168,0.4)','rgba(186,14,19,0.4)'],borderRadius:4}]);return;}
+  try{
+    const d=await fetchCSV(C.s2,C.t_comp);
+    const pp=name=>{const r=d.filter(x=>(x['Competitor']||x['B']||'').toLowerCase().includes(name.toLowerCase()));if(!r.length)return 0;return Math.round(r.filter(x=>sc(x['Sentiment Toward Competitor']||x['G'])==='pos').length/r.length*100);};
+    mkChart('ch_comp','bar',['PST Content','Scaler','Newton School','upGrad'],[{label:'Positive Sentiment %',data:[75,pp('Scaler'),pp('Newton'),pp('upGrad')],backgroundColor:['rgba(255,204,63,0.65)','rgba(255,154,63,0.45)','rgba(89,57,168,0.45)','rgba(186,14,19,0.45)'],borderColor:['#FFCC3F','#FF9A3F','#5939A8','#BA0E13'],borderWidth:1.5,borderRadius:5}]);
+  }catch(e){mkChart('ch_comp','bar',['PST','Scaler','Newton','upGrad'],[{label:'Positive %',data:[0,0,0,0],backgroundColor:'rgba(255,204,63,0.5)',borderRadius:4}]);}
+}
+
+async function doWeekly(){
+  if(!C.s2)return;
+  try{
+    const d=await fetchCSV(C.s2,C.t_weekly);
+    if(!d.length)return;
+    const lat=d[d.length-1];
+    const narr=lat['AI Narrative']||lat['J']||'';
+    const a1=lat['Top Actionable 1']||lat['K']||'';
+    const a2=lat['Top Actionable 2']||lat['L']||'';
+    const a3=lat['Top Actionable 3']||lat['M']||'';
+    if(narr)document.getElementById('narr').textContent=narr;
+    const acts=[a1,a2,a3].filter(Boolean);
+    if(acts.length)document.getElementById('alist').innerHTML=acts.map((a,i)=>`<div class="ai"><div class="an">${i+1}</div><div class="at">${a}</div></div>`).join('');
+    // Sentiment chart
+    const wks=d.slice(-8);
+    mkChart('ch_sent','bar',wks.map(w=>w['Week Start Date']||w['A']||''),[
+      {label:'PST Positive %',data:wks.map(w=>parseFloat(w['PST Positive %']||w['C']||0)),backgroundColor:'rgba(9,155,90,0.55)',borderRadius:4},
+      {label:'Competitor Mentions',data:wks.map(w=>n(w['Total Competitor Mentions']||w['D']||0)),backgroundColor:'rgba(255,154,63,0.45)',borderRadius:4}
+    ]);
+  }catch(e){}
+}
+
+function updateNS(counts){
+  const total=Object.values(counts).reduce((s,v)=>s+v,0);
+  const goal=parseInt(C.goal)||500;
+  const pct=Math.min(100,Math.round(total/goal*100));
+  document.getElementById('liveC').textContent=total.toLocaleString();
+  document.getElementById('goalT').textContent=goal.toLocaleString();
+  document.getElementById('goalP').textContent=pct+'% of goal · '+(goal-total)+' remaining';
+  document.getElementById('pf').style.width=pct+'%';
+}
+
 async function loadAll(){
-  set('syncLbl','Syncing...');
-  const gids=[{k:'reddit',g:C.rGid},{k:'quora',g:C.qGid},{k:'pst',g:C.pstGid},{k:'youtube',g:C.ytGid},{k:'newspaper',g:C.nGid},{k:'medium',g:C.mGid}];
-  await Promise.allSettled(gids.map(async({k,g})=>{
-    try{rawData[k]=await fetchGid(g);}
-    catch(e){console.error(k,e);rawData[k]=[];}
-  }));
-  renderAll();
-  set('syncLbl','Synced '+new Date().toLocaleTimeString());
+  document.getElementById('ts').textContent='Loading…';
+  const [r,q,pq,y,n2,m]=await Promise.all([doReddit(),doQuoraSeeding(),doPSTQuora(),doYT(),doNewspaper(),doMedium()]);
+  await Promise.all([doBrandFeed(),doCompetitor(),doWeekly()]);
+  updateNS({r,q,pq,y,n:n2,m});
+  document.getElementById('ts').textContent='Updated '+new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
   if(timer)clearInterval(timer);
-  timer=setInterval(loadAll,2*60*1000);
+  timer=setInterval(loadAll,(parseInt(C.refr)||5)*60000);
 }
 
-function st(id,btn,colorVar){
-  document.querySelectorAll('.plat').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.tb').forEach(b=>{b.classList.remove('active');b.style.color='var(--text3)';b.style.borderBottomColor='transparent';});
-  document.getElementById('tab_'+id).classList.add('active');
-  btn.classList.add('active');
-  const col=getComputedStyle(document.documentElement).getPropertyValue(colorVar.replace('--','--')).trim()||'var(--gold)';
-  btn.style.color=`var(${colorVar})`;
-  btn.style.borderBottomColor=`var(${colorVar})`;
-}
-
-const FLDS=['pub','rGid','qGid','pstGid','ytGid','nGid','mGid','title'];
-function loadCfg(){const s=localStorage.getItem('p_orm_v6');if(s)C={...DEF,...JSON.parse(s)};FLDS.forEach(k=>{const e=document.getElementById('c_'+k);if(e)e.value=C[k]||'';});set('dashTitle',C.title);}
-function saveCfg(){FLDS.forEach(k=>{const e=document.getElementById('c_'+k);if(e)C[k]=e.value.trim();});localStorage.setItem('p_orm_v6',JSON.stringify(C));set('dashTitle',C.title);closeCfg();loadAll();}
-function resetCfg(){if(!confirm('Reset?'))return;C={...DEF};localStorage.removeItem('p_orm_v6');loadCfg();}
-
-async function testConn(){
-  const pub=document.getElementById('c_pub').value.trim();
-  if(!pub){setH('testOut','<div class="tfail">✗ Enter Published Base ID first</div>');return;}
-  const tabs=[{l:'Reddit',g:'c_rGid'},{l:'Quora',g:'c_qGid'},{l:'PST Quora',g:'c_pstGid'},{l:'YouTube',g:'c_ytGid'},{l:'Newspaper PR',g:'c_nGid'},{l:'Medium',g:'c_mGid'}];
-  setH('testOut','<div style="color:var(--gold);font-size:11px;margin-top:8px;">Testing all 6...</div>');
-  const res=await Promise.all(tabs.map(async t=>{
-    const gid=document.getElementById(t.g).value;
-    try{
-      const r=await fetch(`https://docs.google.com/spreadsheets/d/e/${pub}/pub?single=true&output=csv&gid=${gid}`);
-      if(!r.ok)return{l:t.l,ok:false,m:`HTTP ${r.status}`};
-      const rows=(await r.text()).trim().split('\n').length-1;
-      return{l:t.l,ok:true,m:`${rows} rows ✓`};
-    }catch(e){return{l:t.l,ok:false,m:e.message};}
-  }));
-  setH('testOut',res.map(r=>`<div class="${r.ok?'tok':'tfail'}">${r.ok?'✓':'✗'} <b>${r.l}</b>: ${r.m}</div>`).join(''));
-}
-
-function toggleDateDrop(e){e.stopPropagation();document.getElementById('dateDrop').classList.toggle('open');}
-document.addEventListener('click',function(e){const w=document.getElementById('dateDropWrap');if(w&&!w.contains(e.target))document.getElementById('dateDrop').classList.remove('open');});
-
-function openCfg(){document.getElementById('cfgPanel').classList.add('open');document.getElementById('ov').classList.add('open');}
-function closeCfg(){document.getElementById('cfgPanel').classList.remove('open');document.getElementById('ov').classList.remove('open');}
-
-// Set default dateTo to today
-document.getElementById('dateTo').value=new Date().toISOString().split('T')[0];
 loadCfg();
 loadAll();
 </script>
