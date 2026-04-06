@@ -2,272 +2,252 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Polaris ORM Intelligence Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 :root{
-  --gold:#FFCC3F;--orange:#FF9A3F;--amber:#D88100;--black:#020202;
-  --purple:#5939A8;--green:#099B5A;--red:#BA0E13;
-  --card:#111318;--border:#1E2028;--bg:#080A0F;
-  --reddit:#FF4500;--quora:#B92B27;--youtube:#FF0000;
-  --medium:#099B5A;--newspaper:#D88100;--blue:#3B82F6;
-  --text:#E2E8F0;--muted:#666;--dim:#333;
+  --gold:#FFCC3F; --orange:#FF9A3F; --amber:#F59E0B;
+  --bg:#050508; --card:#0F1117; --card2:#161820; --border:#252830;
+  --reddit:#FF5722; --quora:#E53935; --youtube:#F44336;
+  --medium:#00C853; --newspaper:#FFB300; --purple:#7C4DFF; --blue:#2979FF;
+  --pos:#00E676; --neg:#FF1744; --neu:#90A4AE;
+  --text:#F1F5F9; --muted:#94A3B8; --dim:#475569;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;min-height:100vh;}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
 ::-webkit-scrollbar{width:4px;height:4px;}
-::-webkit-scrollbar-track{background:#0D0F14;}
+::-webkit-scrollbar-track{background:#080A0F;}
 ::-webkit-scrollbar-thumb{background:#2A2D36;border-radius:4px;}
 
-/* NAV */
-.nav{position:sticky;top:0;z-index:200;background:rgba(8,10,15,0.96);backdrop-filter:blur(20px);border-bottom:1px solid #1A1D26;padding:0 20px;height:58px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
-.nav-logo{font-family:'Poppins',sans-serif;font-size:12px;font-weight:700;letter-spacing:.16em;color:var(--gold);white-space:nowrap;}
-.nav-logo span{color:var(--orange);}
-.nav-tabs{display:flex;gap:2px;background:#0D0F14;border:1px solid #1A1D26;border-radius:9px;padding:3px;}
-.nav-tab{padding:5px 14px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;border:none;background:transparent;color:#555;transition:.2s;white-space:nowrap;font-family:'Poppins',sans-serif;}
-.nav-tab.on{background:#1A1D26;color:var(--gold);}
-.nav-tab:hover:not(.on){color:#999;}
-.nav-r{display:flex;align-items:center;gap:7px;}
-.ts{font-size:10px;color:#444;white-space:nowrap;}
-.btn{padding:6px 12px;border-radius:7px;font:600 11px 'Poppins',sans-serif;cursor:pointer;border:none;transition:.2s;}
-.btn-gold{background:var(--gold);color:#000;}.btn-gold:hover{background:#FFD966;}
-.btn-out{background:rgba(255,204,63,.07);border:1px solid rgba(255,204,63,.2);color:var(--gold);}.btn-out:hover{background:rgba(255,204,63,.14);}
-.btn-ghost{background:rgba(255,255,255,.03);border:1px solid #1E2028;color:#777;}.btn-ghost:hover{border-color:#333;color:#CCC;}
-.dl-btn{display:flex;align-items:center;gap:5px;padding:6px 13px;border-radius:7px;background:linear-gradient(135deg,var(--gold),var(--orange));color:#000;font:700 11px 'Poppins',sans-serif;border:none;cursor:pointer;white-space:nowrap;}
-.dl-btn:hover{filter:brightness(1.1);}
-.voice-btn{width:32px;height:32px;border-radius:50%;border:1px solid #1A1D26;background:#0D0F14;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:.2s;}
-.voice-btn:hover{border-color:var(--gold);}
-.voice-btn.rec{background:rgba(186,14,19,.2);border-color:var(--red);animation:pulse 1s infinite;}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(186,14,19,.4)}50%{box-shadow:0 0 0 5px rgba(186,14,19,0)}}
+/* ── NAV ── */
+.nav{position:sticky;top:0;z-index:200;background:rgba(5,5,8,0.97);border-bottom:2px solid var(--gold);padding:0 20px;height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.logo{font-size:13px;font-weight:700;letter-spacing:.18em;color:var(--gold);white-space:nowrap;}
+.logo span{color:var(--orange);}
+.page-tabs{display:flex;gap:2px;background:#0D0F14;border:1px solid #1E2230;border-radius:9px;padding:3px;}
+.ptab{padding:6px 16px;border-radius:7px;font:600 11px 'Poppins',sans-serif;cursor:pointer;border:none;background:transparent;color:#556;transition:.2s;white-space:nowrap;}
+.ptab.on{background:#1A1D2A;color:var(--gold);}
+.ptab:hover:not(.on){color:#AAB;}
+.nav-r{display:flex;align-items:center;gap:8px;}
+.ts{font-size:11px;color:var(--muted);white-space:nowrap;}
+.btn{padding:7px 14px;border-radius:8px;font:600 11px 'Poppins',sans-serif;cursor:pointer;border:none;transition:.2s;}
+.btn-gold{background:var(--gold);color:#000;}.btn-gold:hover{background:#FFD84D;}
+.btn-out{background:rgba(255,204,63,.1);border:1px solid rgba(255,204,63,.3);color:var(--gold);}.btn-out:hover{background:rgba(255,204,63,.18);}
+.btn-ghost{background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--muted);}.btn-ghost:hover{color:#DDD;}
+.dl-btn{display:flex;align-items:center;gap:5px;padding:7px 14px;border-radius:8px;background:linear-gradient(135deg,var(--gold),var(--orange));color:#000;font:700 11px 'Poppins',sans-serif;border:none;cursor:pointer;}
+.dl-btn:hover{filter:brightness(1.08);}
 
-/* MAIN */
-.main{max-width:1400px;margin:0 auto;padding:18px 20px;}
+/* ── MAIN ── */
+.main{max-width:1440px;margin:0 auto;padding:18px 20px;}
 .page{display:none;}.page.on{display:block;}
 
-/* NORTH STAR */
-.ns{background:linear-gradient(135deg,#14100A,#0A0C12);border:1px solid rgba(255,204,63,.14);border-radius:13px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
-.ns-track{background:#1A1D26;border-radius:6px;height:7px;overflow:hidden;flex:1;min-width:120px;}
+/* ── NORTH STAR ── */
+.ns{background:linear-gradient(135deg,#1A1200,#0A0C14);border:1px solid rgba(255,204,63,.2);border-radius:14px;padding:16px 22px;margin-bottom:16px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
+.ns-left{flex:1;}
+.ns-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--gold);margin-bottom:6px;}
+.ns-track{background:#1A1D26;border-radius:6px;height:8px;overflow:hidden;}
 .ns-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--gold),var(--orange));transition:width 1s ease;}
-.ns-num{font-size:26px;font-weight:700;color:var(--gold);line-height:1;}
-.ns-sub{font-size:10px;color:#555;margin-top:2px;}
-.ns-lbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--gold);margin-bottom:6px;}
-.ns-badge{background:#0A0C11;border-radius:8px;padding:8px 13px;border:1px solid #1A1D26;text-align:center;flex-shrink:0;}
-.ns-badge-n{font-size:15px;font-weight:700;line-height:1;}
-.ns-badge-l{font-size:9px;color:#444;text-transform:uppercase;letter-spacing:.1em;margin-top:2px;}
+.ns-num{font-size:32px;font-weight:700;color:var(--gold);line-height:1;}
+.ns-sub{font-size:11px;color:var(--muted);margin-top:3px;}
+.ns-badge{background:#0D0F18;border-radius:9px;padding:9px 14px;border:1px solid var(--border);text-align:center;}
+.ns-bn{font-size:16px;font-weight:700;line-height:1;margin-bottom:3px;}
+.ns-bl{font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;}
 
-/* KPIs */
+/* ── KPIs ── */
 .kpis{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-bottom:16px;}
-.kpi{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px 11px;cursor:pointer;transition:.2s;}
-.kpi:hover{border-color:#2A2D36;transform:translateY(-1px);}
-.kpi.on{border-color:rgba(255,204,63,.3);background:#14110A;}
-.kpi-icon{font-size:17px;margin-bottom:5px;}
-.kpi-n{font-size:20px;font-weight:700;line-height:1;margin-bottom:3px;}
-.kpi-l{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#444;margin-bottom:3px;}
-.kpi-s{font-size:10px;color:#444;}
+.kpi{background:var(--card);border:2px solid var(--border);border-radius:13px;padding:14px 12px;cursor:pointer;transition:.2s;position:relative;overflow:hidden;}
+.kpi:hover{transform:translateY(-2px);}
+.kpi.on{border-color:var(--gold);background:#13110A;}
+.kpi-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.kpi-icon{font-size:18px;}
+.kpi-status{width:8px;height:8px;border-radius:50%;}
+.kpi-n{font-size:26px;font-weight:700;line-height:1;margin-bottom:4px;}
+.kpi-l{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:3px;}
+.kpi-s{font-size:10px;color:var(--dim);}
+.kpi-fetch{font-size:9px;margin-top:4px;padding:2px 7px;border-radius:4px;display:inline-block;font-weight:600;}
+.kpi-fetch.live{background:rgba(0,230,118,.12);color:var(--pos);}
+.kpi-fetch.manual{background:rgba(245,158,11,.1);color:var(--amber);}
+.kpi-fetch.offline{background:rgba(255,23,68,.1);color:var(--neg);}
 
-/* DATE BAR */
-.date-bar{display:flex;gap:7px;align-items:center;flex-wrap:wrap;background:#0D0F14;border:1px solid #1A1D26;border-radius:9px;padding:9px 13px;margin-bottom:14px;}
-.date-lbl{font-size:10px;color:#444;white-space:nowrap;}
-.d-btn{padding:5px 11px;border-radius:6px;border:1px solid #1A1D26;background:#0A0C11;color:#555;font:600 10px 'Poppins',sans-serif;cursor:pointer;transition:.2s;}
-.d-btn.on{background:rgba(255,204,63,.1);border-color:rgba(255,204,63,.28);color:var(--gold);}
-.d-input{background:#0A0C11;border:1px solid #1A1D26;color:#CCC;font:12px 'Poppins',sans-serif;padding:5px 9px;border-radius:6px;outline:none;}
-.d-input:focus{border-color:rgba(255,204,63,.3);}
-.sheet-status{margin-left:auto;font-size:10px;}
+/* ── DATE BAR ── */
+.date-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 15px;margin-bottom:16px;}
+.dlbl{font-size:10px;color:var(--dim);white-space:nowrap;font-weight:600;text-transform:uppercase;letter-spacing:.08em;}
+.d-btn{padding:5px 12px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--dim);font:600 10px 'Poppins',sans-serif;cursor:pointer;transition:.2s;}
+.d-btn.on{background:rgba(255,204,63,.12);border-color:rgba(255,204,63,.4);color:var(--gold);}
+.d-input{background:#0A0C14;border:1px solid var(--border);color:var(--text);font:11px 'Poppins',sans-serif;padding:5px 10px;border-radius:7px;outline:none;}
+.d-input:focus{border-color:rgba(255,204,63,.4);}
+.sheet-ok{margin-left:auto;font-size:10px;font-weight:600;padding:4px 10px;border-radius:6px;}
+.sheet-ok.yes{background:rgba(0,230,118,.1);color:var(--pos);}
+.sheet-ok.no{background:rgba(255,23,68,.1);color:var(--neg);}
 
-/* CARDS */
-.card{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:17px;margin-bottom:13px;}
-.ct{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#444;margin-bottom:12px;}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:13px;}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px;margin-bottom:13px;}
-.chart-wrap{position:relative;height:190px;}
+/* ── CARDS ── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:18px;margin-bottom:14px;}
+.card2{background:var(--card2);}
+.ct{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:13px;display:flex;align-items:center;gap:7px;}
+.ct-dot{width:8px;height:8px;border-radius:50%;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:14px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px;margin-bottom:14px;}
+.cw{position:relative;height:195px;}
 
-/* TABLES */
-.tw{max-height:260px;overflow-y:auto;border-radius:8px;border:1px solid #1A1D26;}
-table{width:100%;border-collapse:collapse;font-size:11px;}
-th{background:#0A0C11;color:#555;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:8px 10px;text-align:left;border-bottom:1px solid rgba(255,204,63,.12);position:sticky;top:0;}
-th.r{text-align:right;}
-tr:nth-child(odd) td{background:#0E1016;}
-tr:nth-child(even) td{background:#111318;}
-tr:hover td{background:#161921;}
-td{padding:7px 10px;color:#CCC;vertical-align:middle;}
-td.r{text-align:right;font-weight:600;color:var(--gold);}
-.lb{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;background:rgba(255,204,63,.07);border:1px solid rgba(255,204,63,.18);border-radius:5px;color:var(--gold);font-size:10px;text-decoration:none;transition:.2s;}
-.lb:hover{background:rgba(255,204,63,.14);}
-.sb{display:inline-block;padding:2px 6px;border-radius:8px;font-size:9px;font-weight:700;}
-.sb.pos{background:rgba(9,155,90,.16);color:#4ADE80;border:1px solid rgba(9,155,90,.2);}
-.sb.neg{background:rgba(186,14,19,.16);color:#F87171;border:1px solid rgba(186,14,19,.2);}
-.sb.neu{background:rgba(100,100,100,.1);color:#777;border:1px solid #1A1D26;}
-
-/* PLATFORM TABS */
-.ptabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:14px;}
-.ptab{padding:6px 12px;border-radius:8px;border:1px solid #1A1D26;background:#0D0F14;color:#555;font:600 11px 'Poppins',sans-serif;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:5px;}
-.ptab.on{background:rgba(255,255,255,.04);border-color:#2A2D36;color:#DDD;}
-.ptab:hover:not(.on){color:#888;}
-.pdot{width:6px;height:6px;border-radius:50%;}
-.dot-g{background:var(--green);box-shadow:0 0 4px var(--green);}
-.dot-a{background:var(--amber);}
-.dot-r{background:#333;}
+/* ── PLATFORM SELECTOR ── */
+.plat-selector{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
+.plat-btn{display:flex;align-items:center;gap:7px;padding:8px 15px;border-radius:10px;border:2px solid var(--border);background:var(--card);color:var(--muted);font:600 11px 'Poppins',sans-serif;cursor:pointer;transition:.2s;}
+.plat-btn:hover{border-color:#3A3D4A;color:var(--text);}
+.plat-btn.on{background:#0D0F18;color:var(--text);}
+.plat-btn .pb-dot{width:9px;height:9px;border-radius:50%;}
+.plat-btn .pb-status{font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;margin-left:2px;}
+.pb-live{background:rgba(0,230,118,.15);color:var(--pos);}
+.pb-manual{background:rgba(245,158,11,.12);color:var(--amber);}
+.pb-off{background:rgba(255,23,68,.1);color:var(--neg);}
 .plat-content{display:none;}.plat-content.on{display:block;}
 
-/* FEED */
-.feed{display:flex;flex-direction:column;gap:6px;max-height:330px;overflow-y:auto;}
-.fc{background:#0E1016;border:1px solid #1A1D26;border-radius:8px;padding:10px 12px;transition:.2s;}
-.fc:hover{border-color:#2A2D36;}
-.fc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px;}
-.fc-title{font-size:12px;color:#DDD;line-height:1.4;flex:1;}
-.fc-meta{font-size:10px;color:#444;display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
-.pip{width:7px;height:7px;border-radius:50%;}
+/* ── TABLES ── */
+.tw{max-height:280px;overflow-y:auto;border-radius:9px;border:1px solid var(--border);}
+table{width:100%;border-collapse:collapse;font-size:11px;}
+th{background:#0A0C14;color:var(--dim);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:9px 11px;text-align:left;border-bottom:1px solid rgba(255,204,63,.15);position:sticky;top:0;}
+th.r{text-align:right;}
+tr:nth-child(odd) td{background:#0D0F18;}
+tr:nth-child(even) td{background:#111420;}
+tr:hover td{background:#161925;}
+td{padding:8px 11px;color:var(--text);vertical-align:middle;border-bottom:1px solid #0E1016;}
+td.r{text-align:right;font-weight:600;color:var(--gold);}
+.lb{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;background:rgba(255,204,63,.08);border:1px solid rgba(255,204,63,.25);border-radius:6px;color:var(--gold);font-size:10px;text-decoration:none;font-weight:600;transition:.2s;}
+.lb:hover{background:rgba(255,204,63,.16);}
+.sb{display:inline-block;padding:3px 8px;border-radius:8px;font-size:9px;font-weight:700;letter-spacing:.04em;}
+.sb.pos{background:rgba(0,230,118,.15);color:var(--pos);}
+.sb.neg{background:rgba(255,23,68,.15);color:var(--neg);}
+.sb.neu{background:rgba(144,164,174,.1);color:var(--neu);border:1px solid #1E2230;}
 
-/* ACTIONABLES */
-.act-list{display:flex;flex-direction:column;gap:7px;}
-.act{display:flex;gap:9px;align-items:flex-start;background:rgba(255,204,63,.04);border:1px solid rgba(255,204,63,.09);border-radius:9px;padding:9px 11px;transition:.2s;}
-.act:hover{border-color:rgba(255,204,63,.18);}
-.act-n{width:20px;height:20px;border-radius:50%;background:var(--gold);color:#000;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
-.act-t{font-size:12px;color:#CCC;line-height:1.5;}
-.act-badge{display:inline-block;padding:1px 6px;border-radius:4px;font-size:9px;font-weight:700;margin-left:5px;}
-.act-h{background:rgba(186,14,19,.18);color:#F87171;}
-.act-m{background:rgba(255,154,63,.14);color:var(--orange);}
-.act-l{background:rgba(9,155,90,.14);color:#4ADE80;}
-.narr{font-size:12px;color:#999;line-height:1.7;padding:12px;background:#0A0C11;border-radius:8px;border-left:2px solid var(--gold);font-style:italic;margin-bottom:11px;}
-
-/* API NOTICE */
-.api-notice{padding:9px 11px;background:rgba(255,154,63,.07);border:1px solid rgba(255,154,63,.18);border-radius:7px;font-size:11px;color:var(--orange);margin-bottom:12px;}
-
-/* STATS ROW */
+/* ── STAT BOXES ── */
 .stats-row{display:flex;gap:10px;flex-wrap:wrap;}
-.stat-box{flex:1;min-width:100px;background:#0A0C11;border-radius:8px;padding:10px 12px;border:1px solid #1A1D26;}
-.stat-n{font-size:18px;font-weight:700;color:var(--gold);line-height:1;margin-bottom:3px;}
-.stat-l{font-size:9px;color:#444;text-transform:uppercase;letter-spacing:.1em;}
+.stat-box{flex:1;min-width:100px;background:#0A0C14;border-radius:9px;padding:12px;border:1px solid var(--border);}
+.stat-n{font-size:22px;font-weight:700;color:var(--gold);line-height:1;margin-bottom:3px;}
+.stat-l{font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;}
 
-/* SETTINGS PANEL */
-.set-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:300;backdrop-filter:blur(5px);}
+/* ── FEED ── */
+.feed{display:flex;flex-direction:column;gap:7px;max-height:340px;overflow-y:auto;}
+.fc{background:#0A0C14;border:1px solid var(--border);border-radius:9px;padding:11px 13px;transition:.2s;}
+.fc:hover{border-color:#3A3D4A;}
+.fc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:5px;}
+.fc-title{font-size:12px;color:var(--text);line-height:1.5;flex:1;font-weight:500;}
+.fc-meta{font-size:10px;color:var(--dim);display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.pip{width:8px;height:8px;border-radius:50%;}
+
+/* ── ACTIONABLES ── */
+.act-list{display:flex;flex-direction:column;gap:8px;}
+.act{display:flex;gap:10px;align-items:flex-start;background:rgba(255,204,63,.05);border:1px solid rgba(255,204,63,.12);border-radius:10px;padding:10px 12px;transition:.2s;}
+.act:hover{border-color:rgba(255,204,63,.25);background:rgba(255,204,63,.08);}
+.act-n{width:22px;height:22px;border-radius:50%;background:var(--gold);color:#000;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.act-t{font-size:12px;color:var(--text);line-height:1.6;}
+.act-badge{display:inline-block;padding:2px 7px;border-radius:5px;font-size:9px;font-weight:700;margin-left:6px;text-transform:uppercase;}
+.act-h{background:rgba(255,23,68,.2);color:#FF6B6B;}
+.act-m{background:rgba(245,158,11,.15);color:var(--amber);}
+.act-l{background:rgba(0,230,118,.12);color:var(--pos);}
+.narr{font-size:12px;color:var(--muted);line-height:1.75;padding:13px;background:#0A0C14;border-radius:9px;border-left:3px solid var(--gold);font-style:italic;margin-bottom:12px;}
+
+/* ── SETTINGS PANEL ── */
+.set-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:300;backdrop-filter:blur(6px);}
 .set-ov.on{display:block;}
-.set-panel{position:fixed;right:-520px;top:0;bottom:0;width:500px;background:#0D0F14;border-left:1px solid #1A1D26;z-index:301;overflow-y:auto;display:flex;flex-direction:column;transition:right .3s ease;}
+.set-panel{position:fixed;right:-560px;top:0;bottom:0;width:540px;background:#0D0F18;border-left:2px solid var(--gold);z-index:301;overflow-y:auto;display:flex;flex-direction:column;transition:right .3s ease;}
 .set-panel.on{right:0;}
-.set-head{padding:18px 20px;border-bottom:1px solid #1A1D26;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#0D0F14;z-index:1;}
+.set-head{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#0D0F18;z-index:1;}
 .set-title{font-size:14px;font-weight:700;color:var(--gold);}
-.set-body{padding:18px 20px;display:flex;flex-direction:column;gap:16px;}
-.sg{background:#111318;border:1px solid #1A1D26;border-radius:11px;padding:15px;}
-.sg-t{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.13em;color:#3A3A3A;margin-bottom:11px;padding-bottom:7px;border-bottom:1px solid #1A1D26;}
-.sr{margin-bottom:9px;}
-.sl{font-size:11px;color:#777;display:block;margin-bottom:3px;}
-.sh{font-size:10px;color:#2A2A2A;margin-top:3px;line-height:1.4;}
-.si{width:100%;background:#0A0C11;border:1px solid #1A1D26;color:#DDD;font:12px 'Poppins',sans-serif;padding:7px 10px;border-radius:7px;outline:none;transition:.2s;}
-.si:focus{border-color:rgba(255,204,63,.35);background:#0E1016;}
-.si::placeholder{color:#2A2A2A;}
-.ss{display:flex;align-items:center;gap:6px;padding:6px 9px;border-radius:7px;font-size:11px;font-weight:500;margin-top:5px;}
-.ss.ok{background:rgba(9,155,90,.08);color:#4ADE80;border:1px solid rgba(9,155,90,.18);}
-.ss.miss{background:rgba(186,14,19,.08);color:#F87171;border:1px solid rgba(186,14,19,.18);}
-.ss.pend{background:rgba(255,154,63,.08);color:var(--orange);border:1px solid rgba(255,154,63,.18);}
-.tab-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px;}
-.comp-row{display:flex;gap:7px;align-items:center;margin-bottom:6px;}
+.set-body{padding:20px 22px;display:flex;flex-direction:column;gap:16px;}
+
+/* PLATFORM CONFIG CARDS */
+.plat-cfg{background:#111420;border-radius:12px;border:1px solid var(--border);overflow:hidden;}
+.plat-cfg-head{display:flex;align-items:center;gap:10px;padding:13px 16px;cursor:pointer;user-select:none;transition:.2s;}
+.plat-cfg-head:hover{background:#161925;}
+.plat-cfg-name{font-size:13px;font-weight:600;flex:1;}
+.plat-cfg-arrow{font-size:12px;color:var(--dim);transition:.3s;}
+.plat-cfg-body{display:none;padding:14px 16px;background:#0A0C14;border-top:1px solid var(--border);}
+.plat-cfg-body.open{display:block;}
+.cfg-row{margin-bottom:10px;}
+.cfg-row:last-child{margin-bottom:0;}
+.cfg-label{font-size:10px;color:var(--muted);display:block;margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;}
+.cfg-input{width:100%;background:#080A10;border:1px solid var(--border);color:var(--text);font:12px 'Poppins',sans-serif;padding:8px 11px;border-radius:8px;outline:none;transition:.2s;}
+.cfg-input:focus{border-color:rgba(255,204,63,.4);background:#0D0F18;}
+.cfg-input::placeholder{color:#2A2D3A;}
+.cfg-hint{font-size:9px;color:#333;margin-top:3px;line-height:1.5;}
+.cfg-status{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:7px;font-size:10px;font-weight:600;margin-top:6px;}
+.cfg-status.ok{background:rgba(0,230,118,.08);color:var(--pos);border:1px solid rgba(0,230,118,.2);}
+.cfg-status.miss{background:rgba(255,23,68,.08);color:var(--neg);border:1px solid rgba(255,23,68,.15);}
+.cfg-status.pend{background:rgba(245,158,11,.08);color:var(--amber);border:1px solid rgba(245,158,11,.15);}
+.cfg-2col{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+
+/* General settings */
+.sg{background:#111420;border:1px solid var(--border);border-radius:12px;padding:16px;}
+.sg-t{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.13em;color:var(--dim);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.si{width:100%;background:#080A10;border:1px solid var(--border);color:var(--text);font:12px 'Poppins',sans-serif;padding:8px 11px;border-radius:8px;outline:none;transition:.2s;}
+.si:focus{border-color:rgba(255,204,63,.4);}
+.si::placeholder{color:#2A2D3A;}
+.sr{margin-bottom:10px;}
+.sl{font-size:10px;color:var(--muted);display:block;margin-bottom:4px;font-weight:600;}
+.comp-row{display:flex;gap:7px;align-items:center;margin-bottom:7px;}
 .comp-row .si{flex:1;}
-.comp-rm{width:26px;height:26px;border-radius:6px;background:rgba(186,14,19,.1);border:1px solid rgba(186,14,19,.2);color:#F87171;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.comp-add-btn{width:100%;padding:7px;border-radius:7px;background:rgba(255,204,63,.04);border:1px dashed rgba(255,204,63,.18);color:var(--gold);font:500 11px 'Poppins',sans-serif;cursor:pointer;transition:.2s;}
-.comp-add-btn:hover{background:rgba(255,204,63,.08);}
-.fetch-t{width:100%;border-collapse:collapse;font-size:10px;}
-.fetch-t th{background:#0A0C11;color:#3A3A3A;font-size:9px;text-transform:uppercase;letter-spacing:.08em;padding:7px 9px;border-bottom:1px solid #1A1D26;text-align:left;}
-.fetch-t td{padding:7px 9px;border-bottom:1px solid #0E1016;color:#888;}
-.fetch-t tr:last-child td{border-bottom:none;}
+.comp-rm{width:28px;height:28px;border-radius:7px;background:rgba(255,23,68,.1);border:1px solid rgba(255,23,68,.2);color:#FF6B6B;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;}
+.comp-add-btn{width:100%;padding:8px;border-radius:8px;background:rgba(255,204,63,.05);border:1px dashed rgba(255,204,63,.2);color:var(--gold);font:500 11px 'Poppins',sans-serif;cursor:pointer;transition:.2s;}
+.comp-add-btn:hover{background:rgba(255,204,63,.1);}
 
-/* STATES */
-.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;gap:6px;}
-.empty p{font-size:11px;color:#333;text-align:center;}
-.spin{width:22px;height:22px;border:2px solid #1A1D26;border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;}
+/* ── STATES ── */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px;gap:8px;}
+.empty-icon{font-size:28px;opacity:.3;}
+.empty p{font-size:12px;color:var(--dim);text-align:center;max-width:280px;line-height:1.6;}
+.empty .hint{font-size:10px;color:#2A2D3A;margin-top:4px;}
+.spin{width:24px;height:24px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
-.err-box{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;gap:5px;}
-.err-box p{font-size:11px;color:#F87171;text-align:center;}
-.err-box small{font-size:10px;color:#333;}
+.err-box{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;gap:6px;}
+.err-box .err-icon{font-size:24px;}
+.err-box p{font-size:11px;color:#FF6B6B;text-align:center;}
+.err-box small{font-size:10px;color:var(--dim);text-align:center;margin-top:3px;}
+.api-notice{padding:10px 13px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:9px;font-size:11px;color:var(--amber);margin-bottom:13px;display:flex;align-items:center;gap:8px;}
 
-/* COMPARISON TABLE */
-.comp-tbl-wrap{overflow-x:auto;}
-
-footer{text-align:center;padding:20px;font-size:10px;color:#222;border-top:1px solid #1A1D26;margin-top:32px;letter-spacing:.06em;}
+footer{text-align:center;padding:22px;font-size:10px;color:#2A2D3A;border-top:1px solid var(--border);margin-top:36px;letter-spacing:.06em;}
 
 @media(max-width:1200px){.kpis{grid-template-columns:repeat(4,1fr);}}
 @media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr);}.g2,.g3{grid-template-columns:1fr;}.set-panel{width:100%;right:-100%;}}
-@media(max-width:600px){.nav-tabs{display:none;}.kpis{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.page-tabs{display:none;}.kpis{grid-template-columns:1fr 1fr;}}
 </style>
 </head>
 <body>
 
 <!-- NAV -->
 <nav class="nav">
-  <div class="nav-logo">POLARIS <span>SCHOOL OF TECHNOLOGY</span></div>
-  <div class="nav-tabs">
-    <button class="nav-tab on" onclick="showPage('overview',this)">Overview</button>
-    <button class="nav-tab" onclick="showPage('content',this)">Content</button>
-    <button class="nav-tab" onclick="showPage('competitors',this)">Competitors</button>
-    <button class="nav-tab" onclick="showPage('analytics',this)">Analytics</button>
+  <div class="logo">POLARIS <span>SCHOOL OF TECHNOLOGY</span></div>
+  <div class="page-tabs">
+    <button class="ptab on" onclick="showPage('overview',this)">Overview</button>
+    <button class="ptab" onclick="showPage('content',this)">Content</button>
+    <button class="ptab" onclick="showPage('competitors',this)">Competitors</button>
+    <button class="ptab" onclick="showPage('analytics',this)">Analytics</button>
   </div>
   <div class="nav-r">
     <span class="ts" id="lastUpdated">Not loaded</span>
     <button class="btn btn-out" onclick="loadAll()">↺ Refresh</button>
     <button class="dl-btn" onclick="downloadReport()">⬇ Report</button>
-    <button class="voice-btn" id="voiceBtn" onclick="toggleVoice()" title="Voice note">🎙</button>
     <button class="btn btn-ghost" onclick="openSettings()">⚙ Settings</button>
   </div>
 </nav>
 
-<!-- SETTINGS OVERLAY -->
+<!-- SETTINGS -->
 <div class="set-ov" id="setOv" onclick="closeSettings()"></div>
 <div class="set-panel" id="setPanel">
   <div class="set-head">
-    <div class="set-title">⚙ System Settings</div>
-    <div style="display:flex;gap:7px;">
-      <button class="btn btn-gold" onclick="saveSettings()">Save & Apply</button>
-      <button class="btn btn-ghost" onclick="closeSettings()">✕ Close</button>
+    <div class="set-title">⚙ Platform & Sheet Configuration</div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-gold" onclick="saveSettings()">Save & Reload</button>
+      <button class="btn btn-ghost" onclick="closeSettings()">✕</button>
     </div>
   </div>
   <div class="set-body">
 
-    <!-- SHEETS -->
-    <div class="sg">
-      <div class="sg-t">📊 Google Sheets — Connect Your Data</div>
-      <div class="sr">
-        <label class="sl">Content Log Sheet ID (Sheet 1 — you maintain)</label>
-        <input class="si" id="s_contentSheetId" placeholder="Paste Sheet 1 ID here">
-        <div class="sh">URL: docs.google.com/spreadsheets/d/<b style="color:#555">[THIS PART]</b>/edit</div>
-        <div class="ss miss" id="ss_sheet1">✗ Paste Sheet ID to activate all 6 platform tabs</div>
-      </div>
-      <div class="sr">
-        <label class="sl">Listening Sheet ID (Sheet 2 — Apps Script auto-fills)</label>
-        <input class="si" id="s_listeningSheetId" placeholder="Paste Listening Sheet ID after Apps Script runs">
-        <div class="ss pend" id="ss_sheet2">⚡ Add after Apps Script setup — enables brand mention feed</div>
-      </div>
-      <div class="sg-t" style="margin-top:12px;">Tab Names (match exactly to your sheet tabs)</div>
-      <div class="tab-grid" id="tabInputsContainer"></div>
-    </div>
-
-    <!-- APIs -->
-    <div class="sg">
-      <div class="sg-t">🔑 API Keys — Each Key Activates a Platform</div>
-      <div id="apiInputsContainer"></div>
-    </div>
-
-    <!-- HOW IT WORKS -->
-    <div class="sg">
-      <div class="sg-t">🤖 How Auto-Updates Work Per Platform</div>
-      <table class="fetch-t">
-        <thead><tr><th>Platform</th><th>Method</th><th>Status</th><th>To Activate</th></tr></thead>
-        <tbody id="fetchStatusBody"></tbody>
-      </table>
-      <div style="margin-top:11px;padding:10px 11px;background:#0A0C11;border-radius:8px;border:1px solid #1A1D26;">
-        <div style="font-size:9px;color:var(--gold);font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.1em;">Apps Script Auto-Schedule</div>
-        <div style="font-size:10px;color:#444;padding:3px 0;border-bottom:1px solid #0E1016;">Daily 7:00 AM — dailyCollection() — Reddit RSS + YouTube + NewsAPI</div>
-        <div style="font-size:10px;color:#444;padding:3px 0;border-bottom:1px solid #0E1016;">Daily 7:30 AM — sentimentTagger() — Claude API auto-tags every row</div>
-        <div style="font-size:10px;color:#444;padding:3px 0;border-bottom:1px solid #0E1016;">Daily 8:00 AM — metricsCalculator() — weekly deltas + thresholds</div>
-        <div style="font-size:10px;color:#444;padding:3px 0;border-bottom:1px solid #0E1016;">Every Monday 8:30 AM — weeklyReport() — intelligence email to inbox</div>
-        <div style="font-size:10px;color:#444;padding:3px 0;">Every Sunday 11 PM — quoraSync() — Apify Quora merge</div>
-      </div>
-    </div>
+    <!-- PLATFORM CONFIGS -->
+    <div id="platformConfigs"></div>
 
     <!-- COMPETITORS -->
     <div class="sg">
-      <div class="sg-t">🏆 Competitor Tracking — <span id="compCount">0</span>/15 Slots</div>
-      <div style="font-size:10px;color:#333;margin-bottom:9px;">Tracked across all platforms automatically once APIs are set. Up to 15 competitors.</div>
+      <div class="sg-t">🏆 Competitor Tracking — <span id="compCount">0</span>/15</div>
+      <div style="font-size:10px;color:var(--dim);margin-bottom:10px;">Tracked across Reddit, YouTube, News, Quora automatically once APIs active.</div>
       <div id="compList"></div>
       <button class="comp-add-btn" onclick="addCompetitor()">+ Add Competitor (<span id="compSlots">15</span> slots left)</button>
     </div>
@@ -275,17 +255,12 @@ footer{text-align:center;padding:20px;font-size:10px;color:#222;border-top:1px s
     <!-- GOALS -->
     <div class="sg">
       <div class="sg-t">📐 Goals & Display</div>
-      <div class="sr">
-        <label class="sl">North Star Goal (live content pieces)</label>
-        <input class="si" type="number" id="s_northStarGoal" value="500">
-      </div>
+      <div class="sr"><label class="sl">North Star Goal (live content pieces)</label><input class="si" type="number" id="s_goal" value="500"></div>
       <div class="sr">
         <label class="sl">Auto-refresh interval</label>
-        <select class="si" id="s_refreshInterval">
-          <option value="2">Every 2 min</option>
-          <option value="5" selected>Every 5 min</option>
-          <option value="10">Every 10 min</option>
-          <option value="30">Every 30 min</option>
+        <select class="si" id="s_refresh">
+          <option value="2">Every 2 min</option><option value="5" selected>Every 5 min</option>
+          <option value="10">Every 10 min</option><option value="30">Every 30 min</option>
         </select>
       </div>
     </div>
@@ -298,898 +273,775 @@ footer{text-align:center;padding:20px;font-size:10px;color:#222;border-top:1px s
 
   <!-- NORTH STAR -->
   <div class="ns">
-    <div style="flex:1;">
+    <div class="ns-left">
       <div class="ns-lbl">🎯 North Star — Live Content Goal</div>
-      <div style="display:flex;align-items:center;gap:12px;margin-top:7px;">
-        <div class="ns-track"><div class="ns-fill" id="nsFill" style="width:0%"></div></div>
-        <span style="font-size:10px;color:#444;white-space:nowrap;" id="nsPct">0% · 500 remaining</span>
+      <div style="display:flex;align-items:center;gap:14px;margin-top:8px;">
+        <div class="ns-track" style="flex:1;"><div class="ns-fill" id="nsFill" style="width:0%"></div></div>
+        <span style="font-size:11px;color:var(--muted);white-space:nowrap;" id="nsPct">0%</span>
       </div>
     </div>
     <div>
       <div class="ns-num" id="nsCount">—</div>
-      <div class="ns-sub">of <span id="nsGoal">500</span> · June 2026</div>
+      <div class="ns-sub">of <span id="nsGoal">500</span> goal · June 2026</div>
     </div>
     <div style="display:flex;gap:9px;flex-shrink:0;">
-      <div class="ns-badge"><div class="ns-badge-n" id="apiCountBadge" style="color:var(--amber)">0/4</div><div class="ns-badge-l">APIs Active</div></div>
-      <div class="ns-badge"><div class="ns-badge-n" id="ormStatusBadge" style="color:#333">OFF</div><div class="ns-badge-l">ORM Listen</div></div>
+      <div class="ns-badge"><div class="ns-bn" id="apiActive" style="color:var(--amber)">0/4</div><div class="ns-bl">APIs Active</div></div>
+      <div class="ns-badge"><div class="ns-bn" id="ormStatus" style="color:#333">OFF</div><div class="ns-bl">ORM Listen</div></div>
+      <div class="ns-badge"><div class="ns-bn" id="platConnected" style="color:var(--amber)">0/6</div><div class="ns-bl">Platforms Live</div></div>
     </div>
   </div>
 
   <!-- KPIs -->
   <div class="kpis" id="kpisRow">
     <div class="kpi on" id="kpi_reddit" onclick="goToPlat('reddit')">
-      <div class="kpi-icon">🔴</div>
-      <div class="kpi-n" style="color:var(--reddit);" id="kn_reddit">—</div>
+      <div class="kpi-top"><span class="kpi-icon">🔴</span><div class="kpi-status" id="ks_reddit" style="background:#333"></div></div>
+      <div class="kpi-n" style="color:#FF5722;" id="kn_reddit">—</div>
       <div class="kpi-l">Reddit Posts</div>
-      <div class="kpi-s" id="ks_reddit">Loading…</div>
+      <div class="kpi-s" id="kss_reddit">No sheet</div>
+      <span class="kpi-fetch offline" id="kf_reddit">No Sheet</span>
     </div>
     <div class="kpi" id="kpi_quora" onclick="goToPlat('quora')">
-      <div class="kpi-icon">🟣</div>
-      <div class="kpi-n" style="color:var(--quora);" id="kn_quora">—</div>
+      <div class="kpi-top"><span class="kpi-icon">🟣</span><div class="kpi-status" id="ks_quora" style="background:#333"></div></div>
+      <div class="kpi-n" style="color:#E53935;" id="kn_quora">—</div>
       <div class="kpi-l">Quora Answers</div>
-      <div class="kpi-s" id="ks_quora">Loading…</div>
+      <div class="kpi-s" id="kss_quora">No sheet</div>
+      <span class="kpi-fetch offline" id="kf_quora">No Sheet</span>
     </div>
     <div class="kpi" id="kpi_pstQuora" onclick="goToPlat('pstQuora')">
-      <div class="kpi-icon">💜</div>
-      <div class="kpi-n" style="color:var(--purple);" id="kn_pstQuora">—</div>
+      <div class="kpi-top"><span class="kpi-icon">💜</span><div class="kpi-status" id="ks_pstQuora" style="background:#333"></div></div>
+      <div class="kpi-n" style="color:#7C4DFF;" id="kn_pstQuora">—</div>
       <div class="kpi-l">PST Quora</div>
-      <div class="kpi-s" id="ks_pstQuora">Loading…</div>
+      <div class="kpi-s" id="kss_pstQuora">No sheet</div>
+      <span class="kpi-fetch offline" id="kf_pstQuora">No Sheet</span>
     </div>
     <div class="kpi" id="kpi_youtube" onclick="goToPlat('youtube')">
-      <div class="kpi-icon">📺</div>
-      <div class="kpi-n" style="color:var(--youtube);" id="kn_youtube">—</div>
+      <div class="kpi-top"><span class="kpi-icon">📺</span><div class="kpi-status" id="ks_youtube" style="background:#333"></div></div>
+      <div class="kpi-n" style="color:#F44336;" id="kn_youtube">—</div>
       <div class="kpi-l">YT Comments</div>
-      <div class="kpi-s" id="ks_youtube">Loading…</div>
+      <div class="kpi-s" id="kss_youtube">No sheet</div>
+      <span class="kpi-fetch offline" id="kf_youtube">No Sheet</span>
     </div>
     <div class="kpi" id="kpi_newspaper" onclick="goToPlat('newspaper')">
-      <div class="kpi-icon">📰</div>
-      <div class="kpi-n" style="color:var(--amber);" id="kn_newspaper">—</div>
+      <div class="kpi-top"><span class="kpi-icon">📰</span><div class="kpi-status" id="ks_newspaper" style="background:#333"></div></div>
+      <div class="kpi-n" style="color:#FFB300;" id="kn_newspaper">—</div>
       <div class="kpi-l">Newspaper PR</div>
-      <div class="kpi-s" id="ks_newspaper">Loading…</div>
+      <div class="kpi-s" id="kss_newspaper">No sheet</div>
+      <span class="kpi-fetch offline" id="kf_newspaper">No Sheet</span>
     </div>
     <div class="kpi" id="kpi_medium" onclick="goToPlat('medium')">
-      <div class="kpi-icon">📝</div>
-      <div class="kpi-n" style="color:var(--green);" id="kn_medium">—</div>
+      <div class="kpi-top"><span class="kpi-icon">📝</span><div class="kpi-status" id="ks_medium" style="background:#333"></div></div>
+      <div class="kpi-n" style="color:#00C853;" id="kn_medium">—</div>
       <div class="kpi-l">Medium</div>
-      <div class="kpi-s" id="ks_medium">Loading…</div>
+      <div class="kpi-s" id="kss_medium">No sheet</div>
+      <span class="kpi-fetch offline" id="kf_medium">No Sheet</span>
     </div>
     <div class="kpi" id="kpi_brand" onclick="showPage('overview',null)">
-      <div class="kpi-icon">📡</div>
-      <div class="kpi-n" style="color:var(--blue);" id="kn_brand">—</div>
+      <div class="kpi-top"><span class="kpi-icon">📡</span><div class="kpi-status" id="ks_brand" style="background:#333"></div></div>
+      <div class="kpi-n" style="color:#2979FF;" id="kn_brand">—</div>
       <div class="kpi-l">Brand Mentions</div>
       <div class="kpi-s">auto-collected</div>
+      <span class="kpi-fetch offline" id="kf_brand">No Sheet</span>
     </div>
   </div>
 
   <!-- DATE BAR -->
   <div class="date-bar">
-    <span class="date-lbl">Filter:</span>
-    <button class="d-btn on" onclick="setDateRange('all',this)">All Time</button>
-    <button class="d-btn" onclick="setDateRange('7d',this)">7 Days</button>
-    <button class="d-btn" onclick="setDateRange('30d',this)">30 Days</button>
-    <button class="d-btn" onclick="setDateRange('custom',this)">Custom</button>
+    <span class="dlbl">Period:</span>
+    <button class="d-btn on" onclick="setRange('all',this)">All Time</button>
+    <button class="d-btn" onclick="setRange('7d',this)">7 Days</button>
+    <button class="d-btn" onclick="setRange('30d',this)">30 Days</button>
+    <button class="d-btn" onclick="setRange('custom',this)">Custom</button>
     <div id="customDates" style="display:none;display:flex;gap:7px;align-items:center;">
-      <input type="date" class="d-input" id="dateFrom">
-      <span style="color:#444;font-size:11px;">→</span>
-      <input type="date" class="d-input" id="dateTo">
+      <input type="date" class="d-input" id="dFrom"><span style="color:var(--dim)">→</span>
+      <input type="date" class="d-input" id="dTo">
     </div>
-    <div class="sheet-status" id="sheetStatusBar">⚠ Add Sheet ID in ⚙ Settings</div>
+    <div class="sheet-ok no" id="sheetBar">⚠ Configure sheets in ⚙ Settings</div>
   </div>
 
-  <!-- ═══ OVERVIEW PAGE ═══ -->
+  <!-- ═══ OVERVIEW ═══ -->
   <div class="page on" id="page_overview">
     <div class="g2">
-      <div class="card">
-        <div class="ct">🎯 Priority Actions</div>
-        <div class="act-list" id="actionablesList"></div>
-      </div>
-      <div class="card">
-        <div class="ct">📡 Weekly Intelligence</div>
-        <div id="weeklyIntelPanel"><div class="empty"><p>Configure Listening Sheet in ⚙ Settings for AI weekly intelligence.</p></div></div>
-      </div>
+      <div class="card"><div class="ct"><div class="ct-dot" style="background:var(--gold)"></div>Priority Actions</div><div class="act-list" id="actionsList"></div></div>
+      <div class="card"><div class="ct"><div class="ct-dot" style="background:#2979FF"></div>Weekly Intelligence</div><div id="weeklyPanel"><div class="empty"><div class="empty-icon">🧠</div><p>Configure Listening Sheet in ⚙ Settings for AI weekly intelligence.</p></div></div></div>
     </div>
     <div class="g2">
-      <div class="card">
-        <div class="ct">📊 Sentiment Trend (Weekly)</div>
-        <div class="chart-wrap"><canvas id="sentChart"></canvas></div>
-      </div>
-      <div class="card">
-        <div class="ct">🔴 Live Brand Mention Feed</div>
-        <div class="feed" id="brandFeed"><div class="empty"><div class="spin"></div><p>Loading…</p></div></div>
-      </div>
+      <div class="card"><div class="ct"><div class="ct-dot" style="background:var(--pos)"></div>Sentiment Trend (Weekly)</div><div class="cw"><canvas id="sentChart"></canvas></div></div>
+      <div class="card"><div class="ct"><div class="ct-dot" style="background:#FF5722"></div>Live Brand Mention Feed</div><div class="feed" id="brandFeed"><div class="empty"><div class="empty-icon">📡</div><p>Add Listening Sheet ID in ⚙ Settings to see brand mentions.</p><div class="hint">Settings → Brand/Listening → Sheet ID + GID</div></div></div></div>
     </div>
   </div>
 
-  <!-- ═══ CONTENT PAGE ═══ -->
+  <!-- ═══ CONTENT ═══ -->
   <div class="page" id="page_content">
-    <div class="ptabs" id="platTabs">
-      <button class="ptab on" onclick="showPlat('reddit',this)"><div class="pdot dot-r" id="pdot_reddit"></div><span style="color:var(--reddit)">🔴</span> Reddit</button>
-      <button class="ptab" onclick="showPlat('quora',this)"><div class="pdot dot-r" id="pdot_quora"></div><span style="color:var(--quora)">🟣</span> Quora Seeding</button>
-      <button class="ptab" onclick="showPlat('pstQuora',this)"><div class="pdot dot-r" id="pdot_pstQuora"></div><span style="color:var(--purple)">💜</span> PST Quora</button>
-      <button class="ptab" onclick="showPlat('youtube',this)"><div class="pdot dot-r" id="pdot_youtube"></div><span style="color:var(--youtube)">📺</span> YouTube</button>
-      <button class="ptab" onclick="showPlat('newspaper',this)"><div class="pdot dot-r" id="pdot_newspaper"></div><span style="color:var(--amber)">📰</span> Newspaper PR</button>
-      <button class="ptab" onclick="showPlat('medium',this)"><div class="pdot dot-r" id="pdot_medium"></div><span style="color:var(--medium)">📝</span> Medium</button>
+    <div class="plat-selector" id="platSelector">
+      <button class="plat-btn on" onclick="showPlat('reddit',this)"><div class="pb-dot" style="background:#FF5722"></div>🔴 Reddit<span class="pb-status pb-off" id="pbs_reddit">No Sheet</span></button>
+      <button class="plat-btn" onclick="showPlat('quora',this)"><div class="pb-dot" style="background:#E53935"></div>🟣 Quora Seeding<span class="pb-status pb-off" id="pbs_quora">No Sheet</span></button>
+      <button class="plat-btn" onclick="showPlat('pstQuora',this)"><div class="pb-dot" style="background:#7C4DFF"></div>💜 PST Quora<span class="pb-status pb-off" id="pbs_pstQuora">No Sheet</span></button>
+      <button class="plat-btn" onclick="showPlat('youtube',this)"><div class="pb-dot" style="background:#F44336"></div>📺 YouTube<span class="pb-status pb-off" id="pbs_youtube">No Sheet</span></button>
+      <button class="plat-btn" onclick="showPlat('newspaper',this)"><div class="pb-dot" style="background:#FFB300"></div>📰 Newspaper<span class="pb-status pb-off" id="pbs_newspaper">No Sheet</span></button>
+      <button class="plat-btn" onclick="showPlat('medium',this)"><div class="pb-dot" style="background:#00C853"></div>📝 Medium<span class="pb-status pb-off" id="pbs_medium">No Sheet</span></button>
     </div>
+
     <div class="plat-content on" id="plat_reddit">
       <div class="g2">
-        <div class="card"><div class="ct">Impressions by Month</div><div class="chart-wrap"><canvas id="ch_reddit"></canvas></div></div>
+        <div class="card"><div class="ct">Impressions by Month</div><div class="cw"><canvas id="ch_reddit"></canvas></div></div>
         <div class="card"><div class="ct">Quick Stats</div><div class="stats-row" id="st_reddit"></div></div>
       </div>
-      <div class="card"><div class="ct">All Reddit Posts</div><div id="tb_reddit"><div class="empty"><div class="spin"></div><p>Loading…</p></div></div></div>
+      <div class="card"><div class="ct">All Reddit Posts</div><div id="tb_reddit"><div class="empty"><div class="empty-icon">🔴</div><p>Add Reddit Sheet ID &amp; GID in ⚙ Settings</p><div class="hint">Settings → Reddit → Sheet ID + GID (tab number from URL)</div></div></div></div>
     </div>
     <div class="plat-content" id="plat_quora">
       <div class="g2">
-        <div class="card"><div class="ct">Impressions Trend</div><div class="chart-wrap"><canvas id="ch_quora"></canvas></div></div>
+        <div class="card"><div class="ct">Impressions Trend</div><div class="cw"><canvas id="ch_quora"></canvas></div></div>
         <div class="card"><div class="ct">Quick Stats</div><div class="stats-row" id="st_quora"></div></div>
       </div>
-      <div class="card"><div class="ct">All Quora Answers</div><div id="tb_quora"><div class="empty"><div class="spin"></div><p>Loading…</p></div></div></div>
+      <div class="card"><div class="ct">All Quora Answers</div><div id="tb_quora"><div class="empty"><div class="empty-icon">🟣</div><p>Add Quora Sheet ID &amp; GID in ⚙ Settings</p></div></div></div>
     </div>
     <div class="plat-content" id="plat_pstQuora">
       <div class="g2">
-        <div class="card"><div class="ct">Impressions</div><div class="chart-wrap"><canvas id="ch_pstQuora"></canvas></div></div>
+        <div class="card"><div class="ct">Impressions</div><div class="cw"><canvas id="ch_pstQuora"></canvas></div></div>
         <div class="card"><div class="ct">Quick Stats</div><div class="stats-row" id="st_pstQuora"></div></div>
       </div>
-      <div class="card"><div class="ct">PST Quora Answers</div><div id="tb_pstQuora"><div class="empty"><div class="spin"></div><p>Loading…</p></div></div></div>
+      <div class="card"><div class="ct">PST Quora Answers</div><div id="tb_pstQuora"><div class="empty"><div class="empty-icon">💜</div><p>Add PST Quora Sheet ID &amp; GID in ⚙ Settings</p></div></div></div>
     </div>
     <div class="plat-content" id="plat_youtube">
-      <div id="yt_api_notice" class="api-notice" style="display:none;">⚡ Add YouTube API key in ⚙ Settings → YouTube video mentions auto-fetch daily at 7 AM. No other setup needed.</div>
-      <div class="card"><div class="ct">YouTube Comments Seeded</div><div id="tb_youtube"><div class="empty"><div class="spin"></div><p>Loading…</p></div></div></div>
+      <div id="yt_notice" class="api-notice" style="display:none;">⚡ Add YouTube API key in Settings → YouTube auto-fetches video mentions daily.</div>
+      <div class="card"><div class="ct">YouTube Comments Seeded</div><div id="tb_youtube"><div class="empty"><div class="empty-icon">📺</div><p>Add YouTube Sheet ID &amp; GID in ⚙ Settings</p></div></div></div>
     </div>
     <div class="plat-content" id="plat_newspaper">
-      <div id="news_api_notice" class="api-notice" style="display:none;">⚡ Add NewsAPI key in ⚙ Settings → newspaper articles mentioning PST auto-collected daily from 70,000+ publications.</div>
+      <div id="news_notice" class="api-notice" style="display:none;">⚡ Add NewsAPI key in Settings → newspaper articles auto-collected from 70,000+ publications.</div>
       <div class="g2">
-        <div class="card"><div class="ct">PR Coverage by Month</div><div class="chart-wrap"><canvas id="ch_newspaper"></canvas></div></div>
+        <div class="card"><div class="ct">PR Coverage by Month</div><div class="cw"><canvas id="ch_newspaper"></canvas></div></div>
         <div class="card"><div class="ct">Quick Stats</div><div class="stats-row" id="st_newspaper"></div></div>
       </div>
-      <div class="card"><div class="ct">All Newspaper Coverage</div><div id="tb_newspaper"><div class="empty"><div class="spin"></div><p>Loading…</p></div></div></div>
+      <div class="card"><div class="ct">All Newspaper Coverage</div><div id="tb_newspaper"><div class="empty"><div class="empty-icon">📰</div><p>Add Newspaper Sheet ID &amp; GID in ⚙ Settings</p></div></div></div>
     </div>
     <div class="plat-content" id="plat_medium">
       <div class="g2">
-        <div class="card"><div class="ct">Articles by Month</div><div class="chart-wrap"><canvas id="ch_medium"></canvas></div></div>
+        <div class="card"><div class="ct">Articles by Month</div><div class="cw"><canvas id="ch_medium"></canvas></div></div>
         <div class="card"><div class="ct">Quick Stats</div><div class="stats-row" id="st_medium"></div></div>
       </div>
-      <div class="card"><div class="ct">All Medium Articles</div><div id="tb_medium"><div class="empty"><div class="spin"></div><p>Loading…</p></div></div></div>
+      <div class="card"><div class="ct">All Medium Articles</div><div id="tb_medium"><div class="empty"><div class="empty-icon">📝</div><p>Add Medium Sheet ID &amp; GID in ⚙ Settings</p></div></div></div>
     </div>
   </div>
 
-  <!-- ═══ COMPETITORS PAGE ═══ -->
+  <!-- ═══ COMPETITORS ═══ -->
   <div class="page" id="page_competitors">
-    <div class="card" style="margin-bottom:13px;">
-      <div class="ct">🏆 Competitor Sentiment Comparison</div>
-      <div class="chart-wrap" style="height:230px;"><canvas id="ch_comp"></canvas></div>
-    </div>
+    <div class="card"><div class="ct">Competitor Sentiment Comparison</div><div class="cw" style="height:230px;"><canvas id="ch_comp"></canvas></div></div>
     <div class="g2">
-      <div class="card">
-        <div class="ct">📋 Competitor Mentions</div>
-        <div id="tb_comp"><div class="empty"><p>Configure Listening Sheet in ⚙ Settings.</p></div></div>
-      </div>
-      <div class="card">
-        <div class="ct">🎯 Competitor Radar</div>
-        <div class="chart-wrap"><canvas id="ch_radar"></canvas></div>
-      </div>
+      <div class="card"><div class="ct">Competitor Mentions</div><div id="tb_comp"><div class="empty"><div class="empty-icon">🏆</div><p>Configure Listening Sheet in ⚙ Settings.</p></div></div></div>
+      <div class="card"><div class="ct">Radar Analysis</div><div class="cw"><canvas id="ch_radar"></canvas></div></div>
     </div>
-    <div class="card">
-      <div class="ct">🌐 Internet-Wide Coverage Table</div>
-      <div class="comp-tbl-wrap" id="compCoverageTable"><div class="empty"><p>Data loads after APIs and Listening Sheet are configured.</p></div></div>
-    </div>
+    <div class="card"><div class="ct">Internet-Wide Coverage</div><div id="coverageTable"><div class="empty"><div class="empty-icon">🌐</div><p>Configure APIs to see internet-wide competitor tracking.</p></div></div></div>
   </div>
 
-  <!-- ═══ ANALYTICS PAGE ═══ -->
+  <!-- ═══ ANALYTICS ═══ -->
   <div class="page" id="page_analytics">
     <div class="g2">
-      <div class="card">
-        <div class="ct">📈 Multi-Platform Activity</div>
-        <div class="chart-wrap"><canvas id="ch_multi"></canvas></div>
-      </div>
-      <div class="card">
-        <div class="ct">📊 Content Mix</div>
-        <div class="chart-wrap"><canvas id="ch_mix"></canvas></div>
-      </div>
+      <div class="card"><div class="ct">Multi-Platform Activity</div><div class="cw"><canvas id="ch_multi"></canvas></div></div>
+      <div class="card"><div class="ct">Content Mix Distribution</div><div class="cw"><canvas id="ch_mix"></canvas></div></div>
     </div>
-    <div class="card">
-      <div class="ct">📅 Weekly / Monthly Performance Comparison</div>
-      <div class="comp-tbl-wrap" id="perfTable"><div class="empty"><p>Load your Sheet data to see period comparisons.</p></div></div>
-    </div>
+    <div class="card"><div class="ct">Weekly / Monthly Performance Comparison</div><div id="perfTable"><div class="empty"><div class="empty-icon">📅</div><p>Load sheet data to see period comparisons.</p></div></div></div>
   </div>
 
 </main>
 
-<footer>Polaris School of Technology · ORM Intelligence Dashboard v2.0 · Built by Aditya · Auto-syncs every <span id="footerRefresh">5</span> min</footer>
+<footer>Polaris School of Technology · ORM Intelligence Dashboard v3.0 · Built by Aditya · Auto-syncs every <span id="footerR">5</span> min</footer>
 
 <script>
 // ═══════════════════════════════════════════════════════════
-// CONFIG & STATE
+// DEFAULT CONFIG — per-platform sheet + GID
 // ═══════════════════════════════════════════════════════════
+const PLAT_META = {
+  reddit:   { label:"Reddit",          color:"#FF5722", icon:"🔴", apiKey:null,           apiLabel:null },
+  quora:    { label:"Quora Seeding",   color:"#E53935", icon:"🟣", apiKey:"apify_key",    apiLabel:"Apify" },
+  pstQuora: { label:"PST Quora",       color:"#7C4DFF", icon:"💜", apiKey:null,           apiLabel:null },
+  youtube:  { label:"YouTube",         color:"#F44336", icon:"📺", apiKey:"youtube_api",  apiLabel:"YouTube API" },
+  newspaper:{ label:"Newspaper PR",    color:"#FFB300", icon:"📰", apiKey:"newsapi_key",  apiLabel:"NewsAPI" },
+  medium:   { label:"Medium",          color:"#00C853", icon:"📝", apiKey:null,           apiLabel:null },
+  brand:    { label:"Brand Mentions",  color:"#2979FF", icon:"📡", apiKey:null,           apiLabel:null },
+  comp:     { label:"Competitor Mentions", color:"#FF9A3F", icon:"🏆", apiKey:null, apiLabel:null },
+  weekly:   { label:"Weekly Summary",  color:"#FFCC3F", icon:"📊", apiKey:"claude_api",  apiLabel:"Claude API" },
+};
+
 const DEF = {
-  contentSheetId:"",listeningSheetId:"",
-  tabs:{reddit:"Reddit",quora:"Quora Seeding",pstQuora:"PST Quora",youtube:"YouTube Comments",newspaper:"Newspaper PR",medium:"Medium",brandMentions:"Brand Mentions",competitorMentions:"Competitor Mentions",weeklySummary:"Weekly Summary"},
-  apis:{youtube_api:"",newsapi_key:"",claude_api:"",apify_key:""},
+  platforms: {
+    reddit:   { sheetId:"", gid:"", tabName:"Reddit",           enabled:true },
+    quora:    { sheetId:"", gid:"", tabName:"Quora Seeding",    enabled:true },
+    pstQuora: { sheetId:"", gid:"", tabName:"PST Quora",        enabled:true },
+    youtube:  { sheetId:"", gid:"", tabName:"YouTube Comments", enabled:true },
+    newspaper:{ sheetId:"", gid:"", tabName:"Newspaper PR",     enabled:true },
+    medium:   { sheetId:"", gid:"", tabName:"Medium",           enabled:true },
+    brand:    { sheetId:"", gid:"", tabName:"Brand Mentions",   enabled:true },
+    comp:     { sheetId:"", gid:"", tabName:"Competitor Mentions", enabled:true },
+    weekly:   { sheetId:"", gid:"", tabName:"Weekly Summary",   enabled:true },
+  },
+  apis:{ youtube_api:"", newsapi_key:"", claude_api:"", apify_key:"" },
   competitors:["Scaler","Newton School of Technology","upGrad","Great Learning","BITS Pilani"],
-  northStarGoal:500,refreshInterval:5
+  northStarGoal:500, refreshInterval:5,
 };
 
 let CFG = {};
 let DATA = {};
 let dateRange = "all";
-let customFrom = "", customTo = "";
-let activePlat = "reddit";
 let charts = {};
 let refreshTimer = null;
-let isRecording = false;
+let customFrom = "", customTo = "";
 
 function loadCFG(){
-  try{ const s = localStorage.getItem("p_orm_v3"); CFG = s ? {...DEF,...JSON.parse(s)} : {...DEF}; }
-  catch(e){ CFG = {...DEF}; }
-  // deep merge apis and tabs
-  if(!CFG.apis) CFG.apis = {...DEF.apis};
-  if(!CFG.tabs) CFG.tabs = {...DEF.tabs};
-  if(!CFG.competitors) CFG.competitors = [...DEF.competitors];
+  try{
+    const s = localStorage.getItem("p_orm_v4");
+    const saved = s ? JSON.parse(s) : {};
+    CFG = JSON.parse(JSON.stringify(DEF));
+    if(saved.platforms) Object.keys(saved.platforms).forEach(k=>{ if(CFG.platforms[k]) CFG.platforms[k]={...CFG.platforms[k],...saved.platforms[k]}; });
+    if(saved.apis) CFG.apis = {...CFG.apis,...saved.apis};
+    if(saved.competitors) CFG.competitors = saved.competitors;
+    if(saved.northStarGoal) CFG.northStarGoal = saved.northStarGoal;
+    if(saved.refreshInterval) CFG.refreshInterval = saved.refreshInterval;
+  } catch(e){ CFG = JSON.parse(JSON.stringify(DEF)); }
 }
-
-function saveCFG(){ localStorage.setItem("p_orm_v3", JSON.stringify(CFG)); }
+function saveCFG(){ localStorage.setItem("p_orm_v4", JSON.stringify(CFG)); }
 
 // ═══════════════════════════════════════════════════════════
 // SETTINGS UI
 // ═══════════════════════════════════════════════════════════
+const PLATFORM_LABELS = {
+  reddit:"Reddit Posts & Comments",quora:"Quora Seeding Answers",pstQuora:"PST Official Quora",
+  youtube:"YouTube Comments",newspaper:"Newspaper PR",medium:"Medium Articles",
+  brand:"Brand Mentions (Listening)",comp:"Competitor Mentions (Listening)",weekly:"Weekly Summary (Listening)"
+};
+const PLATFORM_HINTS = {
+  reddit:"Your Google Sheet where you log Reddit posts. Find GID in the tab URL: ...gid=XXXXXXX",
+  quora:"Sheet where you log Quora seeding answers. GID is the number after #gid= in the tab URL.",
+  pstQuora:"Sheet for PST's official Quora page answers.",
+  youtube:"Sheet for YouTube comment seeding log.",
+  newspaper:"Sheet for Newspaper PR coverage log.",
+  medium:"Sheet for Medium article publishing log.",
+  brand:"Listening Sheet tab — Apps Script writes brand mentions here automatically.",
+  comp:"Listening Sheet tab — Apps Script writes competitor mentions here.",
+  weekly:"Listening Sheet tab — Apps Script writes weekly summary + AI narrative here.",
+};
 const API_DEFS = [
-  {key:"youtube_api",name:"YouTube Data API v3",desc:"Auto-fetches video & comment mentions daily",cost:"Free (10k req/day)",link:"https://console.cloud.google.com",activates:"YouTube auto-collection"},
-  {key:"newsapi_key",name:"NewsAPI.org",desc:"News articles mentioning PST & competitors",cost:"Free (100 req/day)",link:"https://newsapi.org/register",activates:"Newspaper auto-collection"},
-  {key:"claude_api",name:"Claude API (Anthropic)",desc:"Sentiment tagging + weekly intelligence email",cost:"~₹500/month",link:"https://console.anthropic.com",activates:"Sentiment + Reports"},
-  {key:"apify_key",name:"Apify (Quora Scraper)",desc:"Quora mention tracking — no public API exists",cost:"₹1,500/month",link:"https://apify.com",activates:"Quora auto-collection"},
+  {key:"youtube_api",name:"YouTube Data API v3",cost:"Free (10k req/day)",link:"https://console.cloud.google.com",activates:"YouTube auto-fetches daily"},
+  {key:"newsapi_key",name:"NewsAPI.org",cost:"Free (100 req/day)",link:"https://newsapi.org/register",activates:"Newspaper auto-collects daily"},
+  {key:"claude_api",name:"Claude API (Anthropic)",cost:"~₹500/month",link:"https://console.anthropic.com",activates:"Sentiment auto-tagged + weekly reports"},
+  {key:"apify_key",name:"Apify Quora Scraper",cost:"~$6/month",link:"https://apify.com",activates:"Quora auto-collects weekly"},
 ];
 
-function buildSettingsUI(){
-  // Tab inputs
-  const tc = document.getElementById("tabInputsContainer");
-  tc.innerHTML = Object.entries(CFG.tabs).map(([k,v])=>`
-    <div><label class="sl" style="font-size:10px">${k}</label>
-    <input class="si" id="tab_${k}" value="${v}"></div>`).join("");
+function buildSettings(){
+  // Platform configs
+  const pc = document.getElementById("platformConfigs");
+  pc.innerHTML = `
+    <div class="sg-t" style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.13em;color:var(--dim);margin-bottom:8px;">📋 Platform Sheet Configuration — Add Sheet ID + GID for each</div>
+    ${Object.entries(PLATFORM_LABELS).map(([key,label])=>{
+      const p = CFG.platforms[key]||{};
+      const meta = PLAT_META[key]||{};
+      const hasData = !!(p.sheetId && (p.gid!==undefined));
+      return `
+      <div class="plat-cfg" style="margin-bottom:10px;">
+        <div class="plat-cfg-head" onclick="toggleCfg('${key}')">
+          <span style="font-size:16px">${meta.icon||"📋"}</span>
+          <span class="plat-cfg-name" style="color:${meta.color||'#FFF'}">${label}</span>
+          ${hasData ? '<span class="pb-status pb-live" style="font-size:9px;padding:2px 8px;border-radius:4px;background:rgba(0,230,118,.12);color:var(--pos)">✓ Configured</span>' : '<span style="font-size:9px;color:var(--dim)">Not configured</span>'}
+          <span class="plat-cfg-arrow" id="arrow_${key}">▼</span>
+        </div>
+        <div class="plat-cfg-body" id="cfg_${key}">
+          <div class="cfg-2col">
+            <div class="cfg-row">
+              <label class="cfg-label">Sheet ID</label>
+              <input class="cfg-input" id="p_${key}_sheetId" value="${p.sheetId||''}" placeholder="1BxiMVs0XRA5nFM...">
+              <div class="cfg-hint">From URL: spreadsheets/d/<b style="color:#555">[THIS PART]</b>/edit</div>
+            </div>
+            <div class="cfg-row">
+              <label class="cfg-label">GID (Tab ID)</label>
+              <input class="cfg-input" id="p_${key}_gid" value="${p.gid||''}" placeholder="0">
+              <div class="cfg-hint">From URL: #gid=<b style="color:#555">[THIS NUMBER]</b> (0 = first tab)</div>
+            </div>
+          </div>
+          <div class="cfg-row">
+            <label class="cfg-label">Tab Name (must match exactly)</label>
+            <input class="cfg-input" id="p_${key}_tabName" value="${p.tabName||''}" placeholder="${DEF.platforms[key]?.tabName||''}">
+          </div>
+          <div class="cfg-hint" style="font-size:10px;color:var(--dim);margin-top:4px;">${PLATFORM_HINTS[key]||''}</div>
+          ${meta.apiKey ? `<div style="margin-top:8px;padding:8px 10px;background:#080A10;border-radius:7px;border:1px solid var(--border);font-size:10px;color:var(--dim);">
+            ⚡ Needs <b style="color:${meta.color}">${meta.apiLabel}</b> key below for auto-collection. Manual logging works without it.
+          </div>` : ''}
+        </div>
+      </div>`;
+    }).join("")}
+    <div class="sg" style="margin-top:8px;">
+      <div class="sg-t">🔑 API Keys — Each Activates Auto-Collection</div>
+      ${API_DEFS.map(api=>`
+        <div class="sr">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+            <label class="sl">${api.name}</label>
+            <span style="font-size:9px;color:var(--dim)">${api.cost} · <a href="${api.link}" target="_blank" style="color:var(--gold);text-decoration:none">Get key ↗</a></span>
+          </div>
+          <input class="si" type="password" id="api_${api.key}" value="${CFG.apis[api.key]||''}" placeholder="Paste key here">
+          <div class="cfg-status ${CFG.apis[api.key]?'ok':'miss'}" style="margin-top:5px;">
+            ${CFG.apis[api.key] ? '✓ '+api.activates : '✗ Add key → '+api.activates}
+          </div>
+        </div>`).join("")}
+    </div>`;
 
-  // API inputs
-  const ac = document.getElementById("apiInputsContainer");
-  ac.innerHTML = API_DEFS.map(api=>`
-    <div class="sr">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
-        <label class="sl" style="margin-bottom:0">${api.name}</label>
-        <span style="font-size:9px;color:#444">${api.cost}</span>
-      </div>
-      <div style="font-size:10px;color:#2A2A2A;margin-bottom:5px">${api.desc} · <a href="${api.link}" target="_blank" style="color:var(--gold);text-decoration:none">Get key ↗</a></div>
-      <input class="si" type="password" id="api_${api.key}" value="${CFG.apis[api.key]||""}" placeholder="Paste ${api.name} key here">
-      <div class="ss ${CFG.apis[api.key]?'ok':'miss'}" id="ss_${api.key}">
-        ${CFG.apis[api.key] ? '✓ '+api.activates+' — active' : '✗ Add key → '+api.activates+' activates automatically'}
-      </div>
-    </div>`).join("");
-
-  // Sheet statuses
-  updateSheetStatus();
-
-  // Fetch status table
-  buildFetchStatus();
-
-  // Competitor list
+  // Competitors
   renderCompList();
 
-  // Populate scalar fields
-  document.getElementById("s_contentSheetId").value = CFG.contentSheetId || "";
-  document.getElementById("s_listeningSheetId").value = CFG.listeningSheetId || "";
-  document.getElementById("s_northStarGoal").value = CFG.northStarGoal || 500;
-  document.getElementById("s_refreshInterval").value = CFG.refreshInterval || 5;
+  // Goals
+  document.getElementById("s_goal").value = CFG.northStarGoal||500;
+  document.getElementById("s_refresh").value = CFG.refreshInterval||5;
 }
 
-function updateSheetStatus(){
-  const s1 = document.getElementById("ss_sheet1");
-  const s2 = document.getElementById("ss_sheet2");
-  const val1 = document.getElementById("s_contentSheetId").value;
-  const val2 = document.getElementById("s_listeningSheetId").value;
-  if(s1){ s1.className = "ss "+(val1?"ok":"miss"); s1.textContent = val1 ? "✓ Sheet 1 configured — publish each tab as CSV to activate" : "✗ Paste Sheet ID to activate all 6 platform tabs"; }
-  if(s2){ s2.className = "ss "+(val2?"ok":"pend"); s2.textContent = val2 ? "✓ Brand Mention Feed active — refreshes on schedule" : "⚡ Add after Apps Script setup — enables ORM intelligence feed"; }
-}
-
-function buildFetchStatus(){
-  const rows = [
-    {p:"Reddit",m:"RSS Feeds (Free)",status:CFG.contentSheetId?"Sheet connected":"No Sheet ID",act:"Works immediately — paste Sheet 1 ID above"},
-    {p:"YouTube",m:"YouTube Data API v3",status:CFG.apis.youtube_api?"✓ API Key set":"No API Key",act:"Paste YT key → auto-fetches daily at 7 AM"},
-    {p:"Quora",m:"Manual + Apify",status:CFG.apis.apify_key?"✓ Apify set":"Manual only",act:"Add Apify key for weekly auto-collection"},
-    {p:"PST Quora",m:"Manual logging",status:"Sheet only",act:"Log links manually via logging form"},
-    {p:"Newspaper PR",m:"NewsAPI + Manual",status:CFG.apis.newsapi_key?"✓ NewsAPI set":"Manual only",act:"Paste NewsAPI key → auto-fetches daily"},
-    {p:"Medium",m:"Manual logging",status:"Sheet only",act:"Log article links manually on publish"},
-    {p:"Brand Listening",m:"RSS + YT + News",status:CFG.listeningSheetId?"Sheet 2 connected":"No Listening Sheet",act:"All 3 APIs → full auto brand monitoring"},
-  ];
-  const scl = s => s.includes("✓")||s.includes("connected") ? "pos" : s.includes("Manual")||s.includes("only") ? "neu" : "neg";
-  document.getElementById("fetchStatusBody").innerHTML = rows.map(r=>
-    `<tr><td style="color:#DDD;font-weight:600">${r.p}</td><td style="color:#666">${r.m}</td>
-    <td><span class="sb ${scl(r.status)}">${r.status}</span></td>
-    <td style="font-size:10px;color:#444">${r.act}</td></tr>`).join("");
+function toggleCfg(key){
+  const body = document.getElementById("cfg_"+key);
+  const arrow = document.getElementById("arrow_"+key);
+  body.classList.toggle("open");
+  arrow.textContent = body.classList.contains("open") ? "▲" : "▼";
 }
 
 function renderCompList(){
-  const comps = CFG.competitors || [];
+  const comps = CFG.competitors||[];
   document.getElementById("compCount").textContent = comps.length;
-  document.getElementById("compSlots").textContent = 15 - comps.length;
+  document.getElementById("compSlots").textContent = 15-comps.length;
   document.getElementById("compList").innerHTML = comps.map((c,i)=>`
     <div class="comp-row">
-      <input class="si" value="${c}" onchange="CFG.competitors[${i}]=this.value" placeholder="Competitor ${i+1}">
-      <button class="comp-rm" onclick="removeComp(${i})">✕</button>
+      <input class="si" value="${c}" onchange="CFG.competitors[${i}]=this.value" placeholder="Competitor name">
+      <button class="comp-rm" onclick="rmComp(${i})">✕</button>
     </div>`).join("");
 }
+function addCompetitor(){ if((CFG.competitors||[]).length>=15) return; CFG.competitors.push(""); renderCompList(); }
+function rmComp(i){ CFG.competitors.splice(i,1); renderCompList(); }
 
-function addCompetitor(){ if((CFG.competitors||[]).length>=15)return; CFG.competitors.push(""); renderCompList(); }
-function removeComp(i){ CFG.competitors.splice(i,1); renderCompList(); }
-
-function openSettings(){ buildSettingsUI(); document.getElementById("setOv").classList.add("on"); document.getElementById("setPanel").classList.add("on"); }
+function openSettings(){ buildSettings(); document.getElementById("setOv").classList.add("on"); document.getElementById("setPanel").classList.add("on"); }
 function closeSettings(){ document.getElementById("setOv").classList.remove("on"); document.getElementById("setPanel").classList.remove("on"); }
 
 function saveSettings(){
-  CFG.contentSheetId = document.getElementById("s_contentSheetId").value.trim();
-  CFG.listeningSheetId = document.getElementById("s_listeningSheetId").value.trim();
-  CFG.northStarGoal = parseInt(document.getElementById("s_northStarGoal").value)||500;
-  CFG.refreshInterval = parseInt(document.getElementById("s_refreshInterval").value)||5;
-  Object.keys(CFG.tabs).forEach(k=>{ const el=document.getElementById("tab_"+k); if(el) CFG.tabs[k]=el.value.trim(); });
+  Object.keys(DEF.platforms).forEach(key=>{
+    if(!CFG.platforms[key]) CFG.platforms[key]={};
+    const sid=document.getElementById("p_"+key+"_sheetId"); if(sid) CFG.platforms[key].sheetId=sid.value.trim();
+    const gid=document.getElementById("p_"+key+"_gid"); if(gid) CFG.platforms[key].gid=gid.value.trim();
+    const tn=document.getElementById("p_"+key+"_tabName"); if(tn) CFG.platforms[key].tabName=tn.value.trim();
+  });
   API_DEFS.forEach(api=>{ const el=document.getElementById("api_"+api.key); if(el) CFG.apis[api.key]=el.value.trim(); });
+  CFG.northStarGoal = parseInt(document.getElementById("s_goal").value)||500;
+  CFG.refreshInterval = parseInt(document.getElementById("s_refresh").value)||5;
   saveCFG();
-  document.getElementById("footerRefresh").textContent = CFG.refreshInterval;
+  document.getElementById("footerR").textContent = CFG.refreshInterval;
   closeSettings();
   loadAll();
 }
 
 // ═══════════════════════════════════════════════════════════
-// DATA FETCHING
+// DATA FETCH — uses GID when available
 // ═══════════════════════════════════════════════════════════
-async function fetchCSV(sheetId, tab){
-  if(!sheetId) throw new Error("No Sheet ID configured");
-  const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tab)}`;
+function buildURL(platKey){
+  const p = CFG.platforms[platKey]||{};
+  if(!p.sheetId) return null;
+  // If GID provided, use export with GID (more reliable)
+  if(p.gid!==undefined && p.gid!=="") {
+    return `https://docs.google.com/spreadsheets/d/${p.sheetId}/export?format=csv&gid=${p.gid}`;
+  }
+  // Fallback: use tab name via gviz
+  const tab = p.tabName || DEF.platforms[platKey]?.tabName || "";
+  return `https://docs.google.com/spreadsheets/d/${p.sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tab)}`;
+}
+
+async function fetchCSV(url){
   const r = await fetch(url);
-  if(!r.ok) throw new Error("HTTP "+r.status);
+  if(!r.ok) throw new Error("HTTP "+r.status+" — sheet may not be published as CSV");
   const text = await r.text();
+  if(text.includes("<!DOCTYPE") || text.includes("Signin")) throw new Error("Sheet is not published — File → Share → Publish to web → CSV");
   const lines = text.trim().split("\n");
+  if(lines.length<2) return [];
   const rows = lines.map(line=>{
     const cols=[]; let cur="",inQ=false;
     for(const c of line){ if(c==='"')inQ=!inQ; else if(c===','&&!inQ){cols.push(cur.trim());cur="";}else cur+=c; }
     cols.push(cur.trim()); return cols;
   });
-  if(rows.length<2) return [];
   const h = rows[0];
   return rows.slice(1).map(row=>{ const o={}; h.forEach((k,i)=>o[k]=row[i]||""); return o; });
 }
 
-async function loadSheet(key, sheetId, tab){
-  if(!sheetId){ DATA[key]=null; return; }
-  try{ DATA[key] = await fetchCSV(sheetId, tab); DATA[key+"_err"]=null; }
-  catch(e){ DATA[key]=null; DATA[key+"_err"]=e.message; }
+async function loadSheet(key){
+  const url = buildURL(key);
+  if(!url){ DATA[key]=null; DATA[key+"_err"]="no_sheet"; return; }
+  try{
+    DATA[key] = await fetchCSV(url);
+    DATA[key+"_err"] = null;
+  } catch(e){
+    DATA[key]=null; DATA[key+"_err"]=e.message;
+  }
 }
 
 async function loadAll(){
-  document.getElementById("lastUpdated").textContent = "Loading…";
-  const s1=CFG.contentSheetId, s2=CFG.listeningSheetId, t=CFG.tabs;
-  await Promise.all([
-    loadSheet("reddit",s1,t.reddit), loadSheet("quora",s1,t.quora), loadSheet("pstQuora",s1,t.pstQuora),
-    loadSheet("youtube",s1,t.youtube), loadSheet("newspaper",s1,t.newspaper), loadSheet("medium",s1,t.medium),
-    loadSheet("brand",s2,t.brandMentions), loadSheet("comp",s2,t.competitorMentions), loadSheet("weekly",s2,t.weeklySummary),
-  ]);
+  const el=document.getElementById("lastUpdated"); el.textContent="Loading…";
+  await Promise.all(Object.keys(DEF.platforms).map(k=>loadSheet(k)));
   renderAll();
-  document.getElementById("lastUpdated").textContent = "↺ "+new Date().toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"});
+  el.textContent = "↺ "+new Date().toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"});
   if(refreshTimer) clearInterval(refreshTimer);
-  refreshTimer = setInterval(loadAll, (CFG.refreshInterval||5)*60000);
+  refreshTimer = setInterval(loadAll,(CFG.refreshInterval||5)*60000);
 }
 
 // ═══════════════════════════════════════════════════════════
 // HELPERS
 // ═══════════════════════════════════════════════════════════
-const fmtN = v => { const n=parseInt(String(v).replace(/,/g,""))||0; return n>=1000?(n/1000).toFixed(1)+"k":String(n); };
-const toN = v => parseInt(String(v).replace(/,/g,""))||0;
-const sc = s => { if(!s) return "neu"; const l=s.toLowerCase(); return l.includes("pos")?"pos":l.includes("neg")?"neg":"neu"; };
-const sl = s => { if(!s) return "—"; const l=s.toLowerCase(); return l.includes("pos")?"Positive":l.includes("neg")?"Negative":"Neutral"; };
-const trunc = (s,n) => s&&s.length>n ? s.slice(0,n)+"…" : (s||"—");
-const rows = k => Array.isArray(DATA[k]) ? DATA[k] : [];
+const fN=v=>{const n=parseInt(String(v).replace(/,/g,""))||0;return n>=1000?(n/1000).toFixed(1)+"k":String(n);};
+const toN=v=>parseInt(String(v).replace(/,/g,""))||0;
+const sc=s=>{if(!s)return"neu";const l=s.toLowerCase();return l.includes("pos")?"pos":l.includes("neg")?"neg":"neu";};
+const sl=s=>{if(!s)return"—";const l=s.toLowerCase();return l.includes("pos")?"Positive":l.includes("neg")?"Negative":"Neutral";};
+const trunc=(s,n)=>s&&s.length>n?s.slice(0,n)+"…":(s||"—");
+const rows=k=>Array.isArray(DATA[k])?DATA[k]:[];
 
-function filterByDate(arr){
+function filterDate(arr){
   if(dateRange==="all") return arr;
-  const now=new Date(), cut=new Date();
+  const now=new Date(),cut=new Date();
   if(dateRange==="7d") cut.setDate(now.getDate()-7);
   else if(dateRange==="30d") cut.setDate(now.getDate()-30);
   else if(dateRange==="custom"&&customFrom) cut.setTime(new Date(customFrom).getTime());
   return arr.filter(row=>{
-    const d = Object.values(row).find(v=>/\d{2}-\d{2}-\d{4}/.test(v)||/\d{4}-\d{2}-\d{2}/.test(v));
+    const d=Object.values(row).find(v=>/\d{2}-\d{2}-\d{4}/.test(v)||/\d{4}-\d{2}-\d{2}/.test(v));
     if(!d) return true;
-    try{ const p=new Date(d.split("-").reverse().join("-")); return p>=cut; }catch{ return true; }
+    try{const p=new Date(d.split("-").reverse().join("-"));return p>=cut;}catch{return true;}
   });
 }
 
-function liveRows(key, linkCol){
-  return filterByDate(rows(key).filter(r=>r[linkCol]||Object.values(r).some(v=>v?.startsWith("http"))));
-}
-
-function byMonth(key, dc, vc){
+function liveRows(k,col){ return filterDate(rows(k).filter(r=>r[col]||Object.values(r).some(v=>v?.startsWith("http")))); }
+function totalImp(k,col){ return rows(k).reduce((s,r)=>s+toN(r[col]||0),0); }
+function byMonth(k,dc,vc){
   const map={};
-  rows(key).forEach(r=>{ const k=(r[dc]||"").slice(3,10)||(r[dc]||"").slice(0,7)||"?"; map[k]=(map[k]||0)+(vc?toN(r[vc]||0):1); });
+  rows(k).forEach(r=>{const m=(r[dc]||"").slice(3,10)||(r[dc]||"").slice(0,7)||"?";map[m]=(map[m]||0)+(vc?toN(r[vc]||0):1);});
   return Object.entries(map).slice(-8);
 }
 
-function totalImp(key,col){ return rows(key).reduce((s,r)=>s+toN(r[col]||0),0); }
+Chart.defaults.color="#556"; Chart.defaults.borderColor="rgba(255,255,255,0.04)"; Chart.defaults.font.family="'Poppins',sans-serif"; Chart.defaults.font.size=10;
+const TT={plugins:{tooltip:{backgroundColor:"#0D0F18",borderColor:"rgba(255,204,63,.25)",borderWidth:1,titleColor:"#FFCC3F",bodyColor:"#94A3B8",padding:10,cornerRadius:8},legend:{labels:{color:"#556",usePointStyle:true,pointStyleWidth:8,boxHeight:8}}}};
 
-// ═══════════════════════════════════════════════════════════
-// CHART HELPERS
-// ═══════════════════════════════════════════════════════════
-Chart.defaults.color="#666"; Chart.defaults.borderColor="rgba(255,255,255,0.04)"; Chart.defaults.font.family="'Poppins',sans-serif"; Chart.defaults.font.size=10;
-const TTip = { plugins:{ tooltip:{ backgroundColor:"#0E1016",borderColor:"rgba(255,204,63,.22)",borderWidth:1,titleColor:"#FFCC3F",bodyColor:"#BBB",padding:10,cornerRadius:8 }, legend:{ labels:{ color:"#666",usePointStyle:true,pointStyleWidth:8,boxHeight:8 } } } };
-const PCOLORS = ["#FFCC3F","#FF9A3F","#5939A8","#099B5A","#BA0E13","#D88100"];
-
-function mkChart(id, type, labels, datasets, extra={}){
-  const canvas = document.getElementById(id); if(!canvas) return;
-  if(charts[id]) charts[id].destroy();
-  charts[id] = new Chart(canvas,{type,data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,...TTip,scales:{x:{grid:{color:"rgba(255,255,255,0.02)"},ticks:{color:"#444",maxRotation:30}},y:{grid:{color:"rgba(255,255,255,0.04)"},ticks:{color:"#444"}}},...extra}});
+function mkBar(id,labels,data,color){
+  const c=document.getElementById(id);if(!c)return;if(charts[id])charts[id].destroy();
+  charts[id]=new Chart(c,{type:"bar",data:{labels,datasets:[{label:"Count",data,backgroundColor:color+"88",borderColor:color,borderWidth:1.5,borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,...TT,scales:{x:{grid:{color:"rgba(255,255,255,0.02)"},ticks:{color:"#3A3D4A",maxRotation:30}},y:{grid:{color:"rgba(255,255,255,0.03)"},ticks:{color:"#3A3D4A"}}}}});
+}
+function mkLine(id,labels,data,color){
+  const c=document.getElementById(id);if(!c)return;if(charts[id])charts[id].destroy();
+  charts[id]=new Chart(c,{type:"line",data:{labels,datasets:[{label:"Value",data,borderColor:color,backgroundColor:color+"22",tension:.4,fill:true,pointRadius:3,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,...TT,scales:{x:{grid:{color:"rgba(255,255,255,0.02)"},ticks:{color:"#3A3D4A",maxRotation:30}},y:{grid:{color:"rgba(255,255,255,0.03)"},ticks:{color:"#3A3D4A"}}}}});
 }
 
-function mkBarChart(id,labels,data,color){
-  mkChart(id,"bar",labels,[{label:"Count",data,backgroundColor:color+"99",borderColor:color,borderWidth:1.5,borderRadius:4}]);
-}
-function mkLineChart(id,labels,data,color){
-  mkChart(id,"line",labels,[{label:"Value",data,borderColor:color,backgroundColor:color+"22",tension:.4,fill:true,pointRadius:3,borderWidth:2}]);
-}
-
-// ═══════════════════════════════════════════════════════════
-// RENDER TABLE
-// ═══════════════════════════════════════════════════════════
-function renderTable(containerId, headers, bodyRows){
-  const el = document.getElementById(containerId); if(!el) return;
-  if(!bodyRows.length){ el.innerHTML='<div class="empty"><p>No data yet. Paste Sheet ID in ⚙ Settings and publish tabs as CSV.</p></div>'; return; }
-  const thHtml = headers.map((h,i)=>`<th${h==="Impressions"||h==="Reads"||h==="Count"?" class='r'":""}>${h}</th>`).join("");
-  const trHtml = bodyRows.map(cells=>`<tr>${cells.map((c,i)=>`<td${headers[i]==="Impressions"||headers[i]==="Reads"||headers[i]==="Count"?" class='r'":""}>${c}</td>`).join("")}</tr>`).join("");
-  el.innerHTML = `<div class="tw"><table><thead><tr>${thHtml}</tr></thead><tbody>${trHtml}</tbody></table></div>`;
+function renderTable(id,headers,bodyRows){
+  const el=document.getElementById(id);if(!el)return;
+  if(!bodyRows.length){el.innerHTML=`<div class="empty"><div class="empty-icon">📭</div><p>No data yet. Make sure the sheet is published as CSV and the tab name matches.</p></div>`;return;}
+  const th=headers.map(h=>`<th${["Impressions","Reads","Count"].includes(h)?" class='r'":""}>${h}</th>`).join("");
+  const tr=bodyRows.map(cells=>`<tr>${cells.map((c,i)=>`<td${["Impressions","Reads","Count"].includes(headers[i])?" class='r'":""}>${c}</td>`).join("")}</tr>`).join("");
+  el.innerHTML=`<div class="tw"><table><thead><tr>${th}</tr></thead><tbody>${tr}</tbody></table></div>`;
 }
 
-function renderErr(containerId, msg){
-  const el=document.getElementById(containerId); if(!el) return;
-  el.innerHTML=`<div class="err-box"><p>⚠ ${msg}</p><small>Check: Sheet published as CSV · Tab name matches config · Sheet ID correct</small></div>`;
+function renderStats(id,stats){
+  const el=document.getElementById(id);if(!el)return;
+  el.innerHTML=stats.map(s=>`<div class="stat-box"><div class="stat-n" style="color:${s.c||"var(--gold)"}">${typeof s.v==="number"?s.v.toLocaleString():s.v}</div><div class="stat-l">${s.l}</div></div>`).join("");
 }
 
-function renderStats(id, stats){
-  const el=document.getElementById(id); if(!el) return;
-  el.innerHTML = stats.map(s=>`<div class="stat-box"><div class="stat-n" style="color:${s.c||"var(--gold)"}">${typeof s.v==="number"?s.v.toLocaleString():s.v}</div><div class="stat-l">${s.l}</div></div>`).join("");
+function setKpiStatus(key,ok,count,sub){
+  const kn=document.getElementById("kn_"+key),ks=document.getElementById("ks_"+key),kss=document.getElementById("kss_"+key),kf=document.getElementById("kf_"+key);
+  const err=DATA[key+"_err"];
+  if(kn) kn.textContent = ok ? count : "—";
+  if(ks) ks.style.background = ok?"var(--pos)":err==="no_sheet"?"#333":"var(--neg)";
+  if(kss) kss.textContent = ok?sub:err==="no_sheet"?"No sheet":"Error";
+  if(kf){
+    if(ok){ kf.textContent="Live"; kf.className="kpi-fetch live"; }
+    else if(err==="no_sheet"){ kf.textContent="No Sheet"; kf.className="kpi-fetch offline"; }
+    else{ kf.textContent="Error"; kf.className="kpi-fetch manual"; }
+  }
+  // platform selector button status
+  const pbs=document.getElementById("pbs_"+key);
+  if(pbs){
+    if(ok){ pbs.textContent="Live"; pbs.className="pb-status pb-live"; }
+    else if(err==="no_sheet"){ pbs.textContent="No Sheet"; pbs.className="pb-status pb-off"; }
+    else{ pbs.textContent="Error"; pbs.className="pb-status pb-manual"; }
+  }
 }
 
 // ═══════════════════════════════════════════════════════════
 // RENDER ALL
 // ═══════════════════════════════════════════════════════════
 function renderAll(){
-  updateNorthStar();
-  updateKPIs();
-  updateDotStatuses();
-  renderOverview();
-  renderContent();
-  renderCompetitors();
-  renderAnalytics();
+  updateNS(); renderActionables(); renderWeekly(); renderSentChart(); renderBrandFeed();
+  renderReddit(); renderQuora(); renderPSTQuora(); renderYouTube(); renderNewspaper(); renderMedium();
+  renderCompetitors(); renderAnalytics();
+  document.getElementById("yt_notice").style.display = CFG.apis.youtube_api?"none":"block";
+  document.getElementById("news_notice").style.display = CFG.apis.newsapi_key?"none":"block";
 }
 
-function updateNorthStar(){
-  const live = liveRows("reddit","Post Link").length + liveRows("quora","Answer Live Link").length + liveRows("pstQuora","Live Link").length + rows("youtube").length + liveRows("newspaper","Published Link").length + liveRows("medium","Live Link").length;
-  const goal = CFG.northStarGoal||500;
-  const pct = Math.min(100,Math.round(live/goal*100));
-  document.getElementById("nsCount").textContent = live.toLocaleString();
-  document.getElementById("nsGoal").textContent = goal.toLocaleString();
-  document.getElementById("nsFill").style.width = pct+"%";
-  document.getElementById("nsPct").textContent = pct+"% · "+(goal-live)+" remaining";
-  const ac = Object.values(CFG.apis).filter(Boolean).length;
-  const ab = document.getElementById("apiCountBadge"); ab.textContent=ac+"/4"; ab.style.color=ac===4?"var(--green)":ac>0?"var(--amber)":"#333";
-  const ob = document.getElementById("ormStatusBadge"); ob.textContent=CFG.listeningSheetId?"ON":"OFF"; ob.style.color=CFG.listeningSheetId?"var(--green)":"#333";
-  document.getElementById("sheetStatusBar").textContent = CFG.contentSheetId ? "✓ Sheet connected" : "⚠ Add Sheet ID in ⚙ Settings";
-  document.getElementById("sheetStatusBar").style.color = CFG.contentSheetId ? "var(--green)" : "#444";
-}
-
-function updateKPIs(){
-  const kpis = [
-    {key:"reddit",live:liveRows("reddit","Post Link").length,sub:fmtN(totalImp("reddit","Post Impressions"))+" impr"},
-    {key:"quora",live:liveRows("quora","Answer Live Link").length,sub:fmtN(totalImp("quora","Impressions"))+" impr"},
-    {key:"pstQuora",live:liveRows("pstQuora","Live Link").length,sub:fmtN(totalImp("pstQuora","Impressions"))+" impr"},
-    {key:"youtube",live:rows("youtube").length,sub:rows("youtube").reduce((s,r)=>s+toN(r["Comments Seeded"]||1),0)+" seeded"},
-    {key:"newspaper",live:liveRows("newspaper","Published Link").length,sub:new Set(rows("newspaper").map(r=>r["Publication Name"]||r["A"])).size+" pubs"},
-    {key:"medium",live:liveRows("medium","Live Link").length,sub:fmtN(totalImp("medium","Reads"))+" reads"},
-    {key:"brand",live:rows("brand").length,sub:"auto-collected"},
-  ];
-  kpis.forEach(k=>{
-    const n=document.getElementById("kn_"+k.key); const s=document.getElementById("ks_"+k.key);
-    if(n) n.textContent = k.live;
-    if(s) s.textContent = k.sub;
-  });
-}
-
-function updateDotStatuses(){
-  Object.keys({reddit:1,quora:1,pstQuora:1,youtube:1,newspaper:1,medium:1}).forEach(key=>{
-    const el = document.getElementById("pdot_"+key); if(!el) return;
-    const apiKey = {quora:"apify_key",youtube:"youtube_api",newspaper:"newsapi_key"}[key];
-    const connected = CFG.contentSheetId && (!apiKey || CFG.apis[apiKey]);
-    el.className = "pdot " + (connected?"dot-g":CFG.contentSheetId?"dot-a":"dot-r");
-  });
-}
-
-// ═══════════════════════════════════════════════════════════
-// OVERVIEW
-// ═══════════════════════════════════════════════════════════
-function renderOverview(){
-  renderActionables();
-  renderWeeklyIntel();
-  renderSentimentChart();
-  renderBrandFeed();
+function updateNS(){
+  const live = liveRows("reddit","Post Link").length+liveRows("quora","Answer Live Link").length+liveRows("pstQuora","Live Link").length+rows("youtube").length+liveRows("newspaper","Published Link").length+liveRows("medium","Live Link").length;
+  const goal=CFG.northStarGoal||500, pct=Math.min(100,Math.round(live/goal*100));
+  document.getElementById("nsCount").textContent=live.toLocaleString();
+  document.getElementById("nsGoal").textContent=goal.toLocaleString();
+  document.getElementById("nsFill").style.width=pct+"%";
+  document.getElementById("nsPct").textContent=pct+"% · "+(goal-live)+" remaining";
+  const ac=Object.values(CFG.apis).filter(Boolean).length;
+  const ab=document.getElementById("apiActive"); ab.textContent=ac+"/4"; ab.style.color=ac===4?"var(--pos)":ac>0?"var(--amber)":"#444";
+  const hasListening = !!(CFG.platforms.brand?.sheetId);
+  const ob=document.getElementById("ormStatus"); ob.textContent=hasListening?"ON":"OFF"; ob.style.color=hasListening?"var(--pos)":"#444";
+  const connected = Object.keys(DEF.platforms).slice(0,6).filter(k=>CFG.platforms[k]?.sheetId).length;
+  const pb=document.getElementById("platConnected"); pb.textContent=connected+"/6"; pb.style.color=connected===6?"var(--pos)":connected>0?"var(--amber)":"#444";
+  const anySheet = Object.values(CFG.platforms).some(p=>p.sheetId);
+  const bar=document.getElementById("sheetBar"); bar.textContent=anySheet?"✓ Sheets connected":"⚠ Configure sheets in ⚙ Settings"; bar.className="sheet-ok "+(anySheet?"yes":"no");
+  document.getElementById("footerR").textContent=CFG.refreshInterval||5;
 }
 
 function renderActionables(){
-  const acts = [];
-  const w = rows("weekly"); const latest = w.length ? w[w.length-1] : null;
-  if(latest){ ["Top Actionable 1","Top Actionable 2","Top Actionable 3"].forEach(k=>{ if(latest[k]) acts.push({t:latest[k],p:"h"}); }); }
-  if(!CFG.contentSheetId) acts.push({t:"Paste your Content Log Sheet ID in ⚙ Settings — all 6 platform tabs activate immediately.",p:"h"});
-  if(!CFG.apis.youtube_api) acts.push({t:"Add YouTube API key in ⚙ Settings → YouTube auto-collection activates with zero other setup.",p:"m"});
-  if(!CFG.apis.newsapi_key) acts.push({t:"Add NewsAPI key → Newspaper PR data auto-syncs daily from 70,000+ publications.",p:"m"});
-  if(!CFG.apis.claude_api) acts.push({t:"Add Claude API key → Sentiment auto-tagged on every row. No more manual entries.",p:"m"});
-  const neg = rows("brand").filter(r=>sc(r["Sentiment"])==="neg");
-  if(neg.length>3) acts.push({t:neg.length+" negative brand mentions detected. Review and respond to top 3 this week.",p:"h"});
-  if(!acts.length) acts.push({t:"All systems active. Keep logging content daily. Monday intelligence report incoming.",p:"l"});
-  const labels = {h:"HIGH",m:"MED",l:"LOW"};
-  document.getElementById("actionablesList").innerHTML = acts.slice(0,6).map((a,i)=>`
-    <div class="act"><div class="act-n">${i+1}</div>
-    <div class="act-t">${a.t}<span class="act-badge act-${a.p}">${labels[a.p]}</span></div></div>`).join("");
+  const acts=[];
+  const w=rows("weekly"),lat=w.length?w[w.length-1]:null;
+  if(lat){["Top Actionable 1","Top Actionable 2","Top Actionable 3"].forEach(k=>{if(lat[k])acts.push({t:lat[k],p:"h"});});}
+  const noPlatform = Object.keys(DEF.platforms).slice(0,6).every(k=>!CFG.platforms[k]?.sheetId);
+  if(noPlatform) acts.push({t:"Open ⚙ Settings → add Sheet ID + GID for each platform. Reddit, Quora, YouTube, etc. all have separate config slots.",p:"h"});
+  if(!CFG.apis.youtube_api) acts.push({t:"Add YouTube API key in ⚙ Settings → YouTube video mentions auto-fetch daily at 7 AM.",p:"m"});
+  if(!CFG.apis.newsapi_key) acts.push({t:"Add NewsAPI key → Newspaper PR articles auto-collect daily from 70,000+ publications.",p:"m"});
+  if(!CFG.apis.claude_api) acts.push({t:"Add Claude API key → Sentiment auto-tagged on every row. No manual Positive/Negative needed.",p:"m"});
+  const neg=rows("brand").filter(r=>sc(r["Sentiment"])==="neg");
+  if(neg.length>3) acts.push({t:neg.length+" negative brand mentions detected this week. Respond to top 3 urgently.",p:"h"});
+  if(!acts.length) acts.push({t:"All systems active. Keep logging content. Monday intelligence email incoming.",p:"l"});
+  const lbl={h:"HIGH",m:"MED",l:"LOW"};
+  document.getElementById("actionsList").innerHTML=acts.slice(0,6).map((a,i)=>`<div class="act"><div class="act-n">${i+1}</div><div class="act-t">${a.t}<span class="act-badge act-${a.p}">${lbl[a.p]}</span></div></div>`).join("");
 }
 
-function renderWeeklyIntel(){
-  const w = rows("weekly"); const el = document.getElementById("weeklyIntelPanel");
-  if(!w.length){ el.innerHTML='<div class="empty"><p>Configure Listening Sheet in ⚙ Settings for AI weekly intelligence.</p></div>'; return; }
-  const latest = w[w.length-1];
-  const narr = latest["AI Narrative"]||latest["J"]||"";
-  const a1=latest["Top Actionable 1"]||latest["K"]||"";
-  const a2=latest["Top Actionable 2"]||latest["L"]||"";
-  const a3=latest["Top Actionable 3"]||latest["M"]||"";
-  el.innerHTML = `
-    <div class="narr">${narr||"AI narrative loads here every Monday after weeklyReport() runs."}</div>
-    <div style="display:flex;gap:9px;flex-wrap:wrap;margin-bottom:11px;">
-      <div class="stat-box"><div class="stat-n">${latest["Total PST Mentions"]||latest["B"]||"—"}</div><div class="stat-l">PST Mentions</div></div>
-      <div class="stat-box"><div class="stat-n">${latest["PST Positive %"]||latest["C"]||"—"}</div><div class="stat-l">Positive %</div></div>
-      <div class="stat-box"><div class="stat-n">${latest["Total Competitor Mentions"]||latest["D"]||"—"}</div><div class="stat-l">Competitor Mentions</div></div>
+function renderWeekly(){
+  const w=rows("weekly"),el=document.getElementById("weeklyPanel");
+  if(!w.length){el.innerHTML='<div class="empty"><div class="empty-icon">🧠</div><p>Configure Weekly Summary sheet in ⚙ Settings for AI weekly intelligence.</p></div>';return;}
+  const l=w[w.length-1];
+  el.innerHTML=`<div class="narr">${l["AI Narrative"]||l["J"]||"AI narrative loads here every Monday after weeklyReport() runs."}</div>
+    <div class="stats-row" style="margin-bottom:11px;">
+      <div class="stat-box"><div class="stat-n">${l["Total PST Mentions"]||l["B"]||"—"}</div><div class="stat-l">PST Mentions</div></div>
+      <div class="stat-box"><div class="stat-n">${l["PST Positive %"]||l["C"]||"—"}</div><div class="stat-l">Positive %</div></div>
+      <div class="stat-box"><div class="stat-n">${l["Total Competitor Mentions"]||l["D"]||"—"}</div><div class="stat-l">Competitor Mentions</div></div>
     </div>
-    ${[a1,a2,a3].filter(Boolean).map((a,i)=>`<div class="act"><div class="act-n">${i+1}</div><div class="act-t">${a}</div></div>`).join("")}`;
+    ${["Top Actionable 1","Top Actionable 2","Top Actionable 3"].filter(k=>l[k]).map((k,i)=>`<div class="act"><div class="act-n">${i+1}</div><div class="act-t">${l[k]}</div></div>`).join("")}`;
 }
 
-function renderSentimentChart(){
-  const w = rows("weekly");
-  if(!w.length){ if(charts.sentChart){charts.sentChart.destroy();delete charts.sentChart;} return; }
-  const wks = w.slice(-8);
-  mkChart("sentChart","bar",wks.map(x=>(x["Week Start Date"]||x["A"]||"").slice(0,8)),[
-    {label:"PST Positive %",data:wks.map(x=>parseFloat(x["PST Positive %"]||x["C"]||0)),backgroundColor:"rgba(9,155,90,0.55)",borderRadius:4},
-    {label:"Competitor Mentions",data:wks.map(x=>toN(x["Total Competitor Mentions"]||x["D"]||0)),backgroundColor:"rgba(255,154,63,0.45)",borderRadius:4},
-  ]);
+function renderSentChart(){
+  const w=rows("weekly"); if(!w.length){if(charts.sentChart){charts.sentChart.destroy();delete charts.sentChart;}return;}
+  const wks=w.slice(-8);
+  const c=document.getElementById("sentChart");if(!c)return;if(charts.sentChart)charts.sentChart.destroy();
+  charts.sentChart=new Chart(c,{type:"bar",data:{labels:wks.map(x=>(x["Week Start Date"]||x["A"]||"").slice(0,8)),datasets:[
+    {label:"PST Positive %",data:wks.map(x=>parseFloat(x["PST Positive %"]||x["C"]||0)),backgroundColor:"rgba(0,230,118,0.5)",borderRadius:4},
+    {label:"Competitor Mentions",data:wks.map(x=>toN(x["Total Competitor Mentions"]||x["D"]||0)),backgroundColor:"rgba(255,154,63,0.4)",borderRadius:4},
+  ]},options:{responsive:true,maintainAspectRatio:false,...TT,scales:{x:{grid:{color:"rgba(255,255,255,0.02)"},ticks:{color:"#3A3D4A",maxRotation:30}},y:{grid:{color:"rgba(255,255,255,0.03)"},ticks:{color:"#3A3D4A"}}}}});
 }
 
 function renderBrandFeed(){
-  const feed = document.getElementById("brandFeed");
-  const r = rows("brand");
-  const pc = {Reddit:"#FF4500",YouTube:"#FF0000",News:"#D88100",Quora:"#B92B27"};
-  if(!r.length){ feed.innerHTML='<div class="empty"><p>Add Listening Sheet ID in ⚙ Settings to see brand mentions.</p></div>'; return; }
-  feed.innerHTML = r.slice(0,15).map(r=>`
-    <div class="fc">
-      <div class="fc-top">
-        <div class="fc-title">${r["Title / Headline"]||r["C"]||"—"}</div>
-        <span class="sb ${sc(r["Sentiment"]||r["H"])}">${sl(r["Sentiment"]||r["H"])}</span>
-      </div>
-      <div class="fc-meta">
-        <div class="pip" style="background:${pc[r["Source Platform"]]||"#555"}"></div>
-        <span>${r["Source Platform"]||"—"}</span><span>·</span><span>${r["Author / Channel"]||r["F"]||"—"}</span>
-        ${(r["Link"]||r["E"]) ? `<span>·</span><a href="${r["Link"]||r["E"]}" target="_blank" class="lb" style="font-size:9px">View ↗</a>` : ""}
-      </div>
-    </div>`).join("");
-}
-
-// ═══════════════════════════════════════════════════════════
-// CONTENT
-// ═══════════════════════════════════════════════════════════
-function renderContent(){
-  renderReddit(); renderQuora(); renderPSTQuora(); renderYouTube(); renderNewspaper(); renderMedium();
-  // Show API notices
-  document.getElementById("yt_api_notice").style.display = CFG.apis.youtube_api ? "none" : "block";
-  document.getElementById("news_api_notice").style.display = CFG.apis.newsapi_key ? "none" : "block";
+  const feed=document.getElementById("brandFeed"),r=rows("brand");
+  const pc={"Reddit":"#FF5722","YouTube":"#F44336","News":"#FFB300","Quora":"#E53935"};
+  if(!r.length){
+    const err=DATA.brand_err;
+    feed.innerHTML=err&&err!=="no_sheet" ? `<div class="empty"><div class="empty-icon">⚠️</div><p style="color:var(--neg)">${err}</p><div class="hint">Check Brand Mentions sheet config in ⚙ Settings</div></div>` : `<div class="empty"><div class="empty-icon">📡</div><p>Add Brand Mentions Sheet ID + GID in ⚙ Settings.</p><div class="hint">This is your Listening Sheet tab — Apps Script writes here daily.</div></div>`;
+    return;
+  }
+  feed.innerHTML=r.slice(0,15).map(r=>`<div class="fc">
+    <div class="fc-top"><div class="fc-title">${r["Title / Headline"]||r["C"]||"—"}</div><span class="sb ${sc(r["Sentiment"]||r["H"])}">${sl(r["Sentiment"]||r["H"])}</span></div>
+    <div class="fc-meta"><div class="pip" style="background:${pc[r["Source Platform"]]||"#556"}"></div><span>${r["Source Platform"]||"—"}</span><span>·</span><span>${r["Author / Channel"]||r["F"]||"—"}</span>${(r["Link"]||r["E"])?`<span>·</span><a href="${r["Link"]||r["E"]}" target="_blank" class="lb" style="font-size:9px">View ↗</a>`:""}</div>
+  </div>`).join("");
 }
 
 function renderReddit(){
-  const r = filterByDate(rows("reddit").filter(x=>x["Post Link"]));
-  if(DATA.reddit_err){ renderErr("tb_reddit",DATA.reddit_err); return; }
-  const months = byMonth("reddit","Date","Post Impressions");
-  mkBarChart("ch_reddit",months.map(x=>x[0]),months.map(x=>x[1]),"#FF4500");
-  const ti = r.reduce((s,x)=>s+toN(x["Post Impressions"]||0),0);
-  renderStats("st_reddit",[{l:"Total Posts",v:r.length},{l:"Total Impressions",v:ti},{l:"Avg per Post",v:r.length?Math.round(ti/r.length):0}]);
+  const err=DATA.reddit_err, r=filterDate(rows("reddit").filter(x=>x["Post Link"]));
+  if(err&&err!=="no_sheet"){document.getElementById("tb_reddit").innerHTML=`<div class="err-box"><div class="err-icon">⚠️</div><p>${err}</p><small>Check Reddit Sheet ID, GID, and tab name in ⚙ Settings. Make sure sheet is published as CSV.</small></div>`;return;}
+  const months=byMonth("reddit","Date","Post Impressions");
+  mkBar("ch_reddit",months.map(x=>x[0]),months.map(x=>x[1]),"#FF5722");
+  const ti=r.reduce((s,x)=>s+toN(x["Post Impressions"]||0),0);
+  renderStats("st_reddit",[{l:"Total Posts",v:r.length},{l:"Impressions",v:ti},{l:"Avg/Post",v:r.length?Math.round(ti/r.length):0}]);
   renderTable("tb_reddit",["Date","Type","Question","Link","Impressions","Sentiment","Subreddit"],
-    r.map(x=>[x["Date"]||"—",x["Type"]||"—",trunc(x["Question"],55),
-      x["Post Link"]?`<a href="${x["Post Link"]}" target="_blank" class="lb">View ↗</a>`:"—",
-      fmtN(x["Post Impressions"]||0),`<span class="sb ${sc(x["Sentiment"])}">${sl(x["Sentiment"])}</span>`,x["Subreddit"]||"—"]));
-  document.getElementById("kn_reddit").textContent = r.length;
-  document.getElementById("ks_reddit").textContent = fmtN(ti)+" impr";
+    r.map(x=>[x["Date"]||"—",x["Type"]||"—",trunc(x["Question"],55),x["Post Link"]?`<a href="${x["Post Link"]}" target="_blank" class="lb">View ↗</a>`:"—",fN(x["Post Impressions"]||0),`<span class="sb ${sc(x["Sentiment"])}">${sl(x["Sentiment"])}</span>`,x["Subreddit"]||"—"]));
+  setKpiStatus("reddit",!!r.length||rows("reddit").length>0,rows("reddit").length,fN(ti)+" impr");
 }
 
 function renderQuora(){
-  const r = filterByDate(rows("quora").filter(x=>x["Answer Live Link"]));
-  if(DATA.quora_err){ renderErr("tb_quora",DATA.quora_err); return; }
-  const months = byMonth("quora","Date","Impressions");
-  mkLineChart("ch_quora",months.map(x=>x[0]),months.map(x=>x[1]),"#B92B27");
-  const ti = r.reduce((s,x)=>s+toN(x["Impressions"]||0),0);
-  renderStats("st_quora",[{l:"Total Answers",v:r.length},{l:"Total Impressions",v:ti},{l:"Avg Impressions",v:r.length?Math.round(ti/r.length):0}]);
+  const err=DATA.quora_err, r=filterDate(rows("quora").filter(x=>x["Answer Live Link"]));
+  if(err&&err!=="no_sheet"){document.getElementById("tb_quora").innerHTML=`<div class="err-box"><div class="err-icon">⚠️</div><p>${err}</p><small>Check Quora Sheet ID, GID, tab name in ⚙ Settings.</small></div>`;return;}
+  const months=byMonth("quora","Date","Impressions");
+  mkLine("ch_quora",months.map(x=>x[0]),months.map(x=>x[1]),"#E53935");
+  const ti=r.reduce((s,x)=>s+toN(x["Impressions"]||0),0);
+  renderStats("st_quora",[{l:"Total Answers",v:r.length},{l:"Impressions",v:ti},{l:"Avg Impressions",v:r.length?Math.round(ti/r.length):0}]);
   renderTable("tb_quora",["Date","Question","Q Link","A Link","Impressions","Sentiment"],
-    r.map(x=>[x["Date"]||"—",trunc(x["Question"],50),
-      x["Question Live Link"]?`<a href="${x["Question Live Link"]}" target="_blank" class="lb">Q ↗</a>`:"—",
-      x["Answer Live Link"]?`<a href="${x["Answer Live Link"]}" target="_blank" class="lb">A ↗</a>`:"—",
-      fmtN(x["Impressions"]||0),`<span class="sb ${sc(x["Sentiment"])}">${sl(x["Sentiment"])}</span>`]));
-  document.getElementById("kn_quora").textContent = r.length;
-  document.getElementById("ks_quora").textContent = fmtN(ti)+" impr";
+    r.map(x=>[x["Date"]||"—",trunc(x["Question"],50),x["Question Live Link"]?`<a href="${x["Question Live Link"]}" target="_blank" class="lb">Q ↗</a>`:"—",x["Answer Live Link"]?`<a href="${x["Answer Live Link"]}" target="_blank" class="lb">A ↗</a>`:"—",fN(x["Impressions"]||0),`<span class="sb ${sc(x["Sentiment"])}">${sl(x["Sentiment"])}</span>`]));
+  setKpiStatus("quora",!!r.length||rows("quora").length>0,rows("quora").length,fN(ti)+" impr");
 }
 
 function renderPSTQuora(){
-  const r = filterByDate(rows("pstQuora").filter(x=>x["Live Link"]));
-  if(DATA.pstQuora_err){ renderErr("tb_pstQuora",DATA.pstQuora_err); return; }
-  mkBarChart("ch_pstQuora",r.slice(-8).map((_,i)=>"Q"+(i+1)),r.slice(-8).map(x=>toN(x["Impressions"]||0)),"#5939A8");
-  const ti = r.reduce((s,x)=>s+toN(x["Impressions"]||0),0);
-  renderStats("st_pstQuora",[{l:"Total Answers",v:r.length},{l:"Total Impressions",v:ti}]);
+  const err=DATA.pstQuora_err, r=filterDate(rows("pstQuora").filter(x=>x["Live Link"]));
+  if(err&&err!=="no_sheet"){document.getElementById("tb_pstQuora").innerHTML=`<div class="err-box"><div class="err-icon">⚠️</div><p>${err}</p><small>Check PST Quora Sheet ID, GID, tab name in ⚙ Settings.</small></div>`;return;}
+  mkBar("ch_pstQuora",r.slice(-8).map((_,i)=>"Q"+(i+1)),r.slice(-8).map(x=>toN(x["Impressions"]||0)),"#7C4DFF");
+  const ti=r.reduce((s,x)=>s+toN(x["Impressions"]||0),0);
+  renderStats("st_pstQuora",[{l:"Total Answers",v:r.length},{l:"Impressions",v:ti}]);
   renderTable("tb_pstQuora",["#","Question","Link","Impressions","Sentiment"],
-    r.map((x,i)=>[i+1,trunc(x["Question"],60),
-      x["Live Link"]?`<a href="${x["Live Link"]}" target="_blank" class="lb">View ↗</a>`:"—",
-      fmtN(x["Impressions"]||0),`<span class="sb ${sc(x["Sentiment"])}">${sl(x["Sentiment"])}</span>`]));
+    r.map((x,i)=>[i+1,trunc(x["Question"],60),x["Live Link"]?`<a href="${x["Live Link"]}" target="_blank" class="lb">View ↗</a>`:"—",fN(x["Impressions"]||0),`<span class="sb ${sc(x["Sentiment"])}">${sl(x["Sentiment"])}</span>`]));
+  setKpiStatus("pstQuora",!!r.length||rows("pstQuora").length>0,rows("pstQuora").length,fN(ti)+" impr");
 }
 
 function renderYouTube(){
-  const r = rows("youtube");
-  if(DATA.youtube_err){ renderErr("tb_youtube",DATA.youtube_err); return; }
-  const total = r.reduce((s,x)=>s+toN(x["Comments Seeded"]||1),0);
+  const err=DATA.youtube_err, r=rows("youtube");
+  if(err&&err!=="no_sheet"){document.getElementById("tb_youtube").innerHTML=`<div class="err-box"><div class="err-icon">⚠️</div><p>${err}</p><small>Check YouTube Sheet ID, GID, tab name in ⚙ Settings.</small></div>`;return;}
+  const total=r.reduce((s,x)=>s+toN(x["Comments Seeded"]||1),0);
   renderTable("tb_youtube",["Date","Channel","Type","Video","Count"],
-    r.map(x=>[x["Date"]||x["A"]||"—",x["Channel Name"]||x["B"]||"—",x["Type"]||x["D"]||"—",
-      x["Video Link"]?`<a href="${x["Video Link"]}" target="_blank" class="lb">Watch ↗</a>`:"—",
-      x["Comments Seeded"]||x["F"]||1]));
-  document.getElementById("kn_youtube").textContent = total;
-  document.getElementById("ks_youtube").textContent = r.length+" videos";
+    r.map(x=>[x["Date"]||x["A"]||"—",x["Channel Name"]||x["B"]||"—",x["Type"]||x["D"]||"—",x["Video Link"]?`<a href="${x["Video Link"]}" target="_blank" class="lb">Watch ↗</a>`:"—",x["Comments Seeded"]||x["F"]||1]));
+  setKpiStatus("youtube",r.length>0,total,r.length+" videos");
 }
 
 function renderNewspaper(){
-  const r = filterByDate(rows("newspaper").filter(x=>x["Published Link"]||x["D"]));
-  if(DATA.newspaper_err){ renderErr("tb_newspaper",DATA.newspaper_err); return; }
-  const months = byMonth("newspaper","Publish Date");
-  mkBarChart("ch_newspaper",months.map(x=>x[0]),months.map(x=>x[1]),"#D88100");
-  const pubs = new Set(r.map(x=>x["Publication Name"]||x["A"])).size;
+  const err=DATA.newspaper_err, r=filterDate(rows("newspaper").filter(x=>x["Published Link"]||x["D"]));
+  if(err&&err!=="no_sheet"){document.getElementById("tb_newspaper").innerHTML=`<div class="err-box"><div class="err-icon">⚠️</div><p>${err}</p><small>Check Newspaper Sheet ID, GID, tab name in ⚙ Settings.</small></div>`;return;}
+  const months=byMonth("newspaper","Publish Date");
+  mkBar("ch_newspaper",months.map(x=>x[0]),months.map(x=>x[1]),"#FFB300");
+  const pubs=new Set(r.map(x=>x["Publication Name"]||x["A"])).size;
   renderStats("st_newspaper",[{l:"Total PR Pieces",v:r.length},{l:"Publications",v:pubs}]);
   renderTable("tb_newspaper",["Publication","Language","Date","Headline","Link","Sentiment"],
-    r.map(x=>[x["Publication Name"]||x["A"]||"—",x["Language"]||x["B"]||"—",x["Publish Date"]||x["C"]||"—",
-      trunc(x["Headline"]||x["E"],45),
-      (x["Published Link"]||x["D"])?`<a href="${x["Published Link"]||x["D"]}" target="_blank" class="lb">Read ↗</a>`:"—",
-      `<span class="sb ${sc(x["Sentiment"]||x["F"])}">${sl(x["Sentiment"]||x["F"])}</span>`]));
-  document.getElementById("kn_newspaper").textContent = r.length;
-  document.getElementById("ks_newspaper").textContent = pubs+" pubs";
+    r.map(x=>[x["Publication Name"]||x["A"]||"—",x["Language"]||x["B"]||"—",x["Publish Date"]||x["C"]||"—",trunc(x["Headline"]||x["E"],45),(x["Published Link"]||x["D"])?`<a href="${x["Published Link"]||x["D"]}" target="_blank" class="lb">Read ↗</a>`:"—",`<span class="sb ${sc(x["Sentiment"]||x["F"])}">${sl(x["Sentiment"]||x["F"])}</span>`]));
+  setKpiStatus("newspaper",r.length>0,r.length,pubs+" pubs");
 }
 
 function renderMedium(){
-  const r = filterByDate(rows("medium").filter(x=>x["Live Link"]||x["G"]));
-  if(DATA.medium_err){ renderErr("tb_medium",DATA.medium_err); return; }
-  const months = byMonth("medium","Date");
-  mkLineChart("ch_medium",months.map(x=>x[0]),months.map(x=>x[1]),"#099B5A");
-  const tr = r.reduce((s,x)=>s+toN(x["Reads"]||x["H"]||0),0);
-  renderStats("st_medium",[{l:"Published Articles",v:r.length},{l:"Total Reads",v:tr}]);
+  const err=DATA.medium_err, r=filterDate(rows("medium").filter(x=>x["Live Link"]||x["G"]));
+  if(err&&err!=="no_sheet"){document.getElementById("tb_medium").innerHTML=`<div class="err-box"><div class="err-icon">⚠️</div><p>${err}</p><small>Check Medium Sheet ID, GID, tab name in ⚙ Settings.</small></div>`;return;}
+  const months=byMonth("medium","Date");
+  mkLine("ch_medium",months.map(x=>x[0]),months.map(x=>x[1]),"#00C853");
+  const tr=r.reduce((s,x)=>s+toN(x["Reads"]||x["H"]||0),0);
+  renderStats("st_medium",[{l:"Articles",v:r.length},{l:"Total Reads",v:tr}]);
   renderTable("tb_medium",["Date","Title","Author","Link","Reads","Sentiment"],
-    r.map(x=>[x["Date"]||x["A"]||"—",trunc(x["Title"]||x["C"],48),x["Author"]||x["E"]||"—",
-      (x["Live Link"]||x["G"])?`<a href="${x["Live Link"]||x["G"]}" target="_blank" class="lb">Read ↗</a>`:"—",
-      fmtN(x["Reads"]||x["H"]||0),`<span class="sb ${sc(x["Sentiment"]||x["I"])}">${sl(x["Sentiment"]||x["I"])}</span>`]));
-  document.getElementById("kn_medium").textContent = r.length;
-  document.getElementById("ks_medium").textContent = fmtN(tr)+" reads";
+    r.map(x=>[x["Date"]||x["A"]||"—",trunc(x["Title"]||x["C"],48),x["Author"]||x["E"]||"—",(x["Live Link"]||x["G"])?`<a href="${x["Live Link"]||x["G"]}" target="_blank" class="lb">Read ↗</a>`:"—",fN(x["Reads"]||x["H"]||0),`<span class="sb ${sc(x["Sentiment"]||x["I"])}">${sl(x["Sentiment"]||x["I"])}</span>`]));
+  setKpiStatus("medium",r.length>0,r.length,fN(tr)+" reads");
 }
 
-// ═══════════════════════════════════════════════════════════
-// COMPETITORS
-// ═══════════════════════════════════════════════════════════
 function renderCompetitors(){
-  const d = rows("comp");
-  // Comparison bar chart
-  const compData = [{name:"PST",positive:75,negative:10,neutral:15}];
-  (CFG.competitors||[]).slice(0,5).forEach(comp=>{
-    const r = d.filter(x=>(x["Competitor"]||"").toLowerCase().includes(comp.toLowerCase().split(" ")[0]));
-    if(!r.length){ compData.push({name:comp.split(" ")[0],positive:0,negative:0,neutral:0}); return; }
+  const d=rows("comp");
+  const comps=[{name:"PST",positive:75,negative:10,neutral:15},...(CFG.competitors||[]).slice(0,5).map(comp=>{
+    const r=d.filter(x=>(x["Competitor"]||"").toLowerCase().includes(comp.toLowerCase().split(" ")[0]));
+    if(!r.length) return{name:comp.split(" ")[0],positive:0,negative:0,neutral:0};
     const pos=r.filter(x=>sc(x["Sentiment Toward Competitor"])==="pos").length;
     const neg=r.filter(x=>sc(x["Sentiment Toward Competitor"])==="neg").length;
-    compData.push({name:comp.split(" ")[0],positive:Math.round(pos/r.length*100),negative:Math.round(neg/r.length*100),neutral:Math.round((r.length-pos-neg)/r.length*100)});
-  });
-  mkChart("ch_comp","bar",compData.map(x=>x.name),[
-    {label:"Positive %",data:compData.map(x=>x.positive),backgroundColor:"rgba(9,155,90,0.55)",borderRadius:4},
-    {label:"Negative %",data:compData.map(x=>x.negative),backgroundColor:"rgba(186,14,19,0.45)",borderRadius:4},
-    {label:"Neutral %",data:compData.map(x=>x.neutral),backgroundColor:"rgba(60,60,60,0.45)",borderRadius:4},
-  ]);
+    return{name:comp.split(" ")[0],positive:Math.round(pos/r.length*100),negative:Math.round(neg/r.length*100),neutral:Math.round((r.length-pos-neg)/r.length*100)};
+  })];
+  const cc=document.getElementById("ch_comp");if(cc){if(charts.ch_comp)charts.ch_comp.destroy();
+    charts.ch_comp=new Chart(cc,{type:"bar",data:{labels:comps.map(x=>x.name),datasets:[
+      {label:"Positive %",data:comps.map(x=>x.positive),backgroundColor:"rgba(0,230,118,0.5)",borderRadius:4},
+      {label:"Negative %",data:comps.map(x=>x.negative),backgroundColor:"rgba(255,23,68,0.4)",borderRadius:4},
+      {label:"Neutral %",data:comps.map(x=>x.neutral),backgroundColor:"rgba(100,120,150,0.3)",borderRadius:4},
+    ]},options:{responsive:true,maintainAspectRatio:false,...TT,scales:{x:{grid:{color:"rgba(255,255,255,0.02)"},ticks:{color:"#556"}},y:{grid:{color:"rgba(255,255,255,0.03)"},ticks:{color:"#3A3D4A"}}}}});}
 
   // Radar
-  const radarData=[{m:"Sentiment",PST:75,Scaler:65,Newton:58},{m:"Mentions",PST:rows("brand").length?80:20,Scaler:70,Newton:55},{m:"Engagement",PST:60,Scaler:75,Newton:50},{m:"News",PST:rows("newspaper").length?70:30,Scaler:50,Newton:40},{m:"Reddit",PST:rows("reddit").length?65:20,Scaler:80,Newton:45}];
-  mkChart("ch_radar","radar",radarData.map(x=>x.m),[
-    {label:"PST",data:radarData.map(x=>x.PST),borderColor:"#FFCC3F",backgroundColor:"rgba(255,204,63,0.15)",pointRadius:3},
-    {label:"Scaler",data:radarData.map(x=>x.Scaler),borderColor:"#FF9A3F",backgroundColor:"rgba(255,154,63,0.08)",pointRadius:3},
-    {label:"Newton",data:radarData.map(x=>x.Newton),borderColor:"#5939A8",backgroundColor:"rgba(89,57,168,0.08)",pointRadius:3},
-  ],{scales:{r:{grid:{color:"rgba(255,255,255,0.06)"},ticks:{display:false},pointLabels:{color:"#666",font:{size:10}}}}});
+  const radarD=[{m:"Sentiment",PST:75,Scaler:65,Newton:58},{m:"Mentions",PST:rows("brand").length?80:20,Scaler:70,Newton:55},{m:"Engagement",PST:60,Scaler:75,Newton:50},{m:"News",PST:rows("newspaper").length?70:30,Scaler:50,Newton:40},{m:"Reddit",PST:rows("reddit").length?65:20,Scaler:80,Newton:45}];
+  const rc=document.getElementById("ch_radar");if(rc){if(charts.ch_radar)charts.ch_radar.destroy();
+    charts.ch_radar=new Chart(rc,{type:"radar",data:{labels:radarD.map(x=>x.m),datasets:[
+      {label:"PST",data:radarD.map(x=>x.PST),borderColor:"#FFCC3F",backgroundColor:"rgba(255,204,63,0.15)",pointRadius:3},
+      {label:"Scaler",data:radarD.map(x=>x.Scaler),borderColor:"#FF9A3F",backgroundColor:"rgba(255,154,63,0.08)",pointRadius:3},
+      {label:"Newton",data:radarD.map(x=>x.Newton),borderColor:"#7C4DFF",backgroundColor:"rgba(124,77,255,0.08)",pointRadius:3},
+    ]},options:{responsive:true,maintainAspectRatio:false,...TT,scales:{r:{grid:{color:"rgba(255,255,255,0.06)"},ticks:{display:false},pointLabels:{color:"#556",font:{size:10}}}}}});}
 
   // Mentions table
-  const mentRows = d.slice(0,20).map(r=>[
-    `<span style="font-weight:600;color:var(--orange)">${r["Competitor"]||r["B"]||"—"}</span>`,
-    r["Source Platform"]||r["C"]||"—",
-    trunc(r["Title / Headline"]||r["D"],45),
-    `<span class="sb ${sc(r["Sentiment Toward Competitor"]||r["G"])}">${sl(r["Sentiment Toward Competitor"]||r["G"])}</span>`,
-    `<span class="sb ${(r["PST Compared"]||r["H"])==="Yes"?"pos":"neu"}">${r["PST Compared"]||r["H"]||"—"}</span>`
-  ]);
-  if(!mentRows.length){ document.getElementById("tb_comp").innerHTML='<div class="empty"><p>Configure Listening Sheet in ⚙ Settings.</p></div>'; }
-  else renderTable("tb_comp",["Competitor","Platform","Title","Sentiment","PST Compared"],mentRows);
+  if(!d.length){document.getElementById("tb_comp").innerHTML='<div class="empty"><div class="empty-icon">🏆</div><p>Configure Competitor Mentions sheet in ⚙ Settings.</p></div>';return;}
+  renderTable("tb_comp",["Competitor","Platform","Title","Sentiment","vs PST"],
+    d.slice(0,25).map(r=>[`<span style="font-weight:700;color:var(--orange)">${r["Competitor"]||r["B"]||"—"}</span>`,r["Source Platform"]||r["C"]||"—",trunc(r["Title / Headline"]||r["D"],45),`<span class="sb ${sc(r["Sentiment Toward Competitor"]||r["G"])}">${sl(r["Sentiment Toward Competitor"]||r["G"])}</span>`,`<span class="sb ${(r["PST Compared"]||r["H"])==="Yes"?"pos":"neu"}">${r["PST Compared"]||r["H"]||"—"}</span>`]));
 
   // Coverage table
-  const ents = [{name:"PST ★",self:true},...(CFG.competitors||[]).map(c=>({name:c,self:false}))].slice(0,9);
-  const tHeader = `<tr><th>Entity</th><th>Reddit</th><th>YouTube</th><th>News</th><th>Quora</th><th style="color:var(--gold)">Total</th><th>vs PST</th><th>Sentiment</th></tr>`;
-  const tRows = ents.map(ent=>{
-    const r = d.filter(x=>(x["Competitor"]||"").toLowerCase().includes(ent.name.replace(" ★","").toLowerCase().split(" ")[0]));
+  const ents=[{name:"PST ★",self:true},...(CFG.competitors||[]).map(c=>({name:c,self:false}))].slice(0,9);
+  const tH=`<tr><th>Entity</th><th>Reddit</th><th>YouTube</th><th>News</th><th>Quora</th><th style="color:var(--gold)">Total</th><th>vs PST</th><th>Sentiment</th></tr>`;
+  const tR=ents.map(ent=>{
+    const r=d.filter(x=>(x["Competitor"]||"").toLowerCase().includes(ent.name.replace(" ★","").toLowerCase().split(" ")[0]));
     const rd=r.filter(x=>(x["Source Platform"]||"").toLowerCase().includes("reddit")).length;
     const yt=r.filter(x=>(x["Source Platform"]||"").toLowerCase().includes("youtube")).length;
     const nw=r.filter(x=>(x["Source Platform"]||"").toLowerCase().includes("news")).length;
     const qr=r.filter(x=>(x["Source Platform"]||"").toLowerCase().includes("quora")).length;
     const pos=r.filter(x=>sc(x["Sentiment Toward Competitor"])==="pos").length;
     const dom=r.length?(pos>r.length*.5?"pos":"neg"):"neu";
-    return `<tr>
-      <td style="font-weight:700;color:${ent.self?"var(--gold)":"#DDD"}">${ent.name}</td>
-      <td style="color:var(--reddit)">${rd}</td><td style="color:var(--youtube)">${yt}</td>
-      <td style="color:var(--amber)">${nw}</td><td style="color:var(--quora)">${qr}</td>
-      <td style="font-weight:700;color:var(--gold)">${r.length}</td>
-      <td>${r.filter(x=>(x["PST Compared"]||"")==="Yes").length}</td>
-      <td><span class="sb ${dom}">${dom==="pos"?"Positive":dom==="neg"?"Negative":"N/A"}</span></td>
-    </tr>`;
+    return `<tr><td style="font-weight:700;color:${ent.self?"var(--gold)":"var(--text)"}">${ent.name}</td><td style="color:#FF5722">${rd}</td><td style="color:#F44336">${yt}</td><td style="color:#FFB300">${nw}</td><td style="color:#E53935">${qr}</td><td style="font-weight:700;color:var(--gold)">${r.length}</td><td>${r.filter(x=>(x["PST Compared"]||"")==="Yes").length}</td><td><span class="sb ${dom}">${dom==="pos"?"Positive":dom==="neg"?"Negative":"N/A"}</span></td></tr>`;
   }).join("");
-  document.getElementById("compCoverageTable").innerHTML = `<div class="tw"><table><thead>${tHeader}</thead><tbody>${tRows}</tbody></table></div>`;
+  document.getElementById("coverageTable").innerHTML=`<div class="tw"><table><thead>${tH}</thead><tbody>${tR}</tbody></table></div>`;
 }
 
-// ═══════════════════════════════════════════════════════════
-// ANALYTICS
-// ═══════════════════════════════════════════════════════════
 function renderAnalytics(){
-  // Multi-platform line chart
-  const allMonths = {};
-  ["reddit","quora","medium","newspaper"].forEach(key=>{
-    byMonth(key,"Date").forEach(([m,v])=>{ if(!allMonths[m])allMonths[m]={}; allMonths[m][key]=(allMonths[m][key]||0)+v; });
-  });
-  const months = Object.keys(allMonths).sort().slice(-8);
-  mkChart("ch_multi","line",months,[
-    {label:"Reddit",data:months.map(m=>allMonths[m]?.reddit||0),borderColor:"#FF4500",backgroundColor:"transparent",tension:.4,pointRadius:3,borderWidth:2},
-    {label:"Quora",data:months.map(m=>allMonths[m]?.quora||0),borderColor:"#B92B27",backgroundColor:"transparent",tension:.4,pointRadius:3,borderWidth:2},
-    {label:"Medium",data:months.map(m=>allMonths[m]?.medium||0),borderColor:"#099B5A",backgroundColor:"transparent",tension:.4,pointRadius:3,borderWidth:2},
-    {label:"Newspaper",data:months.map(m=>allMonths[m]?.newspaper||0),borderColor:"#D88100",backgroundColor:"transparent",tension:.4,pointRadius:3,borderWidth:2},
-  ]);
+  // Multi-line
+  const allM={};
+  ["reddit","quora","medium","newspaper"].forEach(k=>{byMonth(k,"Date").forEach(([m,v])=>{if(!allM[m])allM[m]={};allM[m][k]=(allM[m][k]||0)+v;});});
+  const months=Object.keys(allM).sort().slice(-8);
+  const mc=document.getElementById("ch_multi");if(mc){if(charts.ch_multi)charts.ch_multi.destroy();
+    charts.ch_multi=new Chart(mc,{type:"line",data:{labels:months,datasets:[
+      {label:"Reddit",data:months.map(m=>allM[m]?.reddit||0),borderColor:"#FF5722",backgroundColor:"transparent",tension:.4,pointRadius:3,borderWidth:2},
+      {label:"Quora",data:months.map(m=>allM[m]?.quora||0),borderColor:"#E53935",backgroundColor:"transparent",tension:.4,pointRadius:3,borderWidth:2},
+      {label:"Medium",data:months.map(m=>allM[m]?.medium||0),borderColor:"#00C853",backgroundColor:"transparent",tension:.4,pointRadius:3,borderWidth:2},
+      {label:"Newspaper",data:months.map(m=>allM[m]?.newspaper||0),borderColor:"#FFB300",backgroundColor:"transparent",tension:.4,pointRadius:3,borderWidth:2},
+    ]},options:{responsive:true,maintainAspectRatio:false,...TT,scales:{x:{grid:{color:"rgba(255,255,255,0.02)"},ticks:{color:"#3A3D4A",maxRotation:30}},y:{grid:{color:"rgba(255,255,255,0.03)"},ticks:{color:"#3A3D4A"}}}}});}
 
-  // Mix pie
-  const mixData = [
-    {label:"Reddit",n:rows("reddit").length,c:"#FF4500"},
-    {label:"Quora",n:rows("quora").length,c:"#B92B27"},
-    {label:"PST Quora",n:rows("pstQuora").length,c:"#5939A8"},
-    {label:"YouTube",n:rows("youtube").length,c:"#FF0000"},
-    {label:"Newspaper",n:rows("newspaper").length,c:"#D88100"},
-    {label:"Medium",n:rows("medium").length,c:"#099B5A"},
-  ].filter(x=>x.n>0);
-  if(charts.ch_mix) charts.ch_mix.destroy();
-  const mc = document.getElementById("ch_mix"); if(mc){
-    charts.ch_mix = new Chart(mc,{type:"doughnut",data:{labels:mixData.map(x=>x.label),datasets:[{data:mixData.map(x=>x.n),backgroundColor:mixData.map(x=>x.c+"99"),borderColor:mixData.map(x=>x.c),borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,...TTip,cutout:"55%"}});
-  }
+  // Mix doughnut
+  const mixD=[{label:"Reddit",n:rows("reddit").length,c:"#FF5722"},{label:"Quora",n:rows("quora").length,c:"#E53935"},{label:"PST Quora",n:rows("pstQuora").length,c:"#7C4DFF"},{label:"YouTube",n:rows("youtube").length,c:"#F44336"},{label:"Newspaper",n:rows("newspaper").length,c:"#FFB300"},{label:"Medium",n:rows("medium").length,c:"#00C853"}].filter(x=>x.n>0);
+  const dc=document.getElementById("ch_mix");if(dc){if(charts.ch_mix)charts.ch_mix.destroy();
+    charts.ch_mix=new Chart(dc,{type:"doughnut",data:{labels:mixD.map(x=>x.label),datasets:[{data:mixD.map(x=>x.n),backgroundColor:mixD.map(x=>x.c+"88"),borderColor:mixD.map(x=>x.c),borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,...TT,cutout:"55%"}});}
 
-  // Period comparison table
-  const now = new Date();
-  const inRange=(row,d1,d2=0)=>{
-    const d=Object.values(row).find(v=>/\d{2}-\d{2}-\d{4}/.test(v));
-    if(!d) return false;
-    try{ const p=new Date(d.split("-").reverse().join("-")); const c1=new Date();c1.setDate(now.getDate()-d1); const c2=new Date();if(d2)c2.setDate(now.getDate()-d2); return p>=c1&&(d2===0||p<c2); }catch{ return false; }
-  };
-  const inMonth=(row,offset)=>{
-    const d=Object.values(row).find(v=>/\d{2}-\d{2}-\d{4}/.test(v));
-    if(!d) return false;
-    try{ const p=new Date(d.split("-").reverse().join("-")); const t=new Date(now.getFullYear(),now.getMonth()-offset,1); return p.getMonth()===t.getMonth()&&p.getFullYear()===t.getFullYear(); }catch{ return false; }
-  };
-  const platsMeta = [{key:"reddit",lbl:"Reddit"},{key:"quora",lbl:"Quora"},{key:"pstQuora",lbl:"PST Quora"},{key:"youtube",lbl:"YouTube"},{key:"newspaper",lbl:"Newspaper"},{key:"medium",lbl:"Medium"}];
-  const tHead = `<tr><th>Platform</th><th style="color:var(--gold)">This Week</th><th>Last Week</th><th>WoW Δ</th><th style="color:var(--gold)">This Month</th><th>Last Month</th><th>MoM Δ</th></tr>`;
-  const tRows = platsMeta.map(({key,lbl})=>{
-    const r=rows(key);
-    const tw=r.filter(x=>inRange(x,7)).length, lw=r.filter(x=>inRange(x,14,7)).length;
-    const tm=r.filter(x=>inMonth(x,0)).length, lm=r.filter(x=>inMonth(x,1)).length;
-    const wd=lw>0?Math.round((tw-lw)/lw*100):0, md=lm>0?Math.round((tm-lm)/lm*100):0;
-    return `<tr>
-      <td style="font-weight:600;color:var(--${key==="reddit"?"reddit":key==="quora"||key==="pstQuora"?"quora":key==="youtube"?"youtube":key==="newspaper"?"amber":"medium"})">${lbl}</td>
-      <td style="font-weight:700;color:var(--gold)">${tw}</td><td style="color:#666">${lw}</td>
-      <td><span class="sb ${wd>0?"pos":wd<0?"neg":"neu"}">${wd>0?"+":""}${wd}%</span></td>
-      <td style="font-weight:700;color:var(--gold)">${tm}</td><td style="color:#666">${lm}</td>
-      <td><span class="sb ${md>0?"pos":md<0?"neg":"neu"}">${md>0?"+":""}${md}%</span></td>
-    </tr>`;
+  // Period table
+  const now=new Date();
+  const inR=(row,d1,d2=0)=>{const d=Object.values(row).find(v=>/\d{2}-\d{2}-\d{4}/.test(v));if(!d)return false;try{const p=new Date(d.split("-").reverse().join("-"));const c1=new Date();c1.setDate(now.getDate()-d1);const c2=new Date();if(d2)c2.setDate(now.getDate()-d2);return p>=c1&&(d2===0||p<c2);}catch{return false;}};
+  const inMo=(row,off)=>{const d=Object.values(row).find(v=>/\d{2}-\d{2}-\d{4}/.test(v));if(!d)return false;try{const p=new Date(d.split("-").reverse().join("-"));const t=new Date(now.getFullYear(),now.getMonth()-off,1);return p.getMonth()===t.getMonth()&&p.getFullYear()===t.getFullYear();}catch{return false;}};
+  const platforms=[{k:"reddit",l:"Reddit",c:"#FF5722"},{k:"quora",l:"Quora",c:"#E53935"},{k:"pstQuora",l:"PST Quora",c:"#7C4DFF"},{k:"youtube",l:"YouTube",c:"#F44336"},{k:"newspaper",l:"Newspaper",c:"#FFB300"},{k:"medium",l:"Medium",c:"#00C853"}];
+  const tH=`<tr><th>Platform</th><th style="color:var(--gold)">This Week</th><th>Last Week</th><th>WoW Δ</th><th style="color:var(--gold)">This Month</th><th>Last Month</th><th>MoM Δ</th></tr>`;
+  const tR=platforms.map(({k,l,c})=>{
+    const r=rows(k);const tw=r.filter(x=>inR(x,7)).length,lw=r.filter(x=>inR(x,14,7)).length;
+    const tm=r.filter(x=>inMo(x,0)).length,lm=r.filter(x=>inMo(x,1)).length;
+    const wd=lw>0?Math.round((tw-lw)/lw*100):0,md=lm>0?Math.round((tm-lm)/lm*100):0;
+    return `<tr><td style="font-weight:600;color:${c}">${l}</td><td style="font-weight:700;color:var(--gold)">${tw}</td><td style="color:var(--dim)">${lw}</td><td><span class="sb ${wd>0?"pos":wd<0?"neg":"neu"}">${wd>0?"+":""}${wd}%</span></td><td style="font-weight:700;color:var(--gold)">${tm}</td><td style="color:var(--dim)">${lm}</td><td><span class="sb ${md>0?"pos":md<0?"neg":"neu"}">${md>0?"+":""}${md}%</span></td></tr>`;
   }).join("");
-  document.getElementById("perfTable").innerHTML = `<div class="tw"><table><thead>${tHead}</thead><tbody>${tRows}</tbody></table></div>`;
+  document.getElementById("perfTable").innerHTML=`<div class="tw"><table><thead>${tH}</thead><tbody>${tR}</tbody></table></div>`;
 }
 
 // ═══════════════════════════════════════════════════════════
 // NAVIGATION
 // ═══════════════════════════════════════════════════════════
-function showPage(name, btn){
+function showPage(name,btn){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("on"));
-  document.querySelectorAll(".nav-tab").forEach(b=>b.classList.remove("on"));
-  document.getElementById("page_"+name).classList.add("on");
-  if(btn) btn.classList.add("on");
-  else document.querySelectorAll(".nav-tab").forEach(b=>{ if(b.getAttribute("onclick")&&b.getAttribute("onclick").includes(name)) b.classList.add("on"); });
-}
-
-function showPlat(name, btn){
-  document.querySelectorAll(".plat-content").forEach(p=>p.classList.remove("on"));
   document.querySelectorAll(".ptab").forEach(b=>b.classList.remove("on"));
-  document.getElementById("plat_"+name).classList.add("on");
-  btn.classList.add("on");
-  activePlat = name;
+  const page=document.getElementById("page_"+name);if(page)page.classList.add("on");
+  if(btn)btn.classList.add("on");
+  else document.querySelectorAll(".ptab").forEach(b=>{if((b.getAttribute("onclick")||"").includes(`'${name}'`))b.classList.add("on");});
 }
-
+function showPlat(name,btn){
+  document.querySelectorAll(".plat-content").forEach(p=>p.classList.remove("on"));
+  document.querySelectorAll(".plat-btn").forEach(b=>b.classList.remove("on"));
+  const pc=document.getElementById("plat_"+name);if(pc)pc.classList.add("on");
+  btn.classList.add("on");
+}
 function goToPlat(key){
-  showPage("content", null);
-  // find the right ptab button and click it
-  const tabs = document.querySelectorAll(".ptab");
-  tabs.forEach(tab=>{ if(tab.getAttribute("onclick")&&tab.getAttribute("onclick").includes(key)) tab.click(); });
+  showPage("content",null);
+  document.querySelectorAll(".plat-btn").forEach(btn=>{if((btn.getAttribute("onclick")||"").includes(`'${key}'`))btn.click();});
 }
-
-// ═══════════════════════════════════════════════════════════
-// DATE FILTER
-// ═══════════════════════════════════════════════════════════
-function setDateRange(range, btn){
-  dateRange = range;
-  document.querySelectorAll(".d-btn").forEach(b=>b.classList.remove("on"));
-  btn.classList.add("on");
-  const cd = document.getElementById("customDates");
-  cd.style.display = range==="custom" ? "flex" : "none";
-  if(range!=="custom") renderAll();
+function setRange(r,btn){
+  dateRange=r;
+  document.querySelectorAll(".d-btn").forEach(b=>b.classList.remove("on"));btn.classList.add("on");
+  document.getElementById("customDates").style.display=r==="custom"?"flex":"none";
+  if(r!=="custom")renderAll();
 }
-
-document.getElementById("dateFrom").addEventListener("change",e=>{ customFrom=e.target.value; renderAll(); });
-document.getElementById("dateTo").addEventListener("change",e=>{ customTo=e.target.value; renderAll(); });
+document.getElementById("dFrom").addEventListener("change",e=>{customFrom=e.target.value;renderAll();});
+document.getElementById("dTo").addEventListener("change",e=>{customTo=e.target.value;renderAll();});
 
 // ═══════════════════════════════════════════════════════════
-// DOWNLOAD REPORT
+// DOWNLOAD
 // ═══════════════════════════════════════════════════════════
 function downloadReport(){
-  const d = new Date().toLocaleDateString("en-IN");
-  const w = rows("weekly"); const latest = w.length?w[w.length-1]:{};
-  const live = liveRows("reddit","Post Link").length + liveRows("quora","Answer Live Link").length + liveRows("pstQuora","Live Link").length + rows("youtube").length + liveRows("newspaper","Published Link").length + liveRows("medium","Live Link").length;
-  const acts = [];
-  if(!CFG.contentSheetId) acts.push("Paste Content Log Sheet ID in Settings to activate all platform tabs.");
-  if(!CFG.apis.youtube_api) acts.push("Add YouTube API key → YouTube auto-collection activates immediately.");
-  if(!CFG.apis.newsapi_key) acts.push("Add NewsAPI key → Newspaper data auto-syncs daily.");
-  if(!CFG.apis.claude_api) acts.push("Add Claude API key → Sentiment auto-tagged on every row.");
-  const neg = rows("brand").filter(r=>sc(r["Sentiment"])==="neg");
-  if(neg.length>3) acts.push(neg.length+" negative brand mentions. Review and respond to top 3 this week.");
-  if(!acts.length) acts.push("All systems active. Keep logging content daily.");
-
-  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Polaris ORM Report - ${d}</title>
-  <style>body{font-family:Arial,sans-serif;max-width:900px;margin:40px auto;color:#111;line-height:1.6}
-  h1{color:#D88100;border-bottom:3px solid #FFCC3F;padding-bottom:10px}h2{color:#333;margin-top:28px}
-  table{width:100%;border-collapse:collapse;margin:14px 0}th{background:#1A1A1A;color:#FFF;padding:9px;text-align:left}
-  td{padding:9px;border-bottom:1px solid #EEE}.kpi{display:inline-block;padding:14px 22px;background:#FFF9E6;border:2px solid #FFCC3F;border-radius:9px;margin:7px;text-align:center}
-  .kpi-n{font-size:26px;font-weight:800;color:#D88100}.kpi-l{font-size:11px;color:#888}</style></head><body>
-  <h1>Polaris ORM Intelligence Report</h1><p><b>Generated:</b> ${d} | <b>Period:</b> ${dateRange==="all"?"All time":dateRange}</p>
+  const d=new Date().toLocaleDateString("en-IN");
+  const live=liveRows("reddit","Post Link").length+liveRows("quora","Answer Live Link").length+liveRows("pstQuora","Live Link").length+rows("youtube").length+liveRows("newspaper","Published Link").length+liveRows("medium","Live Link").length;
+  const w=rows("weekly");const lat=w.length?w[w.length-1]:{};
+  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Polaris ORM Report</title>
+  <style>body{font-family:Arial,sans-serif;max-width:900px;margin:40px auto;color:#111;line-height:1.6}h1{color:#D88100;border-bottom:3px solid #FFCC3F;padding-bottom:10px}h2{color:#333;margin-top:26px}table{width:100%;border-collapse:collapse;margin:12px 0}th{background:#1A1A1A;color:#FFF;padding:8px;text-align:left}td{padding:8px;border-bottom:1px solid #EEE}.kpi{display:inline-block;padding:14px 20px;background:#FFF9E6;border:2px solid #FFCC3F;border-radius:9px;margin:6px;text-align:center}.kpi-n{font-size:24px;font-weight:800;color:#D88100}.kpi-l{font-size:11px;color:#888}</style></head><body>
+  <h1>Polaris ORM Intelligence Report</h1><p><b>Generated:</b> ${d} | <b>Period:</b> ${dateRange}</p>
   <h2>Key Metrics</h2><div>
   <div class="kpi"><div class="kpi-n">${live}</div><div class="kpi-l">Live Content</div></div>
-  <div class="kpi"><div class="kpi-n">${rows("reddit").length}</div><div class="kpi-l">Reddit Posts</div></div>
-  <div class="kpi"><div class="kpi-n">${rows("quora").length}</div><div class="kpi-l">Quora Answers</div></div>
+  <div class="kpi"><div class="kpi-n">${rows("reddit").length}</div><div class="kpi-l">Reddit</div></div>
+  <div class="kpi"><div class="kpi-n">${rows("quora").length}</div><div class="kpi-l">Quora</div></div>
   <div class="kpi"><div class="kpi-n">${rows("newspaper").length}</div><div class="kpi-l">Newspaper PR</div></div>
   <div class="kpi"><div class="kpi-n">${rows("brand").length}</div><div class="kpi-l">Brand Mentions</div></div></div>
-  <h2>Weekly Intelligence</h2><p>${latest["AI Narrative"]||"Connect Listening Sheet for AI-generated narratives."}</p>
-  <h2>Priority Actions</h2><ol>${acts.map(a=>`<li>${a}</li>`).join("")}</ol>
-  <p style="color:#999;font-size:11px;margin-top:36px">Polaris School of Technology · ORM Intelligence System v2.0 · ${d}</p>
-  </body></html>`;
-  const blob = new Blob([html],{type:"text/html"});
-  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
-  a.download = `Polaris_ORM_${d.replace(/\//g,"-")}.html`; a.click();
-}
-
-// ═══════════════════════════════════════════════════════════
-// VOICE
-// ═══════════════════════════════════════════════════════════
-function toggleVoice(){
-  isRecording = !isRecording;
-  const btn = document.getElementById("voiceBtn");
-  btn.classList.toggle("rec", isRecording);
-  btn.textContent = isRecording ? "⏹" : "🎙";
-  btn.title = isRecording ? "Stop recording" : "Voice note";
+  <h2>Weekly Intelligence</h2><p>${lat["AI Narrative"]||"Connect Listening Sheet for AI narratives."}</p>
+  <p style="color:#999;font-size:11px;margin-top:36px">Polaris School of Technology · ORM v3.0 · ${d}</p></body></html>`;
+  const blob=new Blob([html],{type:"text/html"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`Polaris_ORM_${d.replace(/\//g,"-")}.html`;a.click();
 }
 
 // ═══════════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════════
 loadCFG();
-document.getElementById("footerRefresh").textContent = CFG.refreshInterval;
+// Render immediately with empty state — shows proper "No sheet" messages
+renderAll();
+// Then load data (will re-render with real data)
 loadAll();
 </script>
 </body>
