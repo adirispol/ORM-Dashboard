@@ -1,573 +1,873 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Polaris ORM Intelligence Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<style>
-:root {
-  --gold: #FFCC3F; --orange: #FF9A3F; --amber: #D88100;
-  --black: #020202; --purple: #5939A8; --green: #099B5A; --red: #BA0E13;
-  --card: #1A1A1A; --border: #2A2A2A;
-  --reddit: #FF4500; --quora: #B92B27; --youtube: #FF0000;
-}
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Poppins',sans-serif; background:#0A0A0A; color:#E0E0E0; }
+import { useState, useEffect, useRef, useCallback } from "react";
+import { BarChart, Bar, LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend, RadarChart, Radar, PolarGrid, PolarAngleAxis, PieChart, Pie, Cell } from "recharts";
 
-/* NAV */
-.nav { background:var(--black); border-bottom:2px solid var(--gold); height:64px; display:flex; align-items:center; justify-content:space-between; padding:0 20px; position:sticky; top:0; z-index:100; gap:10px; }
-.logo { font-size:12px; font-weight:700; letter-spacing:.14em; color:var(--gold); white-space:nowrap; }
-.logo span { color:var(--orange); }
-.nav-title { font-family:'Playfair Display',serif; font-size:14px; color:#fff; flex:1; text-align:center; }
-.nav-r { display:flex; align-items:center; gap:8px; }
-.ts { font-size:10px; color:#555; white-space:nowrap; }
-.btn { background:rgba(255,204,63,.1); border:1px solid rgba(255,204,63,.3); color:var(--gold); font:600 11px 'Poppins',sans-serif; padding:6px 11px; border-radius:6px; cursor:pointer; transition:.2s; }
-.btn:hover { background:rgba(255,204,63,.2); }
-.gear { background:none; border:1px solid #2A2A2A; color:#777; width:34px; height:34px; border-radius:8px; cursor:pointer; font-size:15px; transition:.2s; }
-.gear:hover { border-color:var(--gold); color:var(--gold); }
+const G = {
+  gold:"#FFCC3F",orange:"#FF9A3F",amber:"#D88100",black:"#020202",
+  purple:"#5939A8",green:"#099B5A",red:"#BA0E13",card:"#111318",
+  border:"#1E2028",bg:"#080A0F",reddit:"#FF4500",quora:"#B92B27",
+  youtube:"#FF0000",medium:"#099B5A",newspaper:"#D88100",blue:"#3B82F6",
+};
 
-/* CONFIG */
-.ov { display:none; position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:200; }
-.ov.on { display:block; }
-.cfg { position:fixed; top:0; right:-440px; width:440px; height:100vh; background:#111; border-left:2px solid var(--gold); z-index:201; overflow-y:auto; transition:right .3s; padding:22px; }
-.cfg.on { right:0; }
-.cfg-h { font-size:13px; font-weight:700; color:var(--gold); margin-bottom:18px; letter-spacing:.08em; text-transform:uppercase; }
-.cg { margin-bottom:18px; }
-.cg-l { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:#444; margin-bottom:7px; padding-bottom:5px; border-bottom:1px solid #1E1E1E; }
-.cf { margin-bottom:8px; }
-.cf label { font-size:11px; color:#777; display:block; margin-bottom:3px; }
-.cf input, .cf select { width:100%; background:#1A1A1A; border:1px solid #2A2A2A; color:#DDD; font:12px 'Poppins',sans-serif; padding:7px 10px; border-radius:6px; outline:none; }
-.cf input:focus, .cf select:focus { border-color:var(--gold); }
-.ch { font-size:10px; color:#444; margin-top:2px; }
-.save { width:100%; background:var(--gold); color:#000; font:700 13px 'Poppins',sans-serif; padding:11px; border:none; border-radius:8px; cursor:pointer; margin-top:14px; }
-.save:hover { background:#FFD966; }
+const PLATFORM_META = {
+  reddit:   {label:"Reddit",color:G.reddit,icon:"🔴",apiKey:"youtube_api",noApi:true},
+  quora:    {label:"Quora Seeding",color:G.quora,icon:"🟣",apiKey:"apify_key"},
+  pstQuora: {label:"PST Quora",color:G.purple,icon:"💜",noApi:true},
+  youtube:  {label:"YouTube",color:G.youtube,icon:"📺",apiKey:"youtube_api"},
+  newspaper:{label:"Newspaper PR",color:G.amber,icon:"📰",apiKey:"newsapi_key"},
+  medium:   {label:"Medium",color:G.green,icon:"📝",noApi:true},
+};
 
-/* MAIN */
-.main { max-width:1300px; margin:0 auto; padding:22px 18px; }
+const DEFAULT_SETTINGS = {
+  contentSheetId:"",listeningSheetId:"",
+  tabs:{reddit:"Reddit",quora:"Quora Seeding",pstQuora:"PST Quora",youtube:"YouTube Comments",newspaper:"Newspaper PR",medium:"Medium",brandMentions:"Brand Mentions",competitorMentions:"Competitor Mentions",weeklySummary:"Weekly Summary"},
+  apis:{youtube_api:"",newsapi_key:"",claude_api:"",apify_key:""},
+  competitors:["Scaler","Newton School of Technology","upGrad","Great Learning","BITS Pilani"],
+  northStarGoal:500,refreshInterval:5,
+};
 
-/* NORTH STAR */
-.ns { background:linear-gradient(135deg,#1A1200,#0A0A0A); border:1px solid rgba(255,204,63,.18); border-radius:12px; padding:18px 22px; margin-bottom:20px; box-shadow:0 0 0 1px rgba(255,204,63,.06); }
-.ns-h { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px; }
-.ns-lbl { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--gold); }
-.ns-sub { font-size:11px; color:#555; }
-.ns-num { font-size:22px; font-weight:700; color:var(--gold); }
-.track { background:#1A1A1A; border-radius:8px; height:9px; overflow:hidden; }
-.fill { height:100%; border-radius:8px; background:linear-gradient(90deg,var(--gold),var(--orange)); transition:width .8s ease; }
-
-/* KPI */
-.kpis { display:grid; grid-template-columns:repeat(6,1fr); gap:11px; margin-bottom:20px; }
-.kc { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:14px 12px; box-shadow:0 0 0 1px rgba(255,204,63,.05); transition:.2s; }
-.kc:hover { transform:translateY(-2px); border-color:rgba(255,204,63,.2); }
-.ki { margin-bottom:7px; opacity:.7; }
-.kn { font-size:24px; font-weight:700; color:var(--gold); line-height:1; margin-bottom:3px; }
-.kl { font-size:9px; font-weight:600; text-transform:uppercase; letter-spacing:.1em; color:#444; margin-bottom:5px; }
-.kd { font-size:10px; font-weight:600; color:#555; }
-
-/* SECTION HEADING */
-.sh { display:flex; align-items:center; gap:10px; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid #181818; }
-.sh h2 { font-size:15px; font-weight:700; color:#FFF; }
-.sh-acc { width:38px; height:3px; border-radius:2px; background:var(--gold); margin-top:2px; }
-
-/* TABS */
-.tabs { display:flex; gap:4px; margin-bottom:18px; flex-wrap:wrap; }
-.tb { padding:7px 13px; border-radius:8px; border:1px solid #2A2A2A; background:#141414; color:#555; font:600 11px 'Poppins',sans-serif; cursor:pointer; transition:.2s; }
-.tb.on { background:rgba(255,204,63,.1); border-color:rgba(255,204,63,.35); color:var(--gold); }
-.tb:hover:not(.on) { color:#999; border-color:#333; }
-.tp { display:none; }
-.tp.on { display:block; }
-
-/* CARDS */
-.g2 { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:18px; }
-.card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:18px; }
-.ct { font-size:11px; font-weight:600; color:#666; text-transform:uppercase; letter-spacing:.08em; margin-bottom:12px; }
-.cw { position:relative; height:190px; }
-
-/* TABLES */
-.tw { max-height:270px; overflow-y:auto; border-radius:8px; border:1px solid #1E1E1E; }
-table { width:100%; border-collapse:collapse; font-size:12px; }
-th { background:#0D0D0D; color:#666; font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; padding:9px 11px; text-align:left; border-bottom:1px solid var(--gold); position:sticky; top:0; }
-th:last-child { text-align:right; }
-tr:nth-child(odd) td { background:var(--card); }
-tr:nth-child(even) td { background:#141414; }
-tr:hover td { background:#1F1F1F; }
-td { padding:8px 11px; color:#CCC; vertical-align:middle; }
-td:last-child { text-align:right; font-weight:600; color:var(--gold); }
-.lb { display:inline-block; padding:2px 8px; background:rgba(255,204,63,.08); border:1px solid rgba(255,204,63,.22); border-radius:5px; color:var(--gold); font-size:10px; text-decoration:none; transition:.2s; }
-.lb:hover { background:rgba(255,204,63,.18); }
-.sb { display:inline-block; padding:2px 7px; border-radius:10px; font-size:9px; font-weight:600; }
-.sb.pos { background:rgba(9,155,90,.15); color:#4CAF84; }
-.sb.neg { background:rgba(186,14,19,.15); color:#E05555; }
-.sb.neu { background:rgba(100,100,100,.12); color:#777; }
-
-/* FEED */
-.feed { display:flex; flex-direction:column; gap:7px; max-height:350px; overflow-y:auto; }
-.fc { background:#141414; border:1px solid #1E1E1E; border-radius:8px; padding:11px 13px; transition:.2s; }
-.fc:hover { border-color:#333; }
-.fch { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-bottom:5px; }
-.fct { font-size:12px; color:#DDD; font-weight:500; line-height:1.4; flex:1; }
-.fcm { display:flex; gap:5px; align-items:center; flex-shrink:0; }
-.dot { width:7px; height:7px; border-radius:50%; }
-.fcs { font-size:10px; color:#444; }
-
-/* INTEL */
-.intel { background:linear-gradient(135deg,#12100A,#0A0A0A); border:1px solid rgba(255,204,63,.12); border-radius:12px; padding:18px; }
-.narr { font-size:13px; color:#AAA; line-height:1.7; margin-bottom:12px; font-style:italic; }
-.alist { display:flex; flex-direction:column; gap:7px; }
-.ai { display:flex; gap:9px; align-items:flex-start; background:rgba(255,204,63,.04); border:1px solid rgba(255,204,63,.09); border-radius:8px; padding:9px 11px; }
-.an { width:20px; height:20px; border-radius:50%; background:var(--gold); color:#000; font-size:10px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
-.at { font-size:12px; color:#CCC; line-height:1.5; }
-
-/* STATES */
-.loading, .err, .empty { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:36px; text-align:center; gap:7px; }
-.sp { width:26px; height:26px; border:2px solid #2A2A2A; border-top-color:var(--gold); border-radius:50%; animation:spin .8s linear infinite; }
-@keyframes spin { to { transform:rotate(360deg); } }
-.loading p, .empty p { font-size:12px; color:#444; }
-.err p { font-size:12px; color:var(--red); }
-.err .d { color:#444!important; } .err .h { color:#333!important; font-size:10px!important; }
-
-footer { text-align:center; padding:22px; font-size:10px; color:#2A2A2A; border-top:1px solid #181818; margin-top:36px; letter-spacing:.06em; }
-
-/* RESPONSIVE */
-@media(max-width:1100px){.kpis{grid-template-columns:repeat(3,1fr);}}
-@media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr);}.g2{grid-template-columns:1fr;}.cfg{width:100%;right:-100%;}}
-@media(max-width:480px){.nav-title{display:none;}}
-</style>
-</head>
-<body>
-
-<nav class="nav">
-  <div class="logo">POLARIS <span>SCHOOL OF TECHNOLOGY</span></div>
-  <div class="nav-title">ORM Intelligence Dashboard</div>
-  <div class="nav-r">
-    <span class="ts" id="ts">Not loaded</span>
-    <button class="btn" onclick="loadAll()">↺ Refresh</button>
-    <button class="gear" onclick="togCfg()">⚙</button>
-  </div>
-</nav>
-
-<div class="ov" id="ov" onclick="togCfg()"></div>
-<div class="cfg" id="cfg">
-  <div class="cfg-h">⚙ Dashboard Settings</div>
-
-  <div class="cg">
-    <div class="cg-l">Content Log Sheet (Sheet 1 — You maintain)</div>
-    <div class="cf"><label>Sheet ID</label><input id="s1" placeholder="Paste Sheet 1 ID here"><div class="ch">From URL: docs.google.com/spreadsheets/d/<b>[THIS PART]</b>/edit</div></div>
-  </div>
-
-  <div class="cg">
-    <div class="cg-l">Listening Sheet (Sheet 2 — Automated)</div>
-    <div class="cf"><label>Sheet ID</label><input id="s2" placeholder="Paste Listening Sheet ID here"></div>
-  </div>
-
-  <div class="cg">
-    <div class="cg-l">Content Log Tab Names</div>
-    <div class="cf"><label>Reddit</label><input id="t_reddit" value="Reddit"></div>
-    <div class="cf"><label>Quora Seeding</label><input id="t_quora_seed" value="Quora Seeding"></div>
-    <div class="cf"><label>PST Quora</label><input id="t_pst_quora" value="PST Quora"></div>
-    <div class="cf"><label>YouTube Comments</label><input id="t_yt" value="YouTube Comments"></div>
-    <div class="cf"><label>Newspaper PR</label><input id="t_news" value="Newspaper PR"></div>
-    <div class="cf"><label>Medium</label><input id="t_medium" value="Medium"></div>
-  </div>
-
-  <div class="cg">
-    <div class="cg-l">Listening Sheet Tab Names</div>
-    <div class="cf"><label>Brand Mentions</label><input id="t_brand" value="Brand Mentions"></div>
-    <div class="cf"><label>Competitor Mentions</label><input id="t_comp" value="Competitor Mentions"></div>
-    <div class="cf"><label>Weekly Summary</label><input id="t_weekly" value="Weekly Summary"></div>
-  </div>
-
-  <div class="cg">
-    <div class="cg-l">Goals & Display</div>
-    <div class="cf"><label>North Star goal (live content pieces)</label><input id="goal" type="number" value="500"></div>
-    <div class="cf"><label>Auto-refresh</label>
-      <select id="refr">
-        <option value="2">Every 2 min</option>
-        <option value="5" selected>Every 5 min</option>
-        <option value="10">Every 10 min</option>
-      </select>
-    </div>
-  </div>
-
-  <button class="save" onclick="saveCfg()">Save & Reload Data</button>
-</div>
-
-<main class="main">
-
-  <!-- NORTH STAR -->
-  <div class="ns">
-    <div class="ns-h">
-      <div>
-        <div class="ns-lbl">🎯 North Star — Live Content Goal</div>
-        <div class="ns-sub">Target: <span id="goalT">500</span> live pieces by June 2026</div>
-      </div>
-      <div style="text-align:right">
-        <div class="ns-num" id="liveC">—</div>
-        <div class="ns-sub" id="goalP">Waiting for data…</div>
-      </div>
-    </div>
-    <div class="track"><div class="fill" id="pf" style="width:0%"></div></div>
-  </div>
-
-  <!-- KPIs -->
-  <div class="kpis">
-    <div class="kc">
-      <div class="ki"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF4500" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16.72 7.99a2 2 0 1 0-2.32 3.22 4 4 0 0 1-4.8 0A2 2 0 1 0 7.28 7.99"/><circle cx="9" cy="14" r="1" fill="#FF4500"/><circle cx="15" cy="14" r="1" fill="#FF4500"/></svg></div>
-      <div class="kn" id="k_reddit">—</div>
-      <div class="kl">Reddit Posts</div>
-      <div class="kd" id="kd_reddit">Loading…</div>
-    </div>
-    <div class="kc">
-      <div class="ki"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B92B27" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M8 12h8M12 8v8"/></svg></div>
-      <div class="kn" id="k_quora">—</div>
-      <div class="kl">Quora Answers</div>
-      <div class="kd" id="kd_quora">Loading…</div>
-    </div>
-    <div class="kc">
-      <div class="ki"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF0000" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#FF0000"/></svg></div>
-      <div class="kn" id="k_yt">—</div>
-      <div class="kl">YT Comments</div>
-      <div class="kd" id="kd_yt">Loading…</div>
-    </div>
-    <div class="kc">
-      <div class="ki"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D88100" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
-      <div class="kn" id="k_news">—</div>
-      <div class="kl">Newspaper PR</div>
-      <div class="kd" id="kd_news">Loading…</div>
-    </div>
-    <div class="kc">
-      <div class="ki"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#099B5A" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
-      <div class="kn" id="k_medium">—</div>
-      <div class="kl">Medium Articles</div>
-      <div class="kd" id="kd_medium">Loading…</div>
-    </div>
-    <div class="kc">
-      <div class="ki"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFCC3F" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
-      <div class="kn" id="k_mentions">—</div>
-      <div class="kl">Brand Mentions</div>
-      <div class="kd" id="kd_mentions">7-day feed ↓</div>
-    </div>
-  </div>
-
-  <!-- PLATFORM CONTENT -->
-  <div class="sh">
-    <div><h2>Content Performance</h2><div class="sh-acc"></div></div>
-  </div>
-
-  <div class="tabs">
-    <button class="tb on" onclick="sw('reddit',this)"><span style="color:#FF4500">●</span> Reddit</button>
-    <button class="tb" onclick="sw('quora_seed',this)"><span style="color:#B92B27">●</span> Quora Seeding</button>
-    <button class="tb" onclick="sw('pst_quora',this)"><span style="color:#5939A8">●</span> PST Quora</button>
-    <button class="tb" onclick="sw('yt',this)"><span style="color:#FF0000">●</span> YouTube</button>
-    <button class="tb" onclick="sw('news',this)"><span style="color:#D88100">●</span> Newspaper PR</button>
-    <button class="tb" onclick="sw('medium',this)"><span style="color:#099B5A">●</span> Medium</button>
-  </div>
-
-  <div class="tp on" id="tp_reddit">
-    <div class="g2">
-      <div class="card"><div class="ct">Impressions Trend</div><div class="cw"><canvas id="ch_reddit"></canvas></div></div>
-      <div class="card"><div class="ct">Quick Stats</div><div id="st_reddit"></div></div>
-    </div>
-    <div class="card"><div class="ct">All Reddit Posts</div><div class="tw" id="tb_reddit"><div class="loading"><div class="sp"></div><p>Syncing…</p></div></div></div>
-  </div>
-
-  <div class="tp" id="tp_quora_seed">
-    <div class="g2">
-      <div class="card"><div class="ct">Impressions Trend</div><div class="cw"><canvas id="ch_quora_seed"></canvas></div></div>
-      <div class="card"><div class="ct">Quick Stats</div><div id="st_quora_seed"></div></div>
-    </div>
-    <div class="card"><div class="ct">All Quora Seeding Answers</div><div class="tw" id="tb_quora_seed"><div class="loading"><div class="sp"></div><p>Syncing…</p></div></div></div>
-  </div>
-
-  <div class="tp" id="tp_pst_quora">
-    <div class="g2">
-      <div class="card"><div class="ct">Impressions Trend</div><div class="cw"><canvas id="ch_pst_quora"></canvas></div></div>
-      <div class="card"><div class="ct">Quick Stats</div><div id="st_pst_quora"></div></div>
-    </div>
-    <div class="card"><div class="ct">PST Quora Answers</div><div class="tw" id="tb_pst_quora"><div class="loading"><div class="sp"></div><p>Syncing…</p></div></div></div>
-  </div>
-
-  <div class="tp" id="tp_yt">
-    <div class="card"><div class="ct">YouTube Comments Seeded</div><div class="tw" id="tb_yt"><div class="loading"><div class="sp"></div><p>Syncing…</p></div></div></div>
-  </div>
-
-  <div class="tp" id="tp_news">
-    <div class="g2">
-      <div class="card"><div class="ct">PR Coverage Trend</div><div class="cw"><canvas id="ch_news"></canvas></div></div>
-      <div class="card"><div class="ct">Quick Stats</div><div id="st_news"></div></div>
-    </div>
-    <div class="card"><div class="ct">All Newspaper Coverage</div><div class="tw" id="tb_news"><div class="loading"><div class="sp"></div><p>Syncing…</p></div></div></div>
-  </div>
-
-  <div class="tp" id="tp_medium">
-    <div class="g2">
-      <div class="card"><div class="ct">Articles Published Trend</div><div class="cw"><canvas id="ch_medium"></canvas></div></div>
-      <div class="card"><div class="ct">Quick Stats</div><div id="st_medium"></div></div>
-    </div>
-    <div class="card"><div class="ct">All Medium Articles</div><div class="tw" id="tb_medium"><div class="loading"><div class="sp"></div><p>Syncing…</p></div></div></div>
-  </div>
-
-  <!-- ORM SECTION -->
-  <div class="sh" style="margin-top:32px">
-    <div><h2>ORM Intelligence</h2><div class="sh-acc"></div></div>
-    <span style="font-size:11px;color:#444;margin-left:auto">Auto-collected · Claude-tagged</span>
-  </div>
-
-  <div class="g2">
-    <div class="card">
-      <div class="ct">Live Brand Mention Feed (last 7 days)</div>
-      <div class="feed" id="brandFeed"><div class="loading"><div class="sp"></div><p>Loading mentions…</p></div></div>
-    </div>
-    <div class="card">
-      <div class="ct">Competitor Sentiment Comparison</div>
-      <div class="cw"><canvas id="ch_comp"></canvas></div>
-    </div>
-  </div>
-
-  <div class="g2">
-    <div class="card">
-      <div class="ct">PST Sentiment Trend (weekly)</div>
-      <div class="cw"><canvas id="ch_sent"></canvas></div>
-    </div>
-    <div class="intel">
-      <div class="ct">Weekly Intelligence — Claude Generated</div>
-      <div class="narr" id="narr">Connect your Listening Sheet in ⚙ Settings to load AI-generated weekly intelligence here. This updates every Monday at 8:30 AM automatically once your Apps Script is running.</div>
-      <div class="ct" style="margin-bottom:8px">This Week's Priority Actions</div>
-      <div class="alist" id="alist">
-        <div class="ai"><div class="an">1</div><div class="at">Connect Listening Sheet ID in ⚙ Settings to unlock AI actionables</div></div>
-        <div class="ai"><div class="an">2</div><div class="at">Set up Apps Script automation — see README.md in this repo</div></div>
-        <div class="ai"><div class="an">3</div><div class="at">Run dailyCollection() manually in Apps Script to test first collection</div></div>
-      </div>
-    </div>
-  </div>
-
-</main>
-
-<footer>Polaris School of Technology &nbsp;·&nbsp; ORM Intelligence Dashboard v2.0 &nbsp;·&nbsp; Built by Aditya &nbsp;·&nbsp; Data auto-syncs every 5 min</footer>
-
-<script>
-const DEF = {s1:'',s2:'',t_reddit:'Reddit',t_quora_seed:'Quora Seeding',t_pst_quora:'PST Quora',t_yt:'YouTube Comments',t_news:'Newspaper PR',t_medium:'Medium',t_brand:'Brand Mentions',t_comp:'Competitor Mentions',t_weekly:'Weekly Summary',goal:500,refr:5};
-let C={}, charts={}, timer=null;
-
-function loadCfg(){
-  try{const s=localStorage.getItem('p_orm');C=s?{...DEF,...JSON.parse(s)}:{...DEF};}catch(e){C={...DEF};}
-  for(const k in DEF){const el=document.getElementById(k);if(el)el.value=C[k];}
-}
-function saveCfg(){
-  for(const k in DEF){const el=document.getElementById(k);if(el)C[k]=el.type==='number'?parseInt(el.value)||DEF[k]:el.value;}
-  localStorage.setItem('p_orm',JSON.stringify(C));
-  togCfg(); loadAll();
-}
-function togCfg(){document.getElementById('cfg').classList.toggle('on');document.getElementById('ov').classList.toggle('on');}
-function sw(name,btn){
-  document.querySelectorAll('.tp').forEach(t=>t.classList.remove('on'));
-  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
-  document.getElementById('tp_'+name).classList.add('on');
-  btn.classList.add('on');
-}
+const fmtNum=v=>{const n=parseInt(String(v).replace(/,/g,""))||0;return n>=1000?(n/1000).toFixed(1)+"k":n.toString();};
+const toNum=v=>parseInt(String(v).replace(/,/g,""))||0;
+const sc=s=>{if(!s)return"neu";const l=s.toLowerCase();return l.includes("pos")?"pos":l.includes("neg")?"neg":"neu";};
+const sl=s=>{if(!s)return"—";const l=s.toLowerCase();return l.includes("pos")?"Positive":l.includes("neg")?"Negative":"Neutral";};
+const trunc=(s,n)=>s&&s.length>n?s.slice(0,n)+"…":(s||"—");
 
 async function fetchCSV(sheetId,tab){
-  if(!sheetId)throw new Error('No Sheet ID — open ⚙ Settings');
+  if(!sheetId)throw new Error("No Sheet ID");
   const url=`https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tab)}`;
-  const r=await fetch(url);
-  if(!r.ok)throw new Error('HTTP '+r.status);
-  return parseCSV(await r.text());
-}
-
-function parseCSV(txt){
-  const lines=txt.trim().split('\n');
-  const rows=lines.map(l=>{
-    const cols=[]; let cur='',inQ=false;
-    for(const c of l){if(c==='"'){inQ=!inQ;}else if(c===','&&!inQ){cols.push(cur.trim());cur='';}else{cur+=c;}}
-    cols.push(cur.trim()); return cols;
+  const r=await fetch(url);if(!r.ok)throw new Error("HTTP "+r.status);
+  const text=await r.text();
+  const lines=text.trim().split("\n");
+  const rows=lines.map(line=>{
+    const cols=[];let cur="",inQ=false;
+    for(const c of line){if(c==='"')inQ=!inQ;else if(c===','&&!inQ){cols.push(cur.trim());cur="";}else cur+=c;}
+    cols.push(cur.trim());return cols;
   });
-  if(rows.length<2)return [];
+  if(rows.length<2)return[];
   const h=rows[0];
-  return rows.slice(1).map(r=>{const o={};h.forEach((k,i)=>o[k]=r[i]||'');return o;});
+  return rows.slice(1).map(row=>{const o={};h.forEach((k,i)=>o[k]=row[i]||"");return o;});
 }
 
-const n=v=>parseInt(String(v).replace(/,/g,''))||0;
-const f=v=>{const x=n(v);return x>=1000?(x/1000).toFixed(1)+'k':String(x);};
-const sc=s=>{if(!s)return 'neu';const l=s.toLowerCase();if(l.includes('pos'))return 'pos';if(l.includes('neg'))return 'neg';return 'neu';};
-const sl=s=>{if(!s)return '—';const l=s.toLowerCase();if(l.includes('pos'))return 'Positive';if(l.includes('neg'))return 'Negative';return 'Neutral';};
-const trunc=(s,len)=>s&&s.length>len?s.slice(0,len)+'…':s||'—';
+const CSS=`
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:${G.bg};color:#E2E8F0;overflow-x:hidden;}
+::-webkit-scrollbar{width:4px;height:4px;}::-webkit-scrollbar-track{background:#0D0F14;}
+::-webkit-scrollbar-thumb{background:#2A2D36;border-radius:4px;}
+.nav{position:sticky;top:0;z-index:200;background:rgba(8,10,15,0.94);backdrop-filter:blur(20px);border-bottom:1px solid #1A1D26;padding:0 20px;height:58px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.nav-logo{font-family:'Syne',sans-serif;font-size:12px;font-weight:800;letter-spacing:.16em;color:${G.gold};white-space:nowrap;}
+.nav-logo span{color:${G.orange};}
+.nav-tabs{display:flex;gap:2px;background:#0D0F14;border:1px solid #1A1D26;border-radius:9px;padding:3px;}
+.nav-tab{padding:5px 13px;border-radius:7px;font-size:11px;font-weight:500;cursor:pointer;border:none;background:transparent;color:#555;transition:.2s;white-space:nowrap;}
+.nav-tab.on{background:#1A1D26;color:${G.gold};}
+.nav-tab:hover:not(.on){color:#999;}
+.nav-r{display:flex;align-items:center;gap:7px;}
+.nav-ts{font-size:10px;color:#444;white-space:nowrap;}
+.btn{padding:6px 12px;border-radius:7px;font:600 11px 'DM Sans',sans-serif;cursor:pointer;border:none;transition:.2s;}
+.btn-gold{background:${G.gold};color:#000;}.btn-gold:hover{background:#FFD966;}
+.btn-out{background:rgba(255,204,63,.07);border:1px solid rgba(255,204,63,.2);color:${G.gold};}.btn-out:hover{background:rgba(255,204,63,.14);}
+.btn-ghost{background:rgba(255,255,255,.03);border:1px solid #1E2028;color:#777;}.btn-ghost:hover{border-color:#333;color:#CCC;}
+.dl-btn{display:flex;align-items:center;gap:5px;padding:6px 13px;border-radius:7px;background:linear-gradient(135deg,${G.gold},${G.orange});color:#000;font:700 11px 'DM Sans',sans-serif;border:none;cursor:pointer;transition:.2s;white-space:nowrap;}
+.dl-btn:hover{filter:brightness(1.1);}
+.voice-btn{width:34px;height:34px;border-radius:50%;border:1px solid #1A1D26;background:#0D0F14;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:.2s;}
+.voice-btn:hover{border-color:${G.gold};}
+.voice-btn.rec{background:rgba(186,14,19,.2);border-color:${G.red};animation:pulse 1s infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(186,14,19,.4)}50%{box-shadow:0 0 0 5px rgba(186,14,19,0)}}
+.main{max-width:1440px;margin:0 auto;padding:18px 20px;}
+.ns-bar{background:linear-gradient(135deg,#14100A,#0A0C12);border:1px solid rgba(255,204,63,.14);border-radius:13px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+.ns-track{background:#1A1D26;border-radius:6px;height:7px;overflow:hidden;flex:1;min-width:120px;}
+.ns-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,${G.gold},${G.orange});transition:width 1s ease;}
+.ns-num{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:${G.gold};line-height:1;}
+.ns-sub{font-size:10px;color:#555;margin-top:2px;}
+.ns-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:${G.gold};margin-bottom:6px;}
+.kpis{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-bottom:16px;}
+.kpi{background:${G.card};border:1px solid ${G.border};border-radius:12px;padding:13px 11px;cursor:pointer;transition:.2s;position:relative;overflow:hidden;}
+.kpi:hover{border-color:#2A2D36;transform:translateY(-1px);}
+.kpi.on{border-color:rgba(255,204,63,.3);background:#14110A;}
+.kpi-n{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;line-height:1;margin:5px 0 3px;}
+.kpi-l{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#444;margin-bottom:3px;}
+.kpi-s{font-size:10px;color:#444;}
+.card{background:${G.card};border:1px solid ${G.border};border-radius:13px;padding:17px;}
+.ct{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#444;margin-bottom:11px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:13px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px;margin-bottom:13px;}
+.tw{max-height:255px;overflow-y:auto;border-radius:8px;border:1px solid #1A1D26;}
+table{width:100%;border-collapse:collapse;font-size:11px;}
+th{background:#0A0C11;color:#555;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:8px 10px;text-align:left;border-bottom:1px solid rgba(255,204,63,.12);position:sticky;top:0;}
+th.r{text-align:right;}
+tr:nth-child(odd) td{background:#0E1016;}tr:nth-child(even) td{background:#111318;}tr:hover td{background:#161921;}
+td{padding:7px 10px;color:#CCC;vertical-align:middle;}td.r{text-align:right;font-weight:600;color:${G.gold};}
+.lb{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;background:rgba(255,204,63,.07);border:1px solid rgba(255,204,63,.18);border-radius:5px;color:${G.gold};font-size:10px;text-decoration:none;transition:.2s;}
+.lb:hover{background:rgba(255,204,63,.14);}
+.sb{display:inline-block;padding:2px 6px;border-radius:8px;font-size:9px;font-weight:700;letter-spacing:.04em;}
+.sb.pos{background:rgba(9,155,90,.16);color:#4ADE80;border:1px solid rgba(9,155,90,.2);}
+.sb.neg{background:rgba(186,14,19,.16);color:#F87171;border:1px solid rgba(186,14,19,.2);}
+.sb.neu{background:rgba(100,100,100,.1);color:#777;border:1px solid #1A1D26;}
+.ptabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:14px;}
+.ptab{padding:6px 12px;border-radius:8px;border:1px solid #1A1D26;background:#0D0F14;color:#555;font:600 11px 'DM Sans',sans-serif;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:5px;}
+.ptab.on{background:rgba(255,255,255,.04);border-color:#2A2D36;color:#DDD;}
+.ptab:hover:not(.on){color:#888;}
+.dot{width:6px;height:6px;border-radius:50%;}
+.dot-g{background:${G.green};box-shadow:0 0 4px ${G.green};}
+.dot-a{background:${G.amber};}
+.dot-r{background:#333;}
+.feed{display:flex;flex-direction:column;gap:6px;max-height:330px;overflow-y:auto;}
+.fc{background:#0E1016;border:1px solid #1A1D26;border-radius:8px;padding:10px 12px;transition:.2s;}
+.fc:hover{border-color:#2A2D36;}
+.fc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px;}
+.fc-title{font-size:12px;color:#DDD;line-height:1.4;flex:1;}
+.fc-meta{font-size:10px;color:#444;display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+.pip{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.act-list{display:flex;flex-direction:column;gap:7px;}
+.act{display:flex;gap:9px;align-items:flex-start;background:rgba(255,204,63,.04);border:1px solid rgba(255,204,63,.09);border-radius:9px;padding:9px 11px;transition:.2s;}
+.act:hover{border-color:rgba(255,204,63,.18);}
+.act-n{width:20px;height:20px;border-radius:50%;background:${G.gold};color:#000;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.act-t{font-size:12px;color:#CCC;line-height:1.5;}
+.act-b{display:inline-block;padding:1px 6px;border-radius:4px;font-size:9px;font-weight:700;margin-left:5px;}
+.act-h{background:rgba(186,14,19,.18);color:#F87171;}
+.act-m{background:rgba(255,154,63,.14);color:${G.orange};}
+.act-l{background:rgba(9,155,90,.14);color:#4ADE80;}
+.narr{font-size:12px;color:#999;line-height:1.7;padding:12px;background:#0A0C11;border-radius:8px;border-left:2px solid ${G.gold};font-style:italic;margin-bottom:11px;}
+.date-bar{display:flex;gap:7px;align-items:center;flex-wrap:wrap;background:#0D0F14;border:1px solid #1A1D26;border-radius:9px;padding:9px 13px;margin-bottom:14px;}
+.date-lbl{font-size:10px;color:#444;white-space:nowrap;}
+.d-btn{padding:5px 11px;border-radius:6px;border:1px solid #1A1D26;background:#0A0C11;color:#555;font:600 10px 'DM Sans',sans-serif;cursor:pointer;transition:.2s;white-space:nowrap;}
+.d-btn.on{background:rgba(255,204,63,.1);border-color:rgba(255,204,63,.28);color:${G.gold};}
+.d-input{background:#0A0C11;border:1px solid #1A1D26;color:#CCC;font:12px 'DM Sans',sans-serif;padding:5px 9px;border-radius:6px;outline:none;}
+.d-input:focus{border-color:rgba(255,204,63,.3);}
+.set-ov{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:300;backdrop-filter:blur(5px);}
+.set-panel{position:fixed;right:0;top:0;bottom:0;width:500px;background:#0D0F14;border-left:1px solid #1A1D26;z-index:301;overflow-y:auto;display:flex;flex-direction:column;}
+.set-head{padding:18px 20px;border-bottom:1px solid #1A1D26;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#0D0F14;z-index:1;}
+.set-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:${G.gold};}
+.set-body{padding:18px 20px;flex:1;display:flex;flex-direction:column;gap:17px;}
+.sg{background:#111318;border:1px solid #1A1D26;border-radius:11px;padding:15px;}
+.sg-t{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.13em;color:#3A3A3A;margin-bottom:11px;padding-bottom:7px;border-bottom:1px solid #1A1D26;}
+.sr{margin-bottom:9px;}
+.sl{font-size:11px;color:#777;display:block;margin-bottom:3px;}
+.sh{font-size:10px;color:#333;margin-top:3px;line-height:1.4;}
+.si{width:100%;background:#0A0C11;border:1px solid #1A1D26;color:#DDD;font:12px 'DM Sans',sans-serif;padding:7px 10px;border-radius:7px;outline:none;transition:.2s;}
+.si:focus{border-color:rgba(255,204,63,.35);background:#0E1016;}
+.si::placeholder{color:#2A2A2A;}
+.ss{display:flex;align-items:center;gap:6px;padding:6px 9px;border-radius:7px;font-size:11px;font-weight:500;margin-top:5px;}
+.ss.ok{background:rgba(9,155,90,.08);color:#4ADE80;border:1px solid rgba(9,155,90,.18);}
+.ss.miss{background:rgba(186,14,19,.08);color:#F87171;border:1px solid rgba(186,14,19,.18);}
+.ss.pend{background:rgba(255,154,63,.08);color:${G.orange};border:1px solid rgba(255,154,63,.18);}
+.comp-row{display:flex;gap:7px;align-items:center;margin-bottom:6px;}
+.comp-row input{flex:1;}
+.comp-rm{width:26px;height:26px;border-radius:6px;background:rgba(186,14,19,.1);border:1px solid rgba(186,14,19,.2);color:#F87171;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;}
+.comp-add-btn{width:100%;padding:7px;border-radius:7px;background:rgba(255,204,63,.04);border:1px dashed rgba(255,204,63,.18);color:${G.gold};font:500 11px 'DM Sans',sans-serif;cursor:pointer;transition:.2s;}
+.comp-add-btn:hover{background:rgba(255,204,63,.08);}
+.api-g{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px;}
+.api-c{background:#0A0C11;border:1px solid #1A1D26;border-radius:7px;padding:9px 11px;}
+.api-n{font-size:11px;font-weight:600;color:#CCC;margin-bottom:2px;}
+.api-d{font-size:10px;color:#3A3A3A;margin-bottom:5px;}
+.api-badge{display:inline-flex;align-items:center;gap:3px;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;}
+.api-live{background:rgba(9,155,90,.14);color:#4ADE80;}
+.api-miss{background:rgba(186,14,19,.1);color:#F87171;}
+.fetch-t{width:100%;border-collapse:collapse;font-size:10px;}
+.fetch-t th{background:#0A0C11;color:#3A3A3A;font-size:9px;text-transform:uppercase;letter-spacing:.08em;padding:7px 9px;border-bottom:1px solid #1A1D26;text-align:left;}
+.fetch-t td{padding:7px 9px;border-bottom:1px solid #0E1016;color:#888;}
+.fetch-t tr:last-child td{border-bottom:none;}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;gap:6px;}
+.empty p{font-size:11px;color:#333;text-align:center;}
+.spin{width:22px;height:22px;border:2px solid #1A1D26;border-top-color:${G.gold};border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.comp-tbl-wrap{overflow-x:auto;}
+.sec-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;}
+.sec-kpi{background:#0A0C11;border:1px solid #1A1D26;border-radius:9px;padding:12px;text-align:center;}
+.sec-kpi-n{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:${G.gold};line-height:1;}
+.sec-kpi-l{font-size:9px;color:#444;text-transform:uppercase;letter-spacing:.1em;margin-top:3px;}
+.api-act-notice{padding:9px 11px;background:rgba(255,154,63,.07);border:1px solid rgba(255,154,63,.18);border-radius:7px;font-size:11px;color:${G.orange};margin-bottom:12px;}
+footer{text-align:center;padding:20px;font-size:10px;color:#222;border-top:1px solid #1A1D26;margin-top:32px;letter-spacing:.06em;}
+@media(max-width:1200px){.kpis{grid-template-columns:repeat(4,1fr);}.g3{grid-template-columns:1fr 1fr;}}
+@media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr);}.g2,.g3{grid-template-columns:1fr;}.set-panel{width:100%;}}
+`;
 
-function mkChart(id,type,labels,datasets,opts={}){
-  const canvas=document.getElementById(id);if(!canvas)return;
-  if(charts[id])charts[id].destroy();
-  Chart.defaults.color='#777';Chart.defaults.borderColor='rgba(255,255,255,0.04)';
-  Chart.defaults.font.family='Poppins,sans-serif';Chart.defaults.font.size=10;
-  charts[id]=new Chart(canvas,{type,data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#666',usePointStyle:true,pointStyleWidth:7,boxHeight:7}},tooltip:{backgroundColor:'#1A1A1A',borderColor:'#FFCC3F',borderWidth:1,titleColor:'#FFCC3F',bodyColor:'#BBB',padding:10,cornerRadius:8}},scales:{x:{grid:{color:'rgba(255,255,255,0.02)'},ticks:{color:'#444',maxRotation:30}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#444'}}},...opts}});
-}
+const CT = ({ active, payload, label }) => {
+  if (!active || !payload?.length) return null;
+  return (
+    <div style={{ background:"#0E1016",border:"1px solid rgba(255,204,63,.22)",borderRadius:8,padding:"9px 13px",fontFamily:"'DM Sans',sans-serif",fontSize:11 }}>
+      <div style={{ color:G.gold,fontWeight:600,marginBottom:5 }}>{label}</div>
+      {payload.map((p,i)=><div key={i} style={{color:"#AAA",marginBottom:2}}><span style={{color:p.color}}>{p.name}:</span> <b style={{color:"#DDD"}}>{typeof p.value==="number"?p.value.toLocaleString():p.value}</b></div>)}
+    </div>
+  );
+};
 
-function mkStats(id,stats){
-  const el=document.getElementById(id);if(!el)return;
-  el.innerHTML=stats.map(s=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #181818"><span style="font-size:12px;color:#777">${s.l}</span><span style="font-size:16px;font-weight:700;color:${s.c||'var(--gold)'}"> ${typeof s.v==='number'?s.v.toLocaleString():s.v}</span></div>`).join('');
-}
+function SettingsPanel({ settings, onChange, onClose }) {
+  const [local, setLocal] = useState(settings);
+  const save = () => { onChange(local); onClose(); };
+  const set = (path, val) => {
+    const parts = path.split(".");
+    setLocal(prev => {
+      const next = JSON.parse(JSON.stringify(prev));
+      let cur = next;
+      for (let i = 0; i < parts.length - 1; i++) cur = cur[parts[i]];
+      cur[parts[parts.length - 1]] = val;
+      return next;
+    });
+  };
+  const apiOk = k => !!local.apis[k];
+  const sheetOk = id => !!id;
 
-function errEl(id,msg){const el=document.getElementById(id);if(el)el.innerHTML=`<div class="err"><p>⚠ ${msg}</p><p class="h">Check: Sheet published as CSV · Tab name matches config · ID is correct</p></div>`;}
-function emptyEl(id){const el=document.getElementById(id);if(el)el.innerHTML='<div class="empty"><p>No data yet.</p><p>Open ⚙ Settings and add your Sheet ID.</p></div>';}
+  const APIS = [
+    { key:"youtube_api", name:"YouTube Data API v3", desc:"Auto-fetches video & comment mentions daily", cost:"Free (10k req/day)", link:"https://console.cloud.google.com", activates:"YouTube auto-collection" },
+    { key:"newsapi_key", name:"NewsAPI.org", desc:"News articles mentioning PST & competitors", cost:"Free (100 req/day)", link:"https://newsapi.org/register", activates:"Newspaper auto-collection" },
+    { key:"claude_api", name:"Claude API (Anthropic)", desc:"Sentiment tagging + weekly intelligence email", cost:"~₹500/month", link:"https://console.anthropic.com", activates:"Sentiment + Reports" },
+    { key:"apify_key", name:"Apify (Quora Scraper)", desc:"Quora mention tracking — Quora has no public API", cost:"₹1,500/month", link:"https://apify.com", activates:"Quora auto-collection" },
+  ];
 
-async function doReddit(){
-  try{
-    const d=await fetchCSV(C.s1,C.t_reddit);
-    const rows=d.filter(r=>r['Post Link']||r['D']);
-    const bm={};rows.forEach(r=>{const k=(r['Date']||'').slice(3,10);bm[k]=(bm[k]||0)+n(r['Post Impressions']||r['E']||0);});
-    const ms=Object.keys(bm).slice(-8);
-    mkChart('ch_reddit','bar',ms,[{label:'Impressions',data:ms.map(m=>bm[m]),backgroundColor:'rgba(255,69,0,0.55)',borderColor:'#FF4500',borderWidth:1.5,borderRadius:4}]);
-    const ti=rows.reduce((s,r)=>s+n(r['Post Impressions']||r['E']||0),0);
-    mkStats('st_reddit',[{l:'Total Posts',v:rows.length},{l:'Total Impressions',v:ti},{l:'Avg per Post',v:rows.length?Math.round(ti/rows.length):0}]);
-    document.getElementById('tb_reddit').innerHTML=`<table><thead><tr><th>Date</th><th>Type</th><th>Question</th><th>Link</th><th>Impressions</th><th>Sentiment</th><th>Subreddit</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r['Date']||'—'}</td><td>${r['Type']||'—'}</td><td>${trunc(r['Question'],55)}</td><td>${r['Post Link']?`<a href="${r['Post Link']}" target="_blank" class="lb">View ↗</a>`:'—'}</td><td>${f(r['Post Impressions']||r['E']||0)}</td><td><span class="sb ${sc(r['Sentiment'])}">${sl(r['Sentiment'])}</span></td><td>${r['Subreddit']||'—'}</td></tr>`).join('')}</tbody></table>`;
-    document.getElementById('k_reddit').textContent=rows.length;
-    document.getElementById('kd_reddit').textContent=f(ti)+' impressions';
-    return rows.length;
-  }catch(e){errEl('tb_reddit',e.message);document.getElementById('k_reddit').textContent='—';return 0;}
-}
+  const FETCH_ROWS = [
+    { p:"Reddit", m:"RSS Feeds (Free)", status: local.contentSheetId?"Sheet connected":"No Sheet ID", act:"Works immediately — paste Sheet 1 ID above" },
+    { p:"YouTube", m:"YouTube Data API v3", status: apiOk("youtube_api")?"✓ API Key set":"No API Key", act:"Paste YT API key → auto-fetches daily" },
+    { p:"Quora Seeding", m:"Manual + Apify", status: apiOk("apify_key")?"✓ Apify set":"Manual only", act:"Add Apify key for weekly auto-collection" },
+    { p:"PST Quora", m:"Manual logging", status:"Sheet only", act:"Log links manually via logging form" },
+    { p:"Newspaper PR", m:"NewsAPI + Manual", status: apiOk("newsapi_key")?"✓ NewsAPI set":"Manual only", act:"Paste NewsAPI key → auto-fetches daily" },
+    { p:"Medium", m:"Manual logging", status:"Sheet only", act:"Log article links manually on publish" },
+    { p:"Brand Listening", m:"RSS + YT + News (auto)", status: local.listeningSheetId?"Sheet 2 connected":"No Listening Sheet", act:"All 3 APIs → full auto brand monitoring" },
+  ];
 
-async function doQuoraSeeding(){
-  try{
-    const d=await fetchCSV(C.s1,C.t_quora_seed);
-    const rows=d.filter(r=>r['Answer Live Link']||r['F']);
-    const bm={};rows.forEach(r=>{const k=(r['Date']||'').slice(3,10);bm[k]=(bm[k]||0)+n(r['Impressions']||r['G']||0);});
-    const ms=Object.keys(bm).slice(-8);
-    mkChart('ch_quora_seed','line',ms,[{label:'Impressions',data:ms.map(m=>bm[m]),borderColor:'#B92B27',backgroundColor:'rgba(185,43,39,0.12)',tension:.4,fill:true,pointRadius:4}]);
-    const ti=rows.reduce((s,r)=>s+n(r['Impressions']||r['G']||0),0);
-    mkStats('st_quora_seed',[{l:'Total Answers',v:rows.length},{l:'Total Impressions',v:ti},{l:'Avg Impressions',v:rows.length?Math.round(ti/rows.length):0}]);
-    document.getElementById('tb_quora_seed').innerHTML=`<table><thead><tr><th>Date</th><th>Question</th><th>Q Link</th><th>A Link</th><th>Impressions</th><th>Sentiment</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r['Date']||'—'}</td><td>${trunc(r['Question'],50)}</td><td>${r['Question Live Link']?`<a href="${r['Question Live Link']}" target="_blank" class="lb">Q ↗</a>`:'—'}</td><td>${r['Answer Live Link']?`<a href="${r['Answer Live Link']}" target="_blank" class="lb">A ↗</a>`:'—'}</td><td>${f(r['Impressions']||r['G']||0)}</td><td><span class="sb ${sc(r['Sentiment'])}">${sl(r['Sentiment'])}</span></td></tr>`).join('')}</tbody></table>`;
-    document.getElementById('k_quora').textContent=rows.length;
-    document.getElementById('kd_quora').textContent=f(ti)+' impressions';
-    return rows.length;
-  }catch(e){errEl('tb_quora_seed',e.message);return 0;}
-}
-
-async function doPSTQuora(){
-  try{
-    const d=await fetchCSV(C.s1,C.t_pst_quora);
-    const rows=d.filter(r=>r['Live Link']||r['E']);
-    const ti=rows.reduce((s,r)=>s+n(r['Impressions']||r['F']||0),0);
-    const keys=rows.map((_,i)=>String(i+1)).slice(-8);
-    mkChart('ch_pst_quora','bar',keys.map(k=>'Q'+k),[{label:'Impressions',data:rows.slice(-8).map(r=>n(r['Impressions']||r['F']||0)),backgroundColor:'rgba(89,57,168,0.55)',borderColor:'#5939A8',borderWidth:1.5,borderRadius:4}]);
-    mkStats('st_pst_quora',[{l:'Total Answers',v:rows.length},{l:'Total Impressions',v:ti}]);
-    document.getElementById('tb_pst_quora').innerHTML=`<table><thead><tr><th>#</th><th>Question</th><th>Link</th><th>Impressions</th><th>Sentiment</th></tr></thead><tbody>${rows.map((r,i)=>`<tr><td>${i+1}</td><td>${trunc(r['Question'],60)}</td><td>${r['Live Link']?`<a href="${r['Live Link']}" target="_blank" class="lb">View ↗</a>`:'—'}</td><td>${f(r['Impressions']||r['F']||0)}</td><td><span class="sb ${sc(r['Sentiment'])}">${sl(r['Sentiment'])}</span></td></tr>`).join('')}</tbody></table>`;
-    return rows.length;
-  }catch(e){errEl('tb_pst_quora',e.message);return 0;}
-}
-
-async function doYT(){
-  try{
-    const d=await fetchCSV(C.s1,C.t_yt);
-    const total=d.reduce((s,r)=>s+n(r['Comments Seeded']||r['F']||1),0);
-    document.getElementById('tb_yt').innerHTML=`<table><thead><tr><th>Date</th><th>Channel</th><th>Type</th><th>Video</th><th>Comments Seeded</th></tr></thead><tbody>${d.map(r=>`<tr><td>${r['Date']||r['A']||'—'}</td><td>${r['Channel Name']||r['B']||'—'}</td><td>${r['Type']||r['D']||'—'}</td><td>${r['Video Link']?`<a href="${r['Video Link']}" target="_blank" class="lb">Watch ↗</a>`:'—'}</td><td>${r['Comments Seeded']||r['F']||1}</td></tr>`).join('')}</tbody></table>`;
-    document.getElementById('k_yt').textContent=total;
-    document.getElementById('kd_yt').textContent=d.length+' videos';
-    return d.length;
-  }catch(e){errEl('tb_yt',e.message);return 0;}
-}
-
-async function doNewspaper(){
-  try{
-    const d=await fetchCSV(C.s1,C.t_news);
-    const rows=d.filter(r=>r['Published Link']||r['D']);
-    const bm={};rows.forEach(r=>{const k=(r['Publish Date']||r['C']||'').slice(3,10);bm[k]=(bm[k]||0)+1;});
-    const ms=Object.keys(bm).slice(-8);
-    mkChart('ch_news','bar',ms,[{label:'PR Pieces',data:ms.map(m=>bm[m]),backgroundColor:'rgba(216,129,0,0.55)',borderColor:'#D88100',borderWidth:1.5,borderRadius:4}]);
-    const pubs=new Set(rows.map(r=>r['Publication Name']||r['A'])).size;
-    mkStats('st_news',[{l:'Total PR Pieces',v:rows.length},{l:'Publications Covered',v:pubs}]);
-    document.getElementById('tb_news').innerHTML=`<table><thead><tr><th>Publication</th><th>Language</th><th>Date</th><th>Headline</th><th>Link</th><th>Sentiment</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r['Publication Name']||r['A']||'—'}</td><td>${r['Language']||r['B']||'—'}</td><td>${r['Publish Date']||r['C']||'—'}</td><td>${trunc(r['Headline']||r['E'],45)}</td><td>${(r['Published Link']||r['D'])?`<a href="${r['Published Link']||r['D']}" target="_blank" class="lb">Read ↗</a>`:'—'}</td><td><span class="sb ${sc(r['Sentiment']||r['F'])}">${sl(r['Sentiment']||r['F'])}</span></td></tr>`).join('')}</tbody></table>`;
-    document.getElementById('k_news').textContent=rows.length;
-    document.getElementById('kd_news').textContent=pubs+' publications';
-    return rows.length;
-  }catch(e){errEl('tb_news',e.message);return 0;}
-}
-
-async function doMedium(){
-  try{
-    const d=await fetchCSV(C.s1,C.t_medium);
-    const rows=d.filter(r=>r['Live Link']||r['G']);
-    const bm={};rows.forEach(r=>{const k=(r['Date']||r['A']||'').slice(3,10);bm[k]=(bm[k]||0)+1;});
-    const ms=Object.keys(bm).slice(-8);
-    mkChart('ch_medium','line',ms,[{label:'Articles',data:ms.map(m=>bm[m]),borderColor:'#099B5A',backgroundColor:'rgba(9,155,90,0.1)',tension:.4,fill:true,pointRadius:4}]);
-    const tr=rows.reduce((s,r)=>s+n(r['Reads']||r['H']||0),0);
-    mkStats('st_medium',[{l:'Published Articles',v:rows.length},{l:'Total Reads',v:tr}]);
-    document.getElementById('tb_medium').innerHTML=`<table><thead><tr><th>Date</th><th>Title</th><th>Author</th><th>Link</th><th>Reads</th><th>Sentiment</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r['Date']||r['A']||'—'}</td><td>${trunc(r['Title']||r['C'],48)}</td><td>${r['Author']||r['E']||'—'}</td><td>${(r['Live Link']||r['G'])?`<a href="${r['Live Link']||r['G']}" target="_blank" class="lb">Read ↗</a>`:'—'}</td><td>${f(r['Reads']||r['H']||0)}</td><td><span class="sb ${sc(r['Sentiment']||r['I'])}">${sl(r['Sentiment']||r['I'])}</span></td></tr>`).join('')}</tbody></table>`;
-    document.getElementById('k_medium').textContent=rows.length;
-    document.getElementById('kd_medium').textContent=f(tr)+' reads';
-    return rows.length;
-  }catch(e){errEl('tb_medium',e.message);return 0;}
-}
-
-async function doBrandFeed(){
-  if(!C.s2){document.getElementById('brandFeed').innerHTML='<div class="empty"><p>Add Listening Sheet ID in ⚙ Settings</p></div>';document.getElementById('k_mentions').textContent='—';return;}
-  try{
-    const d=await fetchCSV(C.s2,C.t_brand);
-    document.getElementById('k_mentions').textContent=d.length;
-    const pc={'Reddit':'#FF4500','YouTube':'#FF0000','News':'#D88100','Quora':'#B92B27'};
-    if(!d.length){document.getElementById('brandFeed').innerHTML='<div class="empty"><p>No mentions yet. Run dailyCollection() in Apps Script.</p></div>';return;}
-    document.getElementById('brandFeed').innerHTML=d.slice(0,20).map(r=>`
-      <div class="fc">
-        <div class="fch">
-          <div class="fct">${r['Title / Headline']||r['C']||'Untitled'}</div>
-          <div class="fcm"><div class="dot" style="background:${pc[r['Source Platform']]||'#555'}"></div><span class="sb ${sc(r['Sentiment']||r['H'])}" style="font-size:9px">${sl(r['Sentiment']||r['H'])}</span></div>
+  return (
+    <>
+      <div className="set-ov" onClick={onClose} />
+      <div className="set-panel">
+        <div className="set-head">
+          <div className="set-title">⚙ System Settings</div>
+          <div style={{ display:"flex",gap:7 }}>
+            <button className="btn btn-gold" onClick={save}>Save & Apply</button>
+            <button className="btn btn-ghost" onClick={onClose}>✕ Close</button>
+          </div>
         </div>
-        <div class="fcs">${r['Source Platform']||'—'} · ${r['Author / Channel']||r['F']||'—'} · ${(r['Date Collected']||r['A']||'—').slice(0,10)}${(r['Link']||r['E'])?' · <a href="'+(r['Link']||r['E'])+'" target="_blank" class="lb" style="font-size:9px">View ↗</a>':''}</div>
-      </div>`).join('');
-  }catch(e){document.getElementById('brandFeed').innerHTML=`<div class="err"><p>⚠ ${e.message}</p><p class="h">Check Listening Sheet ID in ⚙ Settings</p></div>`;}
+        <div className="set-body">
+
+          {/* SHEETS */}
+          <div className="sg">
+            <div className="sg-t">📊 Google Sheets — Connect Your Data</div>
+            <div className="sr">
+              <label className="sl">Content Log Sheet ID (Sheet 1 — you maintain daily)</label>
+              <input className="si" value={local.contentSheetId} onChange={e=>set("contentSheetId",e.target.value)} placeholder="Paste Sheet 1 ID here" />
+              <div className="sh">URL: docs.google.com/spreadsheets/d/<b style={{color:"#666"}}>[THIS PART]</b>/edit</div>
+              <div className={`ss ${sheetOk(local.contentSheetId)?"ok":"miss"}`}>
+                {sheetOk(local.contentSheetId) ? "✓ Sheet 1 configured — publish each tab as CSV to activate" : "✗ Paste Sheet ID — all 6 platform tabs will appear immediately"}
+              </div>
+            </div>
+            <div className="sr">
+              <label className="sl">Listening Sheet ID (Sheet 2 — Apps Script writes here automatically)</label>
+              <input className="si" value={local.listeningSheetId} onChange={e=>set("listeningSheetId",e.target.value)} placeholder="Paste Listening Sheet ID after Apps Script setup" />
+              <div className={`ss ${sheetOk(local.listeningSheetId)?"ok":"pend"}`}>
+                {sheetOk(local.listeningSheetId) ? "✓ Brand Mention Feed active — refreshes every 5 min" : "⚡ Add after Apps Script runs once — enables ORM intelligence feed"}
+              </div>
+            </div>
+            <div style={{ borderTop:"1px solid #1A1D26",paddingTop:11,marginTop:4 }}>
+              <div style={{ fontSize:9,color:"#333",fontWeight:700,textTransform:"uppercase",letterSpacing:".1em",marginBottom:9 }}>Tab Names (match exactly to your sheet)</div>
+              <div style={{ display:"grid",gridTemplateColumns:"1fr 1fr",gap:7 }}>
+                {Object.entries(local.tabs).map(([k,v])=>(
+                  <div key={k}><label className="sl" style={{fontSize:10}}>{k}</label>
+                  <input className="si" value={v} onChange={e=>set(`tabs.${k}`,e.target.value)} /></div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* APIs */}
+          <div className="sg">
+            <div className="sg-t">🔑 API Keys — Each Key Activates a Platform</div>
+            {APIS.map(api=>(
+              <div key={api.key} className="sr">
+                <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:3 }}>
+                  <label className="sl" style={{marginBottom:0}}>{api.name}</label>
+                  <span style={{fontSize:9,color:"#444"}}>{api.cost}</span>
+                </div>
+                <div style={{ fontSize:10,color:"#2A2A2A",marginBottom:5 }}>{api.desc} · <a href={api.link} target="_blank" rel="noreferrer" style={{color:G.gold,textDecoration:"none"}}>Get key ↗</a></div>
+                <input className="si" type="password" value={local.apis[api.key]||""} onChange={e=>set(`apis.${api.key}`,e.target.value)} placeholder={`Paste ${api.name} key here`} />
+                <div className={`ss ${apiOk(api.key)?"ok":"miss"}`}>
+                  {apiOk(api.key) ? `✓ ${api.activates} — active` : `✗ Add key → ${api.activates} activates automatically`}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* HOW IT WORKS */}
+          <div className="sg">
+            <div className="sg-t">🤖 How Auto-Updates Work — Per Platform</div>
+            <table className="fetch-t">
+              <thead><tr><th>Platform</th><th>Method</th><th>Status</th><th>To Activate</th></tr></thead>
+              <tbody>
+                {FETCH_ROWS.map(row=>(
+                  <tr key={row.p}>
+                    <td style={{color:"#DDD",fontWeight:600}}>{row.p}</td>
+                    <td style={{color:"#666"}}>{row.m}</td>
+                    <td><span className={`sb ${row.status.includes("✓")||row.status.includes("connected")?"pos":row.status.includes("Manual")||row.status.includes("Sheet only")?"neu":"neg"}`}>{row.status}</span></td>
+                    <td style={{fontSize:10,color:"#444"}}>{row.act}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div style={{ marginTop:11,padding:"10px 11px",background:"#0A0C11",borderRadius:8,border:"1px solid #1A1D26" }}>
+              <div style={{ fontSize:9,color:G.gold,fontWeight:700,marginBottom:6,textTransform:"uppercase",letterSpacing:".1em" }}>Apps Script Auto-Schedule</div>
+              {["Daily 7:00 AM — dailyCollection() — Reddit RSS + YouTube + NewsAPI","Daily 7:30 AM — sentimentTagger() — Claude API sentiment on all new rows","Daily 8:00 AM — metricsCalculator() — weekly deltas + thresholds","Every Monday 8:30 AM — weeklyReport() — intelligence email to your inbox","Every Sunday 11PM — quoraSync() — Apify Quora data merge"].map((s,i)=>(
+                <div key={i} style={{ fontSize:10,color:"#444",padding:"3px 0",borderBottom:"1px solid #0E1016" }}>{s}</div>
+              ))}
+            </div>
+          </div>
+
+          {/* COMPETITORS */}
+          <div className="sg">
+            <div className="sg-t">🏆 Competitor Tracking — {local.competitors.length}/15 Slots</div>
+            <div style={{ fontSize:10,color:"#333",marginBottom:9 }}>These competitors are tracked across all platforms automatically once APIs are set. Add up to 15.</div>
+            {local.competitors.map((c,i)=>(
+              <div key={i} className="comp-row">
+                <input className="si" value={c} onChange={e=>{const next=[...local.competitors];next[i]=e.target.value;setLocal(p=>({...p,competitors:next}));}} placeholder={`Competitor ${i+1} name`} />
+                <button className="comp-rm" onClick={()=>setLocal(p=>({...p,competitors:p.competitors.filter((_,idx)=>idx!==i)}))}>✕</button>
+              </div>
+            ))}
+            {local.competitors.length<15 && <button className="comp-add-btn" onClick={()=>setLocal(p=>({...p,competitors:[...p.competitors,""]}))}>+ Add Competitor ({15-local.competitors.length} slots left)</button>}
+          </div>
+
+          {/* DISPLAY */}
+          <div className="sg">
+            <div className="sg-t">📐 Display & Goals</div>
+            <div className="sr">
+              <label className="sl">North Star Goal (live pieces target)</label>
+              <input className="si" type="number" value={local.northStarGoal} onChange={e=>set("northStarGoal",parseInt(e.target.value)||500)} />
+            </div>
+            <div className="sr">
+              <label className="sl">Auto-refresh interval</label>
+              <select className="si" value={local.refreshInterval} onChange={e=>set("refreshInterval",parseInt(e.target.value))}>
+                <option value={2}>Every 2 min</option><option value={5}>Every 5 min</option>
+                <option value={10}>Every 10 min</option><option value={30}>Every 30 min</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </>
+  );
 }
 
-async function doCompetitor(){
-  if(!C.s2){mkChart('ch_comp','bar',['PST','Scaler','Newton','upGrad'],[{label:'Positive %',data:[0,0,0,0],backgroundColor:['rgba(255,204,63,0.5)','rgba(255,154,63,0.4)','rgba(89,57,168,0.4)','rgba(186,14,19,0.4)'],borderRadius:4}]);return;}
-  try{
-    const d=await fetchCSV(C.s2,C.t_comp);
-    const pp=name=>{const r=d.filter(x=>(x['Competitor']||x['B']||'').toLowerCase().includes(name.toLowerCase()));if(!r.length)return 0;return Math.round(r.filter(x=>sc(x['Sentiment Toward Competitor']||x['G'])==='pos').length/r.length*100);};
-    mkChart('ch_comp','bar',['PST Content','Scaler','Newton School','upGrad'],[{label:'Positive Sentiment %',data:[75,pp('Scaler'),pp('Newton'),pp('upGrad')],backgroundColor:['rgba(255,204,63,0.65)','rgba(255,154,63,0.45)','rgba(89,57,168,0.45)','rgba(186,14,19,0.45)'],borderColor:['#FFCC3F','#FF9A3F','#5939A8','#BA0E13'],borderWidth:1.5,borderRadius:5}]);
-  }catch(e){mkChart('ch_comp','bar',['PST','Scaler','Newton','upGrad'],[{label:'Positive %',data:[0,0,0,0],backgroundColor:'rgba(255,204,63,0.5)',borderRadius:4}]);}
-}
+export default function PolarisORM() {
+  const [settings, setSettings] = useState(() => {
+    try { return { ...DEFAULT_SETTINGS, ...JSON.parse(localStorage.getItem("p_orm_v2")||"{}") }; } catch { return DEFAULT_SETTINGS; }
+  });
+  const [page, setPage] = useState("overview");
+  const [showSettings, setShowSettings] = useState(false);
+  const [data, setData] = useState({});
+  const [loading, setLoading] = useState({});
+  const [activePlat, setActivePlat] = useState("reddit");
+  const [dateRange, setDateRange] = useState("all");
+  const [customFrom, setCustomFrom] = useState("");
+  const [customTo, setCustomTo] = useState("");
+  const [lastUpdated, setLastUpdated] = useState("");
+  const [isRec, setIsRec] = useState(false);
+  const timerRef = useRef(null);
 
-async function doWeekly(){
-  if(!C.s2)return;
-  try{
-    const d=await fetchCSV(C.s2,C.t_weekly);
-    if(!d.length)return;
-    const lat=d[d.length-1];
-    const narr=lat['AI Narrative']||lat['J']||'';
-    const a1=lat['Top Actionable 1']||lat['K']||'';
-    const a2=lat['Top Actionable 2']||lat['L']||'';
-    const a3=lat['Top Actionable 3']||lat['M']||'';
-    if(narr)document.getElementById('narr').textContent=narr;
-    const acts=[a1,a2,a3].filter(Boolean);
-    if(acts.length)document.getElementById('alist').innerHTML=acts.map((a,i)=>`<div class="ai"><div class="an">${i+1}</div><div class="at">${a}</div></div>`).join('');
-    // Sentiment chart
-    const wks=d.slice(-8);
-    mkChart('ch_sent','bar',wks.map(w=>w['Week Start Date']||w['A']||''),[
-      {label:'PST Positive %',data:wks.map(w=>parseFloat(w['PST Positive %']||w['C']||0)),backgroundColor:'rgba(9,155,90,0.55)',borderRadius:4},
-      {label:'Competitor Mentions',data:wks.map(w=>n(w['Total Competitor Mentions']||w['D']||0)),backgroundColor:'rgba(255,154,63,0.45)',borderRadius:4}
+  const saveSetting = s => { setSettings(s); localStorage.setItem("p_orm_v2",JSON.stringify(s)); };
+
+  const load = useCallback(async (sheetId, tab, key) => {
+    if (!sheetId) return [];
+    setLoading(p=>({...p,[key]:true}));
+    try {
+      const rows = await fetchCSV(sheetId, tab);
+      setData(p=>({...p,[key]:rows,[key+"_err"]:null}));
+      return rows;
+    } catch(e) {
+      setData(p=>({...p,[key]:null,[key+"_err"]:e.message}));
+      return null;
+    } finally { setLoading(p=>({...p,[key]:false})); }
+  }, []);
+
+  const loadAll = useCallback(async () => {
+    const { contentSheetId:s1, listeningSheetId:s2, tabs:t } = settings;
+    await Promise.all([
+      load(s1,t.reddit,"reddit"), load(s1,t.quora,"quora"), load(s1,t.pstQuora,"pstQuora"),
+      load(s1,t.youtube,"youtube"), load(s1,t.newspaper,"newspaper"), load(s1,t.medium,"medium"),
+      load(s2,t.brandMentions,"brand"), load(s2,t.competitorMentions,"comp"), load(s2,t.weeklySummary,"weekly"),
     ]);
-  }catch(e){}
-}
+    setLastUpdated(new Date().toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"}));
+  }, [settings, load]);
 
-function updateNS(counts){
-  const total=Object.values(counts).reduce((s,v)=>s+v,0);
-  const goal=parseInt(C.goal)||500;
-  const pct=Math.min(100,Math.round(total/goal*100));
-  document.getElementById('liveC').textContent=total.toLocaleString();
-  document.getElementById('goalT').textContent=goal.toLocaleString();
-  document.getElementById('goalP').textContent=pct+'% of goal · '+(goal-total)+' remaining';
-  document.getElementById('pf').style.width=pct+'%';
-}
+  useEffect(() => {
+    loadAll();
+    if(timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = setInterval(loadAll, settings.refreshInterval*60000);
+    return () => clearInterval(timerRef.current);
+  }, [settings.refreshInterval, loadAll]);
 
-async function loadAll(){
-  document.getElementById('ts').textContent='Loading…';
-  const [r,q,pq,y,n2,m]=await Promise.all([doReddit(),doQuoraSeeding(),doPSTQuora(),doYT(),doNewspaper(),doMedium()]);
-  await Promise.all([doBrandFeed(),doCompetitor(),doWeekly()]);
-  updateNS({r,q,pq,y,n:n2,m});
-  document.getElementById('ts').textContent='Updated '+new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
-  if(timer)clearInterval(timer);
-  timer=setInterval(loadAll,(parseInt(C.refr)||5)*60000);
-}
+  const rows = key => Array.isArray(data[key]) ? data[key] : [];
 
-loadCfg();
-loadAll();
-</script>
-</body>
-</html>
+  const filterByDate = rows => {
+    if (dateRange==="all") return rows;
+    const now = new Date(), cut = new Date();
+    if (dateRange==="7d") cut.setDate(now.getDate()-7);
+    else if (dateRange==="30d") cut.setDate(now.getDate()-30);
+    else if (dateRange==="custom"&&customFrom) cut.setTime(new Date(customFrom).getTime());
+    return rows.filter(row=>{
+      const d = Object.values(row).find(v=>/\d{2}-\d{2}-\d{4}/.test(v)||/\d{4}-\d{2}-\d{2}/.test(v));
+      if(!d) return true;
+      try{const p=new Date(d.split("-").reverse().join("-"));return p>=cut;}catch{return true;}
+    });
+  };
+
+  const liveRows = (key, linkCol) => filterByDate(rows(key).filter(r=>r[linkCol]||Object.values(r).some(v=>v?.startsWith("http"))));
+  const countLive = () =>
+    liveRows("reddit","Post Link").length + liveRows("quora","Answer Live Link").length +
+    liveRows("pstQuora","Live Link").length + rows("youtube").length +
+    liveRows("newspaper","Published Link").length + liveRows("medium","Live Link").length;
+  const totalImp = (key,col) => rows(key).reduce((s,r)=>s+toNum(r[col]||0),0);
+  const byMonth = (key,dc,vc) => {
+    const map={};
+    rows(key).forEach(r=>{const k=(r[dc]||"").slice(3,10)||(r[dc]||"").slice(0,7)||"?";map[k]=(map[k]||0)+(vc?toNum(r[vc]||0):1);});
+    return Object.entries(map).slice(-8).map(([m,v])=>({month:m,value:v}));
+  };
+  const sentPie = (key,col) => {
+    const r=rows(key);const pos=r.filter(x=>sc(x[col])==="pos").length;const neg=r.filter(x=>sc(x[col])==="neg").length;
+    return [{name:"Positive",value:pos,fill:G.green},{name:"Neutral",value:r.length-pos-neg,fill:"#2A2D36"},{name:"Negative",value:neg,fill:G.red}];
+  };
+
+  const live=countLive(), goal=settings.northStarGoal||500, pct=Math.min(100,Math.round(live/goal*100));
+  const apiCount=Object.values(settings.apis).filter(Boolean).length;
+
+  const compChartData = () => {
+    const d=rows("comp");
+    const result=[{name:"PST",positive:75,negative:10,neutral:15}];
+    settings.competitors.slice(0,5).forEach(comp=>{
+      const r=d.filter(row=>(row["Competitor"]||"").toLowerCase().includes(comp.toLowerCase().split(" ")[0]));
+      if(!r.length){result.push({name:comp.split(" ")[0],positive:0,negative:0,neutral:0});return;}
+      const pos=r.filter(x=>sc(x["Sentiment Toward Competitor"])==="pos").length;
+      const neg=r.filter(x=>sc(x["Sentiment Toward Competitor"])==="neg").length;
+      result.push({name:comp.split(" ")[0],positive:Math.round(pos/r.length*100),negative:Math.round(neg/r.length*100),neutral:Math.round((r.length-pos-neg)/r.length*100)});
+    });
+    return result;
+  };
+
+  const getActionables = () => {
+    const acts=[];
+    const weekly=rows("weekly");const latest=weekly.length?weekly[weekly.length-1]:null;
+    if(latest){["Top Actionable 1","Top Actionable 2","Top Actionable 3"].forEach(k=>{if(latest[k])acts.push({text:latest[k],p:"h"});});}
+    if(!settings.contentSheetId) acts.push({text:"Paste your Content Log Sheet ID in ⚙ Settings — all 6 platform tabs activate immediately.",p:"h"});
+    if(!settings.apis.youtube_api) acts.push({text:"Add YouTube API key in ⚙ Settings → YouTube auto-collection activates with zero other setup.",p:"m"});
+    if(!settings.apis.newsapi_key) acts.push({text:"Add NewsAPI key → Newspaper PR data auto-syncs daily from 70,000+ Indian and global publications.",p:"m"});
+    if(!settings.apis.claude_api) acts.push({text:"Add Claude API key → Sentiment auto-tagged on every row. No more manual Positive/Negative entries.",p:"m"});
+    const negM=rows("brand").filter(r=>sc(r["Sentiment"])==="neg");
+    if(negM.length>3) acts.push({text:`${negM.length} negative brand mentions detected. Review and respond to top 3 this week.`,p:"h"});
+    if(live>=goal*0.9) acts.push({text:`North Star at ${pct}%. Plan next batch to hit ${goal} goal before June 2026.`,p:"l"});
+    if(!acts.length) acts.push({text:"All systems active. Keep logging content daily. Monday intelligence report incoming.",p:"l"});
+    return acts.slice(0,6);
+  };
+
+  const downloadReport = () => {
+    const d=new Date().toLocaleDateString("en-IN");
+    const wData=rows("weekly");const latest=wData.length?wData[wData.length-1]:{};
+    const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Polaris ORM Report - ${d}</title>
+    <style>body{font-family:Arial,sans-serif;max-width:900px;margin:40px auto;color:#111;line-height:1.6;}h1{color:#D88100;border-bottom:3px solid #FFCC3F;padding-bottom:10px;}h2{color:#333;margin-top:28px;}table{width:100%;border-collapse:collapse;margin:14px 0;}th{background:#1A1A1A;color:#FFF;padding:9px;text-align:left;}td{padding:9px;border-bottom:1px solid #EEE;}.kpi{display:inline-block;padding:14px 22px;background:#FFF9E6;border:2px solid #FFCC3F;border-radius:9px;margin:7px;text-align:center;}.kpi-n{font-size:26px;font-weight:800;color:#D88100;}.kpi-l{font-size:11px;color:#888;}</style></head><body>
+    <h1>Polaris ORM Intelligence Report</h1><p><b>Generated:</b> ${d} | <b>Period:</b> ${dateRange==="all"?"All time":dateRange}</p>
+    <h2>Key Metrics</h2><div>
+    <div class="kpi"><div class="kpi-n">${live}</div><div class="kpi-l">Live Content</div></div>
+    <div class="kpi"><div class="kpi-n">${rows("reddit").length}</div><div class="kpi-l">Reddit Posts</div></div>
+    <div class="kpi"><div class="kpi-n">${rows("quora").length}</div><div class="kpi-l">Quora Answers</div></div>
+    <div class="kpi"><div class="kpi-n">${rows("newspaper").length}</div><div class="kpi-l">Newspaper PR</div></div>
+    <div class="kpi"><div class="kpi-n">${rows("brand").length}</div><div class="kpi-l">Brand Mentions</div></div>
+    </div><h2>Weekly Intelligence</h2><p>${latest["AI Narrative"]||"Connect Listening Sheet for AI-generated narratives."}</p>
+    <h2>Priority Actions</h2><ol>${getActionables().map(a=>`<li>${a.text}</li>`).join("")}</ol>
+    <h2>Competitor Overview</h2><table><tr><th>Competitor</th><th>Mentions</th><th>PST Compared</th></tr>
+    ${compChartData().map(c=>`<tr><td>${c.name}</td><td>${rows("comp").filter(r=>(r["Competitor"]||"").toLowerCase().includes(c.name.toLowerCase())).length}</td><td>${rows("comp").filter(r=>(r["Competitor"]||"").toLowerCase().includes(c.name.toLowerCase())&&(r["PST Compared"]||"")==="Yes").length}</td></tr>`).join("")}
+    </table><p style="color:#999;font-size:11px;margin-top:36px">Polaris School of Technology · ORM Intelligence System v2.0 · ${d}</p>
+    </body></html>`;
+    const blob=new Blob([html],{type:"text/html"});
+    const a=document.createElement("a");a.href=URL.createObjectURL(blob);
+    a.download=`Polaris_ORM_${d.replace(/\//g,"-")}.html`;a.click();
+  };
+
+  const Spinner = () => <div className="empty"><div className="spin"/></div>;
+  const Empty = ({msg}) => <div className="empty"><p>{msg||"Configure sheet in ⚙ Settings"}</p></div>;
+
+  const PlatTable = ({dataKey,linkCol,cols,rowFn}) => {
+    const r=filterByDate(rows(dataKey).filter(row=>row[linkCol]||Object.values(row).some(v=>v?.startsWith("http"))));
+    const err=data[dataKey+"_err"];
+    if(loading[dataKey]) return <Spinner/>;
+    if(err) return <Empty msg={`Error: ${err} — check Sheet ID & tab name in ⚙ Settings`}/>;
+    if(!r.length) return <Empty msg="No data yet. Paste Sheet ID in ⚙ Settings & publish tabs as CSV."/>;
+    return <div className="tw"><table><thead><tr>{cols.map((c,i)=><th key={i} className={["Impressions","Reads","Count"].includes(c)?"r":""}>{c}</th>)}</tr></thead><tbody>{r.map((row,i)=><tr key={i}>{rowFn(row,i)}</tr>)}</tbody></table></div>;
+  };
+
+  const MC = ({data:d,color,type="bar"}) => (
+    <ResponsiveContainer width="100%" height={175}>
+      {type==="line"?
+        <LineChart data={d} margin={{top:4,right:8,bottom:4,left:0}}><CartesianGrid strokeDasharray="3 3" stroke="#1A1D26"/><XAxis dataKey="month" tick={{fontSize:9,fill:"#444"}}/><YAxis tick={{fontSize:9,fill:"#444"}}/><Tooltip content={<CT/>}/><Line type="monotone" dataKey="value" stroke={color} strokeWidth={2} dot={{r:2,fill:color}}/></LineChart>:
+        <BarChart data={d} margin={{top:4,right:8,bottom:4,left:0}}><CartesianGrid strokeDasharray="3 3" stroke="#1A1D26"/><XAxis dataKey="month" tick={{fontSize:9,fill:"#444"}}/><YAxis tick={{fontSize:9,fill:"#444"}}/><Tooltip content={<CT/>}/><Bar dataKey="value" fill={color} radius={[3,3,0,0]}/></BarChart>
+      }
+    </ResponsiveContainer>
+  );
+
+  const PlatformPages = {
+    reddit: <>
+      <div className="g2">
+        <div className="card"><div className="ct">Impressions by Month</div><MC data={byMonth("reddit","Date","Post Impressions")} color={G.reddit}/></div>
+        <div className="card"><div className="ct">Sentiment Breakdown</div>
+          <ResponsiveContainer width="100%" height={175}><PieChart><Pie data={sentPie("reddit","Sentiment")} cx="50%" cy="50%" innerRadius={42} outerRadius={72} paddingAngle={3} dataKey="value">{sentPie("reddit","Sentiment").map((e,i)=><Cell key={i} fill={e.fill}/>)}</Pie><Tooltip content={<CT/>}/><Legend wrapperStyle={{fontSize:10,color:"#666"}}/></PieChart></ResponsiveContainer>
+        </div>
+      </div>
+      <div className="card"><div className="ct">All Reddit Posts</div>
+        <PlatTable dataKey="reddit" linkCol="Post Link" cols={["Date","Type","Question","Link","Impressions","Sentiment","Subreddit"]}
+          rowFn={r=>[<td>{r["Date"]||"—"}</td>,<td>{r["Type"]||"—"}</td>,<td>{trunc(r["Question"],55)}</td>,<td>{r["Post Link"]?<a href={r["Post Link"]} target="_blank" className="lb">View ↗</a>:"—"}</td>,<td className="r">{fmtNum(r["Post Impressions"]||0)}</td>,<td><span className={`sb ${sc(r["Sentiment"])}`}>{sl(r["Sentiment"])}</span></td>,<td>{r["Subreddit"]||"—"}</td>]}/>
+      </div>
+    </>,
+    quora: <>
+      <div className="g2">
+        <div className="card"><div className="ct">Impressions Trend</div><MC data={byMonth("quora","Date","Impressions")} color={G.quora} type="line"/></div>
+        <div className="card"><div className="ct">Sentiment</div>
+          <ResponsiveContainer width="100%" height={175}><PieChart><Pie data={sentPie("quora","Sentiment")} cx="50%" cy="50%" innerRadius={42} outerRadius={72} paddingAngle={3} dataKey="value">{sentPie("quora","Sentiment").map((e,i)=><Cell key={i} fill={e.fill}/>)}</Pie><Tooltip content={<CT/>}/><Legend wrapperStyle={{fontSize:10,color:"#666"}}/></PieChart></ResponsiveContainer>
+        </div>
+      </div>
+      <div className="card"><div className="ct">All Quora Answers</div>
+        <PlatTable dataKey="quora" linkCol="Answer Live Link" cols={["Date","Question","Q Link","A Link","Impressions","Sentiment"]}
+          rowFn={r=>[<td>{r["Date"]||"—"}</td>,<td>{trunc(r["Question"],50)}</td>,<td>{r["Question Live Link"]?<a href={r["Question Live Link"]} target="_blank" className="lb">Q ↗</a>:"—"}</td>,<td>{r["Answer Live Link"]?<a href={r["Answer Live Link"]} target="_blank" className="lb">A ↗</a>:"—"}</td>,<td className="r">{fmtNum(r["Impressions"]||0)}</td>,<td><span className={`sb ${sc(r["Sentiment"])}`}>{sl(r["Sentiment"])}</span></td>]}/>
+      </div>
+    </>,
+    pstQuora: <>
+      <div className="g2">
+        <div className="card"><div className="ct">Impressions</div><MC data={rows("pstQuora").slice(-8).map((r,i)=>({month:`Q${i+1}`,value:toNum(r["Impressions"]||0)}))} color={G.purple}/></div>
+        <div className="card"><div className="ct">Sentiment</div>
+          <ResponsiveContainer width="100%" height={175}><PieChart><Pie data={sentPie("pstQuora","Sentiment")} cx="50%" cy="50%" innerRadius={42} outerRadius={72} paddingAngle={3} dataKey="value">{sentPie("pstQuora","Sentiment").map((e,i)=><Cell key={i} fill={e.fill}/>)}</Pie><Tooltip content={<CT/>}/><Legend wrapperStyle={{fontSize:10,color:"#666"}}/></PieChart></ResponsiveContainer>
+        </div>
+      </div>
+      <div className="card"><div className="ct">PST Official Quora Answers</div>
+        <PlatTable dataKey="pstQuora" linkCol="Live Link" cols={["#","Question","Link","Impressions","Sentiment"]}
+          rowFn={(r,i)=>[<td>{r["Sr. No."]||i+1}</td>,<td>{trunc(r["Question"],60)}</td>,<td>{r["Live Link"]?<a href={r["Live Link"]} target="_blank" className="lb">View ↗</a>:"—"}</td>,<td className="r">{fmtNum(r["Impressions"]||0)}</td>,<td><span className={`sb ${sc(r["Sentiment"])}`}>{sl(r["Sentiment"])}</span></td>]}/>
+      </div>
+    </>,
+    youtube: <>
+      {!settings.apis.youtube_api && <div className="api-act-notice">⚡ Add YouTube API key in ⚙ Settings → YouTube video mentions auto-fetch daily at 7 AM. No other setup needed.</div>}
+      <div className="card"><div className="ct">YouTube Comments Seeded</div>
+        <PlatTable dataKey="youtube" linkCol="Video Link" cols={["Date","Channel","Type","Video","Count"]}
+          rowFn={r=>[<td>{r["Date"]||r["A"]||"—"}</td>,<td>{r["Channel Name"]||r["B"]||"—"}</td>,<td>{r["Type"]||r["D"]||"—"}</td>,<td>{r["Video Link"]?<a href={r["Video Link"]} target="_blank" className="lb">Watch ↗</a>:"—"}</td>,<td className="r">{r["Comments Seeded"]||r["F"]||1}</td>]}/>
+      </div>
+    </>,
+    newspaper: <>
+      {!settings.apis.newsapi_key && <div className="api-act-notice">⚡ Add NewsAPI key in ⚙ Settings → news articles mentioning PST auto-collected daily from 70,000+ publications.</div>}
+      <div className="g2">
+        <div className="card"><div className="ct">PR Coverage by Month</div><MC data={byMonth("newspaper","Publish Date")} color={G.amber}/></div>
+        <div className="card"><div className="ct">Sentiment</div>
+          <ResponsiveContainer width="100%" height={175}><PieChart><Pie data={sentPie("newspaper","Sentiment")} cx="50%" cy="50%" innerRadius={42} outerRadius={72} paddingAngle={3} dataKey="value">{sentPie("newspaper","Sentiment").map((e,i)=><Cell key={i} fill={e.fill}/>)}</Pie><Tooltip content={<CT/>}/><Legend wrapperStyle={{fontSize:10,color:"#666"}}/></PieChart></ResponsiveContainer>
+        </div>
+      </div>
+      <div className="card"><div className="ct">All Newspaper Coverage</div>
+        <PlatTable dataKey="newspaper" linkCol="Published Link" cols={["Publication","Language","Date","Headline","Link","Sentiment"]}
+          rowFn={r=>[<td style={{fontWeight:600}}>{r["Publication Name"]||r["A"]||"—"}</td>,<td>{r["Language"]||r["B"]||"—"}</td>,<td>{r["Publish Date"]||r["C"]||"—"}</td>,<td>{trunc(r["Headline"]||r["E"],45)}</td>,<td>{(r["Published Link"]||r["D"])?<a href={r["Published Link"]||r["D"]} target="_blank" className="lb">Read ↗</a>:"—"}</td>,<td><span className={`sb ${sc(r["Sentiment"]||r["F"])}`}>{sl(r["Sentiment"]||r["F"])}</span></td>]}/>
+      </div>
+    </>,
+    medium: <>
+      <div className="g2">
+        <div className="card"><div className="ct">Articles by Month</div><MC data={byMonth("medium","Date")} color={G.green} type="line"/></div>
+        <div className="card"><div className="ct">Sentiment</div>
+          <ResponsiveContainer width="100%" height={175}><PieChart><Pie data={sentPie("medium","Sentiment")} cx="50%" cy="50%" innerRadius={42} outerRadius={72} paddingAngle={3} dataKey="value">{sentPie("medium","Sentiment").map((e,i)=><Cell key={i} fill={e.fill}/>)}</Pie><Tooltip content={<CT/>}/><Legend wrapperStyle={{fontSize:10,color:"#666"}}/></PieChart></ResponsiveContainer>
+        </div>
+      </div>
+      <div className="card"><div className="ct">All Medium Articles</div>
+        <PlatTable dataKey="medium" linkCol="Live Link" cols={["Date","Title","Author","Link","Reads","Sentiment"]}
+          rowFn={r=>[<td>{r["Date"]||r["A"]||"—"}</td>,<td>{trunc(r["Title"]||r["C"],48)}</td>,<td>{r["Author"]||r["E"]||"—"}</td>,<td>{(r["Live Link"]||r["G"])?<a href={r["Live Link"]||r["G"]} target="_blank" className="lb">Read ↗</a>:"—"}</td>,<td className="r">{fmtNum(r["Reads"]||r["H"]||0)}</td>,<td><span className={`sb ${sc(r["Sentiment"]||r["I"])}`}>{sl(r["Sentiment"]||r["I"])}</span></td>]}/>
+      </div>
+    </>,
+  };
+
+  const Pages = {
+    overview: (
+      <div>
+        <div className="g2">
+          <div className="card">
+            <div className="ct">🎯 Next Priority Actions</div>
+            <div className="act-list">
+              {getActionables().map((a,i)=>(
+                <div key={i} className="act">
+                  <div className="act-n">{i+1}</div>
+                  <div className="act-t">{a.text}<span className={`act-b act-${a.p}`}>{a.p==="h"?"HIGH":a.p==="m"?"MED":"LOW"}</span></div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="card">
+            <div className="ct">📡 Weekly Intelligence</div>
+            {rows("weekly").length ? <>
+              <div className="narr">{rows("weekly")[rows("weekly").length-1]["AI Narrative"]||"Connect Listening Sheet for AI-generated narratives."}</div>
+              <div style={{display:"flex",gap:9,flexWrap:"wrap"}}>
+                {[["PST Mentions","Total PST Mentions"],["Positive %","PST Positive %"],["Competitor Mentions","Total Competitor Mentions"]].map(([label,key])=>(
+                  <div key={key} style={{flex:1,minWidth:100,background:"#0A0C11",borderRadius:8,padding:"9px 11px",border:"1px solid #1A1D26"}}>
+                    <div style={{fontSize:9,color:"#444",textTransform:"uppercase",letterSpacing:".1em",marginBottom:3}}>{label}</div>
+                    <div style={{fontSize:18,fontWeight:800,fontFamily:"'Syne',sans-serif",color:G.gold}}>{rows("weekly")[rows("weekly").length-1][key]||"—"}</div>
+                  </div>
+                ))}
+              </div>
+            </> : <Empty msg="Configure Listening Sheet in ⚙ Settings for AI weekly intelligence."/>}
+          </div>
+        </div>
+        <div className="g2">
+          <div className="card">
+            <div className="ct">📊 Sentiment Trend (Weekly)</div>
+            {rows("weekly").length ?
+              <ResponsiveContainer width="100%" height={200}>
+                <BarChart data={rows("weekly").slice(-8).map(w=>({week:(w["Week Start Date"]||w["A"]||"").slice(0,8),Positive:parseFloat(w["PST Positive %"]||w["C"]||0),CompMentions:toNum(w["Total Competitor Mentions"]||w["D"]||0)}))} margin={{top:4,right:8,bottom:4,left:0}}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#1A1D26"/><XAxis dataKey="week" tick={{fontSize:9,fill:"#444"}}/><YAxis tick={{fontSize:9,fill:"#444"}}/>
+                  <Tooltip content={<CT/>}/><Legend wrapperStyle={{fontSize:10,color:"#666"}}/>
+                  <Bar dataKey="Positive" fill={G.green} radius={[3,3,0,0]}/><Bar dataKey="CompMentions" fill={G.orange} radius={[3,3,0,0]}/>
+                </BarChart>
+              </ResponsiveContainer>
+            : <Empty msg="Listening Sheet needed for weekly trend charts."/>}
+          </div>
+          <div className="card">
+            <div className="ct">🔴 Live Brand Mention Feed</div>
+            <div className="feed">
+              {loading.brand ? <Spinner/> : rows("brand").length ?
+                rows("brand").slice(0,15).map((r,i)=>(
+                  <div key={i} className="fc">
+                    <div className="fc-top">
+                      <div className="fc-title">{r["Title / Headline"]||r["C"]||"—"}</div>
+                      <span className={`sb ${sc(r["Sentiment"]||r["H"])}`}>{sl(r["Sentiment"]||r["H"])}</span>
+                    </div>
+                    <div className="fc-meta">
+                      <div className="pip" style={{background:G[(r["Source Platform"]||"").toLowerCase()]||"#555"}}/>
+                      <span>{r["Source Platform"]||"—"}</span><span>·</span><span>{r["Author / Channel"]||r["F"]||"—"}</span>
+                      {(r["Link"]||r["E"])&&<><span>·</span><a href={r["Link"]||r["E"]} target="_blank" className="lb" style={{fontSize:9}}>View ↗</a></>}
+                    </div>
+                  </div>
+                ))
+              : <Empty msg="Add Listening Sheet ID in ⚙ Settings to see brand mentions."/>}
+            </div>
+          </div>
+        </div>
+      </div>
+    ),
+
+    content: (
+      <div>
+        <div className="ptabs">
+          {Object.entries(PLATFORM_META).map(([key,meta])=>{
+            const hasApi = meta.noApi || settings.apis[meta.apiKey];
+            return (
+              <button key={key} className={`ptab${activePlat===key?" on":""}`} onClick={()=>setActivePlat(key)}>
+                <div className={`dot ${settings.contentSheetId&&hasApi?"dot-g":settings.contentSheetId?"dot-a":"dot-r"}`}/>
+                <span style={{color:meta.color}}>{meta.icon}</span>{meta.label}
+              </button>
+            );
+          })}
+        </div>
+        {PlatformPages[activePlat]}
+      </div>
+    ),
+
+    competitors: (
+      <div>
+        <div className="card" style={{marginBottom:13}}>
+          <div className="ct">🏆 Competitor Sentiment Comparison</div>
+          <ResponsiveContainer width="100%" height={230}>
+            <BarChart data={compChartData()} margin={{top:4,right:18,bottom:4,left:0}}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#1A1D26"/>
+              <XAxis dataKey="name" tick={{fontSize:10,fill:"#777"}}/><YAxis tick={{fontSize:9,fill:"#444"}}/>
+              <Tooltip content={<CT/>}/><Legend wrapperStyle={{fontSize:10,color:"#666"}}/>
+              <Bar dataKey="positive" name="Positive %" fill={G.green} radius={[3,3,0,0]}/>
+              <Bar dataKey="negative" name="Negative %" fill={G.red} radius={[3,3,0,0]}/>
+              <Bar dataKey="neutral" name="Neutral %" fill="#2A2D36" radius={[3,3,0,0]}/>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+        <div className="g2">
+          <div className="card">
+            <div className="ct">📋 Competitor Mentions</div>
+            <div className="tw"><table>
+              <thead><tr><th>Competitor</th><th>Platform</th><th>Title</th><th>Sentiment</th><th>PST Compared</th></tr></thead>
+              <tbody>{rows("comp").slice(0,20).map((r,i)=>(
+                <tr key={i}>
+                  <td style={{fontWeight:600,color:G.orange}}>{r["Competitor"]||r["B"]||"—"}</td>
+                  <td>{r["Source Platform"]||r["C"]||"—"}</td>
+                  <td>{trunc(r["Title / Headline"]||r["D"],45)}</td>
+                  <td><span className={`sb ${sc(r["Sentiment Toward Competitor"]||r["G"])}`}>{sl(r["Sentiment Toward Competitor"]||r["G"])}</span></td>
+                  <td><span className={`sb ${(r["PST Compared"]||r["H"])==="Yes"?"pos":"neu"}`}>{r["PST Compared"]||r["H"]||"—"}</span></td>
+                </tr>
+              ))}</tbody>
+            </table></div>
+          </div>
+          <div className="card">
+            <div className="ct">🎯 Competitor Radar</div>
+            <ResponsiveContainer width="100%" height={215}>
+              <RadarChart data={[{m:"Sentiment",PST:75,Scaler:65,Newton:58},{m:"Mentions",PST:rows("brand").length?80:20,Scaler:70,Newton:55},{m:"Engagement",PST:60,Scaler:75,Newton:50},{m:"News",PST:rows("newspaper").length?70:30,Scaler:50,Newton:40},{m:"Reddit",PST:rows("reddit").length?65:20,Scaler:80,Newton:45}]}>
+                <PolarGrid stroke="#1A1D26"/><PolarAngleAxis dataKey="m" tick={{fontSize:10,fill:"#666"}}/>
+                <Radar name="PST" dataKey="PST" stroke={G.gold} fill={G.gold} fillOpacity={0.18}/>
+                <Radar name="Scaler" dataKey="Scaler" stroke={G.orange} fill={G.orange} fillOpacity={0.1}/>
+                <Radar name="Newton" dataKey="Newton" stroke={G.purple} fill={G.purple} fillOpacity={0.1}/>
+                <Legend wrapperStyle={{fontSize:10,color:"#666"}}/><Tooltip content={<CT/>}/>
+              </RadarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+        <div className="card">
+          <div className="ct">🌐 Internet-Wide Coverage Table</div>
+          <div className="comp-tbl-wrap"><table style={{minWidth:620}}>
+            <thead><tr><th>Entity</th><th>Reddit</th><th>YouTube</th><th>News</th><th>Quora</th><th>Total</th><th>PST Compared</th><th>Dominant Sentiment</th></tr></thead>
+            <tbody>
+              {[{name:"PST ★",self:true},...settings.competitors.map(c=>({name:c,self:false}))].slice(0,9).map(comp=>{
+                const r=rows("comp").filter(x=>(x["Competitor"]||"").toLowerCase().includes(comp.name.replace(" ★","").toLowerCase().split(" ")[0]));
+                const rd=r.filter(x=>(x["Source Platform"]||"").toLowerCase().includes("reddit")).length;
+                const yt=r.filter(x=>(x["Source Platform"]||"").toLowerCase().includes("youtube")).length;
+                const nw=r.filter(x=>(x["Source Platform"]||"").toLowerCase().includes("news")).length;
+                const qr=r.filter(x=>(x["Source Platform"]||"").toLowerCase().includes("quora")).length;
+                const pos=r.filter(x=>sc(x["Sentiment Toward Competitor"])==="pos").length;
+                const dom=r.length?(pos>r.length*0.5?"pos":"neg"):"neu";
+                return <tr key={comp.name}>
+                  <td style={{fontWeight:700,color:comp.self?G.gold:"#DDD"}}>{comp.name}</td>
+                  <td style={{color:G.reddit}}>{rd}</td><td style={{color:G.youtube}}>{yt}</td>
+                  <td style={{color:G.amber}}>{nw}</td><td style={{color:G.quora}}>{qr}</td>
+                  <td style={{fontWeight:700,color:G.gold}}>{r.length}</td>
+                  <td>{r.filter(x=>(x["PST Compared"]||"")==="Yes").length}</td>
+                  <td><span className={`sb ${dom}`}>{dom==="pos"?"Positive":dom==="neg"?"Negative":"N/A"}</span></td>
+                </tr>;
+              })}
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+    ),
+
+    analytics: (
+      <div>
+        <div className="g2">
+          <div className="card">
+            <div className="ct">📈 Multi-Platform Activity</div>
+            <ResponsiveContainer width="100%" height={210}>
+              <LineChart margin={{top:4,right:8,bottom:4,left:0}} data={["reddit","quora","medium","newspaper"].reduce((acc,key)=>{
+                byMonth(key,"Date").forEach(({month,value})=>{const ex=acc.find(a=>a.month===month);if(ex)ex[key]=value;else acc.push({month,[key]:value});});return acc;
+              },[])}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#1A1D26"/>
+                <XAxis dataKey="month" tick={{fontSize:9,fill:"#444"}}/><YAxis tick={{fontSize:9,fill:"#444"}}/>
+                <Tooltip content={<CT/>}/><Legend wrapperStyle={{fontSize:10,color:"#666"}}/>
+                <Line type="monotone" dataKey="reddit" stroke={G.reddit} strokeWidth={2} dot={false} name="Reddit"/>
+                <Line type="monotone" dataKey="quora" stroke={G.quora} strokeWidth={2} dot={false} name="Quora"/>
+                <Line type="monotone" dataKey="medium" stroke={G.green} strokeWidth={2} dot={false} name="Medium"/>
+                <Line type="monotone" dataKey="newspaper" stroke={G.amber} strokeWidth={2} dot={false} name="Newspaper"/>
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="card">
+            <div className="ct">📊 Content Mix</div>
+            <ResponsiveContainer width="100%" height={210}>
+              <PieChart>
+                <Pie dataKey="value" cx="50%" cy="50%" innerRadius={48} outerRadius={86} paddingAngle={3}
+                  data={[{name:"Reddit",value:rows("reddit").length,fill:G.reddit},{name:"Quora",value:rows("quora").length,fill:G.quora},{name:"PST Quora",value:rows("pstQuora").length,fill:G.purple},{name:"YouTube",value:rows("youtube").length,fill:G.youtube},{name:"Newspaper",value:rows("newspaper").length,fill:G.amber},{name:"Medium",value:rows("medium").length,fill:G.green}].filter(d=>d.value>0)}>
+                  {[G.reddit,G.quora,G.purple,G.youtube,G.amber,G.green].map((fill,i)=><Cell key={i} fill={fill}/>)}
+                </Pie><Tooltip content={<CT/>}/><Legend wrapperStyle={{fontSize:10,color:"#666"}}/>
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+        <div className="card">
+          <div className="ct">📅 Monthly / Weekly Performance Comparison</div>
+          <div className="comp-tbl-wrap"><table style={{minWidth:680}}>
+            <thead><tr><th>Platform</th><th>This Week</th><th>Last Week</th><th>WoW Δ</th><th>This Month</th><th>Last Month</th><th>MoM Δ</th></tr></thead>
+            <tbody>
+              {Object.entries(PLATFORM_META).map(([key,meta])=>{
+                const r=rows(key);const now=new Date();
+                const inRange=(row,days1,days2=0)=>{
+                  const d=Object.values(row).find(v=>/\d{2}-\d{2}-\d{4}/.test(v));
+                  if(!d)return false;
+                  try{const p=new Date(d.split("-").reverse().join("-"));const c1=new Date();c1.setDate(now.getDate()-days1);const c2=new Date();c2.setDate(now.getDate()-days2);return p>=c1&&(days2===0||p<c2);}catch{return false;}
+                };
+                const tw=r.filter(row=>inRange(row,7)).length,lw=r.filter(row=>inRange(row,14,7)).length;
+                const tm=r.filter(row=>{const d=Object.values(row).find(v=>/\d{2}-\d{2}-\d{4}/.test(v));if(!d)return false;try{const p=new Date(d.split("-").reverse().join("-"));return p.getMonth()===now.getMonth()&&p.getFullYear()===now.getFullYear();}catch{return false;}}).length;
+                const lm=r.filter(row=>{const d=Object.values(row).find(v=>/\d{2}-\d{2}-\d{4}/.test(v));if(!d)return false;try{const p=new Date(d.split("-").reverse().join("-"));const lmD=new Date(now.getFullYear(),now.getMonth()-1,1);return p.getMonth()===lmD.getMonth()&&p.getFullYear()===lmD.getFullYear();}catch{return false;}}).length;
+                const wd=lw>0?Math.round((tw-lw)/lw*100):0,md=lm>0?Math.round((tm-lm)/lm*100):0;
+                return <tr key={key}>
+                  <td style={{fontWeight:600,color:meta.color}}>{meta.label}</td>
+                  <td style={{fontWeight:700,color:G.gold}}>{tw}</td><td style={{color:"#666"}}>{lw}</td>
+                  <td><span className={`sb ${wd>0?"pos":wd<0?"neg":"neu"}`}>{wd>0?"+":""}{wd}%</span></td>
+                  <td style={{fontWeight:700,color:G.gold}}>{tm}</td><td style={{color:"#666"}}>{lm}</td>
+                  <td><span className={`sb ${md>0?"pos":md<0?"neg":"neu"}`}>{md>0?"+":""}{md}%</span></td>
+                </tr>;
+              })}
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+    ),
+  };
+
+  return (
+    <div>
+      <style>{CSS}</style>
+      <nav className="nav">
+        <div className="nav-logo">POLARIS <span>SCHOOL OF TECH</span></div>
+        <div className="nav-tabs">
+          {[["overview","Overview"],["content","Content"],["competitors","Competitors"],["analytics","Analytics"]].map(([k,l])=>(
+            <button key={k} className={`nav-tab${page===k?" on":""}`} onClick={()=>setPage(k)}>{l}</button>
+          ))}
+        </div>
+        <div className="nav-r">
+          <span className="nav-ts">{lastUpdated?`↺ ${lastUpdated}`:"Not loaded"}</span>
+          <button className="btn btn-out" onClick={loadAll}>Refresh</button>
+          <button className="dl-btn" onClick={downloadReport}>⬇ Report</button>
+          <button className={`voice-btn${isRec?" rec":""}`} onClick={()=>setIsRec(p=>!p)} title={isRec?"Stop recording":"Voice note"}>🎙</button>
+          <button className="btn btn-ghost" onClick={()=>setShowSettings(true)}>⚙ Settings</button>
+        </div>
+      </nav>
+
+      {showSettings && <SettingsPanel settings={settings} onChange={saveSetting} onClose={()=>setShowSettings(false)}/>}
+
+      <main className="main">
+        {/* NORTH STAR */}
+        <div className="ns-bar">
+          <div style={{flex:1}}>
+            <div className="ns-lbl">🎯 North Star — Live Content Goal</div>
+            <div style={{display:"flex",alignItems:"center",gap:12,marginTop:7}}>
+              <div className="ns-track"><div className="ns-fill" style={{width:`${pct}%`}}/></div>
+              <span style={{fontSize:10,color:"#444",whiteSpace:"nowrap"}}>{pct}% · {(goal-live)} remaining</span>
+            </div>
+          </div>
+          <div><div className="ns-num">{live.toLocaleString()}</div><div className="ns-sub">of {goal} · June 2026</div></div>
+          <div style={{display:"flex",gap:9,flexShrink:0}}>
+            {[{v:`${apiCount}/4`,l:"APIs Active",c:apiCount===4?G.green:apiCount>0?G.amber:"#333"},{v:settings.listeningSheetId?"ON":"OFF",l:"ORM Listen",c:settings.listeningSheetId?G.green:"#333"}].map(({v,l,c})=>(
+              <div key={l} style={{background:"#0A0C11",borderRadius:8,padding:"8px 13px",border:"1px solid #1A1D26",textAlign:"center"}}>
+                <div style={{fontSize:15,fontWeight:800,fontFamily:"'Syne',sans-serif",color:c}}>{v}</div>
+                <div style={{fontSize:9,color:"#444",textTransform:"uppercase",letterSpacing:".1em",marginTop:2}}>{l}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* KPIs */}
+        <div className="kpis">
+          {[
+            {key:"reddit",icon:"🔴",lbl:"Reddit Posts",val:liveRows("reddit","Post Link").length,sub:`${fmtNum(totalImp("reddit","Post Impressions"))} impr`,color:G.reddit},
+            {key:"quora",icon:"🟣",lbl:"Quora Answers",val:liveRows("quora","Answer Live Link").length,sub:`${fmtNum(totalImp("quora","Impressions"))} impr`,color:G.quora},
+            {key:"pstQuora",icon:"💜",lbl:"PST Quora",val:liveRows("pstQuora","Live Link").length,sub:`${fmtNum(totalImp("pstQuora","Impressions"))} impr`,color:G.purple},
+            {key:"youtube",icon:"📺",lbl:"YT Comments",val:rows("youtube").length,sub:`${rows("youtube").reduce((s,r)=>s+toNum(r["Comments Seeded"]||1),0)} seeded`,color:G.youtube},
+            {key:"newspaper",icon:"📰",lbl:"Newspaper PR",val:liveRows("newspaper","Published Link").length,sub:`${new Set(rows("newspaper").map(r=>r["Publication Name"]||r["A"])).size} pubs`,color:G.amber},
+            {key:"medium",icon:"📝",lbl:"Medium",val:liveRows("medium","Live Link").length,sub:`${fmtNum(totalImp("medium","Reads"))} reads`,color:G.medium},
+            {key:"brand",icon:"📡",lbl:"Brand Mentions",val:rows("brand").length,sub:"auto-collected",color:G.blue},
+          ].map(kpi=>(
+            <div key={kpi.key} className={`kpi${activePlat===kpi.key&&page==="content"?" on":""}`}
+              onClick={()=>{setActivePlat(kpi.key);if(kpi.key!=="brand")setPage("content");}}>
+              <div style={{fontSize:17,marginBottom:4}}>{kpi.icon}</div>
+              <div className="kpi-n" style={{color:loading[kpi.key]?"#333":kpi.color}}>{loading[kpi.key]?"…":kpi.val}</div>
+              <div className="kpi-l">{kpi.lbl}</div>
+              <div className="kpi-s">{kpi.sub}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* DATE FILTER */}
+        <div className="date-bar">
+          <span className="date-lbl">Filter:</span>
+          {[["all","All Time"],["7d","7 Days"],["30d","30 Days"],["custom","Custom"]].map(([k,l])=>(
+            <button key={k} className={`d-btn${dateRange===k?" on":""}`} onClick={()=>setDateRange(k)}>{l}</button>
+          ))}
+          {dateRange==="custom"&&<>
+            <input type="date" className="d-input" value={customFrom} onChange={e=>setCustomFrom(e.target.value)}/>
+            <span style={{color:"#333",fontSize:11}}>→</span>
+            <input type="date" className="d-input" value={customTo} onChange={e=>setCustomTo(e.target.value)}/>
+          </>}
+          <div style={{marginLeft:"auto",fontSize:10,color:settings.contentSheetId?"#4ADE80":"#444"}}>
+            {settings.contentSheetId?"✓ Sheet connected":"⚠ Add Sheet ID in ⚙ Settings"}
+          </div>
+        </div>
+
+        {Pages[page]}
+      </main>
+      <footer>Polaris School of Technology · ORM Intelligence Dashboard v2.0 · Built by Aditya · Auto-syncs every {settings.refreshInterval} min</footer>
+    </div>
+  );
+}
