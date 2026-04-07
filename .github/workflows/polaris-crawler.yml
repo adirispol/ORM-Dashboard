@@ -2,15 +2,9 @@ name: Polaris ORM Crawler
 
 on:
   schedule:
-    # Every 30 minutes using two cron entries (GitHub minimum is 5min)
-    # Runs at :00 and :30 of every hour
-    - cron: '0 * * * *'
-    - cron: '30 * * * *'
-
-  # Manual trigger — use this to test immediately
-  workflow_dispatch:
-
-  # Run when crawler script changes
+    - cron: '0 * * * *'  # Runs every hour
+    - cron: '30 * * * *' # Runs every half hour
+  workflow_dispatch:      # Allows you to click "Run workflow" manually
   push:
     branches: [main]
     paths: ['scripts/crawler.py']
@@ -32,10 +26,14 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install dependencies
+        run: |
+          pip install pandas requests beautifulsoup4
+          # If your script needs other libraries, add them here
+
       - name: Run Polaris ORM Crawler
         run: python scripts/crawler.py
         env:
-          # Add these in: Repo → Settings → Secrets and variables → Actions
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
           CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
@@ -48,15 +46,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "No new data this run"
           else
-            TOTAL=$(python3 -c "
-import json, sys
-try:
-    d = json.load(open('data/summary.json'))
-    ns = d.get('north_star', {})
-    print(f\"{d.get('total_mentions',0)} mentions | NS={ns.get('weighted_score','?')}\")
-except:
-    print('?')
-" 2>/dev/null || echo "?")
-            git commit -m "ORM: ${TOTAL} — $(date -u +'%H:%M %d %b UTC')"
+            git commit -m "ORM: Data Update — $(date -u +'%H:%M %d %b UTC')"
             git push
           fi
