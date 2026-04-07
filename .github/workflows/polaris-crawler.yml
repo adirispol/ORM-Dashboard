@@ -2,7 +2,7 @@ name: Polaris ORM Crawler
 
 on:
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '*/30 * * * *' # Runs every 30 minutes
   workflow_dispatch:
   push:
     branches: [main]
@@ -23,14 +23,13 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: |
-          pip install pandas requests beautifulsoup4
-          # Add any other libraries your crawler needs here
+        run: pip install pandas requests beautifulsoup4
 
       - name: Run Crawler
-        run: python crawler.py  # <--- CHANGE TO 'scripts/crawler.py' IF YOU MOVE IT
+        run: python scripts/crawler.py  # Fixed path to look in scripts folder
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
 
       - name: Commit data
         run: |
