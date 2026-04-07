@@ -1,0 +1,71 @@
+{
+  "last_crawled": "2026-04-07T07:24:47.923230+00:00",
+  "total_mentions": 12,
+  "by_platform": {
+    "newspaper": 12
+  },
+  "by_sentiment": {
+    "positive": 0,
+    "negative": 0,
+    "neutral": 10,
+    "mixed": 2
+  },
+  "by_category": {
+    "press_release": 10,
+    "national_media": 2
+  },
+  "platform_groups": {
+    "content_platforms": {
+      "platforms": [
+        "reddit",
+        "quora",
+        "medium",
+        "youtube"
+      ],
+      "count": 0
+    },
+    "news_pr": {
+      "platforms": [
+        "newspaper"
+      ],
+      "count": 12
+    },
+    "aggregators": {
+      "platforms": [
+        "shiksha",
+        "collegedunia",
+        "collegedekho",
+        "careers360",
+        "getmyuni",
+        "naukri"
+      ],
+      "count": 0
+    },
+    "social_media": {
+      "platforms": [
+        "linkedin",
+        "twitter",
+        "facebook",
+        "instagram"
+      ],
+      "count": 0
+    },
+    "general_web": {
+      "platforms": [
+        "web"
+      ],
+      "count": 0
+    }
+  },
+  "negative_alert_count": 0,
+  "crawl_sources": [
+    "Reddit Public JSON API",
+    "Google News RSS",
+    "Google Search \u2192 Quora",
+    "Google Search \u2192 Medium",
+    "Google Search \u2192 YouTube",
+    "Google Search \u2192 Aggregators (6 portals)",
+    "Google Search \u2192 Social Media (4 platforms)",
+    "Google Search \u2192 General Web"
+  ]
+}
