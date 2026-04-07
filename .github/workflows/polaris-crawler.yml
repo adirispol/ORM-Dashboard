@@ -29,7 +29,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Run Crawler
-        run: python scripts/crawler.py
+        run: python crawler.py
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
