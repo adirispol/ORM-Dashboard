@@ -3,190 +3,261 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Polaris ORM Intelligence Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Polaris ORM Intelligence — Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 :root{
-  --gold:#FFCC3F;--orange:#FF9A3F;--amber:#F59E0B;
-  --bg:#050508;--card:#0F1117;--card2:#161820;--border:#252830;
-  --reddit:#FF5722;--quora:#E53935;--youtube:#F44336;
-  --medium:#00C853;--newspaper:#FFB300;--purple:#7C4DFF;--blue:#2979FF;
-  --pos:#00E676;--neg:#FF1744;--neu:#78909C;--mixed:#FF9800;
-  --text:#F1F5F9;--muted:#94A3B8;--dim:#475569;
+  --gold:#FFCC3F; --orange:#FF9A3F; --amber:#D88100;
+  --black:#020202; --card:#141418; --card2:#1A1A20;
+  --border:#2A2A35; --border2:#353542;
+  --reddit:#FF4500; --quora:#B92B27; --youtube:#FF0000;
+  --medium:#099B5A; --newspaper:#D88100; --purple:#5939A8;
+  --blue:#2979FF; --teal:#00BCD4;
+  --pos:#00C853; --neg:#BA0E13; --neu:#78909C; --mixed:#FF9800;
+  --text:#F0F0F5; --muted:#8A8A9A; --dim:#454558;
+  --font:'Montserrat',sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+body{font-family:var(--font);background:var(--black);color:var(--text);min-height:100vh;}
 ::-webkit-scrollbar{width:4px;height:4px;}
-::-webkit-scrollbar-track{background:#080A10;}
-::-webkit-scrollbar-thumb{background:#252830;border-radius:4px;}
+::-webkit-scrollbar-track{background:#0A0A0E;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px;}
+a{text-decoration:none;color:inherit;}
+code{font-family:'Courier New',monospace;font-size:11px;background:#0D0D14;padding:2px 6px;border-radius:4px;color:var(--gold);}
 
-.nav{position:sticky;top:0;z-index:200;background:rgba(5,5,8,.97);border-bottom:2px solid var(--gold);padding:0 20px;height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
-.logo{font-size:13px;font-weight:700;letter-spacing:.16em;color:var(--gold);white-space:nowrap;}
-.logo span{color:var(--orange);}
-.ptabs{display:flex;gap:2px;background:#0D0F14;border:1px solid #1E2230;border-radius:9px;padding:3px;}
-.ptab{padding:6px 14px;border-radius:7px;font:600 11px 'Poppins',sans-serif;cursor:pointer;border:none;background:transparent;color:#445;transition:.2s;white-space:nowrap;}
-.ptab.on{background:#1A1D2A;color:var(--gold);}
-.ptab:hover{color:#AAB;}
+/* NAV */
+.nav{position:sticky;top:0;z-index:200;background:rgba(2,2,2,.97);border-bottom:2px solid var(--gold);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.logo-polaris{font-family:var(--font);font-size:13px;font-weight:800;letter-spacing:.2em;color:var(--gold);white-space:nowrap;text-transform:uppercase;}
+.logo-polaris span{color:var(--orange);display:block;font-size:9px;font-weight:600;letter-spacing:.18em;margin-top:1px;}
+.ptabs{display:flex;gap:2px;background:#0A0A0E;border:1px solid var(--border);border-radius:10px;padding:3px;}
+.ptab{padding:6px 15px;border-radius:8px;font:600 11px var(--font);cursor:pointer;border:none;background:transparent;color:#445;transition:.2s;white-space:nowrap;letter-spacing:.04em;text-transform:uppercase;}
+.ptab.on{background:#1A1A24;color:var(--gold);}
+.ptab:hover{color:#9A9AB0;}
 .nav-r{display:flex;align-items:center;gap:8px;}
-.btn{padding:6px 12px;border-radius:7px;font:600 11px 'Poppins',sans-serif;cursor:pointer;border:none;transition:.2s;}
-.btn-gold{background:var(--gold);color:#000;}
-.btn-out{background:rgba(255,204,63,.08);border:1px solid rgba(255,204,63,.25);color:var(--gold);}
-.btn-ghost{background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--muted);}
-.cbadge{display:flex;align-items:center;gap:5px;padding:5px 11px;border-radius:7px;background:#0D0F18;border:1px solid var(--border);font-size:10px;color:var(--muted);}
-.cdot{width:7px;height:7px;border-radius:50%;background:#333;}
-.cdot.live{background:var(--pos);box-shadow:0 0 5px var(--pos);animation:blink 2s infinite;}
-.cdot.stale{background:var(--amber);}
+.crawl-badge{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:8px;background:#0A0A0E;border:1px solid var(--border);font:500 10px var(--font);color:var(--muted);white-space:nowrap;cursor:pointer;transition:.2s;}
+.crawl-badge:hover{border-color:var(--gold);color:var(--text);}
+.cdot{width:8px;height:8px;border-radius:50%;background:#333;flex-shrink:0;}
+.cdot.live{background:var(--pos);box-shadow:0 0 6px var(--pos);animation:pulse 2s infinite;}
+.cdot.stale{background:var(--mixed);}
 .cdot.old{background:var(--neg);}
-@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.btn{padding:7px 14px;border-radius:8px;font:700 11px var(--font);cursor:pointer;border:none;transition:.2s;letter-spacing:.04em;text-transform:uppercase;}
+.btn-gold{background:var(--gold);color:#000;}
+.btn-gold:hover{background:#FFD84D;}
+.btn-out{background:rgba(255,204,63,.08);border:1px solid rgba(255,204,63,.25);color:var(--gold);}
+.btn-out:hover{background:rgba(255,204,63,.15);}
+.btn-ghost{background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--muted);}
+.btn-ghost:hover{color:var(--text);}
 
-.main{max-width:1440px;margin:0 auto;padding:18px 20px;}
+/* LAYOUT */
+.main{max-width:1480px;margin:0 auto;padding:20px 24px;}
 .page{display:none;}.page.on{display:block;}
 
-.ns{background:linear-gradient(135deg,#1A1200,#0A0C14);border:1px solid rgba(255,204,63,.18);border-radius:14px;padding:16px 22px;margin-bottom:16px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
-.ns-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--gold);margin-bottom:6px;}
-.ns-track{background:#1A1D26;border-radius:6px;height:8px;overflow:hidden;flex:1;min-width:120px;}
-.ns-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--gold),var(--orange));transition:width 1s;}
-.ns-n{font-size:32px;font-weight:700;color:var(--gold);line-height:1;}
-.ns-s{font-size:11px;color:var(--muted);margin-top:3px;}
-.bx{background:#0D0F18;border-radius:9px;padding:9px 14px;border:1px solid var(--border);text-align:center;flex-shrink:0;}
-.bx-n{font-size:16px;font-weight:700;line-height:1;margin-bottom:3px;}
-.bx-l{font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;}
+/* NORTH STAR */
+.ns{background:linear-gradient(135deg,#1A1000,#0A0A14);border:1px solid rgba(255,204,63,.2);border-radius:16px;padding:20px 28px;margin-bottom:18px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;box-shadow:0 0 0 1px rgba(255,204,63,.06);}
+.ns-left{flex:1;min-width:200px;}
+.ns-lbl{font:700 9px var(--font);text-transform:uppercase;letter-spacing:.2em;color:var(--gold);margin-bottom:8px;}
+.ns-track{background:#1A1A26;border-radius:6px;height:8px;overflow:hidden;}
+.ns-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--gold),var(--orange));transition:width 1.2s ease;}
+.ns-num{font:800 36px var(--font);color:var(--gold);line-height:1;}
+.ns-sub{font:500 11px var(--font);color:var(--muted);margin-top:4px;}
+.stat-box{background:rgba(10,10,18,.7);border:1px solid var(--border);border-radius:10px;padding:12px 18px;text-align:center;flex-shrink:0;}
+.sb-n{font:800 18px var(--font);line-height:1;margin-bottom:4px;}
+.sb-l{font:600 8px var(--font);text-transform:uppercase;letter-spacing:.15em;color:var(--dim);}
 
-.kpis{display:grid;grid-template-columns:repeat(8,1fr);gap:10px;margin-bottom:16px;}
-.kpi{background:var(--card);border:2px solid var(--border);border-radius:13px;padding:13px 11px;cursor:pointer;transition:.2s;}
-.kpi:hover{transform:translateY(-2px);}
-.kpi.on{border-color:var(--gold);background:#13110A;}
-.kpi-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;}
-.kpi-icon{font-size:17px;}
-.kd{width:8px;height:8px;border-radius:50%;background:#333;}
-.kd.live{background:var(--pos);box-shadow:0 0 4px var(--pos);}
-.kd.stale{background:var(--amber);}
-.kn{font-size:22px;font-weight:700;line-height:1;margin-bottom:3px;}
-.kl{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:3px;}
-.ks{font-size:10px;color:var(--dim);}
-.ktag{font-size:8px;font-weight:700;padding:2px 6px;border-radius:4px;display:inline-block;margin-top:4px;text-transform:uppercase;}
-.tag-a{background:rgba(0,230,118,.12);color:var(--pos);}
-.tag-s{background:rgba(41,121,255,.12);color:var(--blue);}
-.tag-o{background:rgba(100,100,100,.1);color:#445;}
+/* KPI GRID */
+.kpis{display:grid;grid-template-columns:repeat(8,1fr);gap:10px;margin-bottom:18px;}
+.kpi{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:14px 12px;cursor:pointer;transition:.22s;position:relative;overflow:hidden;}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:14px 14px 0 0;opacity:0;transition:.2s;}
+.kpi:hover{transform:translateY(-3px);border-color:var(--border2);}
+.kpi.on{border-color:var(--gold);}.kpi.on::before{opacity:1;background:var(--gold);}
+.kpi-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.kpi-icon{font-size:18px;}
+.kd{width:9px;height:9px;border-radius:50%;background:#333;transition:.3s;}
+.kd.live{background:var(--pos);box-shadow:0 0 5px var(--pos);}
+.kd.stale{background:var(--mixed);}
+.kn{font:800 24px var(--font);line-height:1;margin-bottom:4px;}
+.kl{font:700 8px var(--font);text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:3px;}
+.ks{font:500 9px var(--font);color:var(--dim);}
+.ktag{font:700 7px var(--font);padding:2px 7px;border-radius:4px;display:inline-block;margin-top:5px;text-transform:uppercase;letter-spacing:.08em;}
+.tag-auto{background:rgba(0,200,83,.12);color:var(--pos);}
+.tag-sheet{background:rgba(41,121,255,.12);color:var(--blue);}
+.tag-off{background:rgba(80,80,100,.12);color:#445;}
 
-.dbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 15px;margin-bottom:16px;}
-.dlbl{font-size:10px;color:var(--dim);white-space:nowrap;font-weight:600;text-transform:uppercase;letter-spacing:.08em;}
-.db{padding:5px 12px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--dim);font:600 10px 'Poppins',sans-serif;cursor:pointer;transition:.2s;}
+/* DATE BAR */
+.dbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 18px;margin-bottom:18px;}
+.dlbl{font:700 9px var(--font);text-transform:uppercase;letter-spacing:.12em;color:var(--dim);white-space:nowrap;}
+.db{padding:5px 13px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--dim);font:600 9px var(--font);cursor:pointer;transition:.2s;letter-spacing:.06em;text-transform:uppercase;}
 .db.on{background:rgba(255,204,63,.1);border-color:rgba(255,204,63,.35);color:var(--gold);}
-.din{background:#0A0C14;border:1px solid var(--border);color:var(--text);font:11px 'Poppins',sans-serif;padding:5px 10px;border-radius:7px;outline:none;}
-.nxt{margin-left:auto;font-size:10px;color:var(--dim);}
-.nxt span{color:var(--gold);font-weight:600;}
+.db:hover{color:var(--text);}
+.din{background:#0A0A0E;border:1px solid var(--border);color:var(--text);font:500 11px var(--font);padding:5px 10px;border-radius:7px;outline:none;}
+.din:focus{border-color:rgba(255,204,63,.4);}
+.nxt-info{margin-left:auto;font:500 9px var(--font);color:var(--dim);white-space:nowrap;}
+.nxt-info span{color:var(--gold);font-weight:700;}
 
-.card{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:18px;margin-bottom:14px;}
-.ct{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:13px;display:flex;align-items:center;gap:7px;}
-.ctd{width:8px;height:8px;border-radius:50%;}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:14px;}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px;margin-bottom:14px;}
-.cw{position:relative;height:190px;}
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:0 0 0 1px rgba(255,204,63,.04);}
+.ct{font:700 9px var(--font);text-transform:uppercase;letter-spacing:.16em;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.ct-dot{width:8px;height:8px;border-radius:50%;}
+.ct-line{flex:1;height:1px;background:var(--border);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:16px;}
+.cw{position:relative;height:195px;}
 
+/* PLATFORM TABS */
 .psel{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
-.pb{display:flex;align-items:center;gap:7px;padding:8px 14px;border-radius:10px;border:2px solid var(--border);background:var(--card);color:var(--muted);font:600 11px 'Poppins',sans-serif;cursor:pointer;transition:.2s;}
-.pb:hover{border-color:#3A3D4A;color:var(--text);}
-.pb.on{background:#0D0F18;color:var(--text);}
+.pb{display:flex;align-items:center;gap:8px;padding:8px 15px;border-radius:10px;border:2px solid var(--border);background:var(--card);color:var(--muted);font:600 10px var(--font);cursor:pointer;transition:.2s;text-transform:uppercase;letter-spacing:.06em;}
+.pb:hover{border-color:var(--border2);color:var(--text);}
+.pb.on{background:#0D0D18;color:var(--text);}
 .pb-dot{width:9px;height:9px;border-radius:50%;}
-.pb-tag{font-size:8px;font-weight:700;padding:2px 6px;border-radius:4px;margin-left:2px;}
-.pba{background:rgba(0,230,118,.12);color:var(--pos);}
-.pbs{background:rgba(41,121,255,.12);color:var(--blue);}
-.pbo{background:rgba(100,100,100,.1);color:#445;}
+.pb-tag{font:700 7px var(--font);padding:2px 7px;border-radius:4px;margin-left:2px;text-transform:uppercase;letter-spacing:.06em;}
 .plat-c{display:none;}.plat-c.on{display:block;}
 
-.tw{max-height:290px;overflow-y:auto;border-radius:9px;border:1px solid var(--border);}
+/* TABLES */
+.tw{max-height:300px;overflow-y:auto;border-radius:10px;border:1px solid var(--border);}
 table{width:100%;border-collapse:collapse;font-size:11px;}
-th{background:#0A0C14;color:var(--dim);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:9px 11px;text-align:left;border-bottom:1px solid rgba(255,204,63,.15);position:sticky;top:0;z-index:1;}
-tr:nth-child(odd) td{background:#0D0F18;}
-tr:nth-child(even) td{background:#111420;}
-tr:hover td{background:#161925;}
-td{padding:8px 11px;color:var(--text);vertical-align:middle;}
-.lb{display:inline-flex;align-items:center;padding:3px 9px;background:rgba(255,204,63,.08);border:1px solid rgba(255,204,63,.22);border-radius:5px;color:var(--gold);font-size:10px;text-decoration:none;font-weight:600;}
-.lb:hover{background:rgba(255,204,63,.15);}
-.sb{display:inline-block;padding:2px 7px;border-radius:8px;font-size:9px;font-weight:700;}
-.sb.pos{background:rgba(0,230,118,.14);color:var(--pos);}
-.sb.neg{background:rgba(255,23,68,.14);color:var(--neg);}
+th{background:#0A0A0E;color:var(--dim);font:700 8px var(--font);text-transform:uppercase;letter-spacing:.12em;padding:10px 12px;text-align:left;border-bottom:1px solid rgba(255,204,63,.2);position:sticky;top:0;z-index:1;}
+tr:nth-child(odd) td{background:#0D0D14;}
+tr:nth-child(even) td{background:#111118;}
+tr:hover td{background:#171724;}
+td{padding:8px 12px;color:var(--text);vertical-align:middle;border-bottom:1px solid #0E0E16;}
+.link-btn{display:inline-flex;align-items:center;padding:3px 9px;background:rgba(255,204,63,.08);border:1px solid rgba(255,204,63,.22);border-radius:6px;color:var(--gold);font:600 9px var(--font);transition:.2s;}
+.link-btn:hover{background:rgba(255,204,63,.16);}
+.sb{display:inline-block;padding:2px 8px;border-radius:8px;font:700 9px var(--font);}
+.sb.pos{background:rgba(0,200,83,.14);color:var(--pos);}
+.sb.neg{background:rgba(186,14,19,.14);color:#FF5252;}
 .sb.mixed{background:rgba(255,152,0,.14);color:var(--mixed);}
 .sb.neu{background:rgba(120,144,156,.1);color:var(--neu);}
 
-.feed{display:flex;flex-direction:column;gap:7px;max-height:340px;overflow-y:auto;}
-.fc{background:#0A0C14;border:1px solid var(--border);border-radius:9px;padding:11px 13px;transition:.2s;}
-.fc:hover{border-color:#3A3D4A;}
-.fc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:5px;}
-.fc-title{font-size:12px;color:var(--text);line-height:1.5;flex:1;font-weight:500;}
-.fc-meta{font-size:10px;color:var(--dim);display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+/* FEED */
+.feed{display:flex;flex-direction:column;gap:8px;max-height:350px;overflow-y:auto;}
+.fc{background:#0A0A0E;border:1px solid var(--border);border-radius:10px;padding:12px 14px;transition:.2s;}
+.fc:hover{border-color:var(--border2);}
+.fc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px;}
+.fc-title{font:500 12px var(--font);color:var(--text);line-height:1.5;flex:1;}
+.fc-meta{font:500 9px var(--font);color:var(--dim);display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
 .pip{width:8px;height:8px;border-radius:50%;}
 
+/* STATS ROW */
 .srow{display:flex;gap:10px;flex-wrap:wrap;}
-.sbox{flex:1;min-width:90px;background:#0A0C14;border-radius:9px;padding:11px;border:1px solid var(--border);}
-.sn{font-size:22px;font-weight:700;color:var(--gold);line-height:1;margin-bottom:3px;}
-.sl{font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;}
+.sbox{flex:1;min-width:90px;background:#0A0A0E;border-radius:10px;padding:12px;border:1px solid var(--border);}
+.sn{font:800 22px var(--font);color:var(--gold);line-height:1;margin-bottom:4px;}
+.sl{font:600 8px var(--font);color:var(--dim);text-transform:uppercase;letter-spacing:.12em;}
 
+/* ACTIONS */
 .acts{display:flex;flex-direction:column;gap:8px;}
-.act{display:flex;gap:10px;align-items:flex-start;background:rgba(255,204,63,.05);border:1px solid rgba(255,204,63,.12);border-radius:10px;padding:10px 12px;}
-.act-n{width:22px;height:22px;border-radius:50%;background:var(--gold);color:#000;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
-.act-t{font-size:12px;color:var(--text);line-height:1.6;}
-.act-h{background:rgba(255,23,68,.2);color:#FF6B6B;}
-.act-m{background:rgba(245,158,11,.15);color:var(--amber);}
-.act-l{background:rgba(0,230,118,.12);color:var(--pos);}
-.abadge{display:inline-block;padding:1px 6px;border-radius:4px;font-size:9px;font-weight:700;margin-left:5px;text-transform:uppercase;}
+.act{display:flex;gap:11px;align-items:flex-start;background:rgba(255,204,63,.04);border:1px solid rgba(255,204,63,.12);border-radius:10px;padding:11px 13px;transition:.2s;}
+.act:hover{border-color:rgba(255,204,63,.25);}
+.act-n{width:24px;height:24px;border-radius:50%;background:var(--gold);color:#000;font:800 11px var(--font);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.act-t{font:500 12px var(--font);color:var(--text);line-height:1.65;}
+.abadge{display:inline-block;padding:2px 7px;border-radius:4px;font:700 8px var(--font);margin-left:5px;text-transform:uppercase;letter-spacing:.06em;}
+.ab-h{background:rgba(186,14,19,.2);color:#FF5252;}
+.ab-m{background:rgba(255,152,0,.15);color:var(--mixed);}
+.ab-l{background:rgba(0,200,83,.12);color:var(--pos);}
 
-/* SETTINGS */
-.sov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:300;backdrop-filter:blur(6px);}
+/* KEYWORD EDITOR */
+.kw-section{margin-bottom:16px;}
+.kw-title{font:700 9px var(--font);text-transform:uppercase;letter-spacing:.16em;color:var(--gold);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.kw-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;min-height:32px;padding:8px;background:#0A0A0E;border-radius:8px;border:1px solid var(--border);}
+.kw-tag{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:6px;font:600 10px var(--font);}
+.kw-tag.primary{background:rgba(255,204,63,.12);border:1px solid rgba(255,204,63,.3);color:var(--gold);}
+.kw-tag.competitor{background:rgba(186,14,19,.1);border:1px solid rgba(186,14,19,.25);color:#FF6B6B;}
+.kw-tag button{background:none;border:none;cursor:pointer;color:inherit;font-size:12px;line-height:1;opacity:.6;padding:0;transition:.2s;}
+.kw-tag button:hover{opacity:1;}
+.kw-add{display:flex;gap:7px;margin-top:6px;}
+.kw-input{flex:1;background:#080810;border:1px solid var(--border);color:var(--text);font:500 11px var(--font);padding:7px 11px;border-radius:7px;outline:none;}
+.kw-input:focus{border-color:rgba(255,204,63,.4);}
+.kw-input::placeholder{color:var(--dim);}
+.kw-btn{padding:7px 14px;border-radius:7px;font:700 9px var(--font);border:none;cursor:pointer;text-transform:uppercase;letter-spacing:.06em;}
+.kw-btn.add-pst{background:rgba(255,204,63,.15);color:var(--gold);}
+.kw-btn.add-comp{background:rgba(186,14,19,.12);color:#FF6B6B;}
+
+/* SETTINGS PANEL */
+.sov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:300;backdrop-filter:blur(6px);}
 .sov.on{display:block;}
-.span{position:fixed;right:-580px;top:0;bottom:0;width:560px;background:#0D0F18;border-left:2px solid var(--gold);z-index:301;overflow-y:auto;flex-direction:column;transition:right .3s;}
+.span{position:fixed;right:-620px;top:0;bottom:0;width:600px;background:#0D0D14;border-left:2px solid var(--gold);z-index:301;overflow-y:auto;transition:right .32s cubic-bezier(.4,0,.2,1);}
 .span.on{right:0;}
-.shead{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#0D0F18;z-index:1;}
-.stitle{font-size:14px;font-weight:700;color:var(--gold);}
-.sbody{padding:20px 22px;display:flex;flex-direction:column;gap:14px;}
-.sg{background:#111420;border:1px solid var(--border);border-radius:12px;overflow:hidden;}
-.sg-h{padding:13px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;}
-.sg-h:hover{background:#161925;}
-.sg-title{font-size:12px;font-weight:600;color:var(--text);flex:1;}
-.sg-sub{font-size:10px;color:var(--dim);}
-.sg-arr{font-size:11px;color:var(--dim);transition:.2s;}
-.sg-b{display:none;padding:14px 16px;border-top:1px solid var(--border);background:#0A0C14;}
+.shead{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#0D0D14;z-index:1;}
+.stitle{font:800 14px var(--font);color:var(--gold);letter-spacing:.08em;text-transform:uppercase;}
+.sbody{padding:22px 24px;display:flex;flex-direction:column;gap:14px;}
+
+/* Settings sections */
+.sg{background:#111118;border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.sg-h{padding:14px 18px;display:flex;align-items:center;gap:11px;cursor:pointer;user-select:none;transition:.2s;}
+.sg-h:hover{background:#161622;}
+.sg-icon{font-size:16px;flex-shrink:0;}
+.sg-title{font:700 12px var(--font);color:var(--text);flex:1;letter-spacing:.02em;}
+.sg-sub{font:500 10px var(--font);color:var(--dim);}
+.sg-arr{font-size:10px;color:var(--dim);}
+.sg-b{display:none;padding:16px 18px;border-top:1px solid var(--border);background:#0A0A0E;}
 .sg-b.open{display:block;}
-.sg-t{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--dim);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
-.sr{margin-bottom:10px;}
-.si-label{font-size:10px;color:var(--muted);display:block;margin-bottom:4px;font-weight:600;}
-.si-hint{font-size:9px;color:#333;margin-top:3px;line-height:1.5;}
-.si{width:100%;background:#080A10;border:1px solid var(--border);color:var(--text);font:12px 'Poppins',sans-serif;padding:8px 11px;border-radius:8px;outline:none;transition:.2s;}
+.sg-t{font:700 8px var(--font);text-transform:uppercase;letter-spacing:.18em;color:var(--dim);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.si-row{margin-bottom:10px;}
+.si-label{font:600 9px var(--font);text-transform:uppercase;letter-spacing:.1em;color:var(--muted);display:block;margin-bottom:5px;}
+.si-hint{font:500 9px var(--font);color:#2A2A3A;margin-top:4px;line-height:1.6;}
+.si{width:100%;background:#080810;border:1px solid var(--border);color:var(--text);font:500 12px var(--font);padding:9px 12px;border-radius:8px;outline:none;transition:.2s;}
 .si:focus{border-color:rgba(255,204,63,.4);}
-.si::placeholder{color:#252830;}
-.sstatus{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:7px;font-size:10px;font-weight:600;margin-top:5px;}
-.sstatus.ok{background:rgba(0,230,118,.08);color:var(--pos);border:1px solid rgba(0,230,118,.18);}
-.sstatus.miss{background:rgba(255,23,68,.08);color:var(--neg);border:1px solid rgba(255,23,68,.15);}
-.acard{background:#080A10;border:1px solid var(--border);border-radius:9px;padding:12px;margin-bottom:9px;}
-.acard-name{font-size:12px;font-weight:600;color:var(--text);margin-bottom:2px;display:flex;align-items:center;justify-content:space-between;}
-.acard-cost{font-size:9px;color:var(--dim);}
-.acard-desc{font-size:10px;color:var(--dim);margin-bottom:7px;line-height:1.5;}
+.si::placeholder{color:#252535;}
+.sstatus{display:flex;align-items:center;gap:7px;padding:7px 11px;border-radius:7px;font:600 9px var(--font);margin-top:6px;text-transform:uppercase;letter-spacing:.06em;}
+.ss-ok{background:rgba(0,200,83,.08);color:var(--pos);border:1px solid rgba(0,200,83,.18);}
+.ss-warn{background:rgba(255,152,0,.08);color:var(--mixed);border:1px solid rgba(255,152,0,.15);}
+.ss-miss{background:rgba(186,14,19,.07);color:#FF5252;border:1px solid rgba(186,14,19,.15);}
+
+/* API cards */
+.api-card{background:#0A0A0E;border:1px solid var(--border);border-radius:10px;padding:13px;margin-bottom:9px;}
+.api-name{font:700 12px var(--font);color:var(--text);display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;}
+.api-cost{font:600 9px var(--font);color:var(--dim);}
+.api-desc{font:500 10px var(--font);color:var(--dim);margin-bottom:8px;line-height:1.6;}
+.api-note{font:600 9px var(--font);padding:6px 10px;border-radius:6px;background:rgba(0,200,83,.06);border:1px solid rgba(0,200,83,.12);color:var(--pos);margin-top:5px;}
 .g2f{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .comp-row{display:flex;gap:7px;align-items:center;margin-bottom:7px;}
 .comp-row .si{flex:1;}
-.comp-rm{width:28px;height:28px;border-radius:7px;background:rgba(255,23,68,.1);border:1px solid rgba(255,23,68,.2);color:#FF6B6B;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;}
-.comp-add{width:100%;padding:8px;border-radius:8px;background:rgba(255,204,63,.04);border:1px dashed rgba(255,204,63,.2);color:var(--gold);font:500 11px 'Poppins',sans-serif;cursor:pointer;transition:.2s;}
-.comp-add:hover{background:rgba(255,204,63,.09);}
-.ibox{padding:10px 12px;background:#0A0C14;border-radius:8px;border:1px solid var(--border);font-size:10px;color:var(--dim);line-height:1.7;margin-top:6px;}
-.ibox b{color:var(--gold);}
-.how-row{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid #0E1016;align-items:flex-start;}
-.how-row:last-child{border-bottom:none;}
-.how-icon{font-size:14px;flex-shrink:0;}
-.how-text{font-size:10px;color:var(--muted);line-height:1.6;}
-.how-text b{color:var(--gold);}
+.comp-rm{width:30px;height:30px;border-radius:7px;background:rgba(186,14,19,.1);border:1px solid rgba(186,14,19,.2);color:#FF6B6B;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:.2s;}
+.comp-rm:hover{background:rgba(186,14,19,.2);}
+.comp-add-btn{width:100%;padding:9px;border-radius:8px;background:rgba(255,204,63,.04);border:1px dashed rgba(255,204,63,.2);color:var(--gold);font:600 10px var(--font);cursor:pointer;transition:.2s;letter-spacing:.06em;text-transform:uppercase;}
+.comp-add-btn:hover{background:rgba(255,204,63,.09);}
+.info-box{padding:11px 13px;border-radius:8px;font:500 10px var(--font);line-height:1.7;margin-bottom:10px;}
+.info-box b{color:var(--gold);}
+.info-box a{color:var(--gold);}
+.ib-warn{background:rgba(255,152,0,.07);border:1px solid rgba(255,152,0,.15);color:var(--mixed);}
+.ib-info{background:rgba(41,121,255,.07);border:1px solid rgba(41,121,255,.15);color:#6BA3FF;}
+.ib-ok{background:rgba(0,200,83,.06);border:1px solid rgba(0,200,83,.12);color:var(--pos);}
 
-.amsg{padding:10px 13px;background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.15);border-radius:9px;font-size:11px;color:var(--amber);margin-bottom:12px;}
-.emsg{padding:10px 13px;background:rgba(255,23,68,.07);border:1px solid rgba(255,23,68,.15);border-radius:9px;font-size:11px;color:var(--neg);margin-bottom:12px;}
-.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px;gap:8px;}
-.ei{font-size:28px;opacity:.3;}
-.empty p{font-size:12px;color:var(--dim);text-align:center;max-width:300px;line-height:1.6;}
-.empty small{font-size:10px;color:#252830;text-align:center;}
-.spin{width:22px;height:22px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;}
+/* ERROR / DEBUG TAB */
+.log-area{background:#050508;border:1px solid var(--border);border-radius:8px;padding:12px;max-height:320px;overflow-y:auto;font-family:'Courier New',monospace;font-size:10px;line-height:1.7;}
+.log-line{padding:2px 0;border-bottom:1px solid #0E0E14;}
+.log-line:last-child{border-bottom:none;}
+.log-ts{color:#445;margin-right:8px;}
+.log-ok{color:var(--pos);}
+.log-warn{color:var(--mixed);}
+.log-err{color:#FF5252;}
+.log-info{color:#6BA3FF;}
+.log-label{display:inline-block;padding:1px 6px;border-radius:3px;font-size:9px;font-weight:700;margin-right:6px;text-transform:uppercase;}
+.ll-ok{background:rgba(0,200,83,.2);color:var(--pos);}
+.ll-err{background:rgba(186,14,19,.2);color:#FF5252;}
+.ll-warn{background:rgba(255,152,0,.2);color:var(--mixed);}
+.ll-info{background:rgba(41,121,255,.2);color:#6BA3FF);}
+.crawl-timeline{display:flex;flex-direction:column;gap:8px;}
+.ct-row{display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border);}
+.ct-row:last-child{border-bottom:none;}
+.ct-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+.ct-txt{flex:1;}
+.ct-name{font:600 11px var(--font);color:var(--text);margin-bottom:2px;}
+.ct-detail{font:500 9px var(--font);color:var(--dim);}
+
+/* STATES */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;gap:9px;}
+.ei{font-size:30px;opacity:.25;}
+.empty p{font:500 12px var(--font);color:var(--dim);text-align:center;max-width:300px;line-height:1.7;}
+.empty small{font:500 9px var(--font);color:#252535;text-align:center;}
+.spin{width:24px;height:24px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
+.err-box{padding:11px 14px;background:rgba(186,14,19,.07);border:1px solid rgba(186,14,19,.18);border-radius:9px;font:500 11px var(--font);color:#FF5252;margin-bottom:12px;}
+.warn-box{padding:11px 14px;background:rgba(255,152,0,.07);border:1px solid rgba(255,152,0,.15);border-radius:9px;font:500 11px var(--font);color:var(--mixed);margin-bottom:12px;}
 
-footer{text-align:center;padding:22px;font-size:10px;color:#252830;border-top:1px solid var(--border);margin-top:36px;letter-spacing:.06em;}
+footer{text-align:center;padding:24px;font:500 10px var(--font);color:#252535;border-top:1px solid var(--border);margin-top:40px;letter-spacing:.08em;text-transform:uppercase;}
+
 @media(max-width:1200px){.kpis{grid-template-columns:repeat(4,1fr);}}
 @media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr);}.g2,.g3{grid-template-columns:1fr;}.span{width:100%;right:-100%;}}
 @media(max-width:600px){.ptabs{display:none;}.kpis{grid-template-columns:1fr 1fr;}}
@@ -195,7 +266,7 @@ footer{text-align:center;padding:22px;font-size:10px;color:#252830;border-top:1p
 <body>
 
 <nav class="nav">
-  <div class="logo">POLARIS <span>SCHOOL OF TECHNOLOGY</span></div>
+  <div class="logo-polaris">POLARIS <span>SCHOOL OF TECHNOLOGY</span></div>
   <div class="ptabs">
     <button class="ptab on" onclick="showPage('overview',this)">Overview</button>
     <button class="ptab" onclick="showPage('listening',this)">Live Listening</button>
@@ -204,238 +275,351 @@ footer{text-align:center;padding:22px;font-size:10px;color:#252830;border-top:1p
     <button class="ptab" onclick="showPage('analytics',this)">Analytics</button>
   </div>
   <div class="nav-r">
-    <div class="cbadge"><div class="cdot" id="crawlDot"></div><span id="crawlAge">Not loaded</span></div>
+    <div class="crawl-badge" onclick="openSettings('debug')" title="Click to see crawl debug info">
+      <div class="cdot" id="crawlDot"></div>
+      <span id="crawlAge">Checking...</span>
+    </div>
     <button class="btn btn-out" onclick="loadAll()">&#8635; Refresh</button>
     <button class="btn btn-gold" onclick="downloadReport()">&#8595; Report</button>
-    <button class="btn btn-ghost" onclick="openSettings()">&#9881; Settings</button>
+    <button class="btn btn-ghost" onclick="openSettings('main')">&#9881; Settings</button>
   </div>
 </nav>
 
-<!-- SETTINGS -->
+<!-- SETTINGS PANEL -->
 <div class="sov" id="sov" onclick="closeSettings()"></div>
 <div class="span" id="span">
   <div class="shead">
-    <div class="stitle">&#9881; Configuration &amp; API Keys</div>
-    <div style="display:flex;gap:8px">
+    <div style="display:flex;gap:6px;">
+      <button class="btn btn-ghost" id="stab_main" onclick="switchStab('main')" style="font-size:10px;padding:5px 12px;">&#9881; Config</button>
+      <button class="btn btn-ghost" id="stab_keywords" onclick="switchStab('keywords')" style="font-size:10px;padding:5px 12px;">&#128269; Keywords</button>
+      <button class="btn btn-ghost" id="stab_sheets" onclick="switchStab('sheets')" style="font-size:10px;padding:5px 12px;">&#128203; Sheets</button>
+      <button class="btn btn-ghost" id="stab_debug" onclick="switchStab('debug')" style="font-size:10px;padding:5px 12px;">&#128029; Debug</button>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;">
       <button class="btn btn-gold" onclick="saveSettings()">Save &amp; Apply</button>
       <button class="btn btn-ghost" onclick="closeSettings()">&#x2715;</button>
     </div>
   </div>
   <div class="sbody">
 
-    <div class="sg">
-      <div class="sg-h" onclick="togSg(this)">
-        <span style="font-size:16px">&#129302;</span>
-        <div class="sg-title">How Auto-Crawling Works</div>
-        <div class="sg-sub">GitHub Actions every ~2.5 hours</div>
-        <span class="sg-arr">&#9660;</span>
-      </div>
-      <div class="sg-b open">
-        <div class="how-row"><div class="how-icon">&#9200;</div><div class="how-text"><b>Every ~2.5 hours</b> automatically — GitHub Actions runs crawler.py. Crawls Reddit (direct API), Google News RSS, and Google-indexed Quora, Medium, YouTube, Shiksha, CollegeDunia, LinkedIn, Twitter and more.</div></div>
-        <div class="how-row"><div class="how-icon">&#128230;</div><div class="how-text"><b>Data saved as JSON files</b> in your repo under data/ folder. This dashboard fetches those files directly from GitHub raw URLs.</div></div>
-        <div class="how-row"><div class="how-icon">&#128260;</div><div class="how-text"><b>Dashboard auto-refreshes</b> every 5 minutes. The crawl status dot turns green (fresh), amber (3-8h old), red (stale).</div></div>
-        <div class="how-row"><div class="how-icon">&#128273;</div><div class="how-text"><b>API keys are optional</b> — crawler works free without any keys. Keys just improve data quality and volume.</div></div>
-        <div class="how-row"><div class="how-icon">&#128203;</div><div class="how-text"><b>My Content tabs</b> show YOUR manually logged content from Google Sheets — Reddit posts you wrote, Quora answers you seeded, etc.</div></div>
-      </div>
-    </div>
+    <!-- TAB: MAIN CONFIG -->
+    <div id="stab_main_body">
 
-    <div class="sg">
-      <div class="sg-h" onclick="togSg(this)">
-        <span style="font-size:16px">&#128225;</span>
-        <div class="sg-title">Crawler Data Source</div>
-        <div class="sg-sub">Your GitHub repo where crawled data is stored</div>
-        <span class="sg-arr">&#9660;</span>
-      </div>
-      <div class="sg-b open">
-        <div class="sr">
-          <label class="si-label">GitHub Repo Owner/Name</label>
-          <input class="si" id="s_repo" placeholder="adirispol/ORM-Dashboard">
-          <div class="si-hint">Format: username/repo-name</div>
-          <div class="sstatus miss" id="ss_repo">Enter your repo path above</div>
+      <!-- CRAWLER SOURCE -->
+      <div class="sg">
+        <div class="sg-h" onclick="togSg(this)">
+          <span class="sg-icon">&#128225;</span>
+          <div style="flex:1"><div class="sg-title">Crawler Data Source</div><div class="sg-sub">Where your GitHub Actions crawled data lives</div></div>
+          <span class="sg-arr">&#9660;</span>
         </div>
-        <div class="sr">
-          <label class="si-label">Branch</label>
-          <input class="si" id="s_branch" value="main" placeholder="main">
-        </div>
-        <div class="ibox">Dashboard fetches from:<br>
-          <b>raw.githubusercontent.com/{repo}/refs/heads/{branch}/data/summary.json</b><br>
-          <span style="color:#333">...and reddit.json, quora.json, all_mentions.json etc.</span>
+        <div class="sg-b open">
+          <div class="si-row">
+            <label class="si-label">GitHub Repo Path</label>
+            <input class="si" id="s_repo" placeholder="adirispol/ORM-Dashboard">
+            <div class="si-hint">Format: username/repo-name &nbsp;&bull;&nbsp; e.g. adirispol/ORM-Dashboard</div>
+            <div class="sstatus ss-miss" id="ss_repo">Enter repo path to load crawl data</div>
+          </div>
+          <div class="si-row">
+            <label class="si-label">Branch</label>
+            <input class="si" id="s_branch" value="main" placeholder="main">
+          </div>
+          <div class="info-box ib-info" style="font-size:9px;margin-top:4px;">
+            Dashboard reads from:<br>
+            <code>raw.githubusercontent.com/{repo}/refs/heads/{branch}/data/summary.json</code><br>
+            <code>...reddit.json &nbsp;quora.json &nbsp;all_mentions.json &nbsp;etc.</code>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="sg">
-      <div class="sg-h" onclick="togSg(this)">
-        <span style="font-size:16px">&#128273;</span>
-        <div class="sg-title">API Keys — Real-Time Listening (Optional)</div>
-        <div class="sg-sub">Crawler works 100% free without these. Keys improve quality.</div>
-        <span class="sg-arr">&#9660;</span>
-      </div>
-      <div class="sg-b">
-        <div class="amsg">&#9889; Add these keys in TWO places: (1) paste here for dashboard status, AND (2) add as GitHub Secrets in your repo: Settings &#8594; Secrets and variables &#8594; Actions.</div>
-
-        <div class="acard">
-          <div class="acard-name">YouTube Data API v3 <span class="acard-cost">Free &#183; 10,000 req/day</span></div>
-          <div class="acard-desc">Full YouTube video + comment search for PST mentions. Without key: Google-indexed YT pages only. Get at: <a href="https://console.cloud.google.com" target="_blank" style="color:var(--gold)">console.cloud.google.com</a></div>
-          <input class="si" type="password" id="api_youtube" placeholder="AIza...">
-          <div class="sstatus miss" id="ss_youtube">Without key: Google-indexed YouTube only</div>
+      <!-- FREE APIs -->
+      <div class="sg">
+        <div class="sg-h" onclick="togSg(this)">
+          <span class="sg-icon">&#128273;</span>
+          <div style="flex:1"><div class="sg-title">Free API Keys</div><div class="sg-sub">All optional &mdash; crawler works without them. These are 100% free.</div></div>
+          <span class="sg-arr">&#9660;</span>
         </div>
+        <div class="sg-b">
+          <div class="info-box ib-ok">&#10003; All APIs listed below are <b>completely free</b>. No credit card needed. Paid APIs (SerpAPI, Apify) excluded from this list.</div>
 
-        <div class="acard">
-          <div class="acard-name">NewsAPI.org <span class="acard-cost">Free &#183; 100 req/day</span></div>
-          <div class="acard-desc">Search 70,000+ news sources for PST. Without key: Google News RSS only. Get at: <a href="https://newsapi.org/register" target="_blank" style="color:var(--gold)">newsapi.org/register</a></div>
-          <input class="si" type="password" id="api_newsapi" placeholder="abc123...">
-          <div class="sstatus miss" id="ss_newsapi">Without key: Google News RSS only (still works)</div>
-        </div>
+          <div class="api-card">
+            <div class="api-name">YouTube Data API v3 <span class="api-cost">FREE &mdash; 10,000 req/day</span></div>
+            <div class="api-desc">Auto-fetches YouTube videos + comments mentioning Polaris. Without this: only Google-indexed YouTube pages found (~40% coverage). Get at: <a href="https://console.cloud.google.com" target="_blank">console.cloud.google.com &#8599;</a></div>
+            <input class="si" type="password" id="api_youtube" placeholder="AIza..." oninput="updateApiStatus('youtube')">
+            <div class="sstatus ss-miss" id="ss_youtube">Without key: Google-indexed YouTube only</div>
+            <div class="api-note">GitHub Secret name: <code>YOUTUBE_API_KEY</code></div>
+          </div>
 
-        <div class="acard">
-          <div class="acard-name">SerpAPI <span class="acard-cost">$50/mo &#183; free trial available</span></div>
-          <div class="acard-desc">Better Google search results for Quora/Medium/web mentions. Without key: direct Google HTML scraping (free, may rate-limit). Get at: <a href="https://serpapi.com" target="_blank" style="color:var(--gold)">serpapi.com</a></div>
-          <input class="si" type="password" id="api_serpapi" placeholder="your_key...">
-          <div class="sstatus miss" id="ss_serpapi">Without key: Direct Google scraping (free)</div>
-        </div>
+          <div class="api-card">
+            <div class="api-name">NewsAPI.org <span class="api-cost">FREE &mdash; 100 req/day</span></div>
+            <div class="api-desc">Searches 70,000+ news sources. Without this: Google News RSS only. Get at: <a href="https://newsapi.org/register" target="_blank">newsapi.org/register &#8599;</a></div>
+            <input class="si" type="password" id="api_newsapi" placeholder="abc123..." oninput="updateApiStatus('newsapi')">
+            <div class="sstatus ss-miss" id="ss_newsapi">Without key: Google News RSS only (still works)</div>
+            <div class="api-note">GitHub Secret name: <code>NEWSAPI_KEY</code></div>
+          </div>
 
-        <div class="acard">
-          <div class="acard-name">Apify Quora Scraper <span class="acard-cost">~$6/month</span></div>
-          <div class="acard-desc">Full Quora coverage. Without key: only Google-indexed Quora pages (~30% coverage). Get at: <a href="https://apify.com" target="_blank" style="color:var(--gold)">apify.com</a></div>
-          <input class="si" type="password" id="api_apify" placeholder="apify_api_...">
-          <div class="sstatus miss" id="ss_apify">Without key: ~30% Quora coverage</div>
-        </div>
+          <div class="api-card">
+            <div class="api-name">Reddit Public API <span class="api-cost">FREE &mdash; No key needed</span></div>
+            <div class="api-desc">Crawler uses Reddit's public JSON API directly. No key required. Already active.</div>
+            <div class="sstatus ss-ok">&#10003; Active by default &mdash; no setup needed</div>
+          </div>
 
-        <div class="acard">
-          <div class="acard-name">Claude API (Anthropic) <span class="acard-cost">~&#8377;500/month</span></div>
-          <div class="acard-desc">AI-powered sentiment tagging on all crawled mentions. Without key: keyword-based sentiment (built in, still works). Get at: <a href="https://console.anthropic.com" target="_blank" style="color:var(--gold)">console.anthropic.com</a></div>
-          <input class="si" type="password" id="api_claude" placeholder="sk-ant-...">
-          <div class="sstatus miss" id="ss_claude">Without key: Keyword sentiment (free, less accurate)</div>
-        </div>
+          <div class="api-card">
+            <div class="api-name">Google News RSS <span class="api-cost">FREE &mdash; No key needed</span></div>
+            <div class="api-desc">Crawler uses Google News RSS feed directly. No key required. Already active.</div>
+            <div class="sstatus ss-ok">&#10003; Active by default &mdash; no setup needed</div>
+          </div>
 
-        <div class="ibox">
-          <b>GitHub Secrets setup (so crawler can use these keys):</b><br>
-          Repo &#8594; Settings &#8594; Secrets and variables &#8594; Actions &#8594; New repository secret<br>
-          Secret names: <b>YOUTUBE_API_KEY</b> &#183; <b>NEWSAPI_KEY</b> &#183; <b>SERPAPI_KEY</b>
+          <div class="info-box ib-warn" style="margin-top:8px;">
+            <b>Add keys as GitHub Secrets too</b> (so crawler uses them):<br>
+            Repo &#8594; Settings &#8594; Secrets and variables &#8594; Actions &#8594; New repository secret
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="sg">
-      <div class="sg-h" onclick="togSg(this)">
-        <span style="font-size:16px">&#128202;</span>
-        <div class="sg-title">My Content &#8212; Google Sheets Config</div>
-        <div class="sg-sub">For manually logged posts, answers, articles</div>
-        <span class="sg-arr">&#9660;</span>
-      </div>
-      <div class="sg-b">
-        <div class="amsg">&#128203; Publish each tab as CSV first: Google Sheets &#8594; File &#8594; Share &#8594; Publish to web &#8594; select tab &#8594; CSV &#8594; Publish</div>
-        <div id="sheetCfgs"></div>
-      </div>
-    </div>
-
-    <div class="sg">
-      <div class="sg-h" onclick="togSg(this)">
-        <span style="font-size:16px">&#127942;</span>
-        <div class="sg-title">Competitor Tracking &#8212; <span id="compCount">0</span>/15</div>
-        <div class="sg-sub">Auto-tracked across all crawled sources</div>
-        <span class="sg-arr">&#9660;</span>
-      </div>
-      <div class="sg-b">
-        <div id="compList"></div>
-        <button class="comp-add" onclick="addComp()">+ Add Competitor (<span id="compSlots">15</span> left)</button>
-      </div>
-    </div>
-
-    <div class="sg">
-      <div class="sg-h" onclick="togSg(this)">
-        <span style="font-size:16px">&#127919;</span>
-        <div class="sg-title">Goals &amp; Display</div>
-        <div class="sg-sub">North Star target and refresh interval</div>
-        <span class="sg-arr">&#9660;</span>
-      </div>
-      <div class="sg-b">
-        <div class="sr"><label class="si-label">North Star Goal (live pieces by June 2026)</label><input class="si" type="number" id="s_goal" value="500"></div>
-        <div class="sr"><label class="si-label">Dashboard auto-refresh interval</label>
-          <select class="si" id="s_refresh">
-            <option value="2">Every 2 minutes</option>
-            <option value="5" selected>Every 5 minutes</option>
-            <option value="10">Every 10 minutes</option>
-            <option value="30">Every 30 minutes</option>
-          </select>
+      <!-- GOALS -->
+      <div class="sg">
+        <div class="sg-h" onclick="togSg(this)">
+          <span class="sg-icon">&#127919;</span>
+          <div style="flex:1"><div class="sg-title">Goals &amp; Display</div><div class="sg-sub">North Star target and refresh interval</div></div>
+          <span class="sg-arr">&#9660;</span>
+        </div>
+        <div class="sg-b">
+          <div class="si-row">
+            <label class="si-label">North Star Goal (total mentions by June 2026)</label>
+            <input class="si" type="number" id="s_goal" value="500">
+          </div>
+          <div class="si-row">
+            <label class="si-label">Dashboard Auto-Refresh</label>
+            <select class="si" id="s_refresh">
+              <option value="2">Every 2 minutes</option>
+              <option value="5" selected>Every 5 minutes</option>
+              <option value="10">Every 10 minutes</option>
+              <option value="30">Every 30 minutes</option>
+            </select>
+          </div>
         </div>
       </div>
-    </div>
+
+    </div><!-- /stab_main_body -->
+
+    <!-- TAB: KEYWORDS -->
+    <div id="stab_keywords_body" style="display:none;">
+      <div class="info-box ib-info">
+        <b>How keywords work:</b> These keywords are what the crawler searches for. PST Keywords trigger crawls across Reddit, Google News, Quora, Medium and 10+ more sources. Competitor names are tracked across the same sources and shown in the Competitors tab.
+      </div>
+
+      <div class="kw-section">
+        <div class="kw-title" style="color:var(--gold)">&#128308; PST / Polaris Keywords <span style="color:var(--dim);font-size:9px;font-weight:500;text-transform:none;letter-spacing:0;">— used in crawler.py BRAND_QUERIES</span></div>
+        <div class="kw-tags" id="kwTags_pst"></div>
+        <div class="kw-add">
+          <input class="kw-input" id="kwInput_pst" placeholder='e.g. "PST Pune" or "Polaris BTech"' onkeydown="if(event.key==='Enter')addKw('pst')">
+          <button class="kw-btn add-pst" onclick="addKw('pst')">+ Add</button>
+        </div>
+        <div class="si-hint" style="margin-top:6px;">Tip: Use quotes around exact phrases. e.g. <code>"Polaris School of Technology"</code></div>
+      </div>
+
+      <div class="kw-section">
+        <div class="kw-title" style="color:#FF6B6B">&#127942; Competitor Keywords <span style="color:var(--dim);font-size:9px;font-weight:500;text-transform:none;letter-spacing:0;">— tracked across all sources</span></div>
+        <div class="kw-tags" id="kwTags_comp"></div>
+        <div class="kw-add">
+          <input class="kw-input" id="kwInput_comp" placeholder='e.g. "Scaler" or "Newton School"' onkeydown="if(event.key==='Enter')addKw('comp')">
+          <button class="kw-btn add-comp" onclick="addKw('comp')">+ Add</button>
+        </div>
+      </div>
+
+      <div class="info-box ib-warn" style="margin-top:8px;">
+        <b>After changing keywords:</b> You need to update <code>crawler.py</code> with the new BRAND_QUERIES list and re-run the GitHub Action for changes to take effect. The dashboard shows a copy of your current keywords for reference.
+      </div>
+
+      <div class="info-box ib-info" style="margin-top:4px;">
+        <b>To update crawler.py keywords:</b><br>
+        1. Go to your GitHub repo &#8594; scripts/crawler.py<br>
+        2. Find <code>BRAND_QUERIES = [...]</code> (line ~16)<br>
+        3. Edit the list to match your PST keywords above<br>
+        4. Commit &#8594; Actions will auto-run with new keywords
+      </div>
+    </div><!-- /stab_keywords_body -->
+
+    <!-- TAB: SHEETS -->
+    <div id="stab_sheets_body" style="display:none;">
+      <div class="info-box ib-warn">
+        <b>My Content tab</b> shows YOUR manually logged content from Google Sheets. All fields are optional &mdash; only fill in tabs you actually maintain.
+      </div>
+      <div class="info-box ib-info">
+        <b>How to publish your Sheet as CSV:</b><br>
+        Google Sheets &#8594; File &#8594; Share &#8594; Publish to web &#8594; select the tab &#8594; CSV &#8594; Publish<br><br>
+        <b>Sheet ID</b> = the long code in your URL: <code>/d/[THIS]/edit</code><br>
+        <b>GID</b> = the number after <code>#gid=</code> in the tab URL (0 = first tab)
+      </div>
+      <div id="sheetCfgs"></div>
+    </div><!-- /stab_sheets_body -->
+
+    <!-- TAB: DEBUG -->
+    <div id="stab_debug_body" style="display:none;">
+
+      <!-- CRAWL STATUS -->
+      <div class="sg" style="margin-bottom:12px;">
+        <div class="sg-h" onclick="togSg(this)">
+          <span class="sg-icon">&#128337;</span>
+          <div style="flex:1"><div class="sg-title">Crawl Status &amp; Timeline</div><div class="sg-sub" id="debug_crawl_sub">Loading...</div></div>
+          <span class="sg-arr">&#9660;</span>
+        </div>
+        <div class="sg-b open">
+          <div id="crawlStatusBlock">
+            <div class="empty"><div class="spin"></div><p>Loading crawl status...</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WHAT CRAWLING IS DOING -->
+      <div class="sg" style="margin-bottom:12px;">
+        <div class="sg-h" onclick="togSg(this)">
+          <span class="sg-icon">&#129302;</span>
+          <div style="flex:1"><div class="sg-title">What the Crawler Does Every 2.5 Hours</div><div class="sg-sub">Full breakdown of each source</div></div>
+          <span class="sg-arr">&#9660;</span>
+        </div>
+        <div class="sg-b open">
+          <div class="crawl-timeline" id="crawlTimeline"></div>
+        </div>
+      </div>
+
+      <!-- HOW LONG CRAWL TAKES -->
+      <div class="sg" style="margin-bottom:12px;">
+        <div class="sg-h" onclick="togSg(this)">
+          <span class="sg-icon">&#9200;</span>
+          <div style="flex:1"><div class="sg-title">Crawl Duration &amp; Volume</div><div class="sg-sub">What to expect per run</div></div>
+          <span class="sg-arr">&#9660;</span>
+        </div>
+        <div class="sg-b open">
+          <table style="font-size:10px;width:100%;">
+            <tr style="border-bottom:1px solid var(--border)"><th style="padding:6px 10px;text-align:left;color:var(--dim);font:700 8px var(--font);text-transform:uppercase;letter-spacing:.1em;">Source</th><th style="padding:6px 10px;text-align:right;color:var(--dim);font:700 8px var(--font);text-transform:uppercase;">Time</th><th style="padding:6px 10px;text-align:right;color:var(--dim);font:700 8px var(--font);text-transform:uppercase;">Mentions</th></tr>
+            <tr style="background:#0D0D14"><td style="padding:6px 10px;color:var(--reddit)">Reddit (JSON API)</td><td style="padding:6px 10px;text-align:right;color:var(--gold)">~30 sec</td><td style="padding:6px 10px;text-align:right;color:var(--muted)">20-100+</td></tr>
+            <tr><td style="padding:6px 10px;color:var(--newspaper)">Google News RSS</td><td style="padding:6px 10px;text-align:right;color:var(--gold)">~10 sec</td><td style="padding:6px 10px;text-align:right;color:var(--muted)">5-30</td></tr>
+            <tr style="background:#0D0D14"><td style="padding:6px 10px;color:var(--quora)">Google &#8594; Quora</td><td style="padding:6px 10px;text-align:right;color:var(--gold)">~40 sec</td><td style="padding:6px 10px;text-align:right;color:var(--muted)">5-40</td></tr>
+            <tr><td style="padding:6px 10px;color:var(--medium)">Google &#8594; Medium</td><td style="padding:6px 10px;text-align:right;color:var(--gold)">~30 sec</td><td style="padding:6px 10px;text-align:right;color:var(--muted)">2-20</td></tr>
+            <tr style="background:#0D0D14"><td style="padding:6px 10px;color:var(--youtube)">Google &#8594; YouTube</td><td style="padding:6px 10px;text-align:right;color:var(--gold)">~30 sec</td><td style="padding:6px 10px;text-align:right;color:var(--muted)">3-25</td></tr>
+            <tr><td style="padding:6px 10px;color:var(--amber)">6 Aggregator Portals</td><td style="padding:6px 10px;text-align:right;color:var(--gold)">~2 min</td><td style="padding:6px 10px;text-align:right;color:var(--muted)">10-60</td></tr>
+            <tr style="background:#0D0D14"><td style="padding:6px 10px;color:var(--purple)">4 Social Platforms</td><td style="padding:6px 10px;text-align:right;color:var(--gold)">~1.5 min</td><td style="padding:6px 10px;text-align:right;color:var(--muted)">5-30</td></tr>
+            <tr><td style="padding:6px 10px;color:var(--blue)">General Web</td><td style="padding:6px 10px;text-align:right;color:var(--gold)">~1 min</td><td style="padding:6px 10px;text-align:right;color:var(--muted)">10-50</td></tr>
+            <tr style="background:rgba(255,204,63,.05)"><td style="padding:8px 10px;font:700 10px var(--font);color:var(--gold)">TOTAL PER RUN</td><td style="padding:8px 10px;text-align:right;font:700 11px var(--font);color:var(--gold)">3-5 min</td><td style="padding:8px 10px;text-align:right;font:700 11px var(--font);color:var(--gold)">60-350+</td></tr>
+          </table>
+          <div class="info-box ib-info" style="margin-top:10px;font-size:9px;">
+            <b>GitHub Actions free tier:</b> 2,000 min/month. Each crawl = ~5 min. 16 runs/day x 30 days = 2,400 min. Tip: keep it at 8 runs/day (two cron entries in crawl.yml) to stay in free tier.
+          </div>
+        </div>
+      </div>
+
+      <!-- HOW TO KNOW IF CRAWLING -->
+      <div class="sg" style="margin-bottom:12px;">
+        <div class="sg-h" onclick="togSg(this)">
+          <span class="sg-icon">&#128064;</span>
+          <div style="flex:1"><div class="sg-title">How to Know If It's Crawling</div><div class="sg-sub">3 places to check</div></div>
+          <span class="sg-arr">&#9660;</span>
+        </div>
+        <div class="sg-b open">
+          <div class="ct-row"><div class="ct-icon" style="background:rgba(0,200,83,.15);color:var(--pos);">&#11044;</div><div class="ct-txt"><div class="ct-name">1. This dashboard &mdash; crawl dot (top nav)</div><div class="ct-detail">Green = crawled &lt;3h ago &bull; Amber = 3-8h &bull; Red = stale &gt;8h. Click the dot to open this debug panel.</div></div></div>
+          <div class="ct-row"><div class="ct-icon" style="background:rgba(41,121,255,.15);color:#6BA3FF;">&#128200;</div><div class="ct-txt"><div class="ct-name">2. GitHub repo &mdash; Actions tab</div><div class="ct-detail">Go to your repo &#8594; Actions &#8594; Polaris ORM Crawler. Green checkmark = success. Red X = failed. Click any run to see full logs.</div></div></div>
+          <div class="ct-row"><div class="ct-icon" style="background:rgba(255,204,63,.12);color:var(--gold);">&#128230;</div><div class="ct-txt"><div class="ct-name">3. GitHub repo &mdash; data/ folder</div><div class="ct-detail">Check data/summary.json &mdash; the last_crawled timestamp tells you exactly when it last ran. Commit history shows each crawl.</div></div></div>
+        </div>
+      </div>
+
+      <!-- ERROR LOG -->
+      <div class="sg">
+        <div class="sg-h" onclick="togSg(this)">
+          <span class="sg-icon">&#128029;</span>
+          <div style="flex:1"><div class="sg-title">Error Log &amp; Debug Console</div><div class="sg-sub" id="logCountLabel">No errors logged</div></div>
+          <span class="sg-arr">&#9660;</span>
+        </div>
+        <div class="sg-b open">
+          <div style="display:flex;gap:8px;margin-bottom:10px;">
+            <button class="btn btn-ghost" onclick="clearLog()" style="font-size:10px;padding:5px 11px;">Clear Log</button>
+            <button class="btn btn-ghost" onclick="runDiagnostics()" style="font-size:10px;padding:5px 11px;">Run Diagnostics</button>
+            <span style="font:500 9px var(--font);color:var(--dim);align-self:center;margin-left:auto;" id="diagStatus"></span>
+          </div>
+          <div class="log-area" id="logArea">
+            <div class="log-line log-info"><span class="log-ts">--:--:--</span><span class="log-label ll-info" style="background:rgba(41,121,255,.2);color:#6BA3FF;">INFO</span>Error log initialized. Load data or run diagnostics.</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /stab_debug_body -->
 
   </div>
-</div>
+</div><!-- /settings panel -->
 
 <main class="main">
 
+  <!-- NORTH STAR -->
   <div class="ns">
-    <div style="flex:1">
-      <div class="ns-lbl">&#127919; North Star &#8212; Total Brand Mentions Auto-Crawled Every 2.5 Hours</div>
-      <div style="display:flex;align-items:center;gap:14px;margin-top:8px">
-        <div class="ns-track"><div class="ns-fill" id="nsFill" style="width:0%"></div></div>
-        <span style="font-size:11px;color:var(--muted);white-space:nowrap" id="nsPct">0%</span>
+    <div class="ns-left">
+      <div class="ns-lbl">&#127919; North Star &mdash; Total Brand Mentions Auto-Crawled Every 2.5 Hours</div>
+      <div style="display:flex;align-items:center;gap:16px;margin-top:9px">
+        <div class="ns-track" style="flex:1;"><div class="ns-fill" id="nsFill" style="width:0%"></div></div>
+        <span style="font:700 11px var(--font);color:var(--muted);white-space:nowrap" id="nsPct">0% &middot; 500 remaining</span>
       </div>
     </div>
-    <div><div class="ns-n" id="nsCount">&#8212;</div><div class="ns-s">of <span id="nsGoal">500</span> &#183; June 2026</div></div>
-    <div style="display:flex;gap:9px;flex-shrink:0;flex-wrap:wrap">
-      <div class="bx"><div class="bx-n" id="b_total" style="color:var(--gold)">&#8212;</div><div class="bx-l">Total</div></div>
-      <div class="bx"><div class="bx-n" id="b_pos" style="color:var(--pos)">&#8212;</div><div class="bx-l">Positive</div></div>
-      <div class="bx"><div class="bx-n" id="b_neg" style="color:var(--neg)">&#8212;</div><div class="bx-l">Negative</div></div>
-      <div class="bx"><div class="bx-n" id="b_crawl" style="color:var(--muted)">&#8212;</div><div class="bx-l">Last Crawl</div></div>
+    <div><div class="ns-num" id="nsCount">&#8212;</div><div class="ns-sub">of <span id="nsGoal">500</span> &middot; June 2026</div></div>
+    <div style="display:flex;gap:10px;flex-shrink:0;flex-wrap:wrap">
+      <div class="stat-box"><div class="sb-n" id="b_total" style="color:var(--gold)">&#8212;</div><div class="sb-l">Total</div></div>
+      <div class="stat-box"><div class="sb-n" id="b_pos" style="color:var(--pos)">&#8212;</div><div class="sb-l">Positive</div></div>
+      <div class="stat-box"><div class="sb-n" id="b_neg" style="color:#FF5252">&#8212;</div><div class="sb-l">Negative</div></div>
+      <div class="stat-box"><div class="sb-n" id="b_src" style="color:var(--muted)">&#8212;</div><div class="sb-l">Sources Active</div></div>
     </div>
   </div>
 
+  <!-- KPI GRID -->
   <div class="kpis">
     <div class="kpi on" onclick="showPage('listening',null)">
       <div class="kpi-top"><span class="kpi-icon">&#128308;</span><div class="kd" id="kd_reddit"></div></div>
       <div class="kn" style="color:var(--reddit)" id="kn_reddit">&#8212;</div>
       <div class="kl">Reddit</div><div class="ks">posts + comments</div>
-      <span class="ktag tag-a">Auto-Crawled</span>
+      <span class="ktag tag-auto">Auto-Crawled</span>
     </div>
     <div class="kpi" onclick="showPage('listening',null)">
       <div class="kpi-top"><span class="kpi-icon">&#128163;</span><div class="kd" id="kd_quora"></div></div>
       <div class="kn" style="color:var(--quora)" id="kn_quora">&#8212;</div>
       <div class="kl">Quora</div><div class="ks">questions + answers</div>
-      <span class="ktag tag-a">Auto-Crawled</span>
+      <span class="ktag tag-auto">Auto-Crawled</span>
     </div>
     <div class="kpi" onclick="showPage('listening',null)">
       <div class="kpi-top"><span class="kpi-icon">&#128250;</span><div class="kd" id="kd_youtube"></div></div>
       <div class="kn" style="color:var(--youtube)" id="kn_youtube">&#8212;</div>
       <div class="kl">YouTube</div><div class="ks">videos + comments</div>
-      <span class="ktag tag-a">Auto-Crawled</span>
+      <span class="ktag tag-auto">Auto-Crawled</span>
     </div>
     <div class="kpi" onclick="showPage('listening',null)">
       <div class="kpi-top"><span class="kpi-icon">&#128221;</span><div class="kd" id="kd_medium"></div></div>
       <div class="kn" style="color:var(--medium)" id="kn_medium">&#8212;</div>
       <div class="kl">Medium</div><div class="ks">articles</div>
-      <span class="ktag tag-a">Auto-Crawled</span>
+      <span class="ktag tag-auto">Auto-Crawled</span>
     </div>
     <div class="kpi" onclick="showPage('listening',null)">
-      <div class="kpi-top"><span class="kpi-icon">&#128240;</span><div class="kd" id="kd_newspaper"></div></div>
-      <div class="kn" style="color:var(--newspaper)" id="kn_newspaper">&#8212;</div>
+      <div class="kpi-top"><span class="kpi-icon">&#128240;</span><div class="kd" id="kd_news"></div></div>
+      <div class="kn" style="color:var(--newspaper)" id="kn_news">&#8212;</div>
       <div class="kl">News / PR</div><div class="ks">articles</div>
-      <span class="ktag tag-a">Auto-Crawled</span>
+      <span class="ktag tag-auto">Auto-Crawled</span>
     </div>
     <div class="kpi" onclick="showPage('listening',null)">
       <div class="kpi-top"><span class="kpi-icon">&#127979;</span><div class="kd" id="kd_agg"></div></div>
       <div class="kn" style="color:var(--amber)" id="kn_agg">&#8212;</div>
       <div class="kl">Portals</div><div class="ks">Shiksha, CollegeDunia+</div>
-      <span class="ktag tag-a">Auto-Crawled</span>
+      <span class="ktag tag-auto">Auto-Crawled</span>
     </div>
     <div class="kpi" onclick="showPage('listening',null)">
       <div class="kpi-top"><span class="kpi-icon">&#128241;</span><div class="kd" id="kd_social"></div></div>
       <div class="kn" style="color:var(--purple)" id="kn_social">&#8212;</div>
       <div class="kl">Social</div><div class="ks">LinkedIn, Twitter+</div>
-      <span class="ktag tag-a">Auto-Crawled</span>
+      <span class="ktag tag-auto">Auto-Crawled</span>
     </div>
     <div class="kpi" onclick="showPage('listening',null)">
       <div class="kpi-top"><span class="kpi-icon">&#127760;</span><div class="kd" id="kd_web"></div></div>
       <div class="kn" style="color:var(--blue)" id="kn_web">&#8212;</div>
       <div class="kl">General Web</div><div class="ks">all other pages</div>
-      <span class="ktag tag-a">Auto-Crawled</span>
+      <span class="ktag tag-auto">Auto-Crawled</span>
     </div>
   </div>
 
+  <!-- DATE BAR -->
   <div class="dbar">
     <span class="dlbl">Period:</span>
     <button class="db on" onclick="setRange('all',this)">All Time</button>
@@ -445,51 +629,48 @@ footer{text-align:center;padding:22px;font-size:10px;color:#252830;border-top:1p
     <div id="custDates" style="display:none;display:flex;gap:7px;align-items:center">
       <input type="date" class="din" id="dFrom"><span style="color:var(--dim)">to</span><input type="date" class="din" id="dTo">
     </div>
-    <div class="nxt">Next crawl: <span id="nextCrawl">&#8212;</span> &bull; Runs every ~2.5h via GitHub Actions</div>
+    <div class="nxt-info">Next crawl: <span id="nextCrawl">&#8212;</span> &bull; Runs every ~2.5h via GitHub Actions</div>
   </div>
 
-  <!-- OVERVIEW -->
+  <!-- ══ OVERVIEW ══ -->
   <div class="page on" id="page_overview">
     <div class="g2">
       <div class="card">
-        <div class="ct"><div class="ctd" style="background:var(--gold)"></div>Priority Actions</div>
+        <div class="ct"><div class="ct-dot" style="background:var(--gold)"></div>Priority Actions<div class="ct-line"></div></div>
         <div class="acts" id="actList"></div>
       </div>
       <div class="card">
-        <div class="ct"><div class="ctd" style="background:var(--pos)"></div>Sentiment Breakdown</div>
+        <div class="ct"><div class="ct-dot" style="background:var(--pos)"></div>Sentiment Breakdown<div class="ct-line"></div></div>
         <div class="cw"><canvas id="sentPie"></canvas></div>
       </div>
     </div>
     <div class="g2">
       <div class="card">
-        <div class="ct"><div class="ctd" style="background:var(--blue)"></div>Mentions by Platform</div>
+        <div class="ct"><div class="ct-dot" style="background:var(--blue)"></div>Mentions by Platform<div class="ct-line"></div></div>
         <div class="cw"><canvas id="platBar"></canvas></div>
       </div>
       <div class="card">
-        <div class="ct"><div class="ctd" style="background:var(--neg)"></div>Negative Alerts &#128680;</div>
+        <div class="ct"><div class="ct-dot" style="background:var(--neg)"></div>Negative Alerts &#128680;<div class="ct-line"></div></div>
         <div class="feed" id="negFeed"><div class="empty"><div class="ei">&#9989;</div><p>No negative mentions yet.</p></div></div>
       </div>
     </div>
   </div>
 
-  <!-- LIVE LISTENING -->
+  <!-- ══ LIVE LISTENING ══ -->
   <div class="page" id="page_listening">
     <div class="g3">
-      <div class="card"><div class="ct">By Category</div><div class="cw"><canvas id="catChart"></canvas></div></div>
-      <div class="card"><div class="ct">Sentiment Over Time</div><div class="cw"><canvas id="sentTime"></canvas></div></div>
-      <div class="card">
-        <div class="ct">Top Sources</div>
-        <div id="topSrcs" style="display:flex;flex-direction:column;gap:4px"></div>
-      </div>
+      <div class="card"><div class="ct">By Category<div class="ct-line"></div></div><div class="cw"><canvas id="catChart"></canvas></div></div>
+      <div class="card"><div class="ct">Sentiment Over Time<div class="ct-line"></div></div><div class="cw"><canvas id="sentTime"></canvas></div></div>
+      <div class="card"><div class="ct">Top Sources<div class="ct-line"></div></div><div id="topSrcs" style="display:flex;flex-direction:column;gap:4px"></div></div>
     </div>
     <div class="card">
-      <div class="ct"><div class="ctd" style="background:var(--pos)"></div>All Crawled Mentions &#8212; <span id="mentTotal">0</span> total</div>
+      <div class="ct"><div class="ct-dot" style="background:var(--pos)"></div>All Crawled Mentions &mdash; <span id="mentTotal">0</span> found<div class="ct-line"></div></div>
       <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
-        <button class="db on" id="mf_all" onclick="setMentFilter('all',this)">All</button>
-        <button class="db" id="mf_pos" onclick="setMentFilter('positive',this)" style="color:var(--pos)">Positive</button>
-        <button class="db" id="mf_neg" onclick="setMentFilter('negative',this)" style="color:var(--neg)">Negative</button>
-        <button class="db" id="mf_mix" onclick="setMentFilter('mixed',this)" style="color:var(--mixed)">Mixed</button>
-        <select class="din" id="platFilt" onchange="renderMentions()" style="height:30px;font-size:10px">
+        <button class="db on" id="mf_all" onclick="setMF('all',this)">All</button>
+        <button class="db" id="mf_pos" onclick="setMF('positive',this)" style="color:var(--pos)">Positive</button>
+        <button class="db" id="mf_neg" onclick="setMF('negative',this)" style="color:#FF5252">Negative</button>
+        <button class="db" id="mf_mix" onclick="setMF('mixed',this)" style="color:var(--mixed)">Mixed</button>
+        <select class="din" id="platFilt" onchange="renderMentions()" style="height:30px;font-size:10px;font-family:var(--font)">
           <option value="">All Platforms</option>
           <option value="reddit">Reddit</option>
           <option value="quora">Quora</option>
@@ -503,57 +684,56 @@ footer{text-align:center;padding:22px;font-size:10px;color:#252830;border-top:1p
           <option value="web">General Web</option>
         </select>
       </div>
-      <div id="mentTable"><div class="empty"><div class="spin"></div><p>Loading…</p></div></div>
+      <div id="mentTable"><div class="empty"><div class="spin"></div><p>Loading...</p></div></div>
     </div>
   </div>
 
-  <!-- MY CONTENT -->
+  <!-- ══ MY CONTENT ══ -->
   <div class="page" id="page_content">
-    <div class="psel" id="psel">
-      <button class="pb on" onclick="showPlat('s_reddit',this)"><div class="pb-dot" style="background:var(--reddit)"></div>&#128308; Reddit<span class="pb-tag pbo" id="pbt_s_reddit">No Sheet</span></button>
-      <button class="pb" onclick="showPlat('s_quora',this)"><div class="pb-dot" style="background:var(--quora)"></div>&#128163; Quora<span class="pb-tag pbo" id="pbt_s_quora">No Sheet</span></button>
-      <button class="pb" onclick="showPlat('s_pstQuora',this)"><div class="pb-dot" style="background:var(--purple)"></div>&#128156; PST Quora<span class="pb-tag pbo" id="pbt_s_pstQuora">No Sheet</span></button>
-      <button class="pb" onclick="showPlat('s_youtube',this)"><div class="pb-dot" style="background:var(--youtube)"></div>&#128250; YouTube<span class="pb-tag pbo" id="pbt_s_youtube">No Sheet</span></button>
-      <button class="pb" onclick="showPlat('s_newspaper',this)"><div class="pb-dot" style="background:var(--newspaper)"></div>&#128240; Newspaper<span class="pb-tag pbo" id="pbt_s_newspaper">No Sheet</span></button>
-      <button class="pb" onclick="showPlat('s_medium',this)"><div class="pb-dot" style="background:var(--medium)"></div>&#128221; Medium<span class="pb-tag pbo" id="pbt_s_medium">No Sheet</span></button>
+    <div class="psel">
+      <button class="pb on" onclick="showPlat('s_reddit',this)"><div class="pb-dot" style="background:var(--reddit)"></div>Reddit<span class="pb-tag tag-off" id="pbt_s_reddit">No Sheet</span></button>
+      <button class="pb" onclick="showPlat('s_quora',this)"><div class="pb-dot" style="background:var(--quora)"></div>Quora<span class="pb-tag tag-off" id="pbt_s_quora">No Sheet</span></button>
+      <button class="pb" onclick="showPlat('s_pstQuora',this)"><div class="pb-dot" style="background:var(--purple)"></div>PST Quora<span class="pb-tag tag-off" id="pbt_s_pstQuora">No Sheet</span></button>
+      <button class="pb" onclick="showPlat('s_youtube',this)"><div class="pb-dot" style="background:var(--youtube)"></div>YouTube<span class="pb-tag tag-off" id="pbt_s_youtube">No Sheet</span></button>
+      <button class="pb" onclick="showPlat('s_newspaper',this)"><div class="pb-dot" style="background:var(--newspaper)"></div>Newspaper<span class="pb-tag tag-off" id="pbt_s_newspaper">No Sheet</span></button>
+      <button class="pb" onclick="showPlat('s_medium',this)"><div class="pb-dot" style="background:var(--medium)"></div>Medium<span class="pb-tag tag-off" id="pbt_s_medium">No Sheet</span></button>
     </div>
-    <div class="plat-c on" id="plat_s_reddit"><div class="card"><div class="ct">Reddit Posts</div><div id="ct_s_reddit"><div class="empty"><div class="ei">&#128308;</div><p>Add Reddit Sheet ID + GID in &#9881; Settings &#8594; My Content</p></div></div></div></div>
-    <div class="plat-c" id="plat_s_quora"><div class="card"><div class="ct">Quora Answers</div><div id="ct_s_quora"><div class="empty"><div class="ei">&#128163;</div><p>Add Quora Sheet ID + GID in &#9881; Settings &#8594; My Content</p></div></div></div></div>
-    <div class="plat-c" id="plat_s_pstQuora"><div class="card"><div class="ct">PST Quora</div><div id="ct_s_pstQuora"><div class="empty"><div class="ei">&#128156;</div><p>Add PST Quora Sheet ID + GID in &#9881; Settings &#8594; My Content</p></div></div></div></div>
-    <div class="plat-c" id="plat_s_youtube"><div class="card"><div class="ct">YouTube Comments</div><div id="ct_s_youtube"><div class="empty"><div class="ei">&#128250;</div><p>Add YouTube Sheet ID + GID in &#9881; Settings &#8594; My Content</p></div></div></div></div>
-    <div class="plat-c" id="plat_s_newspaper"><div class="card"><div class="ct">Newspaper PR</div><div id="ct_s_newspaper"><div class="empty"><div class="ei">&#128240;</div><p>Add Newspaper Sheet ID + GID in &#9881; Settings &#8594; My Content</p></div></div></div></div>
-    <div class="plat-c" id="plat_s_medium"><div class="card"><div class="ct">Medium Articles</div><div id="ct_s_medium"><div class="empty"><div class="ei">&#128221;</div><p>Add Medium Sheet ID + GID in &#9881; Settings &#8594; My Content</p></div></div></div></div>
+    <div class="plat-c on" id="plat_s_reddit"><div class="card"><div class="ct">Reddit Posts<div class="ct-line"></div></div><div id="ct_s_reddit"><div class="empty"><div class="ei">&#128308;</div><p>Add Reddit Sheet ID + GID in &#9881; Settings &#8594; Sheets tab</p></div></div></div></div>
+    <div class="plat-c" id="plat_s_quora"><div class="card"><div class="ct">Quora Answers<div class="ct-line"></div></div><div id="ct_s_quora"><div class="empty"><div class="ei">&#128163;</div><p>Add Quora Sheet ID + GID in &#9881; Settings &#8594; Sheets tab</p></div></div></div></div>
+    <div class="plat-c" id="plat_s_pstQuora"><div class="card"><div class="ct">PST Quora<div class="ct-line"></div></div><div id="ct_s_pstQuora"><div class="empty"><div class="ei">&#128156;</div><p>Add PST Quora Sheet ID + GID in &#9881; Settings &#8594; Sheets tab</p></div></div></div></div>
+    <div class="plat-c" id="plat_s_youtube"><div class="card"><div class="ct">YouTube Comments<div class="ct-line"></div></div><div id="ct_s_youtube"><div class="empty"><div class="ei">&#128250;</div><p>Add YouTube Sheet ID + GID in &#9881; Settings &#8594; Sheets tab</p></div></div></div></div>
+    <div class="plat-c" id="plat_s_newspaper"><div class="card"><div class="ct">Newspaper PR<div class="ct-line"></div></div><div id="ct_s_newspaper"><div class="empty"><div class="ei">&#128240;</div><p>Add Newspaper Sheet ID + GID in &#9881; Settings &#8594; Sheets tab</p></div></div></div></div>
+    <div class="plat-c" id="plat_s_medium"><div class="card"><div class="ct">Medium Articles<div class="ct-line"></div></div><div id="ct_s_medium"><div class="empty"><div class="ei">&#128221;</div><p>Add Medium Sheet ID + GID in &#9881; Settings &#8594; Sheets tab</p></div></div></div></div>
   </div>
 
-  <!-- COMPETITORS -->
+  <!-- ══ COMPETITORS ══ -->
   <div class="page" id="page_competitors">
-    <div class="card" style="margin-bottom:14px"><div class="ct">Competitor Sentiment vs PST</div><div class="cw" style="height:230px"><canvas id="compBar"></canvas></div></div>
+    <div class="card" style="margin-bottom:16px"><div class="ct">Competitor Sentiment vs PST<div class="ct-line"></div></div><div class="cw" style="height:240px"><canvas id="compBar"></canvas></div></div>
     <div class="g2">
-      <div class="card"><div class="ct">Competitor Mentions Feed</div><div class="feed" id="compFeed"><div class="empty"><div class="ei">&#127942;</div><p>Competitor mentions appear after first crawl. Configure repo in &#9881; Settings.</p></div></div></div>
-      <div class="card"><div class="ct">Coverage Radar</div><div class="cw"><canvas id="radarChart"></canvas></div></div>
+      <div class="card"><div class="ct">Competitor Mentions Feed<div class="ct-line"></div></div><div class="feed" id="compFeed"><div class="empty"><div class="ei">&#127942;</div><p>Mentions appear after first crawl. Add competitors in &#9881; Settings &#8594; Keywords.</p></div></div></div>
+      <div class="card"><div class="ct">Coverage Radar<div class="ct-line"></div></div><div class="cw"><canvas id="radarChart"></canvas></div></div>
     </div>
   </div>
 
-  <!-- ANALYTICS -->
+  <!-- ══ ANALYTICS ══ -->
   <div class="page" id="page_analytics">
     <div class="g2">
-      <div class="card"><div class="ct">Daily Mention Trend</div><div class="cw"><canvas id="trendChart"></canvas></div></div>
-      <div class="card"><div class="ct">Platform Mix</div><div class="cw"><canvas id="mixChart"></canvas></div></div>
+      <div class="card"><div class="ct">Daily Mention Trend<div class="ct-line"></div></div><div class="cw"><canvas id="trendChart"></canvas></div></div>
+      <div class="card"><div class="ct">Platform Mix<div class="ct-line"></div></div><div class="cw"><canvas id="mixChart"></canvas></div></div>
     </div>
-    <div class="card"><div class="ct">Platform Performance Summary</div><div id="perfTable"><div class="empty"><div class="ei">&#128197;</div><p>Loads after crawl data is available.</p></div></div></div>
+    <div class="card"><div class="ct">Platform Performance<div class="ct-line"></div></div><div id="perfTable"><div class="empty"><div class="ei">&#128197;</div><p>Available after crawl data loads.</p></div></div></div>
   </div>
 
 </main>
-<footer>Polaris School of Technology &bull; ORM Intelligence Dashboard v3.1 &bull; Built by Aditya &bull; Crawler runs every ~2.5h via GitHub Actions</footer>
+<footer>Polaris School of Technology &bull; ORM Intelligence Dashboard v3.2 &bull; Built by Aditya &bull; Crawler runs every ~2.5h via GitHub Actions &bull; Montserrat</footer>
 
 <script>
 // ============================================================
-// CONFIG
+// CONFIG DEFAULTS
 // ============================================================
-var DEF_CFG = {
-  repo: "adirispol/ORM-Dashboard",
-  branch: "main",
-  apis: { youtube: "", newsapi: "", serpapi: "", apify: "", claude: "" },
+var DEF = {
+  repo: "", branch: "main",
+  apis: { youtube: "", newsapi: "" },
   sheets: {
     s_reddit:    { id: "", gid: "0", tab: "Reddit" },
     s_quora:     { id: "", gid: "0", tab: "Quora Seeding" },
@@ -562,75 +742,166 @@ var DEF_CFG = {
     s_newspaper: { id: "", gid: "0", tab: "Newspaper PR" },
     s_medium:    { id: "", gid: "0", tab: "Medium" }
   },
-  competitors: ["Scaler","Newton School of Technology","upGrad","Great Learning","BITS Pilani"],
+  kwPst:  ['"Polaris School of Technology"', '"Polaris School" technology', 'PST Pune technology'],
+  kwComp: ["Scaler", "Newton School of Technology", "upGrad", "Great Learning"],
   goal: 500,
   refresh: 5
 };
 
 var SHEET_LABELS = {
-  s_reddit: "Reddit Posts",
-  s_quora: "Quora Seeding Answers",
-  s_pstQuora: "PST Official Quora",
-  s_youtube: "YouTube Comments",
-  s_newspaper: "Newspaper PR",
-  s_medium: "Medium Articles"
+  s_reddit: "Reddit Posts", s_quora: "Quora Seeding Answers",
+  s_pstQuora: "PST Official Quora", s_youtube: "YouTube Comments",
+  s_newspaper: "Newspaper PR", s_medium: "Medium Articles"
 };
 
-var CFG = {};
-var CRAWL = {};   // data from GitHub JSON files
-var SHEETS = {};  // data from Google Sheets
-var dateRange = "all";
-var mentFilter = "all";
-var charts = {};
-var refreshTimer = null;
+var CFG = {}, CRAWL = {}, SHEETS = {}, ERRS = [];
+var dateRange = "all", mentFilter = "all";
+var charts = {}, refreshTimer = null;
 
-function getVal(obj, key, def) {
-  return (obj && obj[key] !== undefined && obj[key] !== null) ? obj[key] : def;
+function gv(obj, key, def) {
+  var parts = key.split(".");
+  var o = obj;
+  for (var i = 0; i < parts.length; i++) {
+    if (!o || o[parts[i]] === undefined) return def;
+    o = o[parts[i]];
+  }
+  return o;
 }
 
 function loadCFG() {
   try {
-    var saved = JSON.parse(localStorage.getItem("p_orm_v6") || "{}");
-    CFG = JSON.parse(JSON.stringify(DEF_CFG));
-    if (saved.repo) CFG.repo = saved.repo;
-    if (saved.branch) CFG.branch = saved.branch;
-    if (saved.apis) { for (var k in saved.apis) { if (CFG.apis.hasOwnProperty(k)) CFG.apis[k] = saved.apis[k]; } }
-    if (saved.sheets) { for (var k in saved.sheets) { if (CFG.sheets.hasOwnProperty(k)) { CFG.sheets[k].id = getVal(saved.sheets[k], "id", ""); CFG.sheets[k].gid = getVal(saved.sheets[k], "gid", "0"); CFG.sheets[k].tab = getVal(saved.sheets[k], "tab", DEF_CFG.sheets[k].tab); } } }
-    if (saved.competitors) CFG.competitors = saved.competitors;
-    if (saved.goal) CFG.goal = saved.goal;
-    if (saved.refresh) CFG.refresh = saved.refresh;
-  } catch(e) { CFG = JSON.parse(JSON.stringify(DEF_CFG)); }
+    var s = JSON.parse(localStorage.getItem("porm_v7") || "{}");
+    CFG = JSON.parse(JSON.stringify(DEF));
+    if (s.repo) CFG.repo = s.repo;
+    if (s.branch) CFG.branch = s.branch;
+    if (s.apis) for (var k in s.apis) { if (CFG.apis.hasOwnProperty(k)) CFG.apis[k] = s.apis[k]; }
+    if (s.sheets) for (var k in s.sheets) { if (CFG.sheets.hasOwnProperty(k)) { CFG.sheets[k].id = s.sheets[k].id || ""; CFG.sheets[k].gid = s.sheets[k].gid || "0"; CFG.sheets[k].tab = s.sheets[k].tab || DEF.sheets[k].tab; } }
+    if (s.kwPst) CFG.kwPst = s.kwPst;
+    if (s.kwComp) CFG.kwComp = s.kwComp;
+    if (s.goal) CFG.goal = s.goal;
+    if (s.refresh) CFG.refresh = s.refresh;
+  } catch(e) { CFG = JSON.parse(JSON.stringify(DEF)); }
 }
-
-function saveCFG() { localStorage.setItem("p_orm_v6", JSON.stringify(CFG)); }
+function saveCFG() { localStorage.setItem("porm_v7", JSON.stringify(CFG)); }
 
 // ============================================================
-// FETCH
+// LOGGING
 // ============================================================
-function rawURL(file) {
-  return "https://raw.githubusercontent.com/" + CFG.repo + "/refs/heads/" + CFG.branch + "/data/" + file + "?t=" + Date.now();
+function lg(level, src, msg) {
+  var now = new Date();
+  var ts = now.toTimeString().slice(0,8);
+  var entry = { ts: ts, level: level, src: src, msg: msg };
+  ERRS.push(entry);
+  if (ERRS.length > 200) ERRS.shift();
+  updateLogUI();
 }
 
-function fetchJ(url, cb) {
+function updateLogUI() {
+  var la = document.getElementById("logArea");
+  var lc = document.getElementById("logCountLabel");
+  var errcnt = ERRS.filter(function(e){ return e.level === "ERR"; }).length;
+  if (lc) lc.textContent = ERRS.length + " log entries" + (errcnt ? " \u2022 " + errcnt + " errors" : " \u2022 No errors");
+  if (!la) return;
+  var cols = { OK: "ll-ok", ERR: "ll-err", WARN: "ll-warn", INFO: "" };
+  var bgs = { OK: "rgba(0,200,83,.2)", ERR: "rgba(186,14,19,.2)", WARN: "rgba(255,152,0,.2)", INFO: "rgba(41,121,255,.2)" };
+  var fgs = { OK: "var(--pos)", ERR: "#FF5252", WARN: "var(--mixed)", INFO: "#6BA3FF" };
+  la.innerHTML = ERRS.slice().reverse().map(function(e) {
+    var cls = e.level === "OK" ? "log-ok" : e.level === "ERR" ? "log-err" : e.level === "WARN" ? "log-warn" : "log-info";
+    return '<div class="log-line ' + cls + '"><span class="log-ts">' + e.ts + '</span><span class="log-label" style="background:' + (bgs[e.level]||bgs.INFO) + ';color:' + (fgs[e.level]||fgs.INFO) + '">' + e.level + '</span><span style="color:#6B6B80;margin-right:6px;">[' + e.src + ']</span>' + e.msg + '</div>';
+  }).join("");
+}
+
+function clearLog() { ERRS = []; updateLogUI(); lg("INFO","SYS","Log cleared."); }
+
+// ============================================================
+// DIAGNOSTICS
+// ============================================================
+function runDiagnostics() {
+  var el = document.getElementById("diagStatus");
+  if (el) el.textContent = "Running...";
+  lg("INFO","DIAG","Starting diagnostics...");
+  var repo = CFG.repo;
+  if (!repo) { lg("ERR","DIAG","No repo configured. Open Settings \u2192 Config tab \u2192 GitHub Repo Path."); if(el)el.textContent="Failed"; return; }
+  var url = "https://raw.githubusercontent.com/" + repo + "/refs/heads/" + (CFG.branch||"main") + "/data/summary.json?t=" + Date.now();
+  lg("INFO","DIAG","Fetching: " + url);
   var xhr = new XMLHttpRequest();
   xhr.open("GET", url, true);
   xhr.onreadystatechange = function() {
     if (xhr.readyState !== 4) return;
     if (xhr.status === 200) {
-      try { cb(null, JSON.parse(xhr.responseText)); }
-      catch(e) { cb(e, null); }
+      try {
+        var d = JSON.parse(xhr.responseText);
+        lg("OK","DIAG","summary.json reachable. Total mentions: " + (d.total_mentions || 0));
+        lg("OK","DIAG","Last crawled: " + (d.last_crawled || "unknown"));
+        lg("INFO","DIAG","Platforms: " + JSON.stringify(d.by_platform || {}));
+        if (el) el.textContent = "All OK";
+      } catch(e) { lg("ERR","DIAG","summary.json parse error: " + e.message); if(el)el.textContent="Parse error"; }
+    } else if (xhr.status === 404) {
+      lg("ERR","DIAG","404 Not Found. Either repo path is wrong OR crawler has not run yet. Go to GitHub \u2192 Actions \u2192 Run workflow manually.");
+      if(el)el.textContent="404 Error";
     } else {
-      cb(new Error("HTTP " + xhr.status), null);
+      lg("ERR","DIAG","HTTP " + xhr.status + " fetching summary.json");
+      if(el)el.textContent="HTTP " + xhr.status;
+    }
+    updateCrawlTimeline();
+  };
+  xhr.send();
+}
+
+function updateCrawlTimeline() {
+  var tl = document.getElementById("crawlTimeline");
+  if (!tl) return;
+  var s = CRAWL.summary;
+  var srcs = [
+    { name: "Reddit", key: "reddit", icon: "&#128308;", col: "var(--reddit)", desc: "Public JSON API" },
+    { name: "Google News", key: "newspaper", icon: "&#128240;", col: "var(--newspaper)", desc: "RSS Feed" },
+    { name: "Quora (Google index)", key: "quora", icon: "&#128163;", col: "var(--quora)", desc: "Google search scraping" },
+    { name: "Medium (Google index)", key: "medium", icon: "&#128221;", col: "var(--medium)", desc: "Google search scraping" },
+    { name: "YouTube (Google index)", key: "youtube", icon: "&#128250;", col: "var(--youtube)", desc: "Google search scraping" },
+    { name: "Portals (6 sites)", key: "aggregators", icon: "&#127979;", col: "var(--amber)", desc: "Shiksha, CollegeDunia, Careers360, GetMyUni, CollegeDekho, Naukri" },
+    { name: "Social (4 platforms)", key: "social", icon: "&#128241;", col: "var(--purple)", desc: "LinkedIn, Twitter, Facebook, Instagram" },
+    { name: "General Web", key: "web", icon: "&#127760;", col: "var(--blue)", desc: "Everything else" }
+  ];
+  var byP = gv(s || {}, "by_platform", {});
+  tl.innerHTML = srcs.map(function(src) {
+    var cnt = byP[src.key] || 0;
+    var ok = cnt > 0;
+    return '<div class="ct-row"><div class="ct-icon" style="background:' + (ok ? 'rgba(0,200,83,.12)' : 'rgba(80,80,100,.1)') + ';color:' + (ok ? 'var(--pos)' : 'var(--dim)') + '">' + src.icon + '</div><div class="ct-txt"><div class="ct-name" style="color:' + src.col + '">' + src.name + ' <span style="color:var(--gold);font:700 10px var(--font)">' + (cnt > 0 ? cnt + ' found' : 'No data yet') + '</span></div><div class="ct-detail">' + src.desc + '</div></div></div>';
+  }).join("");
+}
+
+// ============================================================
+// FETCH
+// ============================================================
+function rawURL(f) {
+  return "https://raw.githubusercontent.com/" + CFG.repo + "/refs/heads/" + (CFG.branch||"main") + "/data/" + f + "?t=" + Date.now();
+}
+
+function fetchJ(url, cb) {
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", url, true);
+  xhr.timeout = 15000;
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState !== 4) return;
+    if (xhr.status === 200) {
+      try { cb(null, JSON.parse(xhr.responseText)); }
+      catch(e) { lg("ERR","FETCH","Parse error at " + url + ": " + e.message); cb(e, null); }
+    } else {
+      var msg = "HTTP " + xhr.status + " for " + url;
+      if (xhr.status !== 404) lg("WARN","FETCH", msg);
+      cb(new Error(msg), null);
     }
   };
+  xhr.ontimeout = function() { lg("ERR","FETCH","Timeout: " + url); cb(new Error("timeout"), null); };
   xhr.send();
 }
 
 function fetchCSV(sheetId, gid, cb) {
   if (!sheetId) { cb(new Error("no_sheet"), null); return; }
-  var url = "https://docs.google.com/spreadsheets/d/" + sheetId + "/export?format=csv&gid=" + (gid || "0") + "&t=" + Date.now();
+  var url = "https://docs.google.com/spreadsheets/d/" + sheetId + "/export?format=csv&gid=" + (gid||"0") + "&t=" + Date.now();
   var xhr = new XMLHttpRequest();
   xhr.open("GET", url, true);
+  xhr.timeout = 12000;
   xhr.onreadystatechange = function() {
     if (xhr.readyState !== 4) return;
     if (xhr.status !== 200) { cb(new Error("HTTP " + xhr.status), null); return; }
@@ -638,16 +909,18 @@ function fetchCSV(sheetId, gid, cb) {
     if (text.indexOf("<!DOCTYPE") !== -1 || text.indexOf("Signin") !== -1) { cb(new Error("not_published"), null); return; }
     var lines = text.trim().split("\n");
     if (lines.length < 2) { cb(null, []); return; }
-    var headers = parseCSVLine(lines[0]);
+    var hdr = parseCSVLine(lines[0]);
     var rows = [];
     for (var i = 1; i < lines.length; i++) {
       var cols = parseCSVLine(lines[i]);
       var row = {};
-      for (var j = 0; j < headers.length; j++) row[headers[j]] = cols[j] || "";
+      for (var j = 0; j < hdr.length; j++) row[hdr[j]] = cols[j] || "";
       rows.push(row);
     }
+    lg("OK","SHEET","Loaded " + rows.length + " rows from sheet " + sheetId.slice(0,8) + "...");
     cb(null, rows);
   };
+  xhr.ontimeout = function() { cb(new Error("timeout"), null); };
   xhr.send();
 }
 
@@ -663,598 +936,434 @@ function parseCSVLine(line) {
   return cols;
 }
 
-var pendingLoads = 0;
-var totalLoads = 0;
-
+var pendingC = 0;
 function loadAll() {
-  if (!CFG.repo) { renderAll(); return; }
+  document.getElementById("crawlAge").textContent = "Loading...";
+  if (!CFG.repo) { lg("WARN","LOAD","No repo configured. Enter repo in Settings \u2192 Config."); renderAll(); return; }
   var files = ["summary","reddit","quora","medium","youtube","news","aggregators","social","web","all_mentions"];
-  pendingLoads = files.length;
-  totalLoads = files.length;
-  for (var i = 0; i < files.length; i++) {
-    (function(f) {
-      fetchJ(rawURL(f + ".json"), function(err, data) {
+  pendingC = files.length;
+  lg("INFO","LOAD","Fetching " + files.length + " data files from " + CFG.repo);
+  files.forEach(function(f) {
+    fetchJ(rawURL(f + ".json"), function(err, data) {
+      if (err) {
+        if (err.message.indexOf("404") === -1) lg("ERR","LOAD", f + ".json: " + err.message);
+      } else {
         CRAWL[f] = data;
-        pendingLoads--;
-        if (pendingLoads === 0) loadSheets();
-      });
-    })(files[i]);
-  }
+        lg("OK","LOAD", f + ".json loaded (" + (data.total || (data.mentions ? data.mentions.length : "?")) + " records)");
+      }
+      pendingC--;
+      if (pendingC === 0) loadSheets();
+    });
+  });
 }
 
 function loadSheets() {
   var keys = Object.keys(CFG.sheets);
   var done = 0;
-  if (keys.length === 0) { renderAll(); startRefresh(); return; }
-  for (var i = 0; i < keys.length; i++) {
-    (function(k) {
-      var s = CFG.sheets[k];
-      fetchCSV(s.id, s.gid, function(err, rows) {
-        if (err) { SHEETS[k] = null; SHEETS[k + "_err"] = err.message; }
-        else { SHEETS[k] = rows; SHEETS[k + "_err"] = null; }
-        done++;
-        if (done === keys.length) { renderAll(); startRefresh(); }
-      });
-    })(keys[i]);
-  }
+  if (!keys.length) { renderAll(); startRefresh(); return; }
+  keys.forEach(function(k) {
+    var s = CFG.sheets[k];
+    if (!s.id) { SHEETS[k] = null; SHEETS[k+"_err"] = "no_sheet"; done++; if(done===keys.length){renderAll();startRefresh();} return; }
+    fetchCSV(s.id, s.gid, function(err, rows) {
+      if (err) { SHEETS[k] = null; SHEETS[k+"_err"] = err.message; lg("ERR","SHEET",k+": "+err.message); }
+      else { SHEETS[k] = rows; SHEETS[k+"_err"] = null; }
+      done++;
+      if (done === keys.length) { renderAll(); startRefresh(); }
+    });
+  });
 }
 
 function startRefresh() {
   if (refreshTimer) clearInterval(refreshTimer);
-  refreshTimer = setInterval(loadAll, (CFG.refresh || 5) * 60000);
+  refreshTimer = setInterval(loadAll, (CFG.refresh||5) * 60000);
 }
 
 // ============================================================
 // HELPERS
 // ============================================================
-function fN(v) { var n = parseInt(String(v || 0).replace(/,/g,"")) || 0; return n >= 1000 ? (n/1000).toFixed(1) + "k" : String(n); }
-function toN(v) { return parseInt(String(v || 0).replace(/,/g,"")) || 0; }
-function trunc(s, n) { s = s || ""; return s.length > n ? s.slice(0, n) + "…" : s; }
-function esc(s) { return String(s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function fN(v) { var n = parseInt(String(v||0).replace(/,/g,""))||0; return n>=1000?(n/1000).toFixed(1)+"k":String(n); }
+function toN(v) { return parseInt(String(v||0).replace(/,/g,""))||0; }
+function trunc(s,n) { s=String(s||""); return s.length>n?s.slice(0,n)+"...":s; }
+function esc(s) { return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function sCls(s) { s=String(s||"").toLowerCase(); return s.indexOf("pos")!==-1?"pos":s.indexOf("neg")!==-1?"neg":s.indexOf("mix")!==-1?"mixed":"neu"; }
+function sLbl(s) { s=String(s||"").toLowerCase(); return s.indexOf("pos")!==-1?"Positive":s.indexOf("neg")!==-1?"Negative":s.indexOf("mix")!==-1?"Mixed":"Neutral"; }
 
-function sentCls(s) {
-  s = String(s || "").toLowerCase();
-  if (s.indexOf("pos") !== -1) return "pos";
-  if (s.indexOf("neg") !== -1) return "neg";
-  if (s.indexOf("mix") !== -1) return "mixed";
-  return "neu";
-}
-function sentLabel(s) {
-  s = String(s || "").toLowerCase();
-  if (s.indexOf("pos") !== -1) return "Positive";
-  if (s.indexOf("neg") !== -1) return "Negative";
-  if (s.indexOf("mix") !== -1) return "Mixed";
-  return "Neutral";
-}
+var PC = { reddit:"#FF4500",quora:"#B92B27",youtube:"#FF0000",medium:"#099B5A",newspaper:"#D88100",news:"#D88100",shiksha:"#F59E0B",collegedunia:"#F59E0B",linkedin:"#0077B5",twitter:"#1DA1F2",web:"#2979FF",aggregators:"#D88100",social:"#5939A8" };
+function pCol(p) { return PC[String(p||"").toLowerCase()] || "#888"; }
 
-var PCOLS = {
-  reddit: "#FF5722", quora: "#E53935", youtube: "#F44336",
-  medium: "#00C853", newspaper: "#FFB300", news: "#FFB300",
-  shiksha: "#F59E0B", collegedunia: "#F59E0B", collegedekho: "#D97706",
-  careers360: "#B45309", getmyuni: "#92400E", naukri: "#92400E",
-  linkedin: "#0077B5", twitter: "#1DA1F2", facebook: "#1877F2",
-  instagram: "#E1306C", web: "#2979FF", aggregators: "#F59E0B",
-  social: "#7C4DFF"
-};
-
-function pCol(p) { return PCOLS[String(p || "").toLowerCase()] || "#94A3B8"; }
-
-function crawlMentions(key) {
-  if (!CRAWL[key]) return [];
-  return CRAWL[key].mentions || [];
-}
-
-function allMentions() {
-  if (CRAWL.all_mentions) return CRAWL.all_mentions.mentions || [];
-  return [];
-}
+function allMents() { return gv(CRAWL,"all_mentions.mentions",[]) || []; }
+function cMents(k) { return gv(CRAWL,k+".mentions",[]) || []; }
 
 function filterDate(arr) {
   if (dateRange === "all") return arr;
   var now = new Date(), cut = new Date();
-  if (dateRange === "7d") cut.setDate(now.getDate() - 7);
-  else if (dateRange === "30d") cut.setDate(now.getDate() - 30);
-  else if (dateRange === "custom") {
-    var dFrom = document.getElementById("dFrom").value;
-    if (dFrom) cut = new Date(dFrom);
-  }
-  return arr.filter(function(m) {
-    var d = m.date || "";
-    if (!d) return true;
-    try { return new Date(d) >= cut; } catch(e) { return true; }
-  });
+  if (dateRange === "7d") cut.setDate(now.getDate()-7);
+  else if (dateRange === "30d") cut.setDate(now.getDate()-30);
+  else if (dateRange === "custom") { var df = document.getElementById("dFrom").value; if(df) cut=new Date(df); }
+  return arr.filter(function(m) { var d=m.date||""; if(!d)return true; try{return new Date(d)>=cut;}catch(e){return true;} });
 }
 
-Chart.defaults.color = "#445";
-Chart.defaults.borderColor = "rgba(255,255,255,0.04)";
-Chart.defaults.font.family = "'Poppins',sans-serif";
-Chart.defaults.font.size = 10;
+Chart.defaults.color="#5A5A70";
+Chart.defaults.borderColor="rgba(255,255,255,0.04)";
+Chart.defaults.font.family="'Montserrat', sans-serif";
+Chart.defaults.font.size=10;
+var TT = { plugins:{ tooltip:{ backgroundColor:"#141418",borderColor:"rgba(255,204,63,.3)",borderWidth:1,titleColor:"#FFCC3F",bodyColor:"#AAA",padding:11,cornerRadius:8 }, legend:{ labels:{ color:"#5A5A70",usePointStyle:true,pointStyleWidth:8,boxHeight:8 } } } };
 
-var TT = { plugins: { tooltip: { backgroundColor: "#0D0F18", borderColor: "rgba(255,204,63,.25)", borderWidth: 1, titleColor: "#FFCC3F", bodyColor: "#94A3B8", padding: 10, cornerRadius: 8 }, legend: { labels: { color: "#556", usePointStyle: true, pointStyleWidth: 8, boxHeight: 8 } } } };
-
-function mkChart(id, type, labels, datasets, extra) {
-  var c = document.getElementById(id);
-  if (!c) return;
-  if (charts[id]) { charts[id].destroy(); }
-  var opts = { responsive: true, maintainAspectRatio: false, plugins: TT.plugins };
-  if (extra) { for (var k in extra) opts[k] = extra[k]; }
-  charts[id] = new Chart(c, { type: type, data: { labels: labels, datasets: datasets }, options: opts });
+function mkChart(id,type,labels,datasets,extra) {
+  var c=document.getElementById(id); if(!c)return;
+  if(charts[id]){charts[id].destroy();}
+  var opts={responsive:true,maintainAspectRatio:false,plugins:TT.plugins};
+  if(extra) for(var k in extra) opts[k]=extra[k];
+  charts[id]=new Chart(c,{type:type,data:{labels:labels,datasets:datasets},options:opts});
 }
 
 // ============================================================
 // RENDER ALL
 // ============================================================
 function renderAll() {
-  updateNS();
-  updateKPIs();
-  updateCrawlDot();
-  renderOverview();
-  renderListening();
-  renderMyContent();
-  renderCompetitors();
-  renderAnalytics();
-}
-
-function getSummaryVal(path, def) {
-  if (!CRAWL.summary) return def;
-  var parts = path.split(".");
-  var obj = CRAWL.summary;
-  for (var i = 0; i < parts.length; i++) {
-    if (!obj || obj[parts[i]] === undefined) return def;
-    obj = obj[parts[i]];
-  }
-  return obj;
-}
-
-function updateNS() {
-  var total = getSummaryVal("total_mentions", 0);
-  var pos = getSummaryVal("by_sentiment.positive", 0);
-  var neg = getSummaryVal("by_sentiment.negative", 0);
-  var goal = CFG.goal || 500;
-  var pct = Math.min(100, Math.round(total / goal * 100));
-  document.getElementById("nsCount").textContent = total.toLocaleString();
-  document.getElementById("nsGoal").textContent = goal.toLocaleString();
-  document.getElementById("nsFill").style.width = pct + "%";
-  document.getElementById("nsPct").textContent = pct + "% \u00b7 " + Math.max(0, goal - total) + " remaining";
-  document.getElementById("b_total").textContent = fN(total);
-  document.getElementById("b_pos").textContent = fN(pos);
-  document.getElementById("b_neg").textContent = fN(neg);
+  updateNS(); updateKPIs(); updateCrawlDot();
+  renderOverview(); renderListening(); renderMyContent(); renderCompetitors(); renderAnalytics();
+  updateCrawlTimeline();
 }
 
 function updateCrawlDot() {
-  var dot = document.getElementById("crawlDot");
-  var ageEl = document.getElementById("crawlAge");
-  var nxtEl = document.getElementById("nextCrawl");
+  var dot=document.getElementById("crawlDot"),age=document.getElementById("crawlAge"),nxt=document.getElementById("nextCrawl"),bsrc=document.getElementById("b_src");
+  var sub=document.getElementById("debug_crawl_sub");
   if (!CRAWL.summary) {
-    dot.className = "cdot";
-    ageEl.textContent = CFG.repo ? "Waiting for crawl\u2026" : "Configure repo in \u2699 Settings";
-    nxtEl.textContent = "\u2014";
-    document.getElementById("b_crawl").textContent = "\u2014";
-    return;
+    dot.className="cdot"; age.textContent=CFG.repo?"Waiting for crawl...":"Configure repo in Settings";
+    if(nxt)nxt.textContent="--"; if(bsrc)bsrc.textContent="0"; return;
   }
-  var last = new Date(CRAWL.summary.last_crawled || "");
-  var hrs = (Date.now() - last.getTime()) / 3600000;
-  var ageStr;
-  if (hrs < 1) ageStr = Math.round(hrs * 60) + "m ago";
-  else ageStr = Math.round(hrs) + "h ago";
-  ageEl.textContent = ageStr;
-  document.getElementById("b_crawl").textContent = ageStr;
-  if (hrs < 3) dot.className = "cdot live";
-  else if (hrs < 8) dot.className = "cdot stale";
-  else dot.className = "cdot old";
-  var nextHrs = 2.5 - (hrs % 2.5);
-  nxtEl.textContent = "~" + Math.round(nextHrs * 60) + "min";
+  var last=new Date(CRAWL.summary.last_crawled||""); var hrs=(Date.now()-last.getTime())/3600000;
+  var ageStr=hrs<1?Math.round(hrs*60)+"m ago":Math.round(hrs)+"h ago";
+  age.textContent=ageStr;
+  if(sub)sub.textContent="Last crawl: "+ageStr+" \u2022 "+gv(CRAWL.summary,"total_mentions",0)+" total";
+  if(hrs<3)dot.className="cdot live"; else if(hrs<8)dot.className="cdot stale"; else dot.className="cdot old";
+  var nxtH=2.5-(hrs%2.5); if(nxt)nxt.textContent="~"+Math.round(nxtH*60)+"min";
+  if(bsrc)bsrc.textContent=Object.keys(gv(CRAWL.summary,"by_platform",{})).length;
+  renderCrawlStatusBlock(hrs, last);
+}
+
+function renderCrawlStatusBlock(hrs, last) {
+  var el=document.getElementById("crawlStatusBlock"); if(!el)return;
+  var s=CRAWL.summary;
+  if(!s){el.innerHTML='<div class="empty"><div class="ei">&#128225;</div><p>Crawl data not loaded. Configure repo in Settings \u2192 Config, then click Refresh.</p></div>';return;}
+  var dotCls=hrs<3?"cdot live":hrs<8?"cdot stale":"cdot old";
+  var statusMsg=hrs<3?"Fresh \u2014 crawled recently":hrs<8?"Stale \u2014 crawl may be delayed":hrs<24?"Old \u2014 check GitHub Actions for errors":"Very old \u2014 crawler may have stopped";
+  var statusCol=hrs<3?"var(--pos)":hrs<8?"var(--mixed)":"#FF5252";
+  el.innerHTML='<div style="display:flex;flex-direction:column;gap:10px;">'
+    +'<div style="display:flex;align-items:center;gap:10px;padding:10px;background:#0A0A0E;border-radius:8px;">'
+    +'<div class="cdot '+dotCls+'"></div>'
+    +'<div style="flex:1;"><div style="font:700 12px var(--font);color:'+statusCol+'">'+statusMsg+'</div>'
+    +'<div style="font:500 9px var(--font);color:var(--dim);margin-top:2px;">Last crawled: '+(last?last.toLocaleString("en-IN"):"unknown")+'</div></div>'
+    +'<button class="btn btn-out" onclick="loadAll()" style="font-size:10px;padding:5px 12px;">Reload Now</button></div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">'
+    +'<div style="background:#0A0A0E;border-radius:8px;padding:10px;text-align:center;border:1px solid var(--border);"><div style="font:800 18px var(--font);color:var(--gold)">'+gv(s,"total_mentions",0)+'</div><div style="font:600 8px var(--font);color:var(--dim);text-transform:uppercase;letter-spacing:.1em">Total Mentions</div></div>'
+    +'<div style="background:#0A0A0E;border-radius:8px;padding:10px;text-align:center;border:1px solid var(--border);"><div style="font:800 18px var(--font);color:var(--pos)">'+gv(s,"by_sentiment.positive",0)+'</div><div style="font:600 8px var(--font);color:var(--dim);text-transform:uppercase;letter-spacing:.1em">Positive</div></div>'
+    +'<div style="background:#0A0A0E;border-radius:8px;padding:10px;text-align:center;border:1px solid var(--border);"><div style="font:800 18px var(--font);color:#FF5252">'+gv(s,"negative_alert_count",0)+'</div><div style="font:600 8px var(--font);color:var(--dim);text-transform:uppercase;letter-spacing:.1em">Negative Alerts</div></div>'
+    +'</div>'
+    +'<div style="font:500 9px var(--font);color:var(--dim);padding:6px 10px;background:#0A0A0E;border-radius:6px;border:1px solid var(--border);">'
+    +'Crawl sources: '+JSON.stringify(gv(s,"crawl_sources",[]).length||8)+' sources &bull; Next crawl in: ~'+document.getElementById("nextCrawl").textContent
+    +'</div></div>';
+}
+
+function updateNS() {
+  var total=gv(CRAWL,"summary.total_mentions",0),pos=gv(CRAWL,"summary.by_sentiment.positive",0),neg=gv(CRAWL,"summary.by_sentiment.negative",0),goal=CFG.goal||500;
+  var pct=Math.min(100,Math.round(total/goal*100));
+  document.getElementById("nsCount").textContent=total.toLocaleString();
+  document.getElementById("nsGoal").textContent=goal.toLocaleString();
+  document.getElementById("nsFill").style.width=pct+"%";
+  document.getElementById("nsPct").textContent=pct+"% \u00b7 "+Math.max(0,goal-total)+" remaining";
+  document.getElementById("b_total").textContent=fN(total);
+  document.getElementById("b_pos").textContent=fN(pos);
+  document.getElementById("b_neg").textContent=fN(neg);
 }
 
 function updateKPIs() {
-  var byP = getSummaryVal("by_platform", {});
-  var pg = getSummaryVal("platform_groups", {});
-  var loaded = !!CRAWL.summary;
-  var aggCnt = 0;
-  if (pg.aggregators) aggCnt = pg.aggregators.count || 0;
-  var socCnt = 0;
-  if (pg.social_media) socCnt = pg.social_media.count || 0;
-  var kpis = [
-    { id: "reddit",   n: byP.reddit || 0 },
-    { id: "quora",    n: byP.quora || 0 },
-    { id: "youtube",  n: byP.youtube || 0 },
-    { id: "medium",   n: byP.medium || 0 },
-    { id: "newspaper",n: byP.newspaper || 0 },
-    { id: "agg",      n: aggCnt },
-    { id: "social",   n: socCnt },
-    { id: "web",      n: byP.web || 0 }
+  var byP=gv(CRAWL,"summary.by_platform",{}),pg=gv(CRAWL,"summary.platform_groups",{});
+  var loaded=!!CRAWL.summary;
+  var map=[
+    {id:"reddit",n:byP.reddit||0},{id:"quora",n:byP.quora||0},{id:"youtube",n:byP.youtube||0},
+    {id:"medium",n:byP.medium||0},{id:"news",n:byP.newspaper||0},
+    {id:"agg",n:gv(pg,"aggregators.count",0)},{id:"social",n:gv(pg,"social_media.count",0)},{id:"web",n:byP.web||0}
   ];
-  kpis.forEach(function(k) {
-    var nd = document.getElementById("kn_" + k.id);
-    var dd = document.getElementById("kd_" + k.id);
-    if (nd) nd.textContent = loaded ? fN(k.n) : "\u2014";
-    if (dd) dd.className = "kd " + (loaded && k.n > 0 ? "live" : loaded ? "stale" : "");
+  map.forEach(function(k) {
+    var nd=document.getElementById("kn_"+k.id),dd=document.getElementById("kd_"+k.id);
+    if(nd)nd.textContent=loaded?fN(k.n):"--";
+    if(dd)dd.className="kd "+(loaded&&k.n>0?"live":loaded?"stale":"");
   });
 }
 
 // ============================================================
 // OVERVIEW
 // ============================================================
-function renderOverview() {
-  renderActions();
-  renderSentPie();
-  renderPlatBar();
-  renderNegFeed();
-}
+function renderOverview() { renderActions(); renderSentPie(); renderPlatBar(); renderNegFeed(); }
 
 function renderActions() {
-  var acts = [];
-  if (!CFG.repo) acts.push({ t: "Open \u2699 Settings \u2192 enter your GitHub repo path (e.g. adirispol/ORM-Dashboard) to load crawled data.", p: "h" });
-  else if (!CRAWL.summary) acts.push({ t: "Crawl data not found. Go to your GitHub repo \u2192 Actions \u2192 Polaris ORM Crawler \u2192 Run workflow (first run takes 3\u20135 min).", p: "h" });
-  var neg = getSummaryVal("negative_alert_count", 0);
-  if (neg > 3) acts.push({ t: neg + " negative mentions detected. Go to Live Listening \u2192 filter Negative to review and respond.", p: "h" });
-  if (!CFG.apis.youtube) acts.push({ t: "Add YouTube API key in \u2699 Settings for better YouTube coverage.", p: "m" });
-  if (!CFG.apis.newsapi) acts.push({ t: "Add NewsAPI key in \u2699 Settings for 70k+ news source coverage.", p: "m" });
-  var redditN = getSummaryVal("by_platform.reddit", 0);
-  if (redditN > 0) acts.push({ t: redditN + " Reddit mentions found. Check Live Listening \u2192 filter Reddit.", p: "l" });
-  if (!acts.length) acts.push({ t: "Crawler running. All mentions auto-collected every 2.5 hours.", p: "l" });
-  var lbl = { h: "HIGH", m: "MED", l: "LOW" };
-  var html = "";
-  for (var i = 0; i < Math.min(5, acts.length); i++) {
-    html += '<div class="act"><div class="act-n">' + (i+1) + '</div><div class="act-t">' + esc(acts[i].t) + '<span class="abadge act-' + acts[i].p + '">' + lbl[acts[i].p] + '</span></div></div>';
-  }
-  document.getElementById("actList").innerHTML = html;
+  var acts=[];
+  if(!CFG.repo) acts.push({t:"Open \u2699 Settings \u2192 Config tab \u2192 enter your GitHub repo path to load crawl data.",p:"h"});
+  else if(!CRAWL.summary) acts.push({t:"Crawl data not found. Go to GitHub \u2192 Actions \u2192 Polaris ORM Crawler \u2192 Run workflow (first run ~5 min).",p:"h"});
+  var neg=gv(CRAWL,"summary.negative_alert_count",0);
+  if(neg>3) acts.push({t:neg+" negative mentions found! Check Live Listening \u2192 filter Negative to review.",p:"h"});
+  if(!CFG.apis.youtube&&CRAWL.summary) acts.push({t:"Add free YouTube API key in \u2699 Settings for full YouTube coverage.",p:"m"});
+  if(!CFG.apis.newsapi&&CRAWL.summary) acts.push({t:"Add free NewsAPI key in \u2699 Settings for 70,000+ news source coverage.",p:"m"});
+  var r=gv(CRAWL,"summary.by_platform.reddit",0);
+  if(r>0) acts.push({t:r+" Reddit mentions found. Check Live Listening \u2192 Reddit filter.",p:"l"});
+  if(!acts.length) acts.push({t:"Crawler is running. All mentions auto-collected every 2.5 hours. Check Analytics for trends.",p:"l"});
+  var lbl={h:"HIGH",m:"MED",l:"LOW"};
+  document.getElementById("actList").innerHTML=acts.slice(0,5).map(function(a,i){
+    return '<div class="act"><div class="act-n">'+(i+1)+'</div><div class="act-t">'+esc(a.t)+'<span class="abadge ab-'+a.p+'">'+lbl[a.p]+'</span></div></div>';
+  }).join("");
 }
 
 function renderSentPie() {
-  var s = getSummaryVal("by_sentiment", {});
-  mkChart("sentPie", "doughnut",
-    ["Positive","Neutral","Mixed","Negative"],
-    [{ data: [s.positive||0, s.neutral||0, s.mixed||0, s.negative||0],
-       backgroundColor: ["rgba(0,230,118,.7)","rgba(120,144,156,.5)","rgba(255,152,0,.6)","rgba(255,23,68,.65)"],
-       borderColor: ["#00E676","#78909C","#FF9800","#FF1744"], borderWidth: 2 }],
-    { cutout: "55%" });
+  var s=gv(CRAWL,"summary.by_sentiment",{});
+  mkChart("sentPie","doughnut",["Positive","Neutral","Mixed","Negative"],[{data:[s.positive||0,s.neutral||0,s.mixed||0,s.negative||0],backgroundColor:["rgba(0,200,83,.7)","rgba(120,144,156,.5)","rgba(255,152,0,.6)","rgba(186,14,19,.7)"],borderColor:["#00C853","#78909C","#FF9800","#BA0E13"],borderWidth:2}],{cutout:"55%"});
 }
 
 function renderPlatBar() {
-  var bp = getSummaryVal("by_platform", {});
-  var entries = Object.keys(bp).map(function(k) { return [k, bp[k]]; }).sort(function(a,b){ return b[1]-a[1]; }).slice(0,8);
-  mkChart("platBar", "bar",
-    entries.map(function(x){ return x[0]; }),
-    [{ label: "Mentions", data: entries.map(function(x){ return x[1]; }),
-       backgroundColor: entries.map(function(x){ return pCol(x[0]) + "88"; }),
-       borderColor: entries.map(function(x){ return pCol(x[0]); }),
-       borderWidth: 1.5, borderRadius: 5 }],
-    { scales: { x: { grid: { color: "rgba(255,255,255,0.02)" }, ticks: { color: "#445", maxRotation: 30 } }, y: { grid: { color: "rgba(255,255,255,0.03)" }, ticks: { color: "#445" } } } });
+  var bp=gv(CRAWL,"summary.by_platform",{});
+  var e=Object.keys(bp).map(function(k){return[k,bp[k]];}).sort(function(a,b){return b[1]-a[1];}).slice(0,8);
+  mkChart("platBar","bar",e.map(function(x){return x[0];}),
+    [{label:"Mentions",data:e.map(function(x){return x[1];}),backgroundColor:e.map(function(x){return pCol(x[0])+"88";}),borderColor:e.map(function(x){return pCol(x[0]);}),borderWidth:1.5,borderRadius:6}],
+    {scales:{x:{grid:{color:"rgba(255,255,255,0.02)"},ticks:{color:"#445",maxRotation:30,font:{family:"Montserrat",size:9}}},y:{grid:{color:"rgba(255,255,255,0.03)"},ticks:{color:"#445",font:{family:"Montserrat",size:9}}}}});
 }
 
 function renderNegFeed() {
-  var all = filterDate(allMentions());
-  var negs = [];
-  for (var i = 0; i < all.length && negs.length < 10; i++) {
-    if (all[i].sentiment === "negative") negs.push(all[i]);
-  }
-  var el = document.getElementById("negFeed");
-  if (!negs.length) { el.innerHTML = '<div class="empty"><div class="ei">&#9989;</div><p>No negative mentions in this period.</p></div>'; return; }
-  var html = "";
-  negs.forEach(function(m) {
-    var col = pCol(m.platform);
-    html += '<div class="fc"><div class="fc-top"><div class="fc-title">' + esc(trunc(m.title || m.snippet, 100)) + '</div><span class="sb neg">Negative</span></div>';
-    html += '<div class="fc-meta"><div class="pip" style="background:' + col + '"></div><span>' + esc(m.platform || "") + '</span>';
-    if (m.url) html += '<span>\u00b7</span><a href="' + esc(m.url) + '" target="_blank" class="lb" style="font-size:9px">View</a>';
-    html += '</div></div>';
-  });
-  el.innerHTML = html;
+  var all=filterDate(allMents()), negs=[], i=0;
+  for(;i<all.length&&negs.length<10;i++) if(all[i].sentiment==="negative")negs.push(all[i]);
+  var el=document.getElementById("negFeed");
+  if(!negs.length){el.innerHTML='<div class="empty"><div class="ei">&#9989;</div><p>No negative mentions in this period.</p></div>';return;}
+  el.innerHTML=negs.map(function(m){
+    return '<div class="fc"><div class="fc-top"><div class="fc-title">'+esc(trunc(m.title||m.snippet,100))+'</div><span class="sb neg">Negative</span></div>'
+      +'<div class="fc-meta"><div class="pip" style="background:'+pCol(m.platform)+'"></div><span>'+esc(m.platform||"")+'</span>'
+      +(m.url?'<span>&middot;</span><a href="'+esc(m.url)+'" target="_blank" class="link-btn" style="font-size:9px">View &#8599;</a>':'')
+      +'</div></div>';
+  }).join("");
 }
 
 // ============================================================
 // LIVE LISTENING
 // ============================================================
 function renderListening() {
-  renderCatChart();
-  renderSentTimeChart();
-  renderTopSrcs();
-  renderMentions();
-  var total = filterDate(allMentions()).length;
-  document.getElementById("mentTotal").textContent = total;
+  var all=filterDate(allMents());
+  document.getElementById("mentTotal").textContent=all.length;
+  renderCatChart(all); renderSentTime(all); renderTopSrcs(); renderMentions();
 }
 
-function renderCatChart() {
-  var bc = getSummaryVal("by_category", {});
-  var entries = Object.keys(bc).map(function(k){ return [k,bc[k]]; }).sort(function(a,b){ return b[1]-a[1]; }).slice(0,8);
-  mkChart("catChart", "bar",
-    entries.map(function(x){ return x[0]; }),
-    [{ label: "Count", data: entries.map(function(x){ return x[1]; }),
-       backgroundColor: "rgba(41,121,255,.55)", borderColor: "#2979FF", borderWidth: 1.5, borderRadius: 4 }],
-    { indexAxis: "y", scales: { x: { grid: { color: "rgba(255,255,255,0.02)" }, ticks: { color: "#445" } }, y: { grid: { display: false }, ticks: { color: "#AAB" } } } });
+function renderCatChart(all) {
+  var bc=gv(CRAWL,"summary.by_category",{}),e=Object.keys(bc).map(function(k){return[k,bc[k]];}).sort(function(a,b){return b[1]-a[1];}).slice(0,8);
+  mkChart("catChart","bar",e.map(function(x){return x[0];}),
+    [{label:"Count",data:e.map(function(x){return x[1];}),backgroundColor:"rgba(41,121,255,.5)",borderColor:"#2979FF",borderWidth:1.5,borderRadius:5}],
+    {indexAxis:"y",scales:{x:{grid:{color:"rgba(255,255,255,0.02)"},ticks:{color:"#445",font:{size:9,family:"Montserrat"}}},y:{grid:{display:false},ticks:{color:"#9A9AB0",font:{size:9,family:"Montserrat"}}}}});
 }
 
-function renderSentTimeChart() {
-  var all = filterDate(allMentions());
-  var byDate = {};
-  all.forEach(function(m) {
-    var d = (m.date || "").slice(0,10);
-    if (!d) return;
-    if (!byDate[d]) byDate[d] = { pos: 0, neg: 0 };
-    if (m.sentiment === "positive") byDate[d].pos++;
-    if (m.sentiment === "negative") byDate[d].neg++;
-  });
-  var dates = Object.keys(byDate).sort().slice(-14);
-  mkChart("sentTime", "line", dates, [
-    { label: "Positive", data: dates.map(function(d){ return byDate[d].pos; }), borderColor: "#00E676", backgroundColor: "rgba(0,230,118,.1)", tension: .4, fill: true, pointRadius: 3, borderWidth: 2 },
-    { label: "Negative", data: dates.map(function(d){ return byDate[d].neg; }), borderColor: "#FF1744", backgroundColor: "rgba(255,23,68,.1)", tension: .4, fill: true, pointRadius: 3, borderWidth: 2 }
-  ], { scales: { x: { grid: { color: "rgba(255,255,255,0.02)" }, ticks: { color: "#445", maxRotation: 30 } }, y: { grid: { color: "rgba(255,255,255,0.03)" }, ticks: { color: "#445" } } } });
+function renderSentTime(all) {
+  var bd={};
+  all.forEach(function(m){var d=(m.date||"").slice(0,10);if(!d)return;if(!bd[d])bd[d]={pos:0,neg:0};if(m.sentiment==="positive")bd[d].pos++;if(m.sentiment==="negative")bd[d].neg++;});
+  var dates=Object.keys(bd).sort().slice(-14);
+  mkChart("sentTime","line",dates,[
+    {label:"Positive",data:dates.map(function(d){return bd[d].pos;}),borderColor:"#00C853",backgroundColor:"rgba(0,200,83,.08)",tension:.4,fill:true,pointRadius:3,borderWidth:2},
+    {label:"Negative",data:dates.map(function(d){return bd[d].neg;}),borderColor:"#BA0E13",backgroundColor:"rgba(186,14,19,.08)",tension:.4,fill:true,pointRadius:3,borderWidth:2}
+  ],{scales:{x:{grid:{color:"rgba(255,255,255,0.02)"},ticks:{color:"#445",maxRotation:30,font:{size:9,family:"Montserrat"}}},y:{grid:{color:"rgba(255,255,255,0.03)"},ticks:{color:"#445",font:{size:9,family:"Montserrat"}}}}});
 }
 
 function renderTopSrcs() {
-  var bp = getSummaryVal("by_platform", {});
-  var total = getSummaryVal("total_mentions", 1) || 1;
-  var entries = Object.keys(bp).map(function(k){ return [k, bp[k]]; }).sort(function(a,b){ return b[1]-a[1]; }).slice(0,6);
-  var el = document.getElementById("topSrcs");
-  if (!entries.length) { el.innerHTML = '<div class="empty"><div class="ei">&#128225;</div><p>Configure repo in &#9881; Settings.</p></div>'; return; }
-  var html = "";
-  entries.forEach(function(e) {
-    var pct = Math.round(e[1] / total * 100);
-    html += '<div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--border)">';
-    html += '<div style="width:9px;height:9px;border-radius:50%;background:' + pCol(e[0]) + ';flex-shrink:0"></div>';
-    html += '<div style="flex:1;font-size:11px;color:var(--text);font-weight:500">' + esc(e[0]) + '</div>';
-    html += '<div style="font-size:14px;font-weight:700;color:' + pCol(e[0]) + '">' + fN(e[1]) + '</div>';
-    html += '<div style="font-size:9px;color:var(--dim);min-width:28px;text-align:right">' + pct + '%</div>';
-    html += '</div>';
-  });
-  el.innerHTML = html;
+  var bp=gv(CRAWL,"summary.by_platform",{}),tot=gv(CRAWL,"summary.total_mentions",1)||1;
+  var e=Object.keys(bp).map(function(k){return[k,bp[k]];}).sort(function(a,b){return b[1]-a[1];}).slice(0,6);
+  var el=document.getElementById("topSrcs");
+  if(!e.length){el.innerHTML='<div class="empty"><div class="ei">&#128225;</div><p>Configure repo in Settings.</p></div>';return;}
+  el.innerHTML=e.map(function(x){
+    var pct=Math.round(x[1]/tot*100);
+    return '<div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--border)">'
+      +'<div style="width:9px;height:9px;border-radius:50%;background:'+pCol(x[0])+';flex-shrink:0"></div>'
+      +'<div style="flex:1;font:600 11px var(--font);color:var(--text)">'+esc(x[0])+'</div>'
+      +'<div style="font:800 14px var(--font);color:'+pCol(x[0])+'">'+fN(x[1])+'</div>'
+      +'<div style="font:600 9px var(--font);color:var(--dim);min-width:28px;text-align:right">'+pct+'%</div>'
+      +'</div>';
+  }).join("");
 }
 
-function setMentFilter(f, btn) {
-  mentFilter = f;
-  document.querySelectorAll("[id^='mf_']").forEach(function(b) { b.classList.remove("on"); });
-  if (btn) btn.classList.add("on");
+function setMF(f,btn) {
+  mentFilter=f;
+  document.querySelectorAll("[id^='mf_']").forEach(function(b){b.classList.remove("on");});
+  if(btn)btn.classList.add("on");
   renderMentions();
 }
 
 function renderMentions() {
-  var all = filterDate(allMentions());
-  if (mentFilter !== "all") {
-    all = all.filter(function(m) { return m.sentiment === mentFilter; });
-  }
-  var pf = document.getElementById("platFilt");
-  if (pf && pf.value) {
-    var pfv = pf.value;
-    all = all.filter(function(m) { return m.platform === pfv || (m.subcategory && m.subcategory.indexOf(pfv) !== -1); });
-  }
-  var el = document.getElementById("mentTable");
-  if (!all.length) {
-    el.innerHTML = '<div class="empty"><div class="ei">&#128461;</div><p>' + (allMentions().length ? "No mentions match this filter." : "Crawl data not loaded. Check \u2699 Settings \u2192 repo path.") + '</p></div>';
-    return;
-  }
-  var shown = all.slice(0, 100);
-  var html = '<div class="tw"><table><thead><tr><th>Platform</th><th>Category</th><th>Title / Snippet</th><th>Author</th><th>Link</th><th>Sentiment</th><th>Date</th></tr></thead><tbody>';
-  shown.forEach(function(m) {
-    html += '<tr>';
-    html += '<td><span style="color:' + pCol(m.platform) + ';font-weight:600">' + esc(m.platform || "") + '</span></td>';
-    html += '<td style="color:var(--muted)">' + esc(m.category || "\u2014") + '</td>';
-    html += '<td style="max-width:280px">' + esc(trunc(m.title || m.snippet, 80)) + '</td>';
-    html += '<td style="color:var(--dim)">' + esc(trunc(m.author, 25)) + '</td>';
-    html += '<td>' + (m.url ? '<a href="' + esc(m.url) + '" target="_blank" class="lb">View</a>' : '\u2014') + '</td>';
-    html += '<td><span class="sb ' + sentCls(m.sentiment) + '">' + sentLabel(m.sentiment) + '</span></td>';
-    html += '<td style="color:var(--dim);white-space:nowrap">' + esc((m.date || "").slice(0,10)) + '</td>';
-    html += '</tr>';
-  });
-  html += '</tbody></table></div>';
-  el.innerHTML = html;
+  var all=filterDate(allMents());
+  if(mentFilter!=="all") all=all.filter(function(m){return m.sentiment===mentFilter;});
+  var pf=document.getElementById("platFilt"); if(pf&&pf.value) all=all.filter(function(m){return m.platform===pf.value||((m.subcategory||"").indexOf(pf.value)!==-1);});
+  var el=document.getElementById("mentTable");
+  if(!all.length){el.innerHTML='<div class="empty"><div class="ei">&#128461;</div><p>'+(allMents().length?"No mentions match filter.":"Crawl data not loaded. Check Settings \u2192 Config \u2192 Repo path.")+'</p></div>';return;}
+  var shown=all.slice(0,100);
+  el.innerHTML='<div class="tw"><table><thead><tr><th>Platform</th><th>Category</th><th>Title / Snippet</th><th>Author</th><th>Link</th><th>Sentiment</th><th>Date</th></tr></thead><tbody>'
+    +shown.map(function(m){return'<tr><td><span style="color:'+pCol(m.platform)+';font:700 10px var(--font)">'+esc(m.platform||"")+'</span></td><td style="color:var(--muted);font-size:10px">'+esc(m.category||"--")+'</td><td style="max-width:260px;font-size:11px">'+esc(trunc(m.title||m.snippet,75))+'</td><td style="color:var(--dim);font-size:10px">'+esc(trunc(m.author,22))+'</td><td>'+(m.url?'<a href="'+esc(m.url)+'" target="_blank" class="link-btn">View &#8599;</a>':"--")+'</td><td><span class="sb '+sCls(m.sentiment)+'">'+sLbl(m.sentiment)+'</span></td><td style="color:var(--dim);font-size:9px;white-space:nowrap">'+esc((m.date||"").slice(0,10))+'</td></tr>';}).join("")
+    +'</tbody></table></div>';
 }
 
 // ============================================================
-// MY CONTENT (Google Sheets)
+// MY CONTENT (SHEETS)
 // ============================================================
 function renderMyContent() {
   Object.keys(CFG.sheets).forEach(function(key) {
-    var err = SHEETS[key + "_err"];
-    var rows = SHEETS[key] || [];
-    var tag = document.getElementById("pbt_" + key);
-    if (tag) {
-      if (rows.length) { tag.className = "pb-tag pba"; tag.textContent = rows.length + " rows"; }
-      else if (err === "no_sheet") { tag.className = "pb-tag pbo"; tag.textContent = "No Sheet"; }
-      else if (err) { tag.className = "pb-tag pbo"; tag.textContent = "Error"; }
-      else { tag.className = "pb-tag pbo"; tag.textContent = "No Sheet"; }
-    }
-    var ct = document.getElementById("ct_" + key);
-    if (!ct) return;
-    if (!err && !rows.length) {
-      ct.innerHTML = '<div class="empty"><div class="ei">&#128461;</div><p>Add Sheet ID + GID in &#9881; Settings &#8594; My Content</p></div>';
-      return;
-    }
-    if (err === "no_sheet") {
-      ct.innerHTML = '<div class="empty"><div class="ei">&#128203;</div><p>Add ' + esc(SHEET_LABELS[key]) + ' Sheet ID + GID in &#9881; Settings</p><small>Settings &#8594; My Content &#8594; Sheet ID and GID from URL</small></div>';
-      return;
-    }
-    if (err === "not_published") {
-      ct.innerHTML = '<div class="emsg">Sheet not published as CSV. Go to Google Sheets &#8594; File &#8594; Share &#8594; Publish to web &#8594; select tab &#8594; CSV &#8594; Publish</div>';
-      return;
-    }
-    if (err) {
-      ct.innerHTML = '<div class="emsg">Error loading sheet: ' + esc(err) + '</div>';
-      return;
-    }
-    ct.innerHTML = buildSheetTable(rows, key);
+    var err=SHEETS[key+"_err"], rows=SHEETS[key]||[];
+    var tag=document.getElementById("pbt_"+key);
+    if(tag){if(rows.length){tag.className="pb-tag tag-auto";tag.textContent=rows.length+" rows";}else if(err==="no_sheet"){tag.className="pb-tag tag-off";tag.textContent="No Sheet";}else if(err){tag.className="pb-tag tag-off";tag.textContent="Error";}else{tag.className="pb-tag tag-off";tag.textContent="No Sheet";}}
+    var ct=document.getElementById("ct_"+key); if(!ct)return;
+    if(!err&&!rows.length){ct.innerHTML='<div class="empty"><div class="ei">&#128461;</div><p>Add Sheet ID + GID in Settings \u2192 Sheets tab</p></div>';return;}
+    if(err==="no_sheet"){ct.innerHTML='<div class="empty"><div class="ei">&#128203;</div><p>Add Sheet ID + GID in &#9881; Settings &#8594; Sheets tab</p><small>Sheet ID from URL, GID from tab URL #gid=NUMBER</small></div>';return;}
+    if(err==="not_published"){ct.innerHTML='<div class="err-box">Sheet not published as CSV.<br>Google Sheets &#8594; File &#8594; Share &#8594; Publish to web &#8594; tab &#8594; CSV &#8594; Publish</div>';return;}
+    if(err){ct.innerHTML='<div class="err-box">Error: '+esc(err)+'</div>';return;}
+    ct.innerHTML=buildSheetTable(rows,key);
   });
 }
 
-function buildSheetTable(rows, key) {
-  if (!rows.length) return '<div class="empty"><div class="ei">&#128461;</div><p>No data found. Check tab name in &#9881; Settings.</p></div>';
-  var headers;
-  if (key === "s_reddit") headers = ["Date","Type","Question","Post Link","Post Impressions","Sentiment"];
-  else if (key === "s_quora") headers = ["Date","Question","Answer Live Link","Impressions","Sentiment"];
-  else if (key === "s_pstQuora") headers = ["Sr. No.","Question","Live Link","Impressions","Sentiment"];
-  else if (key === "s_youtube") headers = ["Date","Channel Name","Type","Video Link","Comments Seeded"];
-  else if (key === "s_newspaper") headers = ["Publication Name","Language","Publish Date","Headline","Published Link","Sentiment"];
-  else if (key === "s_medium") headers = ["Date","Title","Author","Live Link","Reads","Sentiment"];
-  else { headers = Object.keys(rows[0]); }
-  var th = headers.map(function(h){ return '<th>' + esc(h) + '</th>'; }).join("");
-  var tr = rows.map(function(row) {
-    var cells = headers.map(function(h) {
-      var v = row[h] || "";
-      if ((h.indexOf("Link") !== -1 || h.indexOf("link") !== -1) && v.indexOf("http") === 0) {
-        return '<td><a href="' + esc(v) + '" target="_blank" class="lb">View</a></td>';
-      }
-      if (h === "Sentiment") return '<td><span class="sb ' + sentCls(v) + '">' + sentLabel(v) + '</span></td>';
-      if (h === "Post Impressions" || h === "Impressions" || h === "Reads" || h === "Comments Seeded") {
-        return '<td style="text-align:right;font-weight:600;color:var(--gold)">' + esc(v) + '</td>';
-      }
-      return '<td>' + esc(trunc(v, 50)) + '</td>';
-    }).join("");
-    return '<tr>' + cells + '</tr>';
-  }).join("");
-  return '<div class="tw"><table><thead><tr>' + th + '</tr></thead><tbody>' + tr + '</tbody></table></div>';
+function buildSheetTable(rows,key) {
+  if(!rows.length)return'<div class="empty"><div class="ei">&#128461;</div><p>No data. Check tab name in Settings.</p></div>';
+  var hdrs;
+  if(key==="s_reddit")hdrs=["Date","Type","Question","Post Link","Post Impressions","Sentiment"];
+  else if(key==="s_quora")hdrs=["Date","Question","Answer Live Link","Impressions","Sentiment"];
+  else if(key==="s_pstQuora")hdrs=["Sr. No.","Question","Live Link","Impressions","Sentiment"];
+  else if(key==="s_youtube")hdrs=["Date","Channel Name","Type","Video Link","Comments Seeded"];
+  else if(key==="s_newspaper")hdrs=["Publication Name","Language","Publish Date","Headline","Published Link","Sentiment"];
+  else if(key==="s_medium")hdrs=["Date","Title","Author","Live Link","Reads","Sentiment"];
+  else hdrs=Object.keys(rows[0]);
+  return'<div class="tw"><table><thead><tr>'+hdrs.map(function(h){return'<th>'+esc(h)+'</th>';}).join("")+'</tr></thead><tbody>'
+    +rows.map(function(row){return'<tr>'+hdrs.map(function(h){var v=row[h]||"";
+      if((h.toLowerCase().indexOf("link")!==-1||h.toLowerCase().indexOf("url")!==-1)&&v.indexOf("http")===0)return'<td><a href="'+esc(v)+'" target="_blank" class="link-btn">View &#8599;</a></td>';
+      if(h==="Sentiment")return'<td><span class="sb '+sCls(v)+'">'+sLbl(v)+'</span></td>';
+      if(h==="Post Impressions"||h==="Impressions"||h==="Reads"||h==="Comments Seeded")return'<td style="text-align:right;font:700 11px var(--font);color:var(--gold)">'+esc(v)+'</td>';
+      return'<td style="font-size:11px">'+esc(trunc(v,48))+'</td>';
+    }).join("")+'</tr>';}).join("")+'</tbody></table></div>';
 }
 
 // ============================================================
 // COMPETITORS
 // ============================================================
 function renderCompetitors() {
-  var all = allMentions();
-  var comps = [{ name: "PST", pos: getSummaryVal("by_sentiment.positive", 0), neg: getSummaryVal("by_sentiment.negative", 0) }];
-  (CFG.competitors || []).slice(0,5).forEach(function(comp) {
-    var kw = comp.split(" ")[0].toLowerCase();
-    var r = all.filter(function(m) { return (m.title || m.snippet || "").toLowerCase().indexOf(kw) !== -1; });
-    var pos = 0, neg = 0;
-    r.forEach(function(m) { if (m.sentiment === "positive") pos++; if (m.sentiment === "negative") neg++; });
-    comps.push({ name: comp.split(" ")[0], pos: pos, neg: neg });
+  var all=allMents(), kws=(CFG.kwComp||[]).map(function(c){return c.split(" ")[0].toLowerCase();});
+  var comps=[{name:"PST",pos:gv(CRAWL,"summary.by_sentiment.positive",0),neg:gv(CRAWL,"summary.by_sentiment.negative",0)}];
+  (CFG.kwComp||[]).slice(0,5).forEach(function(comp){
+    var kw=comp.split(" ")[0].toLowerCase();
+    var r=all.filter(function(m){return(m.title||m.snippet||"").toLowerCase().indexOf(kw)!==-1;});
+    var pos=0,neg=0; r.forEach(function(m){if(m.sentiment==="positive")pos++;if(m.sentiment==="negative")neg++;});
+    comps.push({name:comp.split(" ")[0],pos:pos,neg:neg});
   });
-  mkChart("compBar", "bar",
-    comps.map(function(x){ return x.name; }),
-    [
-      { label: "Positive", data: comps.map(function(x){ return x.pos; }), backgroundColor: "rgba(0,230,118,.5)", borderRadius: 4 },
-      { label: "Negative", data: comps.map(function(x){ return x.neg; }), backgroundColor: "rgba(255,23,68,.4)", borderRadius: 4 }
-    ],
-    { scales: { x: { grid: { color: "rgba(255,255,255,0.02)" }, ticks: { color: "#AAB" } }, y: { grid: { color: "rgba(255,255,255,0.03)" }, ticks: { color: "#445" } } } });
-
-  // Feed
-  var compMentions = [];
-  var compKws = (CFG.competitors || []).map(function(c){ return c.split(" ")[0].toLowerCase(); });
-  for (var i = 0; i < all.length && compMentions.length < 15; i++) {
-    var text = (all[i].title || all[i].snippet || "").toLowerCase();
-    for (var j = 0; j < compKws.length; j++) {
-      if (text.indexOf(compKws[j]) !== -1) { compMentions.push(all[i]); break; }
-    }
-  }
-  var feed = document.getElementById("compFeed");
-  if (!compMentions.length) {
-    feed.innerHTML = '<div class="empty"><div class="ei">&#127942;</div><p>No competitor mentions in crawled data yet. Configure repo in &#9881; Settings and run first crawl.</p></div>';
-  } else {
-    var html = "";
-    compMentions.forEach(function(m) {
-      html += '<div class="fc"><div class="fc-top"><div class="fc-title">' + esc(trunc(m.title || m.snippet, 100)) + '</div><span class="sb ' + sentCls(m.sentiment) + '">' + sentLabel(m.sentiment) + '</span></div>';
-      html += '<div class="fc-meta"><div class="pip" style="background:' + pCol(m.platform) + '"></div><span>' + esc(m.platform || "") + '</span>';
-      if (m.url) html += '<span>\u00b7</span><a href="' + esc(m.url) + '" target="_blank" class="lb" style="font-size:9px">View</a>';
-      html += '</div></div>';
-    });
-    feed.innerHTML = html;
-  }
-
-  // Radar
-  var hasReddit = crawlMentions("reddit").length > 0;
-  var hasNews = crawlMentions("news").length > 0;
-  var hasSocial = getSummaryVal("platform_groups.social_media.count", 0) > 0;
-  var hasAgg = getSummaryVal("platform_groups.aggregators.count", 0) > 0;
-  mkChart("radarChart", "radar",
-    ["Sentiment","Volume","News","Social","Portals"],
-    [
-      { label: "PST", data: [75, hasReddit?70:10, hasNews?65:10, hasSocial?60:10, hasAgg?70:10], borderColor: "#FFCC3F", backgroundColor: "rgba(255,204,63,.15)", pointRadius: 3 },
-      { label: "Competitors", data: [45, 60, 45, 55, 50], borderColor: "#FF9A3F", backgroundColor: "rgba(255,154,63,.08)", pointRadius: 3 }
-    ],
-    { scales: { r: { grid: { color: "rgba(255,255,255,0.06)" }, ticks: { display: false }, pointLabels: { color: "#556", font: { size: 10 } } } } });
+  mkChart("compBar","bar",comps.map(function(x){return x.name;}),
+    [{label:"Positive",data:comps.map(function(x){return x.pos;}),backgroundColor:"rgba(0,200,83,.5)",borderRadius:5},
+     {label:"Negative",data:comps.map(function(x){return x.neg;}),backgroundColor:"rgba(186,14,19,.45)",borderRadius:5}],
+    {scales:{x:{grid:{color:"rgba(255,255,255,0.02)"},ticks:{color:"#9A9AB0",font:{size:10,family:"Montserrat"}}},y:{grid:{color:"rgba(255,255,255,0.03)"},ticks:{color:"#445",font:{size:9,family:"Montserrat"}}}}});
+  var feed=document.getElementById("compFeed");
+  var cm=[], i=0;
+  for(;i<all.length&&cm.length<15;i++){var txt=(all[i].title||all[i].snippet||"").toLowerCase();for(var j=0;j<kws.length;j++){if(txt.indexOf(kws[j])!==-1){cm.push(all[i]);break;}}}
+  if(!cm.length){feed.innerHTML='<div class="empty"><div class="ei">&#127942;</div><p>No competitor mentions yet. Add competitors in &#9881; Settings &#8594; Keywords tab.</p></div>';}
+  else feed.innerHTML=cm.map(function(m){return'<div class="fc"><div class="fc-top"><div class="fc-title">'+esc(trunc(m.title||m.snippet,100))+'</div><span class="sb '+sCls(m.sentiment)+'">'+sLbl(m.sentiment)+'</span></div><div class="fc-meta"><div class="pip" style="background:'+pCol(m.platform)+'"></div><span>'+esc(m.platform||"")+'</span>'+(m.url?'<span>&middot;</span><a href="'+esc(m.url)+'" target="_blank" class="link-btn" style="font-size:9px">View &#8599;</a>':'')+'</div></div>';}).join("");
+  mkChart("radarChart","radar",["Sentiment","Volume","News","Social","Portals"],
+    [{label:"PST",data:[75,cMents("reddit").length?70:10,cMents("news").length?65:10,gv(CRAWL,"summary.platform_groups.social_media.count",0)?60:10,gv(CRAWL,"summary.platform_groups.aggregators.count",0)?70:10],borderColor:"#FFCC3F",backgroundColor:"rgba(255,204,63,.12)",pointRadius:3,borderWidth:2},
+     {label:"Competitors",data:[45,60,45,55,50],borderColor:"#FF9A3F",backgroundColor:"rgba(255,154,63,.06)",pointRadius:3,borderWidth:2}],
+    {scales:{r:{grid:{color:"rgba(255,255,255,0.06)"},ticks:{display:false},pointLabels:{color:"#5A5A70",font:{size:10,family:"Montserrat"}}}}});
 }
 
 // ============================================================
 // ANALYTICS
 // ============================================================
 function renderAnalytics() {
-  var bp = getSummaryVal("by_platform", {});
-  var entries = Object.keys(bp).map(function(k){ return [k, bp[k]]; }).sort(function(a,b){ return b[1]-a[1]; }).slice(0,6);
-
-  mkChart("mixChart", "doughnut",
-    entries.map(function(x){ return x[0]; }),
-    [{ data: entries.map(function(x){ return x[1]; }),
-       backgroundColor: entries.map(function(x){ return pCol(x[0]) + "88"; }),
-       borderColor: entries.map(function(x){ return pCol(x[0]); }), borderWidth: 2 }],
-    { cutout: "50%" });
-
-  var all = allMentions();
-  var byDate = {};
-  all.forEach(function(m) {
-    var d = (m.date || "").slice(0,10);
-    if (!d) return;
-    byDate[d] = (byDate[d] || 0) + 1;
-  });
-  var dates = Object.keys(byDate).sort().slice(-21);
-  mkChart("trendChart", "line", dates,
-    [{ label: "Daily Mentions", data: dates.map(function(d){ return byDate[d] || 0; }), borderColor: "#FFCC3F", backgroundColor: "rgba(255,204,63,.1)", tension: .4, fill: true, pointRadius: 2, borderWidth: 2 }],
-    { scales: { x: { grid: { color: "rgba(255,255,255,0.02)" }, ticks: { color: "#445", maxRotation: 30 } }, y: { grid: { color: "rgba(255,255,255,0.03)" }, ticks: { color: "#445" } } } });
-
-  var platKeys = ["reddit","quora","youtube","medium","newspaper","web"];
-  var platLabels = ["Reddit","Quora","YouTube","Medium","News","Web"];
-  var platColors = [PCOLS.reddit, PCOLS.quora, PCOLS.youtube, PCOLS.medium, PCOLS.newspaper, PCOLS.web];
-  var html = '<div class="tw"><table><thead><tr><th>Platform</th><th style="color:var(--gold)">Total Found</th><th>Positive</th><th>Negative</th><th>Sentiment</th></tr></thead><tbody>';
-  for (var i = 0; i < platKeys.length; i++) {
-    var r = crawlMentions(platKeys[i]);
-    var pos = 0, neg = 0;
-    r.forEach(function(m) { if (m.sentiment === "positive") pos++; if (m.sentiment === "negative") neg++; });
-    var score = r.length ? Math.round((pos - neg) / r.length * 100) : 0;
-    var scoreCls = score > 0 ? "pos" : score < 0 ? "neg" : "neu";
-    html += '<tr><td style="font-weight:600;color:' + platColors[i] + '">' + platLabels[i] + '</td>';
-    html += '<td style="font-weight:700;color:var(--gold)">' + r.length + '</td>';
-    html += '<td style="color:var(--pos)">' + pos + '</td>';
-    html += '<td style="color:var(--neg)">' + neg + '</td>';
-    html += '<td><span class="sb ' + scoreCls + '">' + (score > 0 ? "+" : "") + score + '</span></td></tr>';
-  }
-  html += '</tbody></table></div>';
-  document.getElementById("perfTable").innerHTML = html;
+  var bp=gv(CRAWL,"summary.by_platform",{}), e=Object.keys(bp).map(function(k){return[k,bp[k]];}).sort(function(a,b){return b[1]-a[1];}).slice(0,6);
+  mkChart("mixChart","doughnut",e.map(function(x){return x[0];}),
+    [{data:e.map(function(x){return x[1];}),backgroundColor:e.map(function(x){return pCol(x[0])+"88";}),borderColor:e.map(function(x){return pCol(x[0]);}),borderWidth:2}],{cutout:"50%"});
+  var all=allMents(),bd={};
+  all.forEach(function(m){var d=(m.date||"").slice(0,10);if(!d)return;bd[d]=(bd[d]||0)+1;});
+  var dates=Object.keys(bd).sort().slice(-21);
+  mkChart("trendChart","line",dates,
+    [{label:"Daily Mentions",data:dates.map(function(d){return bd[d]||0;}),borderColor:"#FFCC3F",backgroundColor:"rgba(255,204,63,.08)",tension:.4,fill:true,pointRadius:2,borderWidth:2}],
+    {scales:{x:{grid:{color:"rgba(255,255,255,0.02)"},ticks:{color:"#445",maxRotation:30,font:{size:9,family:"Montserrat"}}},y:{grid:{color:"rgba(255,255,255,0.03)"},ticks:{color:"#445",font:{size:9,family:"Montserrat"}}}}});
+  var pks=["reddit","quora","youtube","medium","newspaper","web"],pls=["Reddit","Quora","YouTube","Medium","News","Web"],pcs=[PC.reddit,PC.quora,PC.youtube,PC.medium,PC.newspaper,PC.web];
+  var html='<div class="tw"><table><thead><tr><th>Platform</th><th style="color:var(--gold)">Total</th><th>Positive</th><th>Negative</th><th>Score</th></tr></thead><tbody>';
+  for(var i=0;i<pks.length;i++){var r=cMents(pks[i]),pos=0,neg=0;r.forEach(function(m){if(m.sentiment==="positive")pos++;if(m.sentiment==="negative")neg++;});var sc=r.length?Math.round((pos-neg)/r.length*100):0;html+='<tr><td style="font:700 11px var(--font);color:'+pcs[i]+'">'+pls[i]+'</td><td style="font:800 11px var(--font);color:var(--gold)">'+r.length+'</td><td style="color:var(--pos)">'+pos+'</td><td style="color:#FF5252">'+neg+'</td><td><span class="sb '+(sc>0?"pos":sc<0?"neg":"neu")+'">'+(sc>0?"+":"")+sc+'</span></td></tr>';}
+  document.getElementById("perfTable").innerHTML=html+'</tbody></table></div>';
 }
 
 // ============================================================
 // SETTINGS UI
 // ============================================================
+var activeStab = "main";
+function switchStab(name) {
+  ["main","keywords","sheets","debug"].forEach(function(t) {
+    var b=document.getElementById("stab_"+t), bd=document.getElementById("stab_"+t+"_body");
+    if(b){b.style.background=t===name?"rgba(255,204,63,.15)":"";b.style.color=t===name?"var(--gold)":"var(--muted)";}
+    if(bd)bd.style.display=t===name?"block":"none";
+  });
+  activeStab=name;
+  if(name==="debug"){updateCrawlTimeline();renderCrawlStatusBlock(999,null);}
+  if(name==="keywords")renderKwTags();
+  if(name==="sheets")buildSheetCfgs();
+}
+
+function togSg(h) {
+  var b=h.nextElementSibling,a=h.querySelector(".sg-arr");
+  b.classList.toggle("open");
+  if(a)a.innerHTML=b.classList.contains("open")?"&#9650;":"&#9660;";
+}
+
+// KEYWORDS
+function renderKwTags() {
+  renderTagGroup("kwTags_pst",CFG.kwPst||[],"primary");
+  renderTagGroup("kwTags_comp",CFG.kwComp||[],"competitor");
+}
+function renderTagGroup(elId,arr,cls) {
+  var el=document.getElementById(elId); if(!el)return;
+  if(!arr.length){el.innerHTML='<span style="font:500 10px var(--font);color:var(--dim)">No keywords yet. Add below.</span>';return;}
+  el.innerHTML=arr.map(function(kw,i){
+    return'<span class="kw-tag '+cls+'">'+esc(kw)+'<button onclick="removeKw(\''+cls.replace("or","").replace("primary","pst")+'\','+i+')">&#x2715;</button></span>';
+  }).join("");
+}
+function addKw(type) {
+  var inp=document.getElementById("kwInput_"+type); if(!inp)return;
+  var val=inp.value.trim(); if(!val)return;
+  if(type==="pst"){if(!CFG.kwPst)CFG.kwPst=[];CFG.kwPst.push(val);}
+  else{if(!CFG.kwComp)CFG.kwComp=[];CFG.kwComp.push(val);}
+  inp.value="";
+  renderKwTags();
+}
+function removeKw(type,i) {
+  if(type==="pst"&&CFG.kwPst)CFG.kwPst.splice(i,1);
+  else if(type==="comp"&&CFG.kwComp)CFG.kwComp.splice(i,1);
+  renderKwTags();
+}
+
+// SHEETS CONFIG
 function buildSheetCfgs() {
-  var html = "";
+  var html="";
   Object.keys(SHEET_LABELS).forEach(function(key) {
-    var s = CFG.sheets[key] || {};
-    html += '<div style="background:#0A0C14;border:1px solid var(--border);border-radius:9px;padding:12px;margin-bottom:9px">';
-    html += '<div style="font-size:11px;font-weight:600;color:var(--text);margin-bottom:8px">' + esc(SHEET_LABELS[key]) + (s.id ? ' <span style="font-size:9px;font-weight:700;padding:2px 7px;background:rgba(0,230,118,.1);color:var(--pos);border-radius:4px">&#10003; Configured</span>' : '') + '</div>';
-    html += '<div class="g2f">';
-    html += '<div><label class="si-label" style="font-size:9px">Sheet ID</label><input class="si" id="sh_' + key + '_id" value="' + esc(s.id || "") + '" placeholder="1BxiMVs0XR\u2026"><div class="si-hint">From URL: /spreadsheets/d/[THIS]/edit</div></div>';
-    html += '<div><label class="si-label" style="font-size:9px">GID (Tab Number)</label><input class="si" id="sh_' + key + '_gid" value="' + esc(s.gid || "0") + '" placeholder="0"><div class="si-hint">URL: #gid=[THIS] \u00b7 First tab = 0</div></div>';
-    html += '</div>';
-    html += '<div style="margin-top:6px"><label class="si-label" style="font-size:9px">Tab Name (must match exactly)</label><input class="si" id="sh_' + key + '_tab" value="' + esc(s.tab || "") + '" placeholder="' + esc(DEF_CFG.sheets[key] ? DEF_CFG.sheets[key].tab : "") + '"></div>';
-    if (!s.id) html += '<div class="sstatus miss" style="margin-top:6px">Add Sheet ID to show logged content</div>';
-    else html += '<div class="sstatus ok" style="margin-top:6px">&#10003; Configured \u2014 publish tab as CSV to activate</div>';
-    html += '</div>';
+    var s=CFG.sheets[key]||{};
+    html+='<div style="background:#0A0A0E;border:1px solid var(--border);border-radius:10px;padding:13px;margin-bottom:10px;">'
+      +'<div style="font:700 11px var(--font);color:var(--text);margin-bottom:10px">'+esc(SHEET_LABELS[key])+(s.id?'<span class="sstatus ss-ok" style="display:inline-flex;margin-left:8px;padding:2px 8px;">&#10003; Set</span>':'<span style="font:500 9px var(--font);color:var(--dim);margin-left:8px">Optional</span>')+'</div>'
+      +'<div class="g2f"><div><label class="si-label" style="font-size:8px">Sheet ID</label><input class="si" id="sh_'+key+'_id" value="'+esc(s.id||"")+'" placeholder="1BxiMVs0XRA5..."><div class="si-hint">From URL: /d/[THIS]/edit</div></div>'
+      +'<div><label class="si-label" style="font-size:8px">GID (Tab Number)</label><input class="si" id="sh_'+key+'_gid" value="'+esc(s.gid||"0")+'" placeholder="0"><div class="si-hint">URL: #gid=[NUMBER] &bull; 0 = first tab</div></div></div>'
+      +'<div style="margin-top:8px"><label class="si-label" style="font-size:8px">Tab Name (match exactly)</label><input class="si" id="sh_'+key+'_tab" value="'+esc(s.tab||"")+'" placeholder="'+esc(DEF.sheets[key]?DEF.sheets[key].tab:"")+'"></div>'
+      +'</div>';
   });
-  document.getElementById("sheetCfgs").innerHTML = html;
+  document.getElementById("sheetCfgs").innerHTML=html;
 }
 
-function buildCompList() {
-  var comps = CFG.competitors || [];
-  document.getElementById("compCount").textContent = comps.length;
-  document.getElementById("compSlots").textContent = 15 - comps.length;
-  var html = "";
-  comps.forEach(function(c, i) {
-    html += '<div class="comp-row"><input class="si" value="' + esc(c) + '" onchange="CFG.competitors[' + i + ']=this.value" placeholder="Competitor name"><button class="comp-rm" onclick="rmComp(' + i + ')">&#x2715;</button></div>';
-  });
-  document.getElementById("compList").innerHTML = html;
+// API STATUS
+function updateApiStatus(key) {
+  var inp=document.getElementById("api_"+key),el=document.getElementById("ss_"+key); if(!inp||!el)return;
+  var v=inp.value.trim();
+  if(v){el.className="sstatus ss-ok";el.innerHTML="&#10003; Key set &mdash; add to GitHub Secrets too";}
+  else{el.className="sstatus ss-miss";el.textContent=key==="youtube"?"Without key: Google-indexed YouTube only":"Without key: Google News RSS only";}
 }
 
-function addComp() { if ((CFG.competitors || []).length >= 15) return; CFG.competitors.push(""); buildCompList(); }
-function rmComp(i) { CFG.competitors.splice(i, 1); buildCompList(); }
-
-function openSettings() {
-  document.getElementById("s_repo").value = CFG.repo || "";
-  document.getElementById("s_branch").value = CFG.branch || "main";
-  document.getElementById("s_goal").value = CFG.goal || 500;
-  document.getElementById("s_refresh").value = CFG.refresh || 5;
-  var apiIds = ["youtube","newsapi","serpapi","apify","claude"];
-  apiIds.forEach(function(k) {
-    var el = document.getElementById("api_" + k);
-    if (el) el.value = CFG.apis[k] || "";
-  });
-  updateApiStatuses();
-  buildSheetCfgs();
-  buildCompList();
+function openSettings(tab) {
+  document.getElementById("s_repo").value=CFG.repo||"";
+  document.getElementById("s_branch").value=CFG.branch||"main";
+  document.getElementById("s_goal").value=CFG.goal||500;
+  document.getElementById("s_refresh").value=CFG.refresh||5;
+  document.getElementById("api_youtube").value=CFG.apis.youtube||"";
+  document.getElementById("api_newsapi").value=CFG.apis.newsapi||"";
+  updateApiStatus("youtube"); updateApiStatus("newsapi");
+  switchStab(tab||"main");
   document.getElementById("sov").classList.add("on");
   document.getElementById("span").classList.add("on");
 }
@@ -1264,118 +1373,66 @@ function closeSettings() {
   document.getElementById("span").classList.remove("on");
 }
 
-function updateApiStatuses() {
-  var apiDefs = [
-    { id: "youtube", ss: "ss_youtube", ok: "&#10003; YouTube API active \u2014 full video coverage", miss: "Without key: Google-indexed YouTube only" },
-    { id: "newsapi", ss: "ss_newsapi", ok: "&#10003; NewsAPI active \u2014 70k+ news sources", miss: "Without key: Google News RSS only" },
-    { id: "serpapi", ss: "ss_serpapi", ok: "&#10003; SerpAPI active \u2014 high quality results", miss: "Without key: Direct Google scraping (free)" },
-    { id: "apify",   ss: "ss_apify",   ok: "&#10003; Apify active \u2014 full Quora coverage", miss: "Without key: ~30% Quora coverage" },
-    { id: "claude",  ss: "ss_claude",  ok: "&#10003; Claude API active \u2014 AI sentiment", miss: "Without key: Keyword-based sentiment (free)" }
-  ];
-  apiDefs.forEach(function(a) {
-    var el = document.getElementById(a.ss);
-    if (!el) return;
-    var inp = document.getElementById("api_" + a.id);
-    var val = (inp ? inp.value : "") || CFG.apis[a.id] || "";
-    el.className = "sstatus " + (val ? "ok" : "miss");
-    el.innerHTML = val ? a.ok : a.miss;
-  });
-  var repoEl = document.getElementById("s_repo");
-  var repo = repoEl ? repoEl.value : CFG.repo || "";
-  var ssRepo = document.getElementById("ss_repo");
-  if (ssRepo) {
-    ssRepo.className = "sstatus " + (repo ? "ok" : "miss");
-    ssRepo.textContent = repo ? "Will fetch from: raw.githubusercontent.com/" + repo + "/\u2026" : "Enter your repo path above";
-  }
-}
-
 function saveSettings() {
-  CFG.repo = (document.getElementById("s_repo").value || "").trim();
-  CFG.branch = (document.getElementById("s_branch").value || "main").trim();
-  CFG.goal = parseInt(document.getElementById("s_goal").value) || 500;
-  CFG.refresh = parseInt(document.getElementById("s_refresh").value) || 5;
-  var apiIds = ["youtube","newsapi","serpapi","apify","claude"];
-  apiIds.forEach(function(k) {
-    var el = document.getElementById("api_" + k);
-    if (el) CFG.apis[k] = el.value.trim();
+  CFG.repo=(document.getElementById("s_repo").value||"").trim();
+  CFG.branch=(document.getElementById("s_branch").value||"main").trim();
+  CFG.goal=parseInt(document.getElementById("s_goal").value)||500;
+  CFG.refresh=parseInt(document.getElementById("s_refresh").value)||5;
+  CFG.apis.youtube=(document.getElementById("api_youtube").value||"").trim();
+  CFG.apis.newsapi=(document.getElementById("api_newsapi").value||"").trim();
+  Object.keys(CFG.sheets).forEach(function(key){
+    var i=document.getElementById("sh_"+key+"_id"),g=document.getElementById("sh_"+key+"_gid"),t=document.getElementById("sh_"+key+"_tab");
+    if(i)CFG.sheets[key].id=i.value.trim();
+    if(g)CFG.sheets[key].gid=g.value.trim()||"0";
+    if(t)CFG.sheets[key].tab=t.value.trim();
   });
-  Object.keys(CFG.sheets).forEach(function(key) {
-    var idEl = document.getElementById("sh_" + key + "_id");
-    var gidEl = document.getElementById("sh_" + key + "_gid");
-    var tabEl = document.getElementById("sh_" + key + "_tab");
-    if (idEl) CFG.sheets[key].id = idEl.value.trim();
-    if (gidEl) CFG.sheets[key].gid = gidEl.value.trim() || "0";
-    if (tabEl) CFG.sheets[key].tab = tabEl.value.trim();
-  });
-  saveCFG();
-  closeSettings();
+  var ss=document.getElementById("ss_repo");
+  if(ss){if(CFG.repo){ss.className="sstatus ss-ok";ss.textContent="Will fetch from: raw.githubusercontent.com/"+CFG.repo+"/...";}else{ss.className="sstatus ss-miss";ss.textContent="Enter repo path to load crawl data";}}
+  saveCFG(); closeSettings();
+  lg("OK","SAVE","Settings saved. Repo: "+(CFG.repo||"none"));
   loadAll();
-}
-
-function togSg(head) {
-  var body = head.nextElementSibling;
-  var arrow = head.querySelector(".sg-arr");
-  body.classList.toggle("open");
-  if (arrow) arrow.innerHTML = body.classList.contains("open") ? "&#9650;" : "&#9660;";
 }
 
 // ============================================================
 // NAVIGATION
 // ============================================================
-function showPage(name, btn) {
-  document.querySelectorAll(".page").forEach(function(p) { p.classList.remove("on"); });
-  document.querySelectorAll(".ptab").forEach(function(b) { b.classList.remove("on"); });
-  var pg = document.getElementById("page_" + name);
-  if (pg) pg.classList.add("on");
-  if (btn) { btn.classList.add("on"); }
-  else {
-    document.querySelectorAll(".ptab").forEach(function(b) {
-      if ((b.getAttribute("onclick") || "").indexOf("'" + name + "'") !== -1) b.classList.add("on");
-    });
-  }
+function showPage(name,btn) {
+  document.querySelectorAll(".page").forEach(function(p){p.classList.remove("on");});
+  document.querySelectorAll(".ptab").forEach(function(b){b.classList.remove("on");});
+  var pg=document.getElementById("page_"+name); if(pg)pg.classList.add("on");
+  if(btn){btn.classList.add("on");}else{document.querySelectorAll(".ptab").forEach(function(b){if((b.getAttribute("onclick")||"").indexOf("'"+name+"'")!==-1)b.classList.add("on");});}
 }
-
-function showPlat(name, btn) {
-  document.querySelectorAll(".plat-c").forEach(function(p) { p.classList.remove("on"); });
-  document.querySelectorAll(".pb").forEach(function(b) { b.classList.remove("on"); });
-  var pc = document.getElementById("plat_" + name);
-  if (pc) pc.classList.add("on");
+function showPlat(name,btn) {
+  document.querySelectorAll(".plat-c").forEach(function(p){p.classList.remove("on");});
+  document.querySelectorAll(".pb").forEach(function(b){b.classList.remove("on");});
+  var pc=document.getElementById("plat_"+name); if(pc)pc.classList.add("on");
   btn.classList.add("on");
 }
-
-function setRange(r, btn) {
-  dateRange = r;
-  document.querySelectorAll(".db").forEach(function(b) { b.classList.remove("on"); });
+function setRange(r,btn) {
+  dateRange=r;
+  document.querySelectorAll(".db").forEach(function(b){b.classList.remove("on");});
   btn.classList.add("on");
-  var cd = document.getElementById("custDates");
-  if (cd) cd.style.display = r === "custom" ? "flex" : "none";
-  if (r !== "custom") renderAll();
+  document.getElementById("custDates").style.display=r==="custom"?"flex":"none";
+  if(r!=="custom")renderAll();
 }
-document.getElementById("dFrom").addEventListener("change", function() { renderAll(); });
-document.getElementById("dTo").addEventListener("change", function() { renderAll(); });
+document.getElementById("dFrom").addEventListener("change",function(){renderAll();});
+document.getElementById("dTo").addEventListener("change",function(){renderAll();});
 
 // ============================================================
-// DOWNLOAD
+// REPORT DOWNLOAD
 // ============================================================
 function downloadReport() {
-  var d = new Date().toLocaleDateString("en-IN");
-  var total = getSummaryVal("total_mentions", 0);
-  var pos = getSummaryVal("by_sentiment.positive", 0);
-  var neg = getSummaryVal("by_sentiment.negative", 0);
-  var bp = getSummaryVal("by_platform", {});
-  var rows = Object.keys(bp).map(function(k){ return '<tr><td>' + k + '</td><td>' + bp[k] + '</td></tr>'; }).join("");
-  var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Polaris ORM Report ' + d + '</title><style>body{font-family:Arial,sans-serif;max-width:900px;margin:40px auto;color:#111}h1{color:#D88100;border-bottom:3px solid #FFCC3F;padding-bottom:10px}table{width:100%;border-collapse:collapse;margin:12px 0}th{background:#111;color:#FFF;padding:8px;text-align:left}td{padding:8px;border-bottom:1px solid #EEE}.kpi{display:inline-block;padding:14px 20px;background:#FFF9E6;border:2px solid #FFCC3F;border-radius:9px;margin:6px;text-align:center}.kpi-n{font-size:24px;font-weight:800;color:#D88100}.kpi-l{font-size:11px;color:#888}</style></head><body><h1>Polaris ORM Intelligence Report</h1><p><b>Generated:</b> ' + d + '</p><h2>Key Metrics</h2><div><div class="kpi"><div class="kpi-n">' + total + '</div><div class="kpi-l">Total</div></div><div class="kpi"><div class="kpi-n" style="color:green">' + pos + '</div><div class="kpi-l">Positive</div></div><div class="kpi"><div class="kpi-n" style="color:red">' + neg + '</div><div class="kpi-l">Negative</div></div></div><h2>By Platform</h2><table><tr><th>Platform</th><th>Mentions</th></tr>' + rows + '</table><p style="color:#999;font-size:11px;margin-top:36px">Polaris School of Technology &bull; ORM v3.1 &bull; ' + d + '</p></body></html>';
-  var blob = new Blob([html], { type: "text/html" });
-  var a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "Polaris_ORM_" + d.replace(/\//g,"-") + ".html";
-  a.click();
+  var d=new Date().toLocaleDateString("en-IN"),total=gv(CRAWL,"summary.total_mentions",0),pos=gv(CRAWL,"summary.by_sentiment.positive",0),neg=gv(CRAWL,"summary.by_sentiment.negative",0),bp=gv(CRAWL,"summary.by_platform",{});
+  var html='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Polaris ORM Report '+d+'</title><style>body{font-family:Arial,sans-serif;max-width:900px;margin:40px auto;color:#111}h1{color:#D88100;border-bottom:3px solid #FFCC3F;padding-bottom:10px}table{width:100%;border-collapse:collapse;margin:14px 0}th{background:#111;color:#FFF;padding:9px;text-align:left}td{padding:9px;border-bottom:1px solid #EEE}.k{display:inline-block;padding:14px 20px;background:#FFF9E6;border:2px solid #FFCC3F;border-radius:9px;margin:6px;text-align:center}.kn{font-size:24px;font-weight:800;color:#D88100}.kl{font-size:11px;color:#888}</style></head><body><h1>Polaris ORM Intelligence Report</h1><p><b>Generated:</b> '+d+' &bull; <b>Last crawl:</b> '+(gv(CRAWL,"summary.last_crawled","--")||"--").slice(0,16)+' UTC</p><h2>Key Metrics</h2><div><div class="k"><div class="kn">'+total+'</div><div class="kl">Total</div></div><div class="k"><div class="kn" style="color:green">'+pos+'</div><div class="kl">Positive</div></div><div class="k"><div class="kn" style="color:red">'+neg+'</div><div class="kl">Negative</div></div></div><h2>By Platform</h2><table><tr><th>Platform</th><th>Mentions</th></tr>'+Object.keys(bp).sort(function(a,b){return bp[b]-bp[a];}).map(function(k){return'<tr><td>'+k+'</td><td>'+bp[k]+'</td></tr>';}).join("")+'</table><p style="color:#999;font-size:11px;margin-top:36px">Polaris School of Technology &bull; ORM v3.2 &bull; '+d+'</p></body></html>';
+  var blob=new Blob([html],{type:"text/html"});
+  var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="Polaris_ORM_"+d.replace(/\//g,"-")+".html";a.click();
 }
 
 // ============================================================
 // INIT
 // ============================================================
 loadCFG();
+lg("INFO","INIT","Polaris ORM Dashboard v3.2 initialized. Montserrat font. Netlify-ready.");
 renderAll();
 loadAll();
 </script>
