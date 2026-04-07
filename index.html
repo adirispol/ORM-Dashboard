@@ -3,764 +3,1381 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Polaris ORM Intelligence</title>
+<title>Polaris ORM Intelligence Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 :root{
   --gold:#FFCC3F;--orange:#FF9A3F;--amber:#F59E0B;
-  --bg:#07080D;--card:#0F1219;--card2:#13161F;--border:#1E2230;
-  --reddit:#FF5722;--quora:#EF5350;--youtube:#FF1744;
-  --medium:#00E676;--newspaper:#FFD740;--purple:#7C4DFF;
-  --blue:#448AFF;--teal:#1DE9B6;--pink:#FF4081;
-  --pos:#00E676;--neg:#FF1744;--neu:#78909C;--mix:#FFB300;
-  --text:#F0F4FF;--muted:#8896B0;--dim:#3D4560;
+  --bg:#050508;--card:#0F1117;--card2:#161820;--border:#252830;
+  --reddit:#FF5722;--quora:#E53935;--youtube:#F44336;
+  --medium:#00C853;--newspaper:#FFB300;--purple:#7C4DFF;--blue:#2979FF;
+  --pos:#00E676;--neg:#FF1744;--neu:#78909C;--mixed:#FF9800;
+  --text:#F1F5F9;--muted:#94A3B8;--dim:#475569;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
 ::-webkit-scrollbar{width:4px;height:4px;}
-::-webkit-scrollbar-track{background:#050608;}
-::-webkit-scrollbar-thumb{background:#1E2230;border-radius:4px;}
-.nav{position:sticky;top:0;z-index:200;background:rgba(7,8,13,0.97);backdrop-filter:blur(20px);border-bottom:2px solid var(--gold);padding:0 20px;height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
-.logo{font-size:12px;font-weight:700;letter-spacing:.2em;color:var(--gold);white-space:nowrap;}
+::-webkit-scrollbar-track{background:#080A10;}
+::-webkit-scrollbar-thumb{background:#252830;border-radius:4px;}
+
+.nav{position:sticky;top:0;z-index:200;background:rgba(5,5,8,.97);border-bottom:2px solid var(--gold);padding:0 20px;height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.logo{font-size:13px;font-weight:700;letter-spacing:.16em;color:var(--gold);white-space:nowrap;}
 .logo span{color:var(--orange);}
-.nav-tabs{display:flex;gap:2px;background:#0A0B10;border:1px solid var(--border);border-radius:9px;padding:3px;}
-.ntab{padding:5px 14px;border-radius:7px;font:600 11px 'Poppins',sans-serif;cursor:pointer;border:none;background:transparent;color:var(--dim);transition:.2s;white-space:nowrap;}
-.ntab.on{background:#1A1D28;color:var(--gold);}
-.ntab:hover:not(.on){color:var(--muted);}
-.nav-r{display:flex;align-items:center;gap:7px;flex-shrink:0;}
-.crawl-badge{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:7px;font:600 10px 'Poppins',sans-serif;white-space:nowrap;}
-.cb-ok{border:1px solid rgba(0,230,118,.25);background:rgba(0,230,118,.06);color:var(--pos);}
-.cb-old{border:1px solid rgba(255,183,0,.25);background:rgba(255,183,0,.06);color:var(--amber);}
-.cb-none{border:1px solid rgba(255,23,68,.2);background:rgba(255,23,68,.05);color:var(--neg);}
-.btn{padding:6px 13px;border-radius:8px;font:600 11px 'Poppins',sans-serif;cursor:pointer;border:none;transition:.2s;}
-.btn-gold{background:var(--gold);color:#000;}.btn-gold:hover{background:#FFD84D;}
+.ptabs{display:flex;gap:2px;background:#0D0F14;border:1px solid #1E2230;border-radius:9px;padding:3px;}
+.ptab{padding:6px 14px;border-radius:7px;font:600 11px 'Poppins',sans-serif;cursor:pointer;border:none;background:transparent;color:#445;transition:.2s;white-space:nowrap;}
+.ptab.on{background:#1A1D2A;color:var(--gold);}
+.ptab:hover{color:#AAB;}
+.nav-r{display:flex;align-items:center;gap:8px;}
+.btn{padding:6px 12px;border-radius:7px;font:600 11px 'Poppins',sans-serif;cursor:pointer;border:none;transition:.2s;}
+.btn-gold{background:var(--gold);color:#000;}
 .btn-out{background:rgba(255,204,63,.08);border:1px solid rgba(255,204,63,.25);color:var(--gold);}
 .btn-ghost{background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--muted);}
-.dl-btn{display:flex;align-items:center;gap:5px;padding:6px 13px;border-radius:8px;background:linear-gradient(135deg,var(--gold),var(--orange));color:#000;font:700 11px 'Poppins',sans-serif;border:none;cursor:pointer;}
+.cbadge{display:flex;align-items:center;gap:5px;padding:5px 11px;border-radius:7px;background:#0D0F18;border:1px solid var(--border);font-size:10px;color:var(--muted);}
+.cdot{width:7px;height:7px;border-radius:50%;background:#333;}
+.cdot.live{background:var(--pos);box-shadow:0 0 5px var(--pos);animation:blink 2s infinite;}
+.cdot.stale{background:var(--amber);}
+.cdot.old{background:var(--neg);}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+
 .main{max-width:1440px;margin:0 auto;padding:18px 20px;}
 .page{display:none;}.page.on{display:block;}
-.ns{background:linear-gradient(135deg,#14100A,#0A0C16);border:1px solid rgba(255,204,63,.18);border-radius:14px;padding:15px 22px;margin-bottom:15px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
-.ns-left{flex:1;min-width:200px;}
-.ns-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--gold);margin-bottom:7px;}
-.ns-track{background:#151820;border-radius:6px;height:8px;overflow:hidden;}
-.ns-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--gold),var(--orange));transition:width 1s ease;}
-.ns-pct{font-size:10px;color:var(--muted);margin-top:4px;}
-.ns-num{font-size:34px;font-weight:700;color:var(--gold);line-height:1;}
-.ns-sub{font-size:10px;color:var(--muted);margin-top:3px;}
-.ns-badge{background:#0A0C14;border-radius:10px;padding:9px 14px;border:1px solid var(--border);text-align:center;min-width:70px;}
-.ns-bn{font-size:16px;font-weight:700;line-height:1;margin-bottom:3px;}
-.ns-bl{font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;}
-.kpis{display:grid;grid-template-columns:repeat(8,1fr);gap:9px;margin-bottom:15px;}
-.kpi{background:var(--card);border:2px solid var(--border);border-radius:12px;padding:12px 10px;cursor:pointer;transition:.2s;position:relative;}
-.kpi:hover{transform:translateY(-2px);border-color:#2A2D3A;}
+
+.ns{background:linear-gradient(135deg,#1A1200,#0A0C14);border:1px solid rgba(255,204,63,.18);border-radius:14px;padding:16px 22px;margin-bottom:16px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
+.ns-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--gold);margin-bottom:6px;}
+.ns-track{background:#1A1D26;border-radius:6px;height:8px;overflow:hidden;flex:1;min-width:120px;}
+.ns-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--gold),var(--orange));transition:width 1s;}
+.ns-n{font-size:32px;font-weight:700;color:var(--gold);line-height:1;}
+.ns-s{font-size:11px;color:var(--muted);margin-top:3px;}
+.bx{background:#0D0F18;border-radius:9px;padding:9px 14px;border:1px solid var(--border);text-align:center;flex-shrink:0;}
+.bx-n{font-size:16px;font-weight:700;line-height:1;margin-bottom:3px;}
+.bx-l{font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;}
+
+.kpis{display:grid;grid-template-columns:repeat(8,1fr);gap:10px;margin-bottom:16px;}
+.kpi{background:var(--card);border:2px solid var(--border);border-radius:13px;padding:13px 11px;cursor:pointer;transition:.2s;}
+.kpi:hover{transform:translateY(-2px);}
 .kpi.on{border-color:var(--gold);background:#13110A;}
-.kpi-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;}
+.kpi-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;}
 .kpi-icon{font-size:17px;}
-.kpi-dot{width:8px;height:8px;border-radius:50%;}
-.kpi-n{font-size:24px;font-weight:700;line-height:1;margin-bottom:3px;}
-.kpi-l{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:2px;}
-.kpi-s{font-size:9px;color:var(--dim);}
-.kpi-tag{position:absolute;top:8px;right:8px;font-size:8px;font-weight:700;padding:2px 5px;border-radius:4px;text-transform:uppercase;}
-.tag-live{background:rgba(0,230,118,.15);color:var(--pos);}
-.tag-crawl{background:rgba(68,138,255,.12);color:var(--blue);}
-.tag-sheet{background:rgba(255,204,63,.1);color:var(--gold);}
-.tag-off{background:rgba(255,23,68,.1);color:var(--neg);}
-.date-bar{display:flex;gap:7px;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:9px 14px;margin-bottom:14px;}
+.kd{width:8px;height:8px;border-radius:50%;background:#333;}
+.kd.live{background:var(--pos);box-shadow:0 0 4px var(--pos);}
+.kd.stale{background:var(--amber);}
+.kn{font-size:22px;font-weight:700;line-height:1;margin-bottom:3px;}
+.kl{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:3px;}
+.ks{font-size:10px;color:var(--dim);}
+.ktag{font-size:8px;font-weight:700;padding:2px 6px;border-radius:4px;display:inline-block;margin-top:4px;text-transform:uppercase;}
+.tag-a{background:rgba(0,230,118,.12);color:var(--pos);}
+.tag-s{background:rgba(41,121,255,.12);color:var(--blue);}
+.tag-o{background:rgba(100,100,100,.1);color:#445;}
+
+.dbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 15px;margin-bottom:16px;}
 .dlbl{font-size:10px;color:var(--dim);white-space:nowrap;font-weight:600;text-transform:uppercase;letter-spacing:.08em;}
-.d-btn{padding:5px 11px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--dim);font:600 10px 'Poppins',sans-serif;cursor:pointer;transition:.2s;}
-.d-btn.on{background:rgba(255,204,63,.1);border-color:rgba(255,204,63,.35);color:var(--gold);}
-.d-input{background:#0A0C14;border:1px solid var(--border);color:var(--text);font:11px 'Poppins',sans-serif;padding:5px 9px;border-radius:6px;outline:none;}
-.d-input:focus{border-color:rgba(255,204,63,.35);}
-.src-badge{margin-left:auto;font-size:9px;font-weight:700;padding:3px 9px;border-radius:5px;background:rgba(68,138,255,.12);color:var(--blue);}
-.card{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:17px;margin-bottom:13px;}
-.ct{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:7px;}
-.ct-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:13px;}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:13px;}
+.db{padding:5px 12px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--dim);font:600 10px 'Poppins',sans-serif;cursor:pointer;transition:.2s;}
+.db.on{background:rgba(255,204,63,.1);border-color:rgba(255,204,63,.35);color:var(--gold);}
+.din{background:#0A0C14;border:1px solid var(--border);color:var(--text);font:11px 'Poppins',sans-serif;padding:5px 10px;border-radius:7px;outline:none;}
+.nxt{margin-left:auto;font-size:10px;color:var(--dim);}
+.nxt span{color:var(--gold);font-weight:600;}
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:18px;margin-bottom:14px;}
+.ct{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:13px;display:flex;align-items:center;gap:7px;}
+.ctd{width:8px;height:8px;border-radius:50%;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:14px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px;margin-bottom:14px;}
 .cw{position:relative;height:190px;}
-.plat-sel{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
-.plat-btn{display:flex;align-items:center;gap:7px;padding:7px 14px;border-radius:10px;border:2px solid var(--border);background:var(--card);color:var(--muted);font:600 11px 'Poppins',sans-serif;cursor:pointer;transition:.2s;}
-.plat-btn.on{background:#0D1018;color:var(--text);border-color:#2A2D3A;}
-.plat-btn:hover:not(.on){border-color:#2A2D3A;color:var(--text);}
-.pb-pip{width:9px;height:9px;border-radius:50%;}
-.pb-tag{font-size:8px;font-weight:700;padding:2px 6px;border-radius:4px;margin-left:2px;text-transform:uppercase;}
-.plat-content{display:none;}.plat-content.on{display:block;}
+
+.psel{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
+.pb{display:flex;align-items:center;gap:7px;padding:8px 14px;border-radius:10px;border:2px solid var(--border);background:var(--card);color:var(--muted);font:600 11px 'Poppins',sans-serif;cursor:pointer;transition:.2s;}
+.pb:hover{border-color:#3A3D4A;color:var(--text);}
+.pb.on{background:#0D0F18;color:var(--text);}
+.pb-dot{width:9px;height:9px;border-radius:50%;}
+.pb-tag{font-size:8px;font-weight:700;padding:2px 6px;border-radius:4px;margin-left:2px;}
+.pba{background:rgba(0,230,118,.12);color:var(--pos);}
+.pbs{background:rgba(41,121,255,.12);color:var(--blue);}
+.pbo{background:rgba(100,100,100,.1);color:#445;}
+.plat-c{display:none;}.plat-c.on{display:block;}
+
 .tw{max-height:290px;overflow-y:auto;border-radius:9px;border:1px solid var(--border);}
 table{width:100%;border-collapse:collapse;font-size:11px;}
-th{background:#080A10;color:var(--dim);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:8px 10px;text-align:left;border-bottom:1px solid rgba(255,204,63,.12);position:sticky;top:0;z-index:1;}
-th.r{text-align:right;}
-tr:nth-child(odd) td{background:#0C0E16;}
-tr:nth-child(even) td{background:#0F1219;}
-tr:hover td{background:#141720;}
-td{padding:7px 10px;color:var(--text);vertical-align:middle;border-bottom:1px solid #0A0C10;}
-td.r{text-align:right;font-weight:600;color:var(--gold);}
-.lb{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;background:rgba(255,204,63,.07);border:1px solid rgba(255,204,63,.2);border-radius:5px;color:var(--gold);font-size:10px;font-weight:600;text-decoration:none;transition:.2s;}
-.lb:hover{background:rgba(255,204,63,.14);}
+th{background:#0A0C14;color:var(--dim);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:9px 11px;text-align:left;border-bottom:1px solid rgba(255,204,63,.15);position:sticky;top:0;z-index:1;}
+tr:nth-child(odd) td{background:#0D0F18;}
+tr:nth-child(even) td{background:#111420;}
+tr:hover td{background:#161925;}
+td{padding:8px 11px;color:var(--text);vertical-align:middle;}
+.lb{display:inline-flex;align-items:center;padding:3px 9px;background:rgba(255,204,63,.08);border:1px solid rgba(255,204,63,.22);border-radius:5px;color:var(--gold);font-size:10px;text-decoration:none;font-weight:600;}
+.lb:hover{background:rgba(255,204,63,.15);}
 .sb{display:inline-block;padding:2px 7px;border-radius:8px;font-size:9px;font-weight:700;}
 .sb.pos{background:rgba(0,230,118,.14);color:var(--pos);}
 .sb.neg{background:rgba(255,23,68,.14);color:var(--neg);}
-.sb.neu{background:rgba(120,144,156,.1);color:var(--neu);border:1px solid #1E2230;}
-.sb.mix{background:rgba(255,179,0,.12);color:var(--mix);}
-.stats-row{display:flex;gap:9px;flex-wrap:wrap;}
-.stat-box{flex:1;min-width:90px;background:#0A0C14;border-radius:9px;padding:11px;border:1px solid var(--border);}
-.stat-n{font-size:20px;font-weight:700;color:var(--gold);line-height:1;margin-bottom:3px;}
-.stat-l{font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;}
-.feed{display:flex;flex-direction:column;gap:6px;max-height:360px;overflow-y:auto;}
+.sb.mixed{background:rgba(255,152,0,.14);color:var(--mixed);}
+.sb.neu{background:rgba(120,144,156,.1);color:var(--neu);}
+
+.feed{display:flex;flex-direction:column;gap:7px;max-height:340px;overflow-y:auto;}
 .fc{background:#0A0C14;border:1px solid var(--border);border-radius:9px;padding:11px 13px;transition:.2s;}
-.fc:hover{border-color:#2A2D3A;}
+.fc:hover{border-color:#3A3D4A;}
 .fc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:5px;}
 .fc-title{font-size:12px;color:var(--text);line-height:1.5;flex:1;font-weight:500;}
-.fc-badges{display:flex;gap:4px;align-items:center;flex-shrink:0;}
 .fc-meta{font-size:10px;color:var(--dim);display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
-.pip{width:7px;height:7px;border-radius:50%;}
-.score-badge{font-size:9px;font-weight:700;padding:2px 6px;border-radius:5px;background:rgba(255,204,63,.08);color:var(--amber);}
-.act-list{display:flex;flex-direction:column;gap:7px;}
-.act{display:flex;gap:10px;align-items:flex-start;background:rgba(255,204,63,.04);border:1px solid rgba(255,204,63,.1);border-radius:10px;padding:10px 12px;transition:.2s;}
-.act:hover{border-color:rgba(255,204,63,.22);background:rgba(255,204,63,.07);}
-.act-n{width:21px;height:21px;border-radius:50%;background:var(--gold);color:#000;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.pip{width:8px;height:8px;border-radius:50%;}
+
+.srow{display:flex;gap:10px;flex-wrap:wrap;}
+.sbox{flex:1;min-width:90px;background:#0A0C14;border-radius:9px;padding:11px;border:1px solid var(--border);}
+.sn{font-size:22px;font-weight:700;color:var(--gold);line-height:1;margin-bottom:3px;}
+.sl{font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;}
+
+.acts{display:flex;flex-direction:column;gap:8px;}
+.act{display:flex;gap:10px;align-items:flex-start;background:rgba(255,204,63,.05);border:1px solid rgba(255,204,63,.12);border-radius:10px;padding:10px 12px;}
+.act-n{width:22px;height:22px;border-radius:50%;background:var(--gold);color:#000;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
 .act-t{font-size:12px;color:var(--text);line-height:1.6;}
-.act-badge{display:inline-block;padding:2px 6px;border-radius:4px;font-size:9px;font-weight:700;margin-left:5px;text-transform:uppercase;}
-.act-h{background:rgba(255,23,68,.18);color:#FF6B6B;}
-.act-m{background:rgba(245,158,11,.13);color:var(--amber);}
-.act-l{background:rgba(0,230,118,.11);color:var(--pos);}
-.sent-meters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
-.sent-m{flex:1;min-width:70px;text-align:center;background:#0A0C14;border:1px solid var(--border);border-radius:9px;padding:11px;}
-.sent-m-n{font-size:22px;font-weight:700;line-height:1;margin-bottom:3px;}
-.sent-m-l{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);}
-.set-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:300;backdrop-filter:blur(6px);}
-.set-ov.on{display:block;}
-.set-panel{position:fixed;right:-580px;top:0;bottom:0;width:560px;background:#0C0E16;border-left:2px solid var(--gold);z-index:301;overflow-y:auto;display:flex;flex-direction:column;transition:right .3s ease;}
-.set-panel.on{right:0;}
-.set-head{padding:17px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#0C0E16;z-index:1;}
-.set-title{font-size:14px;font-weight:700;color:var(--gold);}
-.set-body{padding:20px 22px;display:flex;flex-direction:column;gap:14px;}
-.sg{background:#111420;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:0;}
-.sg-head{display:flex;align-items:center;gap:9px;padding:12px 16px;cursor:pointer;user-select:none;transition:.2s;}
-.sg-head:hover{background:#161925;}
-.sg-head-title{font-size:12px;font-weight:600;flex:1;}
-.sg-head-tag{font-size:9px;font-weight:700;padding:2px 7px;border-radius:5px;}
-.sg-body{display:none;padding:14px 16px;background:#0A0C14;border-top:1px solid var(--border);}
-.sg-body.open{display:block;}
-.sg-hint{font-size:10px;color:var(--dim);margin-bottom:10px;line-height:1.6;padding:8px 10px;background:#080A12;border-radius:7px;border-left:2px solid rgba(68,138,255,.3);}
+.act-h{background:rgba(255,23,68,.2);color:#FF6B6B;}
+.act-m{background:rgba(245,158,11,.15);color:var(--amber);}
+.act-l{background:rgba(0,230,118,.12);color:var(--pos);}
+.abadge{display:inline-block;padding:1px 6px;border-radius:4px;font-size:9px;font-weight:700;margin-left:5px;text-transform:uppercase;}
+
+/* SETTINGS */
+.sov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:300;backdrop-filter:blur(6px);}
+.sov.on{display:block;}
+.span{position:fixed;right:-580px;top:0;bottom:0;width:560px;background:#0D0F18;border-left:2px solid var(--gold);z-index:301;overflow-y:auto;flex-direction:column;transition:right .3s;}
+.span.on{right:0;}
+.shead{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#0D0F18;z-index:1;}
+.stitle{font-size:14px;font-weight:700;color:var(--gold);}
+.sbody{padding:20px 22px;display:flex;flex-direction:column;gap:14px;}
+.sg{background:#111420;border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.sg-h{padding:13px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;}
+.sg-h:hover{background:#161925;}
+.sg-title{font-size:12px;font-weight:600;color:var(--text);flex:1;}
+.sg-sub{font-size:10px;color:var(--dim);}
+.sg-arr{font-size:11px;color:var(--dim);transition:.2s;}
+.sg-b{display:none;padding:14px 16px;border-top:1px solid var(--border);background:#0A0C14;}
+.sg-b.open{display:block;}
+.sg-t{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--dim);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
 .sr{margin-bottom:10px;}
-.sr:last-child{margin-bottom:0;}
-.sl{font-size:10px;color:var(--muted);display:block;margin-bottom:4px;font-weight:600;}
-.si{width:100%;background:#080A12;border:1px solid var(--border);color:var(--text);font:12px 'Poppins',sans-serif;padding:8px 11px;border-radius:8px;outline:none;transition:.2s;}
-.si:focus{border-color:rgba(255,204,63,.4);background:#0D0F1A;}
-.si::placeholder{color:#1E2230;}
-.sh{font-size:9px;color:var(--dim);margin-top:3px;line-height:1.5;}
-.cfg-ok{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:7px;font-size:10px;font-weight:600;margin-top:6px;background:rgba(0,230,118,.08);color:var(--pos);border:1px solid rgba(0,230,118,.2);}
-.cfg-miss{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:7px;font-size:10px;font-weight:600;margin-top:6px;background:rgba(255,23,68,.07);color:var(--neg);border:1px solid rgba(255,23,68,.15);}
-.cfg-pend{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:7px;font-size:10px;font-weight:600;margin-top:6px;background:rgba(245,158,11,.07);color:var(--amber);border:1px solid rgba(245,158,11,.15);}
-.cfg-2col{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+.si-label{font-size:10px;color:var(--muted);display:block;margin-bottom:4px;font-weight:600;}
+.si-hint{font-size:9px;color:#333;margin-top:3px;line-height:1.5;}
+.si{width:100%;background:#080A10;border:1px solid var(--border);color:var(--text);font:12px 'Poppins',sans-serif;padding:8px 11px;border-radius:8px;outline:none;transition:.2s;}
+.si:focus{border-color:rgba(255,204,63,.4);}
+.si::placeholder{color:#252830;}
+.sstatus{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:7px;font-size:10px;font-weight:600;margin-top:5px;}
+.sstatus.ok{background:rgba(0,230,118,.08);color:var(--pos);border:1px solid rgba(0,230,118,.18);}
+.sstatus.miss{background:rgba(255,23,68,.08);color:var(--neg);border:1px solid rgba(255,23,68,.15);}
+.acard{background:#080A10;border:1px solid var(--border);border-radius:9px;padding:12px;margin-bottom:9px;}
+.acard-name{font-size:12px;font-weight:600;color:var(--text);margin-bottom:2px;display:flex;align-items:center;justify-content:space-between;}
+.acard-cost{font-size:9px;color:var(--dim);}
+.acard-desc{font-size:10px;color:var(--dim);margin-bottom:7px;line-height:1.5;}
+.g2f{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .comp-row{display:flex;gap:7px;align-items:center;margin-bottom:7px;}
 .comp-row .si{flex:1;}
-.comp-rm{width:28px;height:28px;border-radius:7px;background:rgba(255,23,68,.09);border:1px solid rgba(255,23,68,.18);color:#FF6B6B;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;}
-.add-btn{width:100%;padding:8px;border-radius:8px;background:rgba(255,204,63,.04);border:1px dashed rgba(255,204,63,.18);color:var(--gold);font:500 11px 'Poppins',sans-serif;cursor:pointer;transition:.2s;}
-.add-btn:hover{background:rgba(255,204,63,.09);}
-.plat-cfg-block{background:#0C0E18;border:1px solid var(--border);border-radius:9px;padding:13px;margin-bottom:10px;}
+.comp-rm{width:28px;height:28px;border-radius:7px;background:rgba(255,23,68,.1);border:1px solid rgba(255,23,68,.2);color:#FF6B6B;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;}
+.comp-add{width:100%;padding:8px;border-radius:8px;background:rgba(255,204,63,.04);border:1px dashed rgba(255,204,63,.2);color:var(--gold);font:500 11px 'Poppins',sans-serif;cursor:pointer;transition:.2s;}
+.comp-add:hover{background:rgba(255,204,63,.09);}
+.ibox{padding:10px 12px;background:#0A0C14;border-radius:8px;border:1px solid var(--border);font-size:10px;color:var(--dim);line-height:1.7;margin-top:6px;}
+.ibox b{color:var(--gold);}
+.how-row{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid #0E1016;align-items:flex-start;}
+.how-row:last-child{border-bottom:none;}
+.how-icon{font-size:14px;flex-shrink:0;}
+.how-text{font-size:10px;color:var(--muted);line-height:1.6;}
+.how-text b{color:var(--gold);}
+
+.amsg{padding:10px 13px;background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.15);border-radius:9px;font-size:11px;color:var(--amber);margin-bottom:12px;}
+.emsg{padding:10px 13px;background:rgba(255,23,68,.07);border:1px solid rgba(255,23,68,.15);border-radius:9px;font-size:11px;color:var(--neg);margin-bottom:12px;}
 .empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px;gap:8px;}
-.empty-icon{font-size:30px;opacity:.25;}
-.empty p{font-size:12px;color:var(--dim);text-align:center;max-width:300px;line-height:1.7;}
-.empty .hint{font-size:10px;color:var(--border);margin-top:4px;}
+.ei{font-size:28px;opacity:.3;}
+.empty p{font-size:12px;color:var(--dim);text-align:center;max-width:300px;line-height:1.6;}
+.empty small{font-size:10px;color:#252830;text-align:center;}
 .spin{width:22px;height:22px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
-.err-box{padding:28px;text-align:center;}
-.err-box p{font-size:11px;color:#FF6B6B;margin-bottom:5px;}
-.err-box small{font-size:10px;color:var(--dim);}
-.info-bar{padding:10px 14px;background:rgba(255,204,63,.06);border:1px solid rgba(255,204,63,.15);border-radius:10px;font-size:11px;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
-footer{text-align:center;padding:20px;font-size:10px;color:var(--border);border-top:1px solid var(--border);margin-top:32px;letter-spacing:.06em;}
-@media(max-width:1300px){.kpis{grid-template-columns:repeat(4,1fr);}}
-@media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr);}.g2,.g3{grid-template-columns:1fr;}.set-panel{width:100%;right:-100%;}}
-@media(max-width:600px){.nav-tabs{display:none;}.kpis{grid-template-columns:1fr 1fr;}}
+
+footer{text-align:center;padding:22px;font-size:10px;color:#252830;border-top:1px solid var(--border);margin-top:36px;letter-spacing:.06em;}
+@media(max-width:1200px){.kpis{grid-template-columns:repeat(4,1fr);}}
+@media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr);}.g2,.g3{grid-template-columns:1fr;}.span{width:100%;right:-100%;}}
+@media(max-width:600px){.ptabs{display:none;}.kpis{grid-template-columns:1fr 1fr;}}
 </style>
 </head>
 <body>
 
 <nav class="nav">
   <div class="logo">POLARIS <span>SCHOOL OF TECHNOLOGY</span></div>
-  <div class="nav-tabs">
-    <button class="ntab on" onclick="showPage('overview',this)">Overview</button>
-    <button class="ntab" onclick="showPage('listening',this)">Listening Feed</button>
-    <button class="ntab" onclick="showPage('content',this)">My Content Sheets</button>
-    <button class="ntab" onclick="showPage('competitors',this)">Competitors</button>
-    <button class="ntab" onclick="showPage('analytics',this)">Analytics</button>
+  <div class="ptabs">
+    <button class="ptab on" onclick="showPage('overview',this)">Overview</button>
+    <button class="ptab" onclick="showPage('listening',this)">Live Listening</button>
+    <button class="ptab" onclick="showPage('content',this)">My Content</button>
+    <button class="ptab" onclick="showPage('competitors',this)">Competitors</button>
+    <button class="ptab" onclick="showPage('analytics',this)">Analytics</button>
   </div>
   <div class="nav-r">
-    <div class="crawl-badge cb-none" id="crawlBadge">⏳ Checking…</div>
-    <span style="font-size:10px;color:var(--dim);" id="ts"></span>
-    <button class="btn btn-out" onclick="loadAll()">↺ Refresh</button>
-    <button class="dl-btn" onclick="dlReport()">⬇ Report</button>
-    <button class="btn btn-ghost" onclick="openSettings()">⚙ Settings</button>
+    <div class="cbadge"><div class="cdot" id="crawlDot"></div><span id="crawlAge">Not loaded</span></div>
+    <button class="btn btn-out" onclick="loadAll()">&#8635; Refresh</button>
+    <button class="btn btn-gold" onclick="downloadReport()">&#8595; Report</button>
+    <button class="btn btn-ghost" onclick="openSettings()">&#9881; Settings</button>
   </div>
 </nav>
 
-<div class="set-ov" id="setOv" onclick="closeSettings()"></div>
-<div class="set-panel" id="setPanel">
-  <div class="set-head">
-    <div class="set-title">⚙ Configuration</div>
-    <div style="display:flex;gap:8px;">
-      <button class="btn btn-gold" onclick="saveSettings()">Save & Reload</button>
-      <button class="btn btn-ghost" onclick="closeSettings()">✕</button>
+<!-- SETTINGS -->
+<div class="sov" id="sov" onclick="closeSettings()"></div>
+<div class="span" id="span">
+  <div class="shead">
+    <div class="stitle">&#9881; Configuration &amp; API Keys</div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-gold" onclick="saveSettings()">Save &amp; Apply</button>
+      <button class="btn btn-ghost" onclick="closeSettings()">&#x2715;</button>
     </div>
   </div>
-  <div class="set-body" id="setBody"></div>
+  <div class="sbody">
+
+    <div class="sg">
+      <div class="sg-h" onclick="togSg(this)">
+        <span style="font-size:16px">&#129302;</span>
+        <div class="sg-title">How Auto-Crawling Works</div>
+        <div class="sg-sub">GitHub Actions every ~2.5 hours</div>
+        <span class="sg-arr">&#9660;</span>
+      </div>
+      <div class="sg-b open">
+        <div class="how-row"><div class="how-icon">&#9200;</div><div class="how-text"><b>Every ~2.5 hours</b> automatically — GitHub Actions runs crawler.py. Crawls Reddit (direct API), Google News RSS, and Google-indexed Quora, Medium, YouTube, Shiksha, CollegeDunia, LinkedIn, Twitter and more.</div></div>
+        <div class="how-row"><div class="how-icon">&#128230;</div><div class="how-text"><b>Data saved as JSON files</b> in your repo under data/ folder. This dashboard fetches those files directly from GitHub raw URLs.</div></div>
+        <div class="how-row"><div class="how-icon">&#128260;</div><div class="how-text"><b>Dashboard auto-refreshes</b> every 5 minutes. The crawl status dot turns green (fresh), amber (3-8h old), red (stale).</div></div>
+        <div class="how-row"><div class="how-icon">&#128273;</div><div class="how-text"><b>API keys are optional</b> — crawler works free without any keys. Keys just improve data quality and volume.</div></div>
+        <div class="how-row"><div class="how-icon">&#128203;</div><div class="how-text"><b>My Content tabs</b> show YOUR manually logged content from Google Sheets — Reddit posts you wrote, Quora answers you seeded, etc.</div></div>
+      </div>
+    </div>
+
+    <div class="sg">
+      <div class="sg-h" onclick="togSg(this)">
+        <span style="font-size:16px">&#128225;</span>
+        <div class="sg-title">Crawler Data Source</div>
+        <div class="sg-sub">Your GitHub repo where crawled data is stored</div>
+        <span class="sg-arr">&#9660;</span>
+      </div>
+      <div class="sg-b open">
+        <div class="sr">
+          <label class="si-label">GitHub Repo Owner/Name</label>
+          <input class="si" id="s_repo" placeholder="adirispol/ORM-Dashboard">
+          <div class="si-hint">Format: username/repo-name</div>
+          <div class="sstatus miss" id="ss_repo">Enter your repo path above</div>
+        </div>
+        <div class="sr">
+          <label class="si-label">Branch</label>
+          <input class="si" id="s_branch" value="main" placeholder="main">
+        </div>
+        <div class="ibox">Dashboard fetches from:<br>
+          <b>raw.githubusercontent.com/{repo}/refs/heads/{branch}/data/summary.json</b><br>
+          <span style="color:#333">...and reddit.json, quora.json, all_mentions.json etc.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sg">
+      <div class="sg-h" onclick="togSg(this)">
+        <span style="font-size:16px">&#128273;</span>
+        <div class="sg-title">API Keys — Real-Time Listening (Optional)</div>
+        <div class="sg-sub">Crawler works 100% free without these. Keys improve quality.</div>
+        <span class="sg-arr">&#9660;</span>
+      </div>
+      <div class="sg-b">
+        <div class="amsg">&#9889; Add these keys in TWO places: (1) paste here for dashboard status, AND (2) add as GitHub Secrets in your repo: Settings &#8594; Secrets and variables &#8594; Actions.</div>
+
+        <div class="acard">
+          <div class="acard-name">YouTube Data API v3 <span class="acard-cost">Free &#183; 10,000 req/day</span></div>
+          <div class="acard-desc">Full YouTube video + comment search for PST mentions. Without key: Google-indexed YT pages only. Get at: <a href="https://console.cloud.google.com" target="_blank" style="color:var(--gold)">console.cloud.google.com</a></div>
+          <input class="si" type="password" id="api_youtube" placeholder="AIza...">
+          <div class="sstatus miss" id="ss_youtube">Without key: Google-indexed YouTube only</div>
+        </div>
+
+        <div class="acard">
+          <div class="acard-name">NewsAPI.org <span class="acard-cost">Free &#183; 100 req/day</span></div>
+          <div class="acard-desc">Search 70,000+ news sources for PST. Without key: Google News RSS only. Get at: <a href="https://newsapi.org/register" target="_blank" style="color:var(--gold)">newsapi.org/register</a></div>
+          <input class="si" type="password" id="api_newsapi" placeholder="abc123...">
+          <div class="sstatus miss" id="ss_newsapi">Without key: Google News RSS only (still works)</div>
+        </div>
+
+        <div class="acard">
+          <div class="acard-name">SerpAPI <span class="acard-cost">$50/mo &#183; free trial available</span></div>
+          <div class="acard-desc">Better Google search results for Quora/Medium/web mentions. Without key: direct Google HTML scraping (free, may rate-limit). Get at: <a href="https://serpapi.com" target="_blank" style="color:var(--gold)">serpapi.com</a></div>
+          <input class="si" type="password" id="api_serpapi" placeholder="your_key...">
+          <div class="sstatus miss" id="ss_serpapi">Without key: Direct Google scraping (free)</div>
+        </div>
+
+        <div class="acard">
+          <div class="acard-name">Apify Quora Scraper <span class="acard-cost">~$6/month</span></div>
+          <div class="acard-desc">Full Quora coverage. Without key: only Google-indexed Quora pages (~30% coverage). Get at: <a href="https://apify.com" target="_blank" style="color:var(--gold)">apify.com</a></div>
+          <input class="si" type="password" id="api_apify" placeholder="apify_api_...">
+          <div class="sstatus miss" id="ss_apify">Without key: ~30% Quora coverage</div>
+        </div>
+
+        <div class="acard">
+          <div class="acard-name">Claude API (Anthropic) <span class="acard-cost">~&#8377;500/month</span></div>
+          <div class="acard-desc">AI-powered sentiment tagging on all crawled mentions. Without key: keyword-based sentiment (built in, still works). Get at: <a href="https://console.anthropic.com" target="_blank" style="color:var(--gold)">console.anthropic.com</a></div>
+          <input class="si" type="password" id="api_claude" placeholder="sk-ant-...">
+          <div class="sstatus miss" id="ss_claude">Without key: Keyword sentiment (free, less accurate)</div>
+        </div>
+
+        <div class="ibox">
+          <b>GitHub Secrets setup (so crawler can use these keys):</b><br>
+          Repo &#8594; Settings &#8594; Secrets and variables &#8594; Actions &#8594; New repository secret<br>
+          Secret names: <b>YOUTUBE_API_KEY</b> &#183; <b>NEWSAPI_KEY</b> &#183; <b>SERPAPI_KEY</b>
+        </div>
+      </div>
+    </div>
+
+    <div class="sg">
+      <div class="sg-h" onclick="togSg(this)">
+        <span style="font-size:16px">&#128202;</span>
+        <div class="sg-title">My Content &#8212; Google Sheets Config</div>
+        <div class="sg-sub">For manually logged posts, answers, articles</div>
+        <span class="sg-arr">&#9660;</span>
+      </div>
+      <div class="sg-b">
+        <div class="amsg">&#128203; Publish each tab as CSV first: Google Sheets &#8594; File &#8594; Share &#8594; Publish to web &#8594; select tab &#8594; CSV &#8594; Publish</div>
+        <div id="sheetCfgs"></div>
+      </div>
+    </div>
+
+    <div class="sg">
+      <div class="sg-h" onclick="togSg(this)">
+        <span style="font-size:16px">&#127942;</span>
+        <div class="sg-title">Competitor Tracking &#8212; <span id="compCount">0</span>/15</div>
+        <div class="sg-sub">Auto-tracked across all crawled sources</div>
+        <span class="sg-arr">&#9660;</span>
+      </div>
+      <div class="sg-b">
+        <div id="compList"></div>
+        <button class="comp-add" onclick="addComp()">+ Add Competitor (<span id="compSlots">15</span> left)</button>
+      </div>
+    </div>
+
+    <div class="sg">
+      <div class="sg-h" onclick="togSg(this)">
+        <span style="font-size:16px">&#127919;</span>
+        <div class="sg-title">Goals &amp; Display</div>
+        <div class="sg-sub">North Star target and refresh interval</div>
+        <span class="sg-arr">&#9660;</span>
+      </div>
+      <div class="sg-b">
+        <div class="sr"><label class="si-label">North Star Goal (live pieces by June 2026)</label><input class="si" type="number" id="s_goal" value="500"></div>
+        <div class="sr"><label class="si-label">Dashboard auto-refresh interval</label>
+          <select class="si" id="s_refresh">
+            <option value="2">Every 2 minutes</option>
+            <option value="5" selected>Every 5 minutes</option>
+            <option value="10">Every 10 minutes</option>
+            <option value="30">Every 30 minutes</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <main class="main">
 
   <div class="ns">
-    <div class="ns-left">
-      <div class="ns-lbl">🎯 Total Brand Mentions — Auto-Crawled Every 2.5 Hours</div>
-      <div class="ns-track"><div class="ns-fill" id="nsFill" style="width:0%"></div></div>
-      <div class="ns-pct" id="nsPct">Loading crawl data…</div>
+    <div style="flex:1">
+      <div class="ns-lbl">&#127919; North Star &#8212; Total Brand Mentions Auto-Crawled Every 2.5 Hours</div>
+      <div style="display:flex;align-items:center;gap:14px;margin-top:8px">
+        <div class="ns-track"><div class="ns-fill" id="nsFill" style="width:0%"></div></div>
+        <span style="font-size:11px;color:var(--muted);white-space:nowrap" id="nsPct">0%</span>
+      </div>
     </div>
-    <div><div class="ns-num" id="nsTotal">—</div><div class="ns-sub">total mentions crawled</div></div>
-    <div style="display:flex;gap:8px;flex-shrink:0;flex-wrap:wrap;">
-      <div class="ns-badge"><div class="ns-bn" id="nsPos" style="color:var(--pos)">—</div><div class="ns-bl">Positive</div></div>
-      <div class="ns-badge"><div class="ns-bn" id="nsNeg" style="color:var(--neg)">—</div><div class="ns-bl">Negative</div></div>
-      <div class="ns-badge"><div class="ns-bn" id="nsMix" style="color:var(--mix)">—</div><div class="ns-bl">Mixed</div></div>
-      <div class="ns-badge"><div class="ns-bn" id="nsSrc" style="color:var(--blue)">—</div><div class="ns-bl">Sources</div></div>
-      <div class="ns-badge"><div class="ns-bn" id="nsSheets" style="color:var(--amber)">0/6</div><div class="ns-bl">My Sheets</div></div>
+    <div><div class="ns-n" id="nsCount">&#8212;</div><div class="ns-s">of <span id="nsGoal">500</span> &#183; June 2026</div></div>
+    <div style="display:flex;gap:9px;flex-shrink:0;flex-wrap:wrap">
+      <div class="bx"><div class="bx-n" id="b_total" style="color:var(--gold)">&#8212;</div><div class="bx-l">Total</div></div>
+      <div class="bx"><div class="bx-n" id="b_pos" style="color:var(--pos)">&#8212;</div><div class="bx-l">Positive</div></div>
+      <div class="bx"><div class="bx-n" id="b_neg" style="color:var(--neg)">&#8212;</div><div class="bx-l">Negative</div></div>
+      <div class="bx"><div class="bx-n" id="b_crawl" style="color:var(--muted)">&#8212;</div><div class="bx-l">Last Crawl</div></div>
     </div>
   </div>
 
   <div class="kpis">
-    <div class="kpi on" id="kpi_reddit" onclick="goListen('reddit')"><div class="kpi-head"><span class="kpi-icon">🔴</span><div class="kpi-dot" id="dot_reddit" style="background:var(--dim)"></div></div><div class="kpi-n" style="color:var(--reddit)" id="kn_reddit">—</div><div class="kpi-l">Reddit</div><div class="kpi-s">posts + comments</div><span class="kpi-tag tag-crawl">Crawled</span></div>
-    <div class="kpi" id="kpi_quora" onclick="goListen('quora')"><div class="kpi-head"><span class="kpi-icon">❓</span><div class="kpi-dot" id="dot_quora" style="background:var(--dim)"></div></div><div class="kpi-n" style="color:var(--quora)" id="kn_quora">—</div><div class="kpi-l">Quora</div><div class="kpi-s">Q&amp;A mentions</div><span class="kpi-tag tag-crawl">Crawled</span></div>
-    <div class="kpi" id="kpi_youtube" onclick="goListen('youtube')"><div class="kpi-head"><span class="kpi-icon">📺</span><div class="kpi-dot" id="dot_youtube" style="background:var(--dim)"></div></div><div class="kpi-n" style="color:var(--youtube)" id="kn_youtube">—</div><div class="kpi-l">YouTube</div><div class="kpi-s">video mentions</div><span class="kpi-tag tag-crawl">Crawled</span></div>
-    <div class="kpi" id="kpi_news" onclick="goListen('news')"><div class="kpi-head"><span class="kpi-icon">📰</span><div class="kpi-dot" id="dot_news" style="background:var(--dim)"></div></div><div class="kpi-n" style="color:var(--newspaper)" id="kn_news">—</div><div class="kpi-l">News</div><div class="kpi-s">articles</div><span class="kpi-tag tag-crawl">Crawled</span></div>
-    <div class="kpi" id="kpi_medium" onclick="goListen('medium')"><div class="kpi-head"><span class="kpi-icon">📝</span><div class="kpi-dot" id="dot_medium" style="background:var(--dim)"></div></div><div class="kpi-n" style="color:var(--medium)" id="kn_medium">—</div><div class="kpi-l">Medium</div><div class="kpi-s">articles</div><span class="kpi-tag tag-crawl">Crawled</span></div>
-    <div class="kpi" id="kpi_aggregators" onclick="goListen('aggregators')"><div class="kpi-head"><span class="kpi-icon">🏫</span><div class="kpi-dot" id="dot_aggregators" style="background:var(--dim)"></div></div><div class="kpi-n" style="color:var(--purple)" id="kn_aggregators">—</div><div class="kpi-l">Portals</div><div class="kpi-s">Shiksha, CD…</div><span class="kpi-tag tag-crawl">Crawled</span></div>
-    <div class="kpi" id="kpi_social" onclick="goListen('social')"><div class="kpi-head"><span class="kpi-icon">📱</span><div class="kpi-dot" id="dot_social" style="background:var(--dim)"></div></div><div class="kpi-n" style="color:var(--teal)" id="kn_social">—</div><div class="kpi-l">Social</div><div class="kpi-s">LI, TW, FB, IG</div><span class="kpi-tag tag-crawl">Crawled</span></div>
-    <div class="kpi" id="kpi_web" onclick="goListen('web')"><div class="kpi-head"><span class="kpi-icon">🌐</span><div class="kpi-dot" id="dot_web" style="background:var(--dim)"></div></div><div class="kpi-n" style="color:var(--blue)" id="kn_web">—</div><div class="kpi-l">Web</div><div class="kpi-s">general sites</div><span class="kpi-tag tag-crawl">Crawled</span></div>
+    <div class="kpi on" onclick="showPage('listening',null)">
+      <div class="kpi-top"><span class="kpi-icon">&#128308;</span><div class="kd" id="kd_reddit"></div></div>
+      <div class="kn" style="color:var(--reddit)" id="kn_reddit">&#8212;</div>
+      <div class="kl">Reddit</div><div class="ks">posts + comments</div>
+      <span class="ktag tag-a">Auto-Crawled</span>
+    </div>
+    <div class="kpi" onclick="showPage('listening',null)">
+      <div class="kpi-top"><span class="kpi-icon">&#128163;</span><div class="kd" id="kd_quora"></div></div>
+      <div class="kn" style="color:var(--quora)" id="kn_quora">&#8212;</div>
+      <div class="kl">Quora</div><div class="ks">questions + answers</div>
+      <span class="ktag tag-a">Auto-Crawled</span>
+    </div>
+    <div class="kpi" onclick="showPage('listening',null)">
+      <div class="kpi-top"><span class="kpi-icon">&#128250;</span><div class="kd" id="kd_youtube"></div></div>
+      <div class="kn" style="color:var(--youtube)" id="kn_youtube">&#8212;</div>
+      <div class="kl">YouTube</div><div class="ks">videos + comments</div>
+      <span class="ktag tag-a">Auto-Crawled</span>
+    </div>
+    <div class="kpi" onclick="showPage('listening',null)">
+      <div class="kpi-top"><span class="kpi-icon">&#128221;</span><div class="kd" id="kd_medium"></div></div>
+      <div class="kn" style="color:var(--medium)" id="kn_medium">&#8212;</div>
+      <div class="kl">Medium</div><div class="ks">articles</div>
+      <span class="ktag tag-a">Auto-Crawled</span>
+    </div>
+    <div class="kpi" onclick="showPage('listening',null)">
+      <div class="kpi-top"><span class="kpi-icon">&#128240;</span><div class="kd" id="kd_newspaper"></div></div>
+      <div class="kn" style="color:var(--newspaper)" id="kn_newspaper">&#8212;</div>
+      <div class="kl">News / PR</div><div class="ks">articles</div>
+      <span class="ktag tag-a">Auto-Crawled</span>
+    </div>
+    <div class="kpi" onclick="showPage('listening',null)">
+      <div class="kpi-top"><span class="kpi-icon">&#127979;</span><div class="kd" id="kd_agg"></div></div>
+      <div class="kn" style="color:var(--amber)" id="kn_agg">&#8212;</div>
+      <div class="kl">Portals</div><div class="ks">Shiksha, CollegeDunia+</div>
+      <span class="ktag tag-a">Auto-Crawled</span>
+    </div>
+    <div class="kpi" onclick="showPage('listening',null)">
+      <div class="kpi-top"><span class="kpi-icon">&#128241;</span><div class="kd" id="kd_social"></div></div>
+      <div class="kn" style="color:var(--purple)" id="kn_social">&#8212;</div>
+      <div class="kl">Social</div><div class="ks">LinkedIn, Twitter+</div>
+      <span class="ktag tag-a">Auto-Crawled</span>
+    </div>
+    <div class="kpi" onclick="showPage('listening',null)">
+      <div class="kpi-top"><span class="kpi-icon">&#127760;</span><div class="kd" id="kd_web"></div></div>
+      <div class="kn" style="color:var(--blue)" id="kn_web">&#8212;</div>
+      <div class="kl">General Web</div><div class="ks">all other pages</div>
+      <span class="ktag tag-a">Auto-Crawled</span>
+    </div>
   </div>
 
-  <div class="date-bar">
+  <div class="dbar">
     <span class="dlbl">Period:</span>
-    <button class="d-btn on" onclick="setRange('all',this)">All Time</button>
-    <button class="d-btn" onclick="setRange('7d',this)">7 Days</button>
-    <button class="d-btn" onclick="setRange('30d',this)">30 Days</button>
-    <button class="d-btn" onclick="setRange('custom',this)">Custom</button>
-    <div id="customDates" style="display:none;display:flex;gap:7px;align-items:center;">
-      <input type="date" class="d-input" id="dFrom"><span style="color:var(--dim)">→</span><input type="date" class="d-input" id="dTo">
+    <button class="db on" onclick="setRange('all',this)">All Time</button>
+    <button class="db" onclick="setRange('7d',this)">7 Days</button>
+    <button class="db" onclick="setRange('30d',this)">30 Days</button>
+    <button class="db" onclick="setRange('custom',this)">Custom</button>
+    <div id="custDates" style="display:none;display:flex;gap:7px;align-items:center">
+      <input type="date" class="din" id="dFrom"><span style="color:var(--dim)">to</span><input type="date" class="din" id="dTo">
     </div>
-    <span class="src-badge">🤖 GitHub Actions crawls every 2.5 hours · Free · No server needed</span>
+    <div class="nxt">Next crawl: <span id="nextCrawl">&#8212;</span> &bull; Runs every ~2.5h via GitHub Actions</div>
   </div>
 
   <!-- OVERVIEW -->
   <div class="page on" id="page_overview">
     <div class="g2">
-      <div class="card"><div class="ct"><div class="ct-dot" style="background:var(--gold)"></div>Priority Actions</div><div class="act-list" id="actList"></div></div>
-      <div class="card"><div class="ct"><div class="ct-dot" style="background:var(--pos)"></div>Sentiment Breakdown</div><div class="sent-meters" id="sentMeters"></div><div class="cw" style="height:150px;"><canvas id="sentChart"></canvas></div></div>
+      <div class="card">
+        <div class="ct"><div class="ctd" style="background:var(--gold)"></div>Priority Actions</div>
+        <div class="acts" id="actList"></div>
+      </div>
+      <div class="card">
+        <div class="ct"><div class="ctd" style="background:var(--pos)"></div>Sentiment Breakdown</div>
+        <div class="cw"><canvas id="sentPie"></canvas></div>
+      </div>
     </div>
     <div class="g2">
-      <div class="card"><div class="ct"><div class="ct-dot" style="background:var(--neg)"></div>🚨 Negative Mentions — Needs Response</div><div class="feed" id="negFeed"></div></div>
-      <div class="card"><div class="ct"><div class="ct-dot" style="background:var(--pos)"></div>Latest Mentions</div><div class="feed" id="latestFeed"></div></div>
+      <div class="card">
+        <div class="ct"><div class="ctd" style="background:var(--blue)"></div>Mentions by Platform</div>
+        <div class="cw"><canvas id="platBar"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="ct"><div class="ctd" style="background:var(--neg)"></div>Negative Alerts &#128680;</div>
+        <div class="feed" id="negFeed"><div class="empty"><div class="ei">&#9989;</div><p>No negative mentions yet.</p></div></div>
+      </div>
     </div>
-    <div class="card"><div class="ct"><div class="ct-dot" style="background:var(--blue)"></div>Mentions by Source</div><div class="cw" style="height:220px;"><canvas id="srcChart"></canvas></div></div>
   </div>
 
-  <!-- LISTENING -->
+  <!-- LIVE LISTENING -->
   <div class="page" id="page_listening">
-    <div class="plat-sel" id="listenSel">
-      <button class="plat-btn on" onclick="showListen('reddit',this)"><div class="pb-pip" style="background:var(--reddit)"></div>🔴 Reddit<span class="pb-tag tag-crawl" id="lbt_reddit">0</span></button>
-      <button class="plat-btn" onclick="showListen('quora',this)"><div class="pb-pip" style="background:var(--quora)"></div>❓ Quora<span class="pb-tag tag-crawl" id="lbt_quora">0</span></button>
-      <button class="plat-btn" onclick="showListen('youtube',this)"><div class="pb-pip" style="background:var(--youtube)"></div>📺 YouTube<span class="pb-tag tag-crawl" id="lbt_youtube">0</span></button>
-      <button class="plat-btn" onclick="showListen('news',this)"><div class="pb-pip" style="background:var(--newspaper)"></div>📰 News<span class="pb-tag tag-crawl" id="lbt_news">0</span></button>
-      <button class="plat-btn" onclick="showListen('medium',this)"><div class="pb-pip" style="background:var(--medium)"></div>📝 Medium<span class="pb-tag tag-crawl" id="lbt_medium">0</span></button>
-      <button class="plat-btn" onclick="showListen('aggregators',this)"><div class="pb-pip" style="background:var(--purple)"></div>🏫 Portals<span class="pb-tag tag-crawl" id="lbt_aggregators">0</span></button>
-      <button class="plat-btn" onclick="showListen('social',this)"><div class="pb-pip" style="background:var(--teal)"></div>📱 Social<span class="pb-tag tag-crawl" id="lbt_social">0</span></button>
-      <button class="plat-btn" onclick="showListen('web',this)"><div class="pb-pip" style="background:var(--blue)"></div>🌐 Web<span class="pb-tag tag-crawl" id="lbt_web">0</span></button>
+    <div class="g3">
+      <div class="card"><div class="ct">By Category</div><div class="cw"><canvas id="catChart"></canvas></div></div>
+      <div class="card"><div class="ct">Sentiment Over Time</div><div class="cw"><canvas id="sentTime"></canvas></div></div>
+      <div class="card">
+        <div class="ct">Top Sources</div>
+        <div id="topSrcs" style="display:flex;flex-direction:column;gap:4px"></div>
+      </div>
     </div>
-    <div id="listenContent"></div>
+    <div class="card">
+      <div class="ct"><div class="ctd" style="background:var(--pos)"></div>All Crawled Mentions &#8212; <span id="mentTotal">0</span> total</div>
+      <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+        <button class="db on" id="mf_all" onclick="setMentFilter('all',this)">All</button>
+        <button class="db" id="mf_pos" onclick="setMentFilter('positive',this)" style="color:var(--pos)">Positive</button>
+        <button class="db" id="mf_neg" onclick="setMentFilter('negative',this)" style="color:var(--neg)">Negative</button>
+        <button class="db" id="mf_mix" onclick="setMentFilter('mixed',this)" style="color:var(--mixed)">Mixed</button>
+        <select class="din" id="platFilt" onchange="renderMentions()" style="height:30px;font-size:10px">
+          <option value="">All Platforms</option>
+          <option value="reddit">Reddit</option>
+          <option value="quora">Quora</option>
+          <option value="youtube">YouTube</option>
+          <option value="medium">Medium</option>
+          <option value="newspaper">News</option>
+          <option value="shiksha">Shiksha</option>
+          <option value="collegedunia">CollegeDunia</option>
+          <option value="linkedin">LinkedIn</option>
+          <option value="twitter">Twitter/X</option>
+          <option value="web">General Web</option>
+        </select>
+      </div>
+      <div id="mentTable"><div class="empty"><div class="spin"></div><p>Loading…</p></div></div>
+    </div>
   </div>
 
-  <!-- MY CONTENT SHEETS -->
+  <!-- MY CONTENT -->
   <div class="page" id="page_content">
-    <div class="info-bar">📊 <b>Your Content Logs</b> — These are your own posts. Configure each platform's Sheet ID + GID in ⚙ Settings → Google Sheets.</div>
-    <div class="plat-sel" id="sheetSel">
-      <button class="plat-btn on" onclick="showSheet('reddit',this)"><div class="pb-pip" style="background:var(--reddit)"></div>🔴 Reddit<span class="pb-tag tag-sheet" id="sbt_reddit">No Sheet</span></button>
-      <button class="plat-btn" onclick="showSheet('quora',this)"><div class="pb-pip" style="background:var(--quora)"></div>❓ Quora Seeding<span class="pb-tag tag-sheet" id="sbt_quora">No Sheet</span></button>
-      <button class="plat-btn" onclick="showSheet('pstQuora',this)"><div class="pb-pip" style="background:var(--purple)"></div>💜 PST Quora<span class="pb-tag tag-sheet" id="sbt_pstQuora">No Sheet</span></button>
-      <button class="plat-btn" onclick="showSheet('youtube',this)"><div class="pb-pip" style="background:var(--youtube)"></div>📺 YT Comments<span class="pb-tag tag-sheet" id="sbt_youtube">No Sheet</span></button>
-      <button class="plat-btn" onclick="showSheet('newspaper',this)"><div class="pb-pip" style="background:var(--newspaper)"></div>📰 Newspaper PR<span class="pb-tag tag-sheet" id="sbt_newspaper">No Sheet</span></button>
-      <button class="plat-btn" onclick="showSheet('medium',this)"><div class="pb-pip" style="background:var(--medium)"></div>📝 Medium<span class="pb-tag tag-sheet" id="sbt_medium">No Sheet</span></button>
+    <div class="psel" id="psel">
+      <button class="pb on" onclick="showPlat('s_reddit',this)"><div class="pb-dot" style="background:var(--reddit)"></div>&#128308; Reddit<span class="pb-tag pbo" id="pbt_s_reddit">No Sheet</span></button>
+      <button class="pb" onclick="showPlat('s_quora',this)"><div class="pb-dot" style="background:var(--quora)"></div>&#128163; Quora<span class="pb-tag pbo" id="pbt_s_quora">No Sheet</span></button>
+      <button class="pb" onclick="showPlat('s_pstQuora',this)"><div class="pb-dot" style="background:var(--purple)"></div>&#128156; PST Quora<span class="pb-tag pbo" id="pbt_s_pstQuora">No Sheet</span></button>
+      <button class="pb" onclick="showPlat('s_youtube',this)"><div class="pb-dot" style="background:var(--youtube)"></div>&#128250; YouTube<span class="pb-tag pbo" id="pbt_s_youtube">No Sheet</span></button>
+      <button class="pb" onclick="showPlat('s_newspaper',this)"><div class="pb-dot" style="background:var(--newspaper)"></div>&#128240; Newspaper<span class="pb-tag pbo" id="pbt_s_newspaper">No Sheet</span></button>
+      <button class="pb" onclick="showPlat('s_medium',this)"><div class="pb-dot" style="background:var(--medium)"></div>&#128221; Medium<span class="pb-tag pbo" id="pbt_s_medium">No Sheet</span></button>
     </div>
-    <div id="sheetContent"></div>
+    <div class="plat-c on" id="plat_s_reddit"><div class="card"><div class="ct">Reddit Posts</div><div id="ct_s_reddit"><div class="empty"><div class="ei">&#128308;</div><p>Add Reddit Sheet ID + GID in &#9881; Settings &#8594; My Content</p></div></div></div></div>
+    <div class="plat-c" id="plat_s_quora"><div class="card"><div class="ct">Quora Answers</div><div id="ct_s_quora"><div class="empty"><div class="ei">&#128163;</div><p>Add Quora Sheet ID + GID in &#9881; Settings &#8594; My Content</p></div></div></div></div>
+    <div class="plat-c" id="plat_s_pstQuora"><div class="card"><div class="ct">PST Quora</div><div id="ct_s_pstQuora"><div class="empty"><div class="ei">&#128156;</div><p>Add PST Quora Sheet ID + GID in &#9881; Settings &#8594; My Content</p></div></div></div></div>
+    <div class="plat-c" id="plat_s_youtube"><div class="card"><div class="ct">YouTube Comments</div><div id="ct_s_youtube"><div class="empty"><div class="ei">&#128250;</div><p>Add YouTube Sheet ID + GID in &#9881; Settings &#8594; My Content</p></div></div></div></div>
+    <div class="plat-c" id="plat_s_newspaper"><div class="card"><div class="ct">Newspaper PR</div><div id="ct_s_newspaper"><div class="empty"><div class="ei">&#128240;</div><p>Add Newspaper Sheet ID + GID in &#9881; Settings &#8594; My Content</p></div></div></div></div>
+    <div class="plat-c" id="plat_s_medium"><div class="card"><div class="ct">Medium Articles</div><div id="ct_s_medium"><div class="empty"><div class="ei">&#128221;</div><p>Add Medium Sheet ID + GID in &#9881; Settings &#8594; My Content</p></div></div></div></div>
   </div>
 
   <!-- COMPETITORS -->
   <div class="page" id="page_competitors">
-    <div class="card"><div class="ct">Competitor Sentiment Comparison — from Crawled Data</div><div class="cw" style="height:230px;"><canvas id="compChart"></canvas></div></div>
+    <div class="card" style="margin-bottom:14px"><div class="ct">Competitor Sentiment vs PST</div><div class="cw" style="height:230px"><canvas id="compBar"></canvas></div></div>
     <div class="g2">
-      <div class="card"><div class="ct">Competitor Mentions</div><div id="compTable"></div></div>
-      <div class="card"><div class="ct">Radar Analysis</div><div class="cw"><canvas id="radarChart"></canvas></div></div>
+      <div class="card"><div class="ct">Competitor Mentions Feed</div><div class="feed" id="compFeed"><div class="empty"><div class="ei">&#127942;</div><p>Competitor mentions appear after first crawl. Configure repo in &#9881; Settings.</p></div></div></div>
+      <div class="card"><div class="ct">Coverage Radar</div><div class="cw"><canvas id="radarChart"></canvas></div></div>
     </div>
   </div>
 
   <!-- ANALYTICS -->
   <div class="page" id="page_analytics">
     <div class="g2">
-      <div class="card"><div class="ct">Category Breakdown — Crawled Data</div><div class="cw"><canvas id="catChart"></canvas></div></div>
-      <div class="card"><div class="ct">Top Sources</div><div class="cw"><canvas id="srcChart2"></canvas></div></div>
+      <div class="card"><div class="ct">Daily Mention Trend</div><div class="cw"><canvas id="trendChart"></canvas></div></div>
+      <div class="card"><div class="ct">Platform Mix</div><div class="cw"><canvas id="mixChart"></canvas></div></div>
     </div>
-    <div class="card"><div class="ct">My Content — Period Comparison</div><div id="perfTable"><div class="empty"><div class="empty-icon">📅</div><p>Connect Google Sheets in ⚙ Settings to see period comparisons.</p></div></div></div>
+    <div class="card"><div class="ct">Platform Performance Summary</div><div id="perfTable"><div class="empty"><div class="ei">&#128197;</div><p>Loads after crawl data is available.</p></div></div></div>
   </div>
 
 </main>
-<footer>Polaris School of Technology · ORM Intelligence v3.0 · GitHub Actions auto-crawls every 2.5 hours · Built by Aditya</footer>
+<footer>Polaris School of Technology &bull; ORM Intelligence Dashboard v3.1 &bull; Built by Aditya &bull; Crawler runs every ~2.5h via GitHub Actions</footer>
 
 <script>
-// ─── CONFIG ───────────────────────────────────────────────
-const DEF = {
-  sheets:{
-    reddit:{sheetId:"",gid:"0",tabName:"Reddit"},
-    quora:{sheetId:"",gid:"0",tabName:"Quora Seeding"},
-    pstQuora:{sheetId:"",gid:"0",tabName:"PST Quora"},
-    youtube:{sheetId:"",gid:"0",tabName:"YouTube Comments"},
-    newspaper:{sheetId:"",gid:"0",tabName:"Newspaper PR"},
-    medium:{sheetId:"",gid:"0",tabName:"Medium"},
+// ============================================================
+// CONFIG
+// ============================================================
+var DEF_CFG = {
+  repo: "adirispol/ORM-Dashboard",
+  branch: "main",
+  apis: { youtube: "", newsapi: "", serpapi: "", apify: "", claude: "" },
+  sheets: {
+    s_reddit:    { id: "", gid: "0", tab: "Reddit" },
+    s_quora:     { id: "", gid: "0", tab: "Quora Seeding" },
+    s_pstQuora:  { id: "", gid: "0", tab: "PST Quora" },
+    s_youtube:   { id: "", gid: "0", tab: "YouTube Comments" },
+    s_newspaper: { id: "", gid: "0", tab: "Newspaper PR" },
+    s_medium:    { id: "", gid: "0", tab: "Medium" }
   },
-  apis:{
-    youtube_data_api:{key:"",label:"YouTube Data API v3",cost:"Free 10k/day",link:"https://console.cloud.google.com",desc:"Enhances YouTube crawl with real-time video mentions & comments. Crawler works without this using Google Search.",activates:"Real-time YouTube mentions (crawler already covers YT)"},
-    newsapi:{key:"",label:"NewsAPI.org",cost:"Free 100/day",link:"https://newsapi.org/register",desc:"70,000+ news sources. Crawler already gets news via Google News RSS — this adds more sources.",activates:"Real-time news from 70k+ publications"},
-    claude_api:{key:"",label:"Claude API (Anthropic)",cost:"~500/mo",link:"https://console.anthropic.com",desc:"AI-powered sentiment tagging and weekly intelligence reports.",activates:"Auto sentiment tagging + AI weekly reports"},
-    apify_key:{key:"",label:"Apify (Quora Deep Scraper)",cost:"~6/mo",link:"https://apify.com",desc:"Deep Quora scraping with full answer text, upvotes. Crawler covers Quora via Google Search — Apify gets deeper.",activates:"Deep Quora: full answers, upvote counts, author data"},
-    reddit_client_id:{key:"",label:"Reddit API Client ID",cost:"Free",link:"https://www.reddit.com/prefs/apps",desc:"Enhances Reddit crawl — more results, comment threads. Crawler uses public JSON without this.",activates:"Enhanced Reddit — more posts, deeper comment crawl"},
-    reddit_secret:{key:"",label:"Reddit API Secret",cost:"Free",link:"https://www.reddit.com/prefs/apps",desc:"Required alongside Reddit Client ID.",activates:"Works with Reddit Client ID above"},
-  },
-  competitors:["Scaler","Newton School of Technology","upGrad","Great Learning","BITS Pilani"],
-  goal:500,
+  competitors: ["Scaler","Newton School of Technology","upGrad","Great Learning","BITS Pilani"],
+  goal: 500,
+  refresh: 5
 };
 
-let CFG={}, CRAWL={}, SHEETS={}, dateRange="all", customFrom="", customTo="", charts={}, refreshTimer=null;
+var SHEET_LABELS = {
+  s_reddit: "Reddit Posts",
+  s_quora: "Quora Seeding Answers",
+  s_pstQuora: "PST Official Quora",
+  s_youtube: "YouTube Comments",
+  s_newspaper: "Newspaper PR",
+  s_medium: "Medium Articles"
+};
 
-function loadCFG(){
-  try{
-    const s=localStorage.getItem("p_orm_v5");
-    const saved=s?JSON.parse(s):{};
-    CFG=JSON.parse(JSON.stringify(DEF));
-    if(saved.sheets)Object.keys(saved.sheets).forEach(k=>{if(CFG.sheets[k])CFG.sheets[k]={...CFG.sheets[k],...saved.sheets[k]};});
-    if(saved.apis)Object.keys(saved.apis).forEach(k=>{if(CFG.apis[k])CFG.apis[k].key=saved.apis[k].key||"";});
-    if(saved.competitors)CFG.competitors=saved.competitors;
-    if(saved.goal)CFG.goal=saved.goal;
-  }catch(e){CFG=JSON.parse(JSON.stringify(DEF));}
+var CFG = {};
+var CRAWL = {};   // data from GitHub JSON files
+var SHEETS = {};  // data from Google Sheets
+var dateRange = "all";
+var mentFilter = "all";
+var charts = {};
+var refreshTimer = null;
+
+function getVal(obj, key, def) {
+  return (obj && obj[key] !== undefined && obj[key] !== null) ? obj[key] : def;
 }
-function saveCFG(){localStorage.setItem("p_orm_v5",JSON.stringify(CFG));}
 
-// ─── SETTINGS ─────────────────────────────────────────────
-function buildSettings(){
-  const body=document.getElementById("setBody");
-  const SHEET_META={
-    reddit:{label:"Reddit Posts & Comments",icon:"🔴",color:"var(--reddit)"},
-    quora:{label:"Quora Seeding Answers",icon:"❓",color:"var(--quora)"},
-    pstQuora:{label:"PST Official Quora Page",icon:"💜",color:"var(--purple)"},
-    youtube:{label:"YouTube Comment Seeding",icon:"📺",color:"var(--youtube)"},
-    newspaper:{label:"Newspaper PR Coverage",icon:"📰",color:"var(--newspaper)"},
-    medium:{label:"Medium Articles",icon:"📝",color:"var(--medium)"},
+function loadCFG() {
+  try {
+    var saved = JSON.parse(localStorage.getItem("p_orm_v6") || "{}");
+    CFG = JSON.parse(JSON.stringify(DEF_CFG));
+    if (saved.repo) CFG.repo = saved.repo;
+    if (saved.branch) CFG.branch = saved.branch;
+    if (saved.apis) { for (var k in saved.apis) { if (CFG.apis.hasOwnProperty(k)) CFG.apis[k] = saved.apis[k]; } }
+    if (saved.sheets) { for (var k in saved.sheets) { if (CFG.sheets.hasOwnProperty(k)) { CFG.sheets[k].id = getVal(saved.sheets[k], "id", ""); CFG.sheets[k].gid = getVal(saved.sheets[k], "gid", "0"); CFG.sheets[k].tab = getVal(saved.sheets[k], "tab", DEF_CFG.sheets[k].tab); } } }
+    if (saved.competitors) CFG.competitors = saved.competitors;
+    if (saved.goal) CFG.goal = saved.goal;
+    if (saved.refresh) CFG.refresh = saved.refresh;
+  } catch(e) { CFG = JSON.parse(JSON.stringify(DEF_CFG)); }
+}
+
+function saveCFG() { localStorage.setItem("p_orm_v6", JSON.stringify(CFG)); }
+
+// ============================================================
+// FETCH
+// ============================================================
+function rawURL(file) {
+  return "https://raw.githubusercontent.com/" + CFG.repo + "/refs/heads/" + CFG.branch + "/data/" + file + "?t=" + Date.now();
+}
+
+function fetchJ(url, cb) {
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", url, true);
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState !== 4) return;
+    if (xhr.status === 200) {
+      try { cb(null, JSON.parse(xhr.responseText)); }
+      catch(e) { cb(e, null); }
+    } else {
+      cb(new Error("HTTP " + xhr.status), null);
+    }
   };
-  body.innerHTML=`
-    <div class="sg">
-      <div class="sg-head" onclick="toggleSg('sg1')"><span style="font-size:16px">📊</span><span class="sg-head-title" style="color:var(--gold)">Google Sheets — My Content Logs</span><span class="sg-head-tag tag-sheet">Per Platform</span><span id="arr_sg1">▼</span></div>
-      <div class="sg-body" id="sg1">
-        <div class="sg-hint">Each platform has its own Sheet ID + GID. GID is the tab number found in your sheet URL after <b style="color:var(--muted)">#gid=</b> — the first tab is always <b>0</b>. Sheet must be published as CSV via File → Share → Publish to web.</div>
-        ${Object.entries(SHEET_META).map(([k,m])=>`
-          <div class="plat-cfg-block">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-              <span style="font-size:15px">${m.icon}</span><span style="font-size:12px;font-weight:600;color:${m.color}">${m.label}</span>
-              ${CFG.sheets[k]?.sheetId?'<span style="font-size:9px;font-weight:700;padding:2px 7px;background:rgba(0,230,118,.1);color:var(--pos);border-radius:4px;">✓ Set</span>':''}
-            </div>
-            <div class="cfg-2col">
-              <div><label class="sl">Sheet ID</label><input class="si" id="sh_${k}_id" value="${CFG.sheets[k]?.sheetId||''}" placeholder="1BxiMVs0XRA5…"><div class="sh">/spreadsheets/d/[THIS]/edit</div></div>
-              <div><label class="sl">GID (Tab Number)</label><input class="si" id="sh_${k}_gid" value="${CFG.sheets[k]?.gid||'0'}" placeholder="0"><div class="sh">URL ends with #gid=[THIS] · First tab = 0</div></div>
-            </div>
-            <div class="sr" style="margin-bottom:0"><label class="sl">Tab Name</label><input class="si" id="sh_${k}_tab" value="${CFG.sheets[k]?.tabName||''}" placeholder="${DEF.sheets[k]?.tabName||''}"></div>
-          </div>`).join("")}
-      </div>
-    </div>
-    <div class="sg">
-      <div class="sg-head" onclick="toggleSg('sg2')"><span style="font-size:16px">🔑</span><span class="sg-head-title" style="color:var(--blue)">API Keys — Real-Time Listening</span><span class="sg-head-tag" style="background:rgba(68,138,255,.12);color:var(--blue)">All Optional</span><span id="arr_sg2">▼</span></div>
-      <div class="sg-body" id="sg2">
-        <div class="sg-hint"><b style="color:var(--text)">The crawler works with zero API keys</b> — Reddit, Quora, YouTube, News and more are already crawled via public APIs and Google Search. These keys enhance each platform with deeper real-time data.<br><br>After adding keys here, also add them as <b style="color:var(--gold)">GitHub Secrets</b> in your repo: Settings → Secrets → Actions → New secret.</div>
-        ${Object.entries(CFG.apis).map(([k,a])=>`
-          <div class="plat-cfg-block" style="margin-bottom:9px;">
-            <div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-size:12px;font-weight:600;color:var(--text)">${a.label}</span><span style="font-size:9px;color:var(--dim)">${a.cost} · <a href="${a.link}" target="_blank" style="color:var(--gold);text-decoration:none">Get key ↗</a></span></div>
-            <div style="font-size:10px;color:var(--dim);margin-bottom:7px;">${a.desc}</div>
-            <input class="si" type="password" id="api_${k}" value="${a.key||''}" placeholder="Paste ${a.label} key here">
-            <div class="${a.key?'cfg-ok':'cfg-miss'}">${a.key?'✓ Active — '+a.activates:'⚪ Optional — '+a.activates}</div>
-          </div>`).join("")}
-      </div>
-    </div>
-    <div class="sg">
-      <div class="sg-head" onclick="toggleSg('sg3')"><span style="font-size:16px">🏆</span><span class="sg-head-title" style="color:var(--orange)">Competitors — <span id="compCt">${(CFG.competitors||[]).length}</span>/15</span><span class="sg-head-tag" style="background:rgba(255,154,63,.1);color:var(--orange)">Tracked in Crawl</span><span id="arr_sg3">▼</span></div>
-      <div class="sg-body" id="sg3">
-        <div class="sg-hint">These competitors are automatically found in crawled data. The crawler searches Reddit, Quora, News, YouTube for all these names every 2.5 hours.</div>
-        <div id="compList"></div>
-        <button class="add-btn" onclick="addComp()">+ Add Competitor (<span id="compSlots">${15-(CFG.competitors||[]).length}</span> slots left)</button>
-      </div>
-    </div>
-    <div class="sg">
-      <div class="sg-head" onclick="toggleSg('sg4')"><span style="font-size:16px">🎯</span><span class="sg-head-title">Goals</span><span id="arr_sg4">▼</span></div>
-      <div class="sg-body" id="sg4">
-        <div class="sr"><label class="sl">North Star Goal (total mentions target)</label><input class="si" type="number" id="s_goal" value="${CFG.goal||500}"></div>
-      </div>
-    </div>`;
-  renderCompList();
+  xhr.send();
 }
 
-function toggleSg(id){
-  const b=document.getElementById(id); const open=b.classList.toggle("open");
-  const arr=document.getElementById("arr_"+id); if(arr)arr.textContent=open?"▲":"▼";
-}
-function renderCompList(){
-  const comps=CFG.competitors||[];
-  const el=document.getElementById("compList");if(!el)return;
-  el.innerHTML=comps.map((c,i)=>`<div class="comp-row"><input class="si" value="${c}" onchange="CFG.competitors[${i}]=this.value" placeholder="Competitor name"><button class="comp-rm" onclick="rmComp(${i})">✕</button></div>`).join("");
-  const ct=document.getElementById("compCt");if(ct)ct.textContent=comps.length;
-  const sl=document.getElementById("compSlots");if(sl)sl.textContent=15-comps.length;
-}
-function addComp(){if((CFG.competitors||[]).length>=15)return;CFG.competitors.push("");renderCompList();}
-function rmComp(i){CFG.competitors.splice(i,1);renderCompList();}
-function openSettings(){buildSettings();document.getElementById("setOv").classList.add("on");document.getElementById("setPanel").classList.add("on");}
-function closeSettings(){document.getElementById("setOv").classList.remove("on");document.getElementById("setPanel").classList.remove("on");}
-function saveSettings(){
-  Object.keys(DEF.sheets).forEach(k=>{
-    if(!CFG.sheets[k])CFG.sheets[k]={};
-    const id=document.getElementById("sh_"+k+"_id");if(id)CFG.sheets[k].sheetId=id.value.trim();
-    const gid=document.getElementById("sh_"+k+"_gid");if(gid)CFG.sheets[k].gid=gid.value.trim();
-    const tab=document.getElementById("sh_"+k+"_tab");if(tab)CFG.sheets[k].tabName=tab.value.trim();
-  });
-  Object.keys(DEF.apis).forEach(k=>{const el=document.getElementById("api_"+k);if(el)CFG.apis[k].key=el.value.trim();});
-  const g=document.getElementById("s_goal");if(g)CFG.goal=parseInt(g.value)||500;
-  saveCFG();closeSettings();loadAll();
+function fetchCSV(sheetId, gid, cb) {
+  if (!sheetId) { cb(new Error("no_sheet"), null); return; }
+  var url = "https://docs.google.com/spreadsheets/d/" + sheetId + "/export?format=csv&gid=" + (gid || "0") + "&t=" + Date.now();
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", url, true);
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState !== 4) return;
+    if (xhr.status !== 200) { cb(new Error("HTTP " + xhr.status), null); return; }
+    var text = xhr.responseText;
+    if (text.indexOf("<!DOCTYPE") !== -1 || text.indexOf("Signin") !== -1) { cb(new Error("not_published"), null); return; }
+    var lines = text.trim().split("\n");
+    if (lines.length < 2) { cb(null, []); return; }
+    var headers = parseCSVLine(lines[0]);
+    var rows = [];
+    for (var i = 1; i < lines.length; i++) {
+      var cols = parseCSVLine(lines[i]);
+      var row = {};
+      for (var j = 0; j < headers.length; j++) row[headers[j]] = cols[j] || "";
+      rows.push(row);
+    }
+    cb(null, rows);
+  };
+  xhr.send();
 }
 
-// ─── DATA FETCH ───────────────────────────────────────────
-async function fetchJSON(path){
-  try{const r=await fetch(path+"?t="+Date.now());if(!r.ok)return null;return await r.json();}catch{return null;}
-}
-async function fetchCSV(sheetId,gid,tabName){
-  if(!sheetId)throw new Error("no_sheet");
-  const url=gid!==""&&gid!==undefined
-    ?`https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`
-    :`https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tabName)}`;
-  const r=await fetch(url);
-  if(!r.ok)throw new Error("HTTP "+r.status);
-  const text=await r.text();
-  if(text.includes("<!DOCTYPE")||text.includes("Signin"))throw new Error("Sheet not published — File→Share→Publish to web→CSV");
-  const lines=text.trim().split("\n");if(lines.length<2)return[];
-  const rows=lines.map(line=>{const cols=[];let cur="",inQ=false;for(const c of line){if(c==='"')inQ=!inQ;else if(c===','&&!inQ){cols.push(cur.trim());cur="";}else cur+=c;}cols.push(cur.trim());return cols;});
-  const h=rows[0];return rows.slice(1).map(row=>{const o={};h.forEach((k,i)=>o[k]=row[i]||"");return o;});
-}
-
-async function loadAll(){
-  document.getElementById("ts").textContent="Loading…";
-  const [summary,reddit,quora,youtube,news,medium,aggregators,social,web,all]=await Promise.all([
-    fetchJSON("data/summary.json"),fetchJSON("data/reddit.json"),fetchJSON("data/quora.json"),
-    fetchJSON("data/youtube.json"),fetchJSON("data/news.json"),fetchJSON("data/medium.json"),
-    fetchJSON("data/aggregators.json"),fetchJSON("data/social.json"),fetchJSON("data/web.json"),
-    fetchJSON("data/all_mentions.json"),
-  ]);
-  CRAWL={summary,reddit,quora,youtube,news,medium,aggregators,social,web,all};
-  for(const[key,cfg]of Object.entries(CFG.sheets)){
-    try{SHEETS[key]=await fetchCSV(cfg.sheetId,cfg.gid,cfg.tabName);SHEETS[key+"_err"]=null;}
-    catch(e){SHEETS[key]=null;SHEETS[key+"_err"]=e.message;}
+function parseCSVLine(line) {
+  var cols = [], cur = "", inQ = false;
+  for (var i = 0; i < line.length; i++) {
+    var c = line[i];
+    if (c === '"') { inQ = !inQ; }
+    else if (c === ',' && !inQ) { cols.push(cur.trim()); cur = ""; }
+    else { cur += c; }
   }
-  renderAll();
-  document.getElementById("ts").textContent="↺ "+new Date().toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"});
-  updateCrawlBadge();
-  if(refreshTimer)clearInterval(refreshTimer);
-  refreshTimer=setInterval(loadAll,150*60*1000);
+  cols.push(cur.trim());
+  return cols;
 }
 
-function updateCrawlBadge(){
-  const b=document.getElementById("crawlBadge");const s=CRAWL.summary;
-  if(!s){b.className="crawl-badge cb-none";b.textContent="⚠ No crawl data — run Actions";return;}
-  const h=(Date.now()-new Date(s.last_crawled).getTime())/(3600000);
-  if(h<3){b.className="crawl-badge cb-ok";b.textContent="✓ Crawled "+Math.round(h*60)+"m ago";}
-  else if(h<8){b.className="crawl-badge cb-old";b.textContent="⚠ "+Math.round(h)+"h ago";}
-  else{b.className="crawl-badge cb-none";b.textContent="⏰ Overdue — check Actions";}
+var pendingLoads = 0;
+var totalLoads = 0;
+
+function loadAll() {
+  if (!CFG.repo) { renderAll(); return; }
+  var files = ["summary","reddit","quora","medium","youtube","news","aggregators","social","web","all_mentions"];
+  pendingLoads = files.length;
+  totalLoads = files.length;
+  for (var i = 0; i < files.length; i++) {
+    (function(f) {
+      fetchJ(rawURL(f + ".json"), function(err, data) {
+        CRAWL[f] = data;
+        pendingLoads--;
+        if (pendingLoads === 0) loadSheets();
+      });
+    })(files[i]);
+  }
 }
 
-// ─── HELPERS ──────────────────────────────────────────────
-const fN=v=>{const n=parseInt(String(v).replace(/,/g,""))||0;return n>=1000?(n/1000).toFixed(1)+"k":String(n);};
-const toN=v=>parseInt(String(v).replace(/,/g,""))||0;
-const scS=s=>{if(!s)return"neu";const l=s.toLowerCase();return l.includes("pos")?"pos":l.includes("neg")?"neg":"neu";};
-const slS=s=>{if(!s)return"—";const l=s.toLowerCase();return l.includes("pos")?"Positive":l.includes("neg")?"Negative":"Neutral";};
-const scC=s=>s==="positive"?"pos":s==="negative"?"neg":s==="mixed"?"mix":"neu";
-const slC=s=>s?s.charAt(0).toUpperCase()+s.slice(1):"Neutral";
-const trunc=(s,n)=>s&&s.length>n?s.slice(0,n)+"…":(s||"—");
-const sRows=k=>Array.isArray(SHEETS[k])?SHEETS[k]:[];
-const mens=k=>(CRAWL[k]?.mentions||[]);
-function filterDate(arr,f="date"){
-  if(dateRange==="all")return arr;
-  const now=new Date(),cut=new Date();
-  if(dateRange==="7d")cut.setDate(now.getDate()-7);
-  else if(dateRange==="30d")cut.setDate(now.getDate()-30);
-  else if(dateRange==="custom"&&customFrom)cut.setTime(new Date(customFrom).getTime());
-  return arr.filter(x=>{try{return new Date(x[f]||0)>=cut;}catch{return true;}});
+function loadSheets() {
+  var keys = Object.keys(CFG.sheets);
+  var done = 0;
+  if (keys.length === 0) { renderAll(); startRefresh(); return; }
+  for (var i = 0; i < keys.length; i++) {
+    (function(k) {
+      var s = CFG.sheets[k];
+      fetchCSV(s.id, s.gid, function(err, rows) {
+        if (err) { SHEETS[k] = null; SHEETS[k + "_err"] = err.message; }
+        else { SHEETS[k] = rows; SHEETS[k + "_err"] = null; }
+        done++;
+        if (done === keys.length) { renderAll(); startRefresh(); }
+      });
+    })(keys[i]);
+  }
 }
 
-Chart.defaults.color="#3D4560";Chart.defaults.borderColor="rgba(255,255,255,0.04)";Chart.defaults.font.family="'Poppins',sans-serif";Chart.defaults.font.size=10;
-const TT={plugins:{tooltip:{backgroundColor:"#0C0E18",borderColor:"rgba(255,204,63,.22)",borderWidth:1,titleColor:"#FFCC3F",bodyColor:"#8896B0",padding:10,cornerRadius:8},legend:{labels:{color:"#3D4560",usePointStyle:true,pointStyleWidth:8,boxHeight:8}}}};
-function mkC(id,type,labels,datasets,extra={}){
-  const c=document.getElementById(id);if(!c)return;if(charts[id])charts[id].destroy();
-  charts[id]=new Chart(c,{type,data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,...TT,scales:type==="radar"?{r:{grid:{color:"rgba(255,255,255,0.05)"},ticks:{display:false},pointLabels:{color:"#556",font:{size:10}}}}:type==="doughnut"||type==="pie"?{}:{x:{grid:{color:"rgba(255,255,255,0.02)"},ticks:{color:"#3D4560",maxRotation:30}},y:{grid:{color:"rgba(255,255,255,0.03)"},ticks:{color:"#3D4560"}}},...extra}});
+function startRefresh() {
+  if (refreshTimer) clearInterval(refreshTimer);
+  refreshTimer = setInterval(loadAll, (CFG.refresh || 5) * 60000);
 }
 
-const PC={"reddit":"var(--reddit)","quora":"var(--quora)","youtube":"var(--youtube)","newspaper":"var(--newspaper)","medium":"var(--medium)","linkedin":"var(--teal)","twitter":"var(--blue)","facebook":"#1877F2","instagram":"#E4405F","web":"var(--blue)","shiksha":"var(--purple)"};
+// ============================================================
+// HELPERS
+// ============================================================
+function fN(v) { var n = parseInt(String(v || 0).replace(/,/g,"")) || 0; return n >= 1000 ? (n/1000).toFixed(1) + "k" : String(n); }
+function toN(v) { return parseInt(String(v || 0).replace(/,/g,"")) || 0; }
+function trunc(s, n) { s = s || ""; return s.length > n ? s.slice(0, n) + "…" : s; }
+function esc(s) { return String(s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 
-function renderFeed(id,items,limit=15){
-  const el=document.getElementById(id);if(!el)return;
-  if(!items.length){el.innerHTML='<div class="empty"><div class="empty-icon">📭</div><p>No mentions found in selected period.</p></div>';return;}
-  el.innerHTML=items.slice(0,limit).map(m=>`
-    <div class="fc">
-      <div class="fc-top"><div class="fc-title">${trunc(m.title,100)}</div>
-        <div class="fc-badges"><span class="sb ${scC(m.sentiment)}">${slC(m.sentiment)}</span>${m.score>0?`<span class="score-badge">▲${fN(m.score)}</span>`:""}</div>
-      </div>
-      <div class="fc-meta"><div class="pip" style="background:${PC[m.platform]||"#556"}"></div>
-        <span style="font-weight:600;color:${PC[m.platform]||"#556"}">${m.platform||"—"}</span>
-        ${m.subcategory?`<span>· ${m.subcategory}</span>`:""}
-        ${m.author?`<span>· ${trunc(m.author,30)}</span>`:""}
-        ${m.url?`<a href="${m.url}" target="_blank" class="lb" style="font-size:9px">View ↗</a>`:""}
-      </div>
-    </div>`).join("");
+function sentCls(s) {
+  s = String(s || "").toLowerCase();
+  if (s.indexOf("pos") !== -1) return "pos";
+  if (s.indexOf("neg") !== -1) return "neg";
+  if (s.indexOf("mix") !== -1) return "mixed";
+  return "neu";
+}
+function sentLabel(s) {
+  s = String(s || "").toLowerCase();
+  if (s.indexOf("pos") !== -1) return "Positive";
+  if (s.indexOf("neg") !== -1) return "Negative";
+  if (s.indexOf("mix") !== -1) return "Mixed";
+  return "Neutral";
 }
 
-function tblFrom(rows,headers,fn){
-  if(!rows.length)return'<div class="empty"><div class="empty-icon">📭</div><p>No data yet.</p></div>';
-  const th=headers.map(h=>`<th${["Impressions","Reads","Count","Score"].includes(h)?" class='r'":""}>${h}</th>`).join("");
-  const tr=rows.slice(0,100).map((r,i)=>`<tr>${fn(r,i).map((c,ci)=>`<td${["Impressions","Reads","Count","Score"].includes(headers[ci])?" class='r'":""}>${c}</td>`).join("")}</tr>`).join("");
-  return`<div class="tw"><table><thead><tr>${th}</tr></thead><tbody>${tr}</tbody></table></div>`;
+var PCOLS = {
+  reddit: "#FF5722", quora: "#E53935", youtube: "#F44336",
+  medium: "#00C853", newspaper: "#FFB300", news: "#FFB300",
+  shiksha: "#F59E0B", collegedunia: "#F59E0B", collegedekho: "#D97706",
+  careers360: "#B45309", getmyuni: "#92400E", naukri: "#92400E",
+  linkedin: "#0077B5", twitter: "#1DA1F2", facebook: "#1877F2",
+  instagram: "#E1306C", web: "#2979FF", aggregators: "#F59E0B",
+  social: "#7C4DFF"
+};
+
+function pCol(p) { return PCOLS[String(p || "").toLowerCase()] || "#94A3B8"; }
+
+function crawlMentions(key) {
+  if (!CRAWL[key]) return [];
+  return CRAWL[key].mentions || [];
 }
 
-// ─── RENDER ALL ───────────────────────────────────────────
-function renderAll(){
-  const s=CRAWL.summary||{};
-  const by_s=s.by_sentiment||{};
-  const by_p=s.by_platform||{};
-  const total=s.total_mentions||0;
-  const goal=CFG.goal||500;
+function allMentions() {
+  if (CRAWL.all_mentions) return CRAWL.all_mentions.mentions || [];
+  return [];
+}
 
-  // North Star
-  const pct=Math.min(100,Math.round(total/goal*100));
-  document.getElementById("nsTotal").textContent=total.toLocaleString();
-  document.getElementById("nsFill").style.width=pct+"%";
-  document.getElementById("nsPct").textContent=total.toLocaleString()+" mentions / "+goal+" goal ("+pct+"%)";
-  document.getElementById("nsPos").textContent=fN(by_s.positive||0);
-  document.getElementById("nsNeg").textContent=fN(by_s.negative||0);
-  document.getElementById("nsMix").textContent=fN(by_s.mixed||0);
-  document.getElementById("nsSrc").textContent=Object.keys(by_p).length;
-  const sc2=Object.values(CFG.sheets).filter(x=>x.sheetId).length;
-  const nsS=document.getElementById("nsSheets");nsS.textContent=sc2+"/6";nsS.style.color=sc2===6?"var(--pos)":sc2>0?"var(--amber)":"var(--dim)";
-
-  // KPIs
-  const kpiMap={reddit:"reddit",quora:"quora",youtube:"youtube",news:"newspaper",medium:"medium"};
-  Object.entries(kpiMap).forEach(([k,p])=>{
-    const ct=by_p[p]||0;
-    const n=document.getElementById("kn_"+k);if(n)n.textContent=ct;
-    const d=document.getElementById("dot_"+k);if(d)d.style.background=ct>0?"var(--pos)":"var(--dim)";
-    const lb=document.getElementById("lbt_"+k);if(lb)lb.textContent=ct;
+function filterDate(arr) {
+  if (dateRange === "all") return arr;
+  var now = new Date(), cut = new Date();
+  if (dateRange === "7d") cut.setDate(now.getDate() - 7);
+  else if (dateRange === "30d") cut.setDate(now.getDate() - 30);
+  else if (dateRange === "custom") {
+    var dFrom = document.getElementById("dFrom").value;
+    if (dFrom) cut = new Date(dFrom);
+  }
+  return arr.filter(function(m) {
+    var d = m.date || "";
+    if (!d) return true;
+    try { return new Date(d) >= cut; } catch(e) { return true; }
   });
-  const aggCt=["shiksha","collegedunia","collegedekho","careers360","getmyuni","naukri"].reduce((s,p)=>s+(by_p[p]||0),0);
-  const socCt=["linkedin","twitter","facebook","instagram"].reduce((s,p)=>s+(by_p[p]||0),0);
-  const webCt=by_p.web||0;
-  [["aggregators",aggCt],["social",socCt],["web",webCt]].forEach(([k,ct])=>{
-    const n=document.getElementById("kn_"+k);if(n)n.textContent=ct;
-    const d=document.getElementById("dot_"+k);if(d)d.style.background=ct>0?"var(--pos)":"var(--dim)";
-    const lb=document.getElementById("lbt_"+k);if(lb)lb.textContent=ct;
-  });
+}
 
-  // Sheet tab statuses
-  Object.keys(DEF.sheets).forEach(k=>{
-    const el=document.getElementById("sbt_"+k);if(!el)return;
-    const cfg=CFG.sheets[k]||{};
-    if(cfg.sheetId){const r=sRows(k);const err=SHEETS[k+"_err"];
-      el.textContent=err&&err!=="no_sheet"?"Error":r.length+" rows";
-      el.style.background=err&&err!=="no_sheet"?"rgba(255,23,68,.1)":"rgba(255,204,63,.1)";
-      el.style.color=err&&err!=="no_sheet"?"var(--neg)":"var(--gold)";
-    }else{el.textContent="No Sheet";el.style.background="rgba(255,23,68,.08)";el.style.color="var(--neg)";}
-  });
+Chart.defaults.color = "#445";
+Chart.defaults.borderColor = "rgba(255,255,255,0.04)";
+Chart.defaults.font.family = "'Poppins',sans-serif";
+Chart.defaults.font.size = 10;
 
+var TT = { plugins: { tooltip: { backgroundColor: "#0D0F18", borderColor: "rgba(255,204,63,.25)", borderWidth: 1, titleColor: "#FFCC3F", bodyColor: "#94A3B8", padding: 10, cornerRadius: 8 }, legend: { labels: { color: "#556", usePointStyle: true, pointStyleWidth: 8, boxHeight: 8 } } } };
+
+function mkChart(id, type, labels, datasets, extra) {
+  var c = document.getElementById(id);
+  if (!c) return;
+  if (charts[id]) { charts[id].destroy(); }
+  var opts = { responsive: true, maintainAspectRatio: false, plugins: TT.plugins };
+  if (extra) { for (var k in extra) opts[k] = extra[k]; }
+  charts[id] = new Chart(c, { type: type, data: { labels: labels, datasets: datasets }, options: opts });
+}
+
+// ============================================================
+// RENDER ALL
+// ============================================================
+function renderAll() {
+  updateNS();
+  updateKPIs();
+  updateCrawlDot();
   renderOverview();
-  renderListeningTabs();
+  renderListening();
+  renderMyContent();
   renderCompetitors();
   renderAnalytics();
 }
 
-function renderOverview(){
-  const allM=CRAWL.all?.mentions||[];
-  const s=CRAWL.summary||{};const by_s=s.by_sentiment||{};
-
-  // Actions
-  const acts=[];
-  if(!CRAWL.summary)acts.push({t:"No crawl data yet. Commit your files to GitHub — Actions will run the crawler automatically on first push.",p:"h"});
-  else{
-    const neg=allM.filter(m=>m.sentiment==="negative");
-    if(neg.length>5)acts.push({t:neg.length+" negative mentions found. Review the Negative feed below and respond to the top 3 urgently.",p:"h"});
-    const posR=(by_s.positive||0)/(s.total_mentions||1)*100;
-    if(posR<40&&s.total_mentions>0)acts.push({t:"Positive sentiment is "+Math.round(posR)+"% — below 40%. Create more positive posts on Reddit and Quora this week.",p:"m"});
-    if(Object.values(CFG.sheets).every(x=>!x.sheetId))acts.push({t:"No Google Sheets connected. Open ⚙ Settings → Google Sheets to connect your content logs.",p:"m"});
-    if(!CFG.apis.claude_api.key)acts.push({t:"Add Claude API key in ⚙ Settings for AI sentiment tagging and weekly intelligence reports.",p:"l"});
+function getSummaryVal(path, def) {
+  if (!CRAWL.summary) return def;
+  var parts = path.split(".");
+  var obj = CRAWL.summary;
+  for (var i = 0; i < parts.length; i++) {
+    if (!obj || obj[parts[i]] === undefined) return def;
+    obj = obj[parts[i]];
   }
-  if(!acts.length)acts.push({t:"Systems active. Crawler running every 2.5 hours via GitHub Actions.",p:"l"});
-  const lbl={h:"HIGH",m:"MED",l:"LOW"};
-  document.getElementById("actList").innerHTML=acts.slice(0,5).map((a,i)=>`<div class="act"><div class="act-n">${i+1}</div><div class="act-t">${a.t}<span class="act-badge act-${a.p}">${lbl[a.p]}</span></div></div>`).join("");
-
-  // Sentiment meters
-  document.getElementById("sentMeters").innerHTML=[
-    {l:"Positive",v:by_s.positive||0,c:"var(--pos)"},{l:"Negative",v:by_s.negative||0,c:"var(--neg)"},
-    {l:"Mixed",v:by_s.mixed||0,c:"var(--mix)"},{l:"Neutral",v:by_s.neutral||0,c:"var(--muted)"},
-  ].map(x=>`<div class="sent-m"><div class="sent-m-n" style="color:${x.c}">${fN(x.v)}</div><div class="sent-m-l">${x.l}</div></div>`).join("");
-
-  // Sentiment pie
-  mkC("sentChart","doughnut",["Positive","Negative","Mixed","Neutral"],[{
-    data:[by_s.positive||0,by_s.negative||0,by_s.mixed||0,by_s.neutral||0],
-    backgroundColor:["rgba(0,230,118,.7)","rgba(255,23,68,.7)","rgba(255,179,0,.6)","rgba(120,144,156,.4)"],
-    borderColor:["var(--pos)","var(--neg)","var(--mix)","var(--neu)"],borderWidth:2,
-  }],{cutout:"58%"});
-
-  // Feeds
-  const by_p=CRAWL.summary?.by_platform||{};
-  renderFeed("negFeed",filterDate(allM.filter(m=>m.sentiment==="negative")),10);
-  renderFeed("latestFeed",filterDate([...allM]).sort((a,b)=>new Date(b.date)-new Date(a.date)),15);
-
-  // Source chart
-  const sorted=Object.entries(by_p).sort((a,b)=>b[1]-a[1]).slice(0,10);
-  const bgC={"reddit":"rgba(255,87,34,.7)","quora":"rgba(239,83,80,.7)","youtube":"rgba(255,23,68,.7)","newspaper":"rgba(255,215,64,.7)","medium":"rgba(0,230,118,.7)","shiksha":"rgba(124,77,255,.6)","linkedin":"rgba(29,233,182,.6)","twitter":"rgba(68,138,255,.6)","web":"rgba(68,138,255,.5)"};
-  mkC("srcChart","bar",sorted.map(x=>x[0]),[{label:"Mentions",data:sorted.map(x=>x[1]),backgroundColor:sorted.map(x=>bgC[x[0]]||"rgba(68,138,255,.5)"),borderRadius:5,borderColor:sorted.map(x=>bgC[x[0]]?.replace(".7","")||"rgba(68,138,255,1)"),borderWidth:1.5}]);
+  return obj;
 }
 
-function renderListeningTabs(){showListen("reddit",document.querySelector("#listenSel .plat-btn"));}
-let activeListen="reddit";
-function showListen(key,btn){
-  if(btn){document.querySelectorAll("#listenSel .plat-btn").forEach(b=>b.classList.remove("on"));btn.classList.add("on");}
-  activeListen=key;
-  const dataKey={reddit:"reddit",quora:"quora",youtube:"youtube",news:"news",medium:"medium",aggregators:"aggregators",social:"social",web:"web"}[key]||key;
-  const mentions=filterDate(CRAWL[dataKey]?.mentions||[]);
-  const el=document.getElementById("listenContent");if(!el)return;
-  if(!CRAWL[dataKey]){el.innerHTML=`<div class="empty"><div class="empty-icon">⏳</div><p>No data for ${key} yet.</p><div class="hint">Go to GitHub → Actions → Run workflow manually for first run.</div></div>`;return;}
-  const pos=mentions.filter(m=>m.sentiment==="positive").length;
-  const neg=mentions.filter(m=>m.sentiment==="negative").length;
-  const mix=mentions.filter(m=>m.sentiment==="mixed").length;
-  const byCat={};mentions.forEach(m=>{byCat[m.category||"general"]=(byCat[m.category||"general"]||0)+1;});
-  el.innerHTML=`
-    <div class="g3">
-      <div class="card"><div class="ct">Sentiment</div><div class="stats-row">
-        <div class="stat-box"><div class="stat-n" style="color:var(--pos)">${pos}</div><div class="stat-l">Positive</div></div>
-        <div class="stat-box"><div class="stat-n" style="color:var(--neg)">${neg}</div><div class="stat-l">Negative</div></div>
-        <div class="stat-box"><div class="stat-n" style="color:var(--mix)">${mix}</div><div class="stat-l">Mixed</div></div>
-      </div></div>
-      <div class="card"><div class="ct">Categories</div>${Object.entries(byCat).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([c,n])=>`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);font-size:11px;"><span style="color:var(--muted)">${c}</span><span style="font-weight:700;color:var(--gold)">${n}</span></div>`).join("")}</div>
-      <div class="card"><div class="ct">Source Info</div><div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px;">${mentions.length} mentions</div><div style="font-size:10px;color:var(--dim);">Last crawled: ${CRAWL[dataKey]?.last_crawled||"—"}</div><div style="font-size:10px;color:var(--dim);margin-top:5px;">Auto-crawled via GitHub Actions</div></div>
-    </div>
-    <div class="card"><div class="ct">All ${key.charAt(0).toUpperCase()+key.slice(1)} Mentions (${mentions.length})</div>
-      ${mentions.length?`<div class="tw"><table><thead><tr><th>Title</th><th>Sentiment</th><th>Category</th><th>Author</th><th>Link</th><th class="r">Score</th></tr></thead><tbody>${mentions.slice(0,100).map(m=>`<tr><td>${trunc(m.title,80)}</td><td><span class="sb ${scC(m.sentiment)}">${slC(m.sentiment)}</span></td><td>${m.category||"—"}</td><td>${trunc(m.author||"—",25)}</td><td>${m.url?`<a href="${m.url}" target="_blank" class="lb">View ↗</a>`:"—"}</td><td class="r">${m.score||0}</td></tr>`).join("")}</tbody></table></div>`:'<div class="empty"><div class="empty-icon">📭</div><p>No mentions in selected period.</p></div>'}
-    </div>`;
+function updateNS() {
+  var total = getSummaryVal("total_mentions", 0);
+  var pos = getSummaryVal("by_sentiment.positive", 0);
+  var neg = getSummaryVal("by_sentiment.negative", 0);
+  var goal = CFG.goal || 500;
+  var pct = Math.min(100, Math.round(total / goal * 100));
+  document.getElementById("nsCount").textContent = total.toLocaleString();
+  document.getElementById("nsGoal").textContent = goal.toLocaleString();
+  document.getElementById("nsFill").style.width = pct + "%";
+  document.getElementById("nsPct").textContent = pct + "% \u00b7 " + Math.max(0, goal - total) + " remaining";
+  document.getElementById("b_total").textContent = fN(total);
+  document.getElementById("b_pos").textContent = fN(pos);
+  document.getElementById("b_neg").textContent = fN(neg);
 }
 
-let activeSheet="reddit";
-function showSheet(key,btn){
-  document.querySelectorAll("#sheetSel .plat-btn").forEach(b=>b.classList.remove("on"));
-  btn.classList.add("on");activeSheet=key;renderSheetContent(key);
-}
-function renderSheetContent(key){
-  const el=document.getElementById("sheetContent");if(!el)return;
-  const cfg=CFG.sheets[key]||{};const err=SHEETS[key+"_err"];const rows=sRows(key);
-  if(!cfg.sheetId){el.innerHTML=`<div class="empty"><div class="empty-icon">📊</div><p>No sheet configured for <b>${key}</b>.</p><div class="hint">Open ⚙ Settings → Google Sheets → add Sheet ID + GID + Tab Name</div></div>`;return;}
-  if(err&&err!=="no_sheet"){el.innerHTML=`<div class="err-box"><p>⚠ ${err}</p><small>Check Sheet ID, GID, Tab Name in ⚙ Settings. Make sure sheet is published as CSV.</small></div>`;return;}
-  if(!rows.length){el.innerHTML=`<div class="empty"><div class="empty-icon">📭</div><p>Sheet connected but no rows found. Check tab is published as CSV.</p></div>`;return;}
-  const renders={
-    reddit:()=>{const r=rows.filter(x=>x["Post Link"]);const ti=r.reduce((s,x)=>s+toN(x["Post Impressions"]||0),0);el.innerHTML=`<div class="card"><div class="ct">Stats</div><div class="stats-row"><div class="stat-box"><div class="stat-n" style="color:var(--reddit)">${r.length}</div><div class="stat-l">Posts</div></div><div class="stat-box"><div class="stat-n">${fN(ti)}</div><div class="stat-l">Impressions</div></div></div></div><div class="card"><div class="ct">Reddit Posts (${r.length})</div>${tblFrom(r,["Date","Type","Question","Link","Impressions","Sentiment","Subreddit"],x=>[x["Date"]||"—",x["Type"]||"—",trunc(x["Question"],55),x["Post Link"]?`<a href="${x["Post Link"]}" target="_blank" class="lb">View ↗</a>`:"—",fN(x["Post Impressions"]||0),`<span class="sb ${scS(x["Sentiment"])}">${slS(x["Sentiment"])}</span>`,x["Subreddit"]||"—"])}</div>`;},
-    quora:()=>{const r=rows.filter(x=>x["Answer Live Link"]);const ti=r.reduce((s,x)=>s+toN(x["Impressions"]||0),0);el.innerHTML=`<div class="card"><div class="ct">Quora Seeding (${r.length})</div>${tblFrom(r,["Date","Question","Q Link","A Link","Impressions","Sentiment"],x=>[x["Date"]||"—",trunc(x["Question"],50),x["Question Live Link"]?`<a href="${x["Question Live Link"]}" target="_blank" class="lb">Q ↗</a>`:"—",x["Answer Live Link"]?`<a href="${x["Answer Live Link"]}" target="_blank" class="lb">A ↗</a>`:"—",fN(x["Impressions"]||0),`<span class="sb ${scS(x["Sentiment"])}">${slS(x["Sentiment"])}</span>`])}</div>`;},
-    pstQuora:()=>{const r=rows.filter(x=>x["Live Link"]);el.innerHTML=`<div class="card"><div class="ct">PST Quora (${r.length})</div>${tblFrom(r,["#","Question","Link","Impressions","Sentiment"],(x,i)=>[i+1,trunc(x["Question"],60),x["Live Link"]?`<a href="${x["Live Link"]}" target="_blank" class="lb">View ↗</a>`:"—",fN(x["Impressions"]||0),`<span class="sb ${scS(x["Sentiment"])}">${slS(x["Sentiment"])}</span>`])}</div>`;},
-    youtube:()=>{el.innerHTML=`<div class="card"><div class="ct">YouTube Comments (${rows.length})</div>${tblFrom(rows,["Date","Channel","Type","Video","Count"],x=>[x["Date"]||x["A"]||"—",x["Channel Name"]||x["B"]||"—",x["Type"]||x["D"]||"—",x["Video Link"]?`<a href="${x["Video Link"]}" target="_blank" class="lb">Watch ↗</a>`:"—",x["Comments Seeded"]||x["F"]||1])}</div>`;},
-    newspaper:()=>{const r=rows.filter(x=>x["Published Link"]||x["D"]);el.innerHTML=`<div class="card"><div class="ct">Newspaper PR (${r.length})</div>${tblFrom(r,["Publication","Language","Date","Headline","Link","Sentiment"],x=>[x["Publication Name"]||x["A"]||"—",x["Language"]||x["B"]||"—",x["Publish Date"]||x["C"]||"—",trunc(x["Headline"]||x["E"],45),(x["Published Link"]||x["D"])?`<a href="${x["Published Link"]||x["D"]}" target="_blank" class="lb">Read ↗</a>`:"—",`<span class="sb ${scS(x["Sentiment"]||x["F"])}">${slS(x["Sentiment"]||x["F"])}</span>`])}</div>`;},
-    medium:()=>{const r=rows.filter(x=>x["Live Link"]||x["G"]);const tr=r.reduce((s,x)=>s+toN(x["Reads"]||x["H"]||0),0);el.innerHTML=`<div class="card"><div class="ct">Medium Articles (${r.length}) · ${fN(tr)} reads</div>${tblFrom(r,["Date","Title","Author","Link","Reads","Sentiment"],x=>[x["Date"]||x["A"]||"—",trunc(x["Title"]||x["C"],48),x["Author"]||x["E"]||"—",(x["Live Link"]||x["G"])?`<a href="${x["Live Link"]||x["G"]}" target="_blank" class="lb">Read ↗</a>`:"—",fN(x["Reads"]||x["H"]||0),`<span class="sb ${scS(x["Sentiment"]||x["I"])}">${slS(x["Sentiment"]||x["I"])}</span>`])}</div>`;}
-  };
-  if(renders[key])renders[key]();
+function updateCrawlDot() {
+  var dot = document.getElementById("crawlDot");
+  var ageEl = document.getElementById("crawlAge");
+  var nxtEl = document.getElementById("nextCrawl");
+  if (!CRAWL.summary) {
+    dot.className = "cdot";
+    ageEl.textContent = CFG.repo ? "Waiting for crawl\u2026" : "Configure repo in \u2699 Settings";
+    nxtEl.textContent = "\u2014";
+    document.getElementById("b_crawl").textContent = "\u2014";
+    return;
+  }
+  var last = new Date(CRAWL.summary.last_crawled || "");
+  var hrs = (Date.now() - last.getTime()) / 3600000;
+  var ageStr;
+  if (hrs < 1) ageStr = Math.round(hrs * 60) + "m ago";
+  else ageStr = Math.round(hrs) + "h ago";
+  ageEl.textContent = ageStr;
+  document.getElementById("b_crawl").textContent = ageStr;
+  if (hrs < 3) dot.className = "cdot live";
+  else if (hrs < 8) dot.className = "cdot stale";
+  else dot.className = "cdot old";
+  var nextHrs = 2.5 - (hrs % 2.5);
+  nxtEl.textContent = "~" + Math.round(nextHrs * 60) + "min";
 }
 
-function renderCompetitors(){
-  const allM=CRAWL.all?.mentions||[];
-  const comps=["PST",...(CFG.competitors||[]).slice(0,5)];
-  const compData=comps.map(c=>{
-    const isMe=c==="PST";
-    const r=isMe?allM.filter(m=>m.sentiment):allM.filter(m=>(m.title||"").toLowerCase().includes(c.toLowerCase().split(" ")[0]));
-    const pos=r.filter(m=>m.sentiment==="positive").length,neg=r.filter(m=>m.sentiment==="negative").length;
-    return{name:c.split(" ")[0],positive:r.length?Math.round(pos/r.length*100):0,negative:r.length?Math.round(neg/r.length*100):0,neutral:r.length?Math.round((r.length-pos-neg)/r.length*100):0,total:r.length};
+function updateKPIs() {
+  var byP = getSummaryVal("by_platform", {});
+  var pg = getSummaryVal("platform_groups", {});
+  var loaded = !!CRAWL.summary;
+  var aggCnt = 0;
+  if (pg.aggregators) aggCnt = pg.aggregators.count || 0;
+  var socCnt = 0;
+  if (pg.social_media) socCnt = pg.social_media.count || 0;
+  var kpis = [
+    { id: "reddit",   n: byP.reddit || 0 },
+    { id: "quora",    n: byP.quora || 0 },
+    { id: "youtube",  n: byP.youtube || 0 },
+    { id: "medium",   n: byP.medium || 0 },
+    { id: "newspaper",n: byP.newspaper || 0 },
+    { id: "agg",      n: aggCnt },
+    { id: "social",   n: socCnt },
+    { id: "web",      n: byP.web || 0 }
+  ];
+  kpis.forEach(function(k) {
+    var nd = document.getElementById("kn_" + k.id);
+    var dd = document.getElementById("kd_" + k.id);
+    if (nd) nd.textContent = loaded ? fN(k.n) : "\u2014";
+    if (dd) dd.className = "kd " + (loaded && k.n > 0 ? "live" : loaded ? "stale" : "");
   });
-  mkC("compChart","bar",compData.map(x=>x.name),[
-    {label:"Positive %",data:compData.map(x=>x.positive),backgroundColor:"rgba(0,230,118,.5)",borderRadius:4},
-    {label:"Negative %",data:compData.map(x=>x.negative),backgroundColor:"rgba(255,23,68,.4)",borderRadius:4},
-    {label:"Neutral %",data:compData.map(x=>x.neutral),backgroundColor:"rgba(60,70,100,.4)",borderRadius:4},
-  ]);
-  const rd=[{m:"Sentiment",PST:compData[0]?.positive||0,Scaler:65,Newton:58},{m:"Mentions",PST:Math.min(compData[0]?.total||0,100),Scaler:70,Newton:55},{m:"Engagement",PST:60,Scaler:75,Newton:50},{m:"News",PST:mens("news").length?70:20,Scaler:50,Newton:40},{m:"Web",PST:mens("web").length?65:20,Scaler:80,Newton:45}];
-  mkC("radarChart","radar",rd.map(x=>x.m),[
-    {label:"PST",data:rd.map(x=>x.PST),borderColor:"#FFCC3F",backgroundColor:"rgba(255,204,63,.15)",pointRadius:3},
-    {label:"Scaler",data:rd.map(x=>x.Scaler),borderColor:"var(--orange)",backgroundColor:"rgba(255,154,63,.08)",pointRadius:3},
-    {label:"Newton",data:rd.map(x=>x.Newton),borderColor:"var(--purple)",backgroundColor:"rgba(124,77,255,.08)",pointRadius:3},
-  ]);
-  const compM=allM.filter(m=>(CFG.competitors||[]).some(c=>(m.title||"").toLowerCase().includes(c.toLowerCase().split(" ")[0]))).slice(0,30);
-  const el=document.getElementById("compTable");if(el){
-    if(!compM.length){el.innerHTML='<div class="empty"><div class="empty-icon">🏆</div><p>No competitor mentions in crawled data yet. Run the crawler first.</p></div>';}
-    else el.innerHTML=tblFrom(compM,["Platform","Title","Sentiment","Score"],m=>[`<span style="font-weight:600;color:${PC[m.platform]||"var(--muted)"}">${m.platform||"—"}</span>`,trunc(m.title,60),`<span class="sb ${scC(m.sentiment)}">${slC(m.sentiment)}</span>`,fN(m.score||0)]);
+}
+
+// ============================================================
+// OVERVIEW
+// ============================================================
+function renderOverview() {
+  renderActions();
+  renderSentPie();
+  renderPlatBar();
+  renderNegFeed();
+}
+
+function renderActions() {
+  var acts = [];
+  if (!CFG.repo) acts.push({ t: "Open \u2699 Settings \u2192 enter your GitHub repo path (e.g. adirispol/ORM-Dashboard) to load crawled data.", p: "h" });
+  else if (!CRAWL.summary) acts.push({ t: "Crawl data not found. Go to your GitHub repo \u2192 Actions \u2192 Polaris ORM Crawler \u2192 Run workflow (first run takes 3\u20135 min).", p: "h" });
+  var neg = getSummaryVal("negative_alert_count", 0);
+  if (neg > 3) acts.push({ t: neg + " negative mentions detected. Go to Live Listening \u2192 filter Negative to review and respond.", p: "h" });
+  if (!CFG.apis.youtube) acts.push({ t: "Add YouTube API key in \u2699 Settings for better YouTube coverage.", p: "m" });
+  if (!CFG.apis.newsapi) acts.push({ t: "Add NewsAPI key in \u2699 Settings for 70k+ news source coverage.", p: "m" });
+  var redditN = getSummaryVal("by_platform.reddit", 0);
+  if (redditN > 0) acts.push({ t: redditN + " Reddit mentions found. Check Live Listening \u2192 filter Reddit.", p: "l" });
+  if (!acts.length) acts.push({ t: "Crawler running. All mentions auto-collected every 2.5 hours.", p: "l" });
+  var lbl = { h: "HIGH", m: "MED", l: "LOW" };
+  var html = "";
+  for (var i = 0; i < Math.min(5, acts.length); i++) {
+    html += '<div class="act"><div class="act-n">' + (i+1) + '</div><div class="act-t">' + esc(acts[i].t) + '<span class="abadge act-' + acts[i].p + '">' + lbl[acts[i].p] + '</span></div></div>';
+  }
+  document.getElementById("actList").innerHTML = html;
+}
+
+function renderSentPie() {
+  var s = getSummaryVal("by_sentiment", {});
+  mkChart("sentPie", "doughnut",
+    ["Positive","Neutral","Mixed","Negative"],
+    [{ data: [s.positive||0, s.neutral||0, s.mixed||0, s.negative||0],
+       backgroundColor: ["rgba(0,230,118,.7)","rgba(120,144,156,.5)","rgba(255,152,0,.6)","rgba(255,23,68,.65)"],
+       borderColor: ["#00E676","#78909C","#FF9800","#FF1744"], borderWidth: 2 }],
+    { cutout: "55%" });
+}
+
+function renderPlatBar() {
+  var bp = getSummaryVal("by_platform", {});
+  var entries = Object.keys(bp).map(function(k) { return [k, bp[k]]; }).sort(function(a,b){ return b[1]-a[1]; }).slice(0,8);
+  mkChart("platBar", "bar",
+    entries.map(function(x){ return x[0]; }),
+    [{ label: "Mentions", data: entries.map(function(x){ return x[1]; }),
+       backgroundColor: entries.map(function(x){ return pCol(x[0]) + "88"; }),
+       borderColor: entries.map(function(x){ return pCol(x[0]); }),
+       borderWidth: 1.5, borderRadius: 5 }],
+    { scales: { x: { grid: { color: "rgba(255,255,255,0.02)" }, ticks: { color: "#445", maxRotation: 30 } }, y: { grid: { color: "rgba(255,255,255,0.03)" }, ticks: { color: "#445" } } } });
+}
+
+function renderNegFeed() {
+  var all = filterDate(allMentions());
+  var negs = [];
+  for (var i = 0; i < all.length && negs.length < 10; i++) {
+    if (all[i].sentiment === "negative") negs.push(all[i]);
+  }
+  var el = document.getElementById("negFeed");
+  if (!negs.length) { el.innerHTML = '<div class="empty"><div class="ei">&#9989;</div><p>No negative mentions in this period.</p></div>'; return; }
+  var html = "";
+  negs.forEach(function(m) {
+    var col = pCol(m.platform);
+    html += '<div class="fc"><div class="fc-top"><div class="fc-title">' + esc(trunc(m.title || m.snippet, 100)) + '</div><span class="sb neg">Negative</span></div>';
+    html += '<div class="fc-meta"><div class="pip" style="background:' + col + '"></div><span>' + esc(m.platform || "") + '</span>';
+    if (m.url) html += '<span>\u00b7</span><a href="' + esc(m.url) + '" target="_blank" class="lb" style="font-size:9px">View</a>';
+    html += '</div></div>';
+  });
+  el.innerHTML = html;
+}
+
+// ============================================================
+// LIVE LISTENING
+// ============================================================
+function renderListening() {
+  renderCatChart();
+  renderSentTimeChart();
+  renderTopSrcs();
+  renderMentions();
+  var total = filterDate(allMentions()).length;
+  document.getElementById("mentTotal").textContent = total;
+}
+
+function renderCatChart() {
+  var bc = getSummaryVal("by_category", {});
+  var entries = Object.keys(bc).map(function(k){ return [k,bc[k]]; }).sort(function(a,b){ return b[1]-a[1]; }).slice(0,8);
+  mkChart("catChart", "bar",
+    entries.map(function(x){ return x[0]; }),
+    [{ label: "Count", data: entries.map(function(x){ return x[1]; }),
+       backgroundColor: "rgba(41,121,255,.55)", borderColor: "#2979FF", borderWidth: 1.5, borderRadius: 4 }],
+    { indexAxis: "y", scales: { x: { grid: { color: "rgba(255,255,255,0.02)" }, ticks: { color: "#445" } }, y: { grid: { display: false }, ticks: { color: "#AAB" } } } });
+}
+
+function renderSentTimeChart() {
+  var all = filterDate(allMentions());
+  var byDate = {};
+  all.forEach(function(m) {
+    var d = (m.date || "").slice(0,10);
+    if (!d) return;
+    if (!byDate[d]) byDate[d] = { pos: 0, neg: 0 };
+    if (m.sentiment === "positive") byDate[d].pos++;
+    if (m.sentiment === "negative") byDate[d].neg++;
+  });
+  var dates = Object.keys(byDate).sort().slice(-14);
+  mkChart("sentTime", "line", dates, [
+    { label: "Positive", data: dates.map(function(d){ return byDate[d].pos; }), borderColor: "#00E676", backgroundColor: "rgba(0,230,118,.1)", tension: .4, fill: true, pointRadius: 3, borderWidth: 2 },
+    { label: "Negative", data: dates.map(function(d){ return byDate[d].neg; }), borderColor: "#FF1744", backgroundColor: "rgba(255,23,68,.1)", tension: .4, fill: true, pointRadius: 3, borderWidth: 2 }
+  ], { scales: { x: { grid: { color: "rgba(255,255,255,0.02)" }, ticks: { color: "#445", maxRotation: 30 } }, y: { grid: { color: "rgba(255,255,255,0.03)" }, ticks: { color: "#445" } } } });
+}
+
+function renderTopSrcs() {
+  var bp = getSummaryVal("by_platform", {});
+  var total = getSummaryVal("total_mentions", 1) || 1;
+  var entries = Object.keys(bp).map(function(k){ return [k, bp[k]]; }).sort(function(a,b){ return b[1]-a[1]; }).slice(0,6);
+  var el = document.getElementById("topSrcs");
+  if (!entries.length) { el.innerHTML = '<div class="empty"><div class="ei">&#128225;</div><p>Configure repo in &#9881; Settings.</p></div>'; return; }
+  var html = "";
+  entries.forEach(function(e) {
+    var pct = Math.round(e[1] / total * 100);
+    html += '<div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--border)">';
+    html += '<div style="width:9px;height:9px;border-radius:50%;background:' + pCol(e[0]) + ';flex-shrink:0"></div>';
+    html += '<div style="flex:1;font-size:11px;color:var(--text);font-weight:500">' + esc(e[0]) + '</div>';
+    html += '<div style="font-size:14px;font-weight:700;color:' + pCol(e[0]) + '">' + fN(e[1]) + '</div>';
+    html += '<div style="font-size:9px;color:var(--dim);min-width:28px;text-align:right">' + pct + '%</div>';
+    html += '</div>';
+  });
+  el.innerHTML = html;
+}
+
+function setMentFilter(f, btn) {
+  mentFilter = f;
+  document.querySelectorAll("[id^='mf_']").forEach(function(b) { b.classList.remove("on"); });
+  if (btn) btn.classList.add("on");
+  renderMentions();
+}
+
+function renderMentions() {
+  var all = filterDate(allMentions());
+  if (mentFilter !== "all") {
+    all = all.filter(function(m) { return m.sentiment === mentFilter; });
+  }
+  var pf = document.getElementById("platFilt");
+  if (pf && pf.value) {
+    var pfv = pf.value;
+    all = all.filter(function(m) { return m.platform === pfv || (m.subcategory && m.subcategory.indexOf(pfv) !== -1); });
+  }
+  var el = document.getElementById("mentTable");
+  if (!all.length) {
+    el.innerHTML = '<div class="empty"><div class="ei">&#128461;</div><p>' + (allMentions().length ? "No mentions match this filter." : "Crawl data not loaded. Check \u2699 Settings \u2192 repo path.") + '</p></div>';
+    return;
+  }
+  var shown = all.slice(0, 100);
+  var html = '<div class="tw"><table><thead><tr><th>Platform</th><th>Category</th><th>Title / Snippet</th><th>Author</th><th>Link</th><th>Sentiment</th><th>Date</th></tr></thead><tbody>';
+  shown.forEach(function(m) {
+    html += '<tr>';
+    html += '<td><span style="color:' + pCol(m.platform) + ';font-weight:600">' + esc(m.platform || "") + '</span></td>';
+    html += '<td style="color:var(--muted)">' + esc(m.category || "\u2014") + '</td>';
+    html += '<td style="max-width:280px">' + esc(trunc(m.title || m.snippet, 80)) + '</td>';
+    html += '<td style="color:var(--dim)">' + esc(trunc(m.author, 25)) + '</td>';
+    html += '<td>' + (m.url ? '<a href="' + esc(m.url) + '" target="_blank" class="lb">View</a>' : '\u2014') + '</td>';
+    html += '<td><span class="sb ' + sentCls(m.sentiment) + '">' + sentLabel(m.sentiment) + '</span></td>';
+    html += '<td style="color:var(--dim);white-space:nowrap">' + esc((m.date || "").slice(0,10)) + '</td>';
+    html += '</tr>';
+  });
+  html += '</tbody></table></div>';
+  el.innerHTML = html;
+}
+
+// ============================================================
+// MY CONTENT (Google Sheets)
+// ============================================================
+function renderMyContent() {
+  Object.keys(CFG.sheets).forEach(function(key) {
+    var err = SHEETS[key + "_err"];
+    var rows = SHEETS[key] || [];
+    var tag = document.getElementById("pbt_" + key);
+    if (tag) {
+      if (rows.length) { tag.className = "pb-tag pba"; tag.textContent = rows.length + " rows"; }
+      else if (err === "no_sheet") { tag.className = "pb-tag pbo"; tag.textContent = "No Sheet"; }
+      else if (err) { tag.className = "pb-tag pbo"; tag.textContent = "Error"; }
+      else { tag.className = "pb-tag pbo"; tag.textContent = "No Sheet"; }
+    }
+    var ct = document.getElementById("ct_" + key);
+    if (!ct) return;
+    if (!err && !rows.length) {
+      ct.innerHTML = '<div class="empty"><div class="ei">&#128461;</div><p>Add Sheet ID + GID in &#9881; Settings &#8594; My Content</p></div>';
+      return;
+    }
+    if (err === "no_sheet") {
+      ct.innerHTML = '<div class="empty"><div class="ei">&#128203;</div><p>Add ' + esc(SHEET_LABELS[key]) + ' Sheet ID + GID in &#9881; Settings</p><small>Settings &#8594; My Content &#8594; Sheet ID and GID from URL</small></div>';
+      return;
+    }
+    if (err === "not_published") {
+      ct.innerHTML = '<div class="emsg">Sheet not published as CSV. Go to Google Sheets &#8594; File &#8594; Share &#8594; Publish to web &#8594; select tab &#8594; CSV &#8594; Publish</div>';
+      return;
+    }
+    if (err) {
+      ct.innerHTML = '<div class="emsg">Error loading sheet: ' + esc(err) + '</div>';
+      return;
+    }
+    ct.innerHTML = buildSheetTable(rows, key);
+  });
+}
+
+function buildSheetTable(rows, key) {
+  if (!rows.length) return '<div class="empty"><div class="ei">&#128461;</div><p>No data found. Check tab name in &#9881; Settings.</p></div>';
+  var headers;
+  if (key === "s_reddit") headers = ["Date","Type","Question","Post Link","Post Impressions","Sentiment"];
+  else if (key === "s_quora") headers = ["Date","Question","Answer Live Link","Impressions","Sentiment"];
+  else if (key === "s_pstQuora") headers = ["Sr. No.","Question","Live Link","Impressions","Sentiment"];
+  else if (key === "s_youtube") headers = ["Date","Channel Name","Type","Video Link","Comments Seeded"];
+  else if (key === "s_newspaper") headers = ["Publication Name","Language","Publish Date","Headline","Published Link","Sentiment"];
+  else if (key === "s_medium") headers = ["Date","Title","Author","Live Link","Reads","Sentiment"];
+  else { headers = Object.keys(rows[0]); }
+  var th = headers.map(function(h){ return '<th>' + esc(h) + '</th>'; }).join("");
+  var tr = rows.map(function(row) {
+    var cells = headers.map(function(h) {
+      var v = row[h] || "";
+      if ((h.indexOf("Link") !== -1 || h.indexOf("link") !== -1) && v.indexOf("http") === 0) {
+        return '<td><a href="' + esc(v) + '" target="_blank" class="lb">View</a></td>';
+      }
+      if (h === "Sentiment") return '<td><span class="sb ' + sentCls(v) + '">' + sentLabel(v) + '</span></td>';
+      if (h === "Post Impressions" || h === "Impressions" || h === "Reads" || h === "Comments Seeded") {
+        return '<td style="text-align:right;font-weight:600;color:var(--gold)">' + esc(v) + '</td>';
+      }
+      return '<td>' + esc(trunc(v, 50)) + '</td>';
+    }).join("");
+    return '<tr>' + cells + '</tr>';
+  }).join("");
+  return '<div class="tw"><table><thead><tr>' + th + '</tr></thead><tbody>' + tr + '</tbody></table></div>';
+}
+
+// ============================================================
+// COMPETITORS
+// ============================================================
+function renderCompetitors() {
+  var all = allMentions();
+  var comps = [{ name: "PST", pos: getSummaryVal("by_sentiment.positive", 0), neg: getSummaryVal("by_sentiment.negative", 0) }];
+  (CFG.competitors || []).slice(0,5).forEach(function(comp) {
+    var kw = comp.split(" ")[0].toLowerCase();
+    var r = all.filter(function(m) { return (m.title || m.snippet || "").toLowerCase().indexOf(kw) !== -1; });
+    var pos = 0, neg = 0;
+    r.forEach(function(m) { if (m.sentiment === "positive") pos++; if (m.sentiment === "negative") neg++; });
+    comps.push({ name: comp.split(" ")[0], pos: pos, neg: neg });
+  });
+  mkChart("compBar", "bar",
+    comps.map(function(x){ return x.name; }),
+    [
+      { label: "Positive", data: comps.map(function(x){ return x.pos; }), backgroundColor: "rgba(0,230,118,.5)", borderRadius: 4 },
+      { label: "Negative", data: comps.map(function(x){ return x.neg; }), backgroundColor: "rgba(255,23,68,.4)", borderRadius: 4 }
+    ],
+    { scales: { x: { grid: { color: "rgba(255,255,255,0.02)" }, ticks: { color: "#AAB" } }, y: { grid: { color: "rgba(255,255,255,0.03)" }, ticks: { color: "#445" } } } });
+
+  // Feed
+  var compMentions = [];
+  var compKws = (CFG.competitors || []).map(function(c){ return c.split(" ")[0].toLowerCase(); });
+  for (var i = 0; i < all.length && compMentions.length < 15; i++) {
+    var text = (all[i].title || all[i].snippet || "").toLowerCase();
+    for (var j = 0; j < compKws.length; j++) {
+      if (text.indexOf(compKws[j]) !== -1) { compMentions.push(all[i]); break; }
+    }
+  }
+  var feed = document.getElementById("compFeed");
+  if (!compMentions.length) {
+    feed.innerHTML = '<div class="empty"><div class="ei">&#127942;</div><p>No competitor mentions in crawled data yet. Configure repo in &#9881; Settings and run first crawl.</p></div>';
+  } else {
+    var html = "";
+    compMentions.forEach(function(m) {
+      html += '<div class="fc"><div class="fc-top"><div class="fc-title">' + esc(trunc(m.title || m.snippet, 100)) + '</div><span class="sb ' + sentCls(m.sentiment) + '">' + sentLabel(m.sentiment) + '</span></div>';
+      html += '<div class="fc-meta"><div class="pip" style="background:' + pCol(m.platform) + '"></div><span>' + esc(m.platform || "") + '</span>';
+      if (m.url) html += '<span>\u00b7</span><a href="' + esc(m.url) + '" target="_blank" class="lb" style="font-size:9px">View</a>';
+      html += '</div></div>';
+    });
+    feed.innerHTML = html;
+  }
+
+  // Radar
+  var hasReddit = crawlMentions("reddit").length > 0;
+  var hasNews = crawlMentions("news").length > 0;
+  var hasSocial = getSummaryVal("platform_groups.social_media.count", 0) > 0;
+  var hasAgg = getSummaryVal("platform_groups.aggregators.count", 0) > 0;
+  mkChart("radarChart", "radar",
+    ["Sentiment","Volume","News","Social","Portals"],
+    [
+      { label: "PST", data: [75, hasReddit?70:10, hasNews?65:10, hasSocial?60:10, hasAgg?70:10], borderColor: "#FFCC3F", backgroundColor: "rgba(255,204,63,.15)", pointRadius: 3 },
+      { label: "Competitors", data: [45, 60, 45, 55, 50], borderColor: "#FF9A3F", backgroundColor: "rgba(255,154,63,.08)", pointRadius: 3 }
+    ],
+    { scales: { r: { grid: { color: "rgba(255,255,255,0.06)" }, ticks: { display: false }, pointLabels: { color: "#556", font: { size: 10 } } } } });
+}
+
+// ============================================================
+// ANALYTICS
+// ============================================================
+function renderAnalytics() {
+  var bp = getSummaryVal("by_platform", {});
+  var entries = Object.keys(bp).map(function(k){ return [k, bp[k]]; }).sort(function(a,b){ return b[1]-a[1]; }).slice(0,6);
+
+  mkChart("mixChart", "doughnut",
+    entries.map(function(x){ return x[0]; }),
+    [{ data: entries.map(function(x){ return x[1]; }),
+       backgroundColor: entries.map(function(x){ return pCol(x[0]) + "88"; }),
+       borderColor: entries.map(function(x){ return pCol(x[0]); }), borderWidth: 2 }],
+    { cutout: "50%" });
+
+  var all = allMentions();
+  var byDate = {};
+  all.forEach(function(m) {
+    var d = (m.date || "").slice(0,10);
+    if (!d) return;
+    byDate[d] = (byDate[d] || 0) + 1;
+  });
+  var dates = Object.keys(byDate).sort().slice(-21);
+  mkChart("trendChart", "line", dates,
+    [{ label: "Daily Mentions", data: dates.map(function(d){ return byDate[d] || 0; }), borderColor: "#FFCC3F", backgroundColor: "rgba(255,204,63,.1)", tension: .4, fill: true, pointRadius: 2, borderWidth: 2 }],
+    { scales: { x: { grid: { color: "rgba(255,255,255,0.02)" }, ticks: { color: "#445", maxRotation: 30 } }, y: { grid: { color: "rgba(255,255,255,0.03)" }, ticks: { color: "#445" } } } });
+
+  var platKeys = ["reddit","quora","youtube","medium","newspaper","web"];
+  var platLabels = ["Reddit","Quora","YouTube","Medium","News","Web"];
+  var platColors = [PCOLS.reddit, PCOLS.quora, PCOLS.youtube, PCOLS.medium, PCOLS.newspaper, PCOLS.web];
+  var html = '<div class="tw"><table><thead><tr><th>Platform</th><th style="color:var(--gold)">Total Found</th><th>Positive</th><th>Negative</th><th>Sentiment</th></tr></thead><tbody>';
+  for (var i = 0; i < platKeys.length; i++) {
+    var r = crawlMentions(platKeys[i]);
+    var pos = 0, neg = 0;
+    r.forEach(function(m) { if (m.sentiment === "positive") pos++; if (m.sentiment === "negative") neg++; });
+    var score = r.length ? Math.round((pos - neg) / r.length * 100) : 0;
+    var scoreCls = score > 0 ? "pos" : score < 0 ? "neg" : "neu";
+    html += '<tr><td style="font-weight:600;color:' + platColors[i] + '">' + platLabels[i] + '</td>';
+    html += '<td style="font-weight:700;color:var(--gold)">' + r.length + '</td>';
+    html += '<td style="color:var(--pos)">' + pos + '</td>';
+    html += '<td style="color:var(--neg)">' + neg + '</td>';
+    html += '<td><span class="sb ' + scoreCls + '">' + (score > 0 ? "+" : "") + score + '</span></td></tr>';
+  }
+  html += '</tbody></table></div>';
+  document.getElementById("perfTable").innerHTML = html;
+}
+
+// ============================================================
+// SETTINGS UI
+// ============================================================
+function buildSheetCfgs() {
+  var html = "";
+  Object.keys(SHEET_LABELS).forEach(function(key) {
+    var s = CFG.sheets[key] || {};
+    html += '<div style="background:#0A0C14;border:1px solid var(--border);border-radius:9px;padding:12px;margin-bottom:9px">';
+    html += '<div style="font-size:11px;font-weight:600;color:var(--text);margin-bottom:8px">' + esc(SHEET_LABELS[key]) + (s.id ? ' <span style="font-size:9px;font-weight:700;padding:2px 7px;background:rgba(0,230,118,.1);color:var(--pos);border-radius:4px">&#10003; Configured</span>' : '') + '</div>';
+    html += '<div class="g2f">';
+    html += '<div><label class="si-label" style="font-size:9px">Sheet ID</label><input class="si" id="sh_' + key + '_id" value="' + esc(s.id || "") + '" placeholder="1BxiMVs0XR\u2026"><div class="si-hint">From URL: /spreadsheets/d/[THIS]/edit</div></div>';
+    html += '<div><label class="si-label" style="font-size:9px">GID (Tab Number)</label><input class="si" id="sh_' + key + '_gid" value="' + esc(s.gid || "0") + '" placeholder="0"><div class="si-hint">URL: #gid=[THIS] \u00b7 First tab = 0</div></div>';
+    html += '</div>';
+    html += '<div style="margin-top:6px"><label class="si-label" style="font-size:9px">Tab Name (must match exactly)</label><input class="si" id="sh_' + key + '_tab" value="' + esc(s.tab || "") + '" placeholder="' + esc(DEF_CFG.sheets[key] ? DEF_CFG.sheets[key].tab : "") + '"></div>';
+    if (!s.id) html += '<div class="sstatus miss" style="margin-top:6px">Add Sheet ID to show logged content</div>';
+    else html += '<div class="sstatus ok" style="margin-top:6px">&#10003; Configured \u2014 publish tab as CSV to activate</div>';
+    html += '</div>';
+  });
+  document.getElementById("sheetCfgs").innerHTML = html;
+}
+
+function buildCompList() {
+  var comps = CFG.competitors || [];
+  document.getElementById("compCount").textContent = comps.length;
+  document.getElementById("compSlots").textContent = 15 - comps.length;
+  var html = "";
+  comps.forEach(function(c, i) {
+    html += '<div class="comp-row"><input class="si" value="' + esc(c) + '" onchange="CFG.competitors[' + i + ']=this.value" placeholder="Competitor name"><button class="comp-rm" onclick="rmComp(' + i + ')">&#x2715;</button></div>';
+  });
+  document.getElementById("compList").innerHTML = html;
+}
+
+function addComp() { if ((CFG.competitors || []).length >= 15) return; CFG.competitors.push(""); buildCompList(); }
+function rmComp(i) { CFG.competitors.splice(i, 1); buildCompList(); }
+
+function openSettings() {
+  document.getElementById("s_repo").value = CFG.repo || "";
+  document.getElementById("s_branch").value = CFG.branch || "main";
+  document.getElementById("s_goal").value = CFG.goal || 500;
+  document.getElementById("s_refresh").value = CFG.refresh || 5;
+  var apiIds = ["youtube","newsapi","serpapi","apify","claude"];
+  apiIds.forEach(function(k) {
+    var el = document.getElementById("api_" + k);
+    if (el) el.value = CFG.apis[k] || "";
+  });
+  updateApiStatuses();
+  buildSheetCfgs();
+  buildCompList();
+  document.getElementById("sov").classList.add("on");
+  document.getElementById("span").classList.add("on");
+}
+
+function closeSettings() {
+  document.getElementById("sov").classList.remove("on");
+  document.getElementById("span").classList.remove("on");
+}
+
+function updateApiStatuses() {
+  var apiDefs = [
+    { id: "youtube", ss: "ss_youtube", ok: "&#10003; YouTube API active \u2014 full video coverage", miss: "Without key: Google-indexed YouTube only" },
+    { id: "newsapi", ss: "ss_newsapi", ok: "&#10003; NewsAPI active \u2014 70k+ news sources", miss: "Without key: Google News RSS only" },
+    { id: "serpapi", ss: "ss_serpapi", ok: "&#10003; SerpAPI active \u2014 high quality results", miss: "Without key: Direct Google scraping (free)" },
+    { id: "apify",   ss: "ss_apify",   ok: "&#10003; Apify active \u2014 full Quora coverage", miss: "Without key: ~30% Quora coverage" },
+    { id: "claude",  ss: "ss_claude",  ok: "&#10003; Claude API active \u2014 AI sentiment", miss: "Without key: Keyword-based sentiment (free)" }
+  ];
+  apiDefs.forEach(function(a) {
+    var el = document.getElementById(a.ss);
+    if (!el) return;
+    var inp = document.getElementById("api_" + a.id);
+    var val = (inp ? inp.value : "") || CFG.apis[a.id] || "";
+    el.className = "sstatus " + (val ? "ok" : "miss");
+    el.innerHTML = val ? a.ok : a.miss;
+  });
+  var repoEl = document.getElementById("s_repo");
+  var repo = repoEl ? repoEl.value : CFG.repo || "";
+  var ssRepo = document.getElementById("ss_repo");
+  if (ssRepo) {
+    ssRepo.className = "sstatus " + (repo ? "ok" : "miss");
+    ssRepo.textContent = repo ? "Will fetch from: raw.githubusercontent.com/" + repo + "/\u2026" : "Enter your repo path above";
   }
 }
 
-function renderAnalytics(){
-  const byCat=CRAWL.summary?.by_category||{};const byP=CRAWL.summary?.by_platform||{};
-  const cats=Object.entries(byCat).sort((a,b)=>b[1]-a[1]).slice(0,8);
-  mkC("catChart","doughnut",cats.map(x=>x[0]),[{data:cats.map(x=>x[1]),backgroundColor:["rgba(255,204,63,.7)","rgba(255,87,34,.6)","rgba(0,230,118,.6)","rgba(255,23,68,.5)","rgba(124,77,255,.6)","rgba(29,233,182,.5)","rgba(68,138,255,.6)","rgba(255,179,0,.5)"],borderWidth:2}],{cutout:"50%"});
-  const top=Object.entries(byP).sort((a,b)=>b[1]-a[1]).slice(0,6);
-  mkC("srcChart2","bar",top.map(x=>x[0]),[{label:"Mentions",data:top.map(x=>x[1]),backgroundColor:top.map(x=>{"reddit":"rgba(255,87,34,.7)","quora":"rgba(239,83,80,.7)","youtube":"rgba(255,23,68,.7)","newspaper":"rgba(255,215,64,.7)","medium":"rgba(0,230,118,.7)","web":"rgba(68,138,255,.5)"}[x[0]]||"rgba(68,138,255,.5)"),borderRadius:5}]);
-  const now=new Date();
-  const inR=(rows,d1,d2=0)=>rows.filter(row=>{const d=Object.values(row).find(v=>/\d{2}-\d{2}-\d{4}/.test(v));if(!d)return false;try{const p=new Date(d.split("-").reverse().join("-"));const c1=new Date();c1.setDate(now.getDate()-d1);const c2=new Date();if(d2)c2.setDate(now.getDate()-d2);return p>=c1&&(d2===0||p<c2);}catch{return false;}}).length;
-  const plats=[{k:"reddit",l:"Reddit",c:"var(--reddit)"},{k:"quora",l:"Quora",c:"var(--quora)"},{k:"pstQuora",l:"PST Quora",c:"var(--purple)"},{k:"youtube",l:"YouTube",c:"var(--youtube)"},{k:"newspaper",l:"Newspaper",c:"var(--newspaper)"},{k:"medium",l:"Medium",c:"var(--medium)"}];
-  const hasAny=plats.some(p=>sRows(p.k).length>0);
-  if(!hasAny){document.getElementById("perfTable").innerHTML='<div class="empty"><div class="empty-icon">📅</div><p>Connect Google Sheets in ⚙ Settings to see period comparisons.</p></div>';return;}
-  const tH=`<tr><th>Platform</th><th style="color:var(--gold)">This Week</th><th>Last Week</th><th>WoW Δ</th><th style="color:var(--gold)">This Month</th><th>Last Month</th><th>MoM Δ</th></tr>`;
-  const tR=plats.map(({k,l,c})=>{
-    const r=sRows(k);const tw=inR(r,7),lw=inR(r,14,7);
-    const tm=r.filter(row=>{const d=Object.values(row).find(v=>/\d{2}-\d{2}-\d{4}/.test(v));if(!d)return false;try{const p=new Date(d.split("-").reverse().join("-"));return p.getMonth()===now.getMonth()&&p.getFullYear()===now.getFullYear();}catch{return false;}}).length;
-    const lm=r.filter(row=>{const d=Object.values(row).find(v=>/\d{2}-\d{2}-\d{4}/.test(v));if(!d)return false;try{const p=new Date(d.split("-").reverse().join("-"));const t=new Date(now.getFullYear(),now.getMonth()-1,1);return p.getMonth()===t.getMonth()&&p.getFullYear()===t.getFullYear();}catch{return false;}}).length;
-    const wd=lw>0?Math.round((tw-lw)/lw*100):0,md=lm>0?Math.round((tm-lm)/lm*100):0;
-    return`<tr><td style="font-weight:600;color:${c}">${l}</td><td style="font-weight:700;color:var(--gold)">${tw}</td><td style="color:var(--dim)">${lw}</td><td><span class="sb ${wd>0?"pos":wd<0?"neg":"neu"}">${wd>0?"+":""}${wd}%</span></td><td style="font-weight:700;color:var(--gold)">${tm}</td><td style="color:var(--dim)">${lm}</td><td><span class="sb ${md>0?"pos":md<0?"neg":"neu"}">${md>0?"+":""}${md}%</span></td></tr>`;
-  }).join("");
-  document.getElementById("perfTable").innerHTML=`<div class="tw"><table><thead>${tH}</thead><tbody>${tR}</tbody></table></div>`;
+function saveSettings() {
+  CFG.repo = (document.getElementById("s_repo").value || "").trim();
+  CFG.branch = (document.getElementById("s_branch").value || "main").trim();
+  CFG.goal = parseInt(document.getElementById("s_goal").value) || 500;
+  CFG.refresh = parseInt(document.getElementById("s_refresh").value) || 5;
+  var apiIds = ["youtube","newsapi","serpapi","apify","claude"];
+  apiIds.forEach(function(k) {
+    var el = document.getElementById("api_" + k);
+    if (el) CFG.apis[k] = el.value.trim();
+  });
+  Object.keys(CFG.sheets).forEach(function(key) {
+    var idEl = document.getElementById("sh_" + key + "_id");
+    var gidEl = document.getElementById("sh_" + key + "_gid");
+    var tabEl = document.getElementById("sh_" + key + "_tab");
+    if (idEl) CFG.sheets[key].id = idEl.value.trim();
+    if (gidEl) CFG.sheets[key].gid = gidEl.value.trim() || "0";
+    if (tabEl) CFG.sheets[key].tab = tabEl.value.trim();
+  });
+  saveCFG();
+  closeSettings();
+  loadAll();
 }
 
-// ─── NAVIGATION ───────────────────────────────────────────
-function showPage(name,btn){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("on"));
-  document.querySelectorAll(".ntab").forEach(b=>b.classList.remove("on"));
-  const p=document.getElementById("page_"+name);if(p)p.classList.add("on");
-  if(btn)btn.classList.add("on");
-}
-function goListen(key){
-  showPage("listening",null);
-  document.querySelectorAll(".ntab").forEach(b=>{if((b.getAttribute("onclick")||"").includes("listening"))b.classList.add("on");});
-  const btns=document.querySelectorAll("#listenSel .plat-btn");
-  btns.forEach(b=>{if((b.getAttribute("onclick")||"").includes(`'${key}'`))b.click();});
-}
-function setRange(r,btn){
-  dateRange=r;document.querySelectorAll(".d-btn").forEach(b=>b.classList.remove("on"));btn.classList.add("on");
-  document.getElementById("customDates").style.display=r==="custom"?"flex":"none";
-  if(r!=="custom")renderAll();
-}
-document.getElementById("dFrom").addEventListener("change",e=>{customFrom=e.target.value;renderAll();});
-document.getElementById("dTo").addEventListener("change",e=>{customTo=e.target.value;renderAll();});
-function dlReport(){
-  const d=new Date().toLocaleDateString("en-IN");const s=CRAWL.summary||{};const by_s=s.by_sentiment||{};
-  const allM=CRAWL.all?.mentions||[];const neg=allM.filter(m=>m.sentiment==="negative").slice(0,10);
-  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Polaris ORM Report</title><style>body{font-family:Arial;max-width:900px;margin:40px auto;color:#111;line-height:1.6}h1{color:#D88100;border-bottom:3px solid #FFCC3F;padding-bottom:10px}h2{color:#333;margin-top:26px}table{width:100%;border-collapse:collapse;margin:12px 0}th{background:#1A1A1A;color:#FFF;padding:8px}td{padding:8px;border-bottom:1px solid #EEE}.kpi{display:inline-block;padding:14px 20px;background:#FFF9E6;border:2px solid #FFCC3F;border-radius:9px;margin:6px;text-align:center}.kpi-n{font-size:24px;font-weight:800;color:#D88100}.kpi-l{font-size:11px;color:#888}</style></head><body><h1>Polaris ORM Intelligence Report</h1><p><b>Generated:</b> ${d} | <b>Last Crawled:</b> ${s.last_crawled||"N/A"}</p><h2>Key Metrics</h2><div><div class="kpi"><div class="kpi-n">${s.total_mentions||0}</div><div class="kpi-l">Total Mentions</div></div><div class="kpi"><div class="kpi-n" style="color:green">${by_s.positive||0}</div><div class="kpi-l">Positive</div></div><div class="kpi"><div class="kpi-n" style="color:red">${by_s.negative||0}</div><div class="kpi-l">Negative</div></div><div class="kpi"><div class="kpi-n">${by_s.mixed||0}</div><div class="kpi-l">Mixed</div></div></div>${neg.length?`<h2>Negative Mentions</h2><table><tr><th>Platform</th><th>Title</th><th>URL</th></tr>${neg.map(m=>`<tr><td>${m.platform||"—"}</td><td>${m.title||"—"}</td><td>${m.url?`<a href="${m.url}">View</a>`:"—"}</td></tr>`).join("")}</table>`:""}<p style="color:#999;font-size:11px;margin-top:36px">Polaris ORM v3.0 · ${d}</p></body></html>`;
-  const blob=new Blob([html],{type:"text/html"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`Polaris_ORM_${d.replace(/\//g,"-")}.html`;a.click();
+function togSg(head) {
+  var body = head.nextElementSibling;
+  var arrow = head.querySelector(".sg-arr");
+  body.classList.toggle("open");
+  if (arrow) arrow.innerHTML = body.classList.contains("open") ? "&#9650;" : "&#9660;";
 }
 
-// ─── INIT ─────────────────────────────────────────────────
-loadCFG();loadAll();
+// ============================================================
+// NAVIGATION
+// ============================================================
+function showPage(name, btn) {
+  document.querySelectorAll(".page").forEach(function(p) { p.classList.remove("on"); });
+  document.querySelectorAll(".ptab").forEach(function(b) { b.classList.remove("on"); });
+  var pg = document.getElementById("page_" + name);
+  if (pg) pg.classList.add("on");
+  if (btn) { btn.classList.add("on"); }
+  else {
+    document.querySelectorAll(".ptab").forEach(function(b) {
+      if ((b.getAttribute("onclick") || "").indexOf("'" + name + "'") !== -1) b.classList.add("on");
+    });
+  }
+}
+
+function showPlat(name, btn) {
+  document.querySelectorAll(".plat-c").forEach(function(p) { p.classList.remove("on"); });
+  document.querySelectorAll(".pb").forEach(function(b) { b.classList.remove("on"); });
+  var pc = document.getElementById("plat_" + name);
+  if (pc) pc.classList.add("on");
+  btn.classList.add("on");
+}
+
+function setRange(r, btn) {
+  dateRange = r;
+  document.querySelectorAll(".db").forEach(function(b) { b.classList.remove("on"); });
+  btn.classList.add("on");
+  var cd = document.getElementById("custDates");
+  if (cd) cd.style.display = r === "custom" ? "flex" : "none";
+  if (r !== "custom") renderAll();
+}
+document.getElementById("dFrom").addEventListener("change", function() { renderAll(); });
+document.getElementById("dTo").addEventListener("change", function() { renderAll(); });
+
+// ============================================================
+// DOWNLOAD
+// ============================================================
+function downloadReport() {
+  var d = new Date().toLocaleDateString("en-IN");
+  var total = getSummaryVal("total_mentions", 0);
+  var pos = getSummaryVal("by_sentiment.positive", 0);
+  var neg = getSummaryVal("by_sentiment.negative", 0);
+  var bp = getSummaryVal("by_platform", {});
+  var rows = Object.keys(bp).map(function(k){ return '<tr><td>' + k + '</td><td>' + bp[k] + '</td></tr>'; }).join("");
+  var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Polaris ORM Report ' + d + '</title><style>body{font-family:Arial,sans-serif;max-width:900px;margin:40px auto;color:#111}h1{color:#D88100;border-bottom:3px solid #FFCC3F;padding-bottom:10px}table{width:100%;border-collapse:collapse;margin:12px 0}th{background:#111;color:#FFF;padding:8px;text-align:left}td{padding:8px;border-bottom:1px solid #EEE}.kpi{display:inline-block;padding:14px 20px;background:#FFF9E6;border:2px solid #FFCC3F;border-radius:9px;margin:6px;text-align:center}.kpi-n{font-size:24px;font-weight:800;color:#D88100}.kpi-l{font-size:11px;color:#888}</style></head><body><h1>Polaris ORM Intelligence Report</h1><p><b>Generated:</b> ' + d + '</p><h2>Key Metrics</h2><div><div class="kpi"><div class="kpi-n">' + total + '</div><div class="kpi-l">Total</div></div><div class="kpi"><div class="kpi-n" style="color:green">' + pos + '</div><div class="kpi-l">Positive</div></div><div class="kpi"><div class="kpi-n" style="color:red">' + neg + '</div><div class="kpi-l">Negative</div></div></div><h2>By Platform</h2><table><tr><th>Platform</th><th>Mentions</th></tr>' + rows + '</table><p style="color:#999;font-size:11px;margin-top:36px">Polaris School of Technology &bull; ORM v3.1 &bull; ' + d + '</p></body></html>';
+  var blob = new Blob([html], { type: "text/html" });
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "Polaris_ORM_" + d.replace(/\//g,"-") + ".html";
+  a.click();
+}
+
+// ============================================================
+// INIT
+// ============================================================
+loadCFG();
+renderAll();
+loadAll();
 </script>
 </body>
 </html>
