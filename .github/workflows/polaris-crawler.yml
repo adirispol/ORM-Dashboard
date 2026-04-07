@@ -2,18 +2,10 @@ name: Polaris ORM Crawler
 
 on:
   schedule:
-    # Every 30 minutes using two cron entries (GitHub minimum is 5min)
-    # Runs at :00 and :30 of every hour
-    - cron: '0 * * * *'
-    - cron: '30 * * * *'
-
-  # Manual trigger — use this to test immediately
+    - cron: '*/30 * * * *'
   workflow_dispatch:
-
-  # Run when crawler script changes
   push:
     branches: [main]
-    paths: ['scripts/crawler.py']
 
 permissions:
   contents: write
@@ -21,42 +13,29 @@ permissions:
 jobs:
   crawl:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Setup Python 3.11
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Run Polaris ORM Crawler
-        run: python scripts/crawler.py
-        env:
-          # Add these in: Repo → Settings → Secrets and variables → Actions
-          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
-          NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
-          CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
-
-      - name: Commit crawled data to repo
+      - name: Install dependencies
         run: |
-          git config user.name "Polaris ORM Bot"
-          git config user.email "orm-bot@polaris.edu"
-          git add data/*.json
-          if git diff --staged --quiet; then
-            echo "No new data this run"
-          else
-            TOTAL=$(python3 -c "
-import json, sys
-try:
-    d = json.load(open('data/summary.json'))
-    ns = d.get('north_star', {})
-    print(f\"{d.get('total_mentions',0)} mentions | NS={ns.get('weighted_score','?')}\")
-except:
-    print('?')
-" 2>/dev/null || echo "?")
-            git commit -m "ORM: ${TOTAL} — $(date -u +'%H:%M %d %b UTC')"
-            git push
-          fi
+          pip install pandas requests beautifulsoup4
+          # Add any other libraries your crawler needs here
+
+      - name: Run Crawler
+        run: python crawler.py  # <--- CHANGE TO 'scripts/crawler.py' IF YOU MOVE IT
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+
+      - name: Commit data
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add data/
+          git commit -m "Automated data update" || exit 0
+          git push
