@@ -1,28 +1,28 @@
 {
-  "last_crawled": "2026-04-09T12:16:11.724516+00:00",
-  "total_mentions": 80,
-  "total_impressions": 40000000,
-  "total_impressions_fmt": "40.0M",
+  "last_crawled": "2026-04-09T12:28:12.567202+00:00",
+  "total_mentions": 83,
+  "total_impressions": 41500000,
+  "total_impressions_fmt": "41.5M",
   "by_platform": {
-    "newspaper": 80
+    "newspaper": 83
   },
   "by_sentiment": {
     "positive": 2,
     "negative": 0,
-    "neutral": 71,
-    "mixed": 7
+    "neutral": 75,
+    "mixed": 6
   },
   "negative_alert_count": 0,
   "bps": {
-    "bps": 22.7,
+    "bps": 23.5,
     "grade": "D",
-    "raw_score": 272.0,
+    "raw_score": 282.2,
     "target": 1200,
-    "total_mentions": 80,
-    "total_impressions": 40000000,
-    "total_impressions_fmt": "40.0M",
+    "total_mentions": 83,
+    "total_impressions": 41500000,
+    "total_impressions_fmt": "41.5M",
     "by_platform": {
-      "newspaper": 80
+      "newspaper": 83
     },
     "coverage_platforms": 1,
     "coverage_total": 8,
@@ -76,31 +76,33 @@
       "web"
     ],
     "sources_failed": [
-      "searxng:\"Polaris School of Technology\"",
-      "searxng:\"Polaris School of Technology\"",
-      "searxng:Polaris",
-      "searxng:\"Polaris School of Technology\"",
-      "searxng:PST",
-      "searxng:Polaris Campus",
-      "searxng:Polaris School Technology plac",
-      "searxng:PST Pune BTech review",
-      "searxng:\"Polaris School of Technology\"",
-      "searxng:\"Polaris School of Technology\"",
-      "searxng:Polaris School Technology BTec",
-      "searxng:\"Polaris School of Technology\"",
-      "searxng:Polaris School campus placemen",
-      "searxng:\"Polaris School of Technology\"",
-      "searxng:\"Polaris School of Technology\"",
-      "searxng:\"Polaris School of Technology\"",
-      "searxng:\"Polaris School of Technology\"",
-      "searxng:\"Polaris School of Technology\"",
-      "searxng:\"Polaris School of Technology\"",
-      "searxng:\"Polaris School of Technology\""
+      "serper:no_key",
+      "serper:no_key",
+      "serper:no_key",
+      "serper:no_key",
+      "serper:no_key",
+      "serper:no_key",
+      "serper:no_key",
+      "serper:no_key",
+      "serper:no_key",
+      "serper:no_key",
+      "serper:no_key",
+      "serper:no_key",
+      "serper:no_key",
+      "serper:no_key",
+      "serper:no_key",
+      "serper:no_key",
+      "serper:no_key",
+      "serper:no_key",
+      "serper:no_key",
+      "serper:no_key",
+      "serper:no_key",
+      "serper:no_key",
+      "serper:no_key"
     ],
     "errors": [],
     "warnings": [],
-    "claude_sentiment_active": false,
-    "youtube_api_active": false,
-    "newsapi_active": false
+    "search_engine": "Serper.dev (Google Search API)",
+    "serper_key_present": false
   }
 }
