@@ -34,14 +34,14 @@ jobs:
           git config user.name "Polaris ORM Bot"
           git config user.email "orm@polariscampus.com"
           
-          # Create data directory if script didn't create it
+          # Ensure directory exists even if script didn't create it
           mkdir -p data
           
-          # Use 'git add -A data' to avoid the "pathspec" error if files are missing
+          # Add the whole directory; this won't crash if it's empty
           git add data/
           
           if git diff --staged --quiet; then
-            echo "No new data changes this run"
+            echo "No new data changes this run. Staying green."
           else
             # Extract BPS safely (Handle case where summary.json might be missing)
             BPS=$(python3 -c "import json, os; p='data/summary.json'; d=json.load(open(p)) if os.path.exists(p) else {}; b=d.get('bps',{}); print(f\"{b.get('bps','?')}/100 ({b.get('grade','?')}) | {d.get('total_mentions','?')} mentions\")" 2>/dev/null || echo "Data Updated")
