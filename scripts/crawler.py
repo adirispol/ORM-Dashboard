@@ -1,13 +1,13 @@
 """
-Polaris ORM Crawler — Fixed for GitHub Actions
-===============================================
-ROOT CAUSE OF 403s: Quora and news sites block GitHub Actions IPs directly.
-FIX: Use SearXNG public instances (free JSON search API, not blocked).
+Polaris ORM Crawler — Serper.dev Edition
+=========================================
+Replaces SearXNG (unreliable) with Serper.dev (free, 2500/month, always works).
+Requires GitHub Secret: SERPER_API_KEY
 
 Outputs: data/mentions.json + data/summary.json (what dashboard reads)
 """
 
-import json, time, re, hashlib, urllib.request, urllib.parse
+import json, time, re, hashlib, urllib.request, urllib.parse, os
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from pathlib import Path
@@ -15,7 +15,7 @@ from pathlib import Path
 BRAND_QUERIES = [
     '"Polaris School of Technology"',
     '"Polaris School of Technology" review',
-    "Polaris",
+    '"Polaris"',
     '"Polaris School of Technology" BTech',
     "PST",
     "Polaris Campus",
@@ -25,16 +25,7 @@ DATA_DIR = Path("data")
 DATA_DIR.mkdir(exist_ok=True)
 
 UA = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/124.0 Safari/537.36"
-
-# SearXNG public instances — tries each until one works
-# These are community-run, no keys, JSON API, GitHub Actions not blocked
-SEARXNG_INSTANCES = [
-    "https://search.bus-hit.me",
-    "https://searx.be",
-    "https://searx.tiekoetter.com",
-    "https://searxng.world",
-    "https://opnxng.com",
-]
+SERPER_API_KEY = os.environ.get("SERPER_API_KEY", "")
 
 DIAG = {"ok": [], "failed": [], "errors": []}
 
@@ -77,41 +68,50 @@ def num_fmt(n):
     if n >= 1_000: return f"{n/1_000:.1f}K"
     return str(int(n))
 
-# ── SEARXNG — works from GitHub Actions ──────────────────────────
+# ── SERPER.DEV — replaces SearXNG ────────────────────────────────
 
-_best_instance = None
+def serper_search(query, site_filter=None, max_results=10):
+    """
+    Serper.dev Google Search API — free 2500/month, always works on GitHub Actions.
+    Set SERPER_API_KEY as GitHub Secret.
+    """
+    if not SERPER_API_KEY:
+        print("    ✗ SERPER_API_KEY not set — add it as GitHub Secret")
+        DIAG["failed"].append(f"serper:no_key")
+        return []
 
-def searxng_search(query, site_filter=None, max_results=20):
-    """
-    SearXNG public JSON API — free, no key, not blocked on GitHub Actions.
-    Falls back through instance list automatically.
-    """
-    global _best_instance
     q = f"{query} site:{site_filter}" if site_filter else query
+    payload = json.dumps({"q": q, "num": max_results, "gl": "in", "hl": "en"}).encode()
 
-    instances = ([_best_instance] + [i for i in SEARXNG_INSTANCES if i != _best_instance]
-                 if _best_instance else SEARXNG_INSTANCES)
+    try:
+        req = urllib.request.Request(
+            "https://google.serper.dev/search",
+            data=payload,
+            headers={
+                "X-API-KEY": SERPER_API_KEY,
+                "Content-Type": "application/json",
+            }
+        )
+        with urllib.request.urlopen(req, timeout=15) as r:
+            data = json.loads(r.read().decode("utf-8"))
 
-    for instance in instances:
-        url = (f"{instance}/search?q={urllib.parse.quote(q)}"
-               f"&format=json&language=en&safesearch=0&pageno=1")
-        raw = fetch(url, timeout=12)
-        if not raw:
-            continue
-        try:
-            data = json.loads(raw)
-            results = data.get("results", [])
-            if results:
-                _best_instance = instance
-                print(f"    ✓ SearXNG [{instance.split('//')[1].split('/')[0]}] → {len(results)} results")
-                return results[:max_results]
-        except:
-            continue
-        time.sleep(0.5)
+        results = []
+        for item in data.get("organic", []):
+            results.append({
+                "url": item.get("link", ""),
+                "title": item.get("title", ""),
+                "content": item.get("snippet", ""),
+                "engine": item.get("displayLink", ""),
+                "publishedDate": item.get("date", None),
+            })
 
-    print(f"    ✗ All SearXNG instances failed for: {query[:50]}")
-    DIAG["failed"].append(f"searxng:{query[:30]}")
-    return []
+        print(f"    ✓ Serper [{q[:40]}] → {len(results)} results")
+        return results[:max_results]
+
+    except Exception as e:
+        print(f"    ✗ Serper failed for: {query[:50]} — {e}")
+        DIAG["failed"].append(f"serper:{query[:30]}")
+        return []
 
 def results_to_mentions(results, platform, impressions_default=500):
     mentions = []
@@ -123,11 +123,10 @@ def results_to_mentions(results, platform, impressions_default=500):
         title = clean(r.get("title", ""), 200)
         snippet = clean(r.get("content", ""))
         combined = f"{title} {snippet}"
-        if not any(kw in combined.lower() for kw in ["polaris school", "polaris campus", "pst pune", "polariscampus"]):
+        if not any(kw in combined.lower() for kw in ["polaris school", "polaris campus", "pst pune", "polariscampus", "polaris"]):
             if "polaris" not in url.lower():
                 continue
 
-        # Estimate impressions
         imp = impressions_default
         if platform == "quora":
             imp = 1500 if "/question/" in url else 800
@@ -166,14 +165,14 @@ def categorize(text, url, platform):
         return "video"
     return "mention"
 
-# ── 1. REDDIT — Public JSON API (always works, no key) ───────────
+# ── 1. REDDIT — Public JSON API ───────────────────────────────────
 
 def crawl_reddit():
     print("\n🔴 REDDIT")
     mentions = []
     seen = set()
 
-    for query in ['Polaris School of Technology', '"Polaris School of Technology"']:
+    for query in BRAND_QUERIES[:4]:
         for sort in ["relevance", "new", "top"]:
             url = (f"https://www.reddit.com/search.json?"
                    f"q={urllib.parse.quote(query)}&sort={sort}&limit=100&t=all")
@@ -205,13 +204,13 @@ def crawl_reddit():
                     "date": datetime.fromtimestamp(d.get("created_utc", 0), tz=timezone.utc).isoformat(),
                     "sentiment": sentiment(f"{title} {body}"),
                 })
-            time.sleep(2)
+        time.sleep(2)
 
     DIAG["ok"].append("reddit")
     print(f"  ✓ {len(mentions)} Reddit posts")
     return mentions
 
-# ── 2. NEWS — Google News RSS + Bing News RSS ────────────────────
+# ── 2. NEWS — Google News RSS + Bing News RSS ─────────────────────
 
 def crawl_news():
     print("\n📰 NEWS")
@@ -255,60 +254,62 @@ def crawl_news():
     print(f"  ✓ {len(mentions)} news articles (RSS)")
     return mentions
 
-# ── 3. QUORA — via SearXNG (no direct scrape = no 403) ──────────
+# ── 3. QUORA — via Serper ─────────────────────────────────────────
 
 def crawl_quora():
     print("\n❓ QUORA")
     mentions = []
     seen = set()
 
-    for q in BRAND_QUERIES + ["Polaris School Technology placement", "PST Pune BTech review"]:
-        results = searxng_search(q, site_filter="quora.com")
+    queries = BRAND_QUERIES + ["Polaris School Technology placement", "PST Pune BTech review"]
+    for q in queries:
+        results = serper_search(q, site_filter="quora.com")
         for m in results_to_mentions(results, "quora"):
             if m["url"] not in seen:
                 seen.add(m["url"])
                 mentions.append(m)
-        time.sleep(2)
+        time.sleep(1)
 
     DIAG["ok"].append("quora")
     print(f"  ✓ {len(mentions)} Quora mentions")
     return mentions
 
-# ── 4. MEDIUM — via SearXNG ──────────────────────────────────────
+# ── 4. MEDIUM — via Serper ────────────────────────────────────────
 
 def crawl_medium():
     print("\n📝 MEDIUM")
     mentions = []
     seen = set()
 
-    for q in BRAND_QUERIES[:2] + ["Polaris School Technology BTech experience"]:
-        results = searxng_search(q, site_filter="medium.com")
+    queries = BRAND_QUERIES[:3] + ["Polaris School Technology BTech experience"]
+    for q in queries:
+        results = serper_search(q, site_filter="medium.com")
         for m in results_to_mentions(results, "medium", impressions_default=500):
             if m["url"] not in seen:
                 seen.add(m["url"])
                 m["reads"] = 500
                 m["claps"] = 25
                 mentions.append(m)
-        time.sleep(2)
+        time.sleep(1)
 
     DIAG["ok"].append("medium")
     print(f"  ✓ {len(mentions)} Medium articles")
     return mentions
 
-# ── 5. YOUTUBE — via SearXNG (no YouTube API needed) ─────────────
+# ── 5. YOUTUBE — via Serper ───────────────────────────────────────
 
 def crawl_youtube():
     print("\n▶️  YOUTUBE")
     mentions = []
     seen = set()
 
-    for q in ['"Polaris School of Technology" review', "Polaris School campus placement BTech"]:
-        results = searxng_search(q, site_filter="youtube.com")
+    for q in ['"Polaris School of Technology" review', "Polaris School campus placement BTech", "Polaris Campus tour"]:
+        results = serper_search(q, site_filter="youtube.com")
         for m in results_to_mentions(results, "youtube", impressions_default=1000):
             if m["url"] not in seen:
                 seen.add(m["url"])
                 mentions.append(m)
-        time.sleep(2)
+        time.sleep(1)
 
     DIAG["ok"].append("youtube")
     print(f"  ✓ {len(mentions)} YouTube mentions")
@@ -325,19 +326,19 @@ def crawl_aggregators():
                "collegedekho.com", "getmyuni.com"]
 
     for site in portals:
-        results = searxng_search('"Polaris School of Technology"', site_filter=site)
+        results = serper_search('"Polaris School of Technology"', site_filter=site)
         name = site.split(".")[0]
         for m in results_to_mentions(results, name, impressions_default=2000):
             if m["url"] not in seen:
                 seen.add(m["url"])
                 mentions.append(m)
-        time.sleep(2)
+        time.sleep(1)
 
     DIAG["ok"].append("aggregators")
     print(f"  ✓ {len(mentions)} portal mentions")
     return mentions
 
-# ── 7. GENERAL WEB — via SearXNG ─────────────────────────────────
+# ── 7. GENERAL WEB — via Serper ───────────────────────────────────
 
 def crawl_web():
     print("\n🌐 WEB")
@@ -346,15 +347,15 @@ def crawl_web():
     skip = {"reddit.com","quora.com","medium.com","youtube.com","shiksha.com",
             "collegedunia.com","careers360.com","collegedekho.com","getmyuni.com"}
 
-    for q in BRAND_QUERIES[:2]:
-        results = searxng_search(q)
+    for q in BRAND_QUERIES[:3]:
+        results = serper_search(q)
         for r in results:
             url = r.get("url","")
             if any(s in url for s in skip): continue
             if url in seen: continue
             seen.add(url)
             combined = f"{r.get('title','')} {r.get('content','')}"
-            if "polaris school" not in combined.lower() and "polariscampus" not in url.lower():
+            if "polaris school" not in combined.lower() and "polariscampus" not in url.lower() and "polaris campus" not in combined.lower():
                 continue
             mentions.append({
                 "id": uid(url), "platform": "web",
@@ -367,7 +368,7 @@ def crawl_web():
                 "date": now(),
                 "sentiment": sentiment(combined),
             })
-        time.sleep(2)
+        time.sleep(1)
 
     DIAG["ok"].append("web")
     print(f"  ✓ {len(mentions)} web mentions")
@@ -487,9 +488,8 @@ def generate_summary(all_mentions, bps_data, actionables):
             "sources_failed": DIAG["failed"],
             "errors": DIAG["errors"][:10],
             "warnings": [],
-            "claude_sentiment_active": False,
-            "youtube_api_active": False,
-            "newsapi_active": False,
+            "search_engine": "Serper.dev (Google Search API)",
+            "serper_key_present": bool(SERPER_API_KEY),
         },
     }
 
@@ -506,8 +506,9 @@ def generate_summary(all_mentions, bps_data, actionables):
 
 def main():
     print("="*55)
-    print("  Polaris ORM Crawler — Fixed for GitHub Actions")
+    print("  Polaris ORM Crawler — Serper.dev Edition")
     print(f"  {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}")
+    print(f"  Serper Key: {'✅ Found' if SERPER_API_KEY else '❌ MISSING — add SERPER_API_KEY secret'}")
     print("="*55)
 
     all_mentions = []
@@ -519,7 +520,6 @@ def main():
     all_mentions.extend(crawl_aggregators())
     all_mentions.extend(crawl_web())
 
-    # Deduplicate by ID
     seen_ids = set()
     deduped = [m for m in all_mentions if not (m["id"] in seen_ids or seen_ids.add(m["id"]))]
 
