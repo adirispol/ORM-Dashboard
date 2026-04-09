@@ -1,10 +1,10 @@
-name: Polaris ORM Crawler
+name: Polaris ORM Crawler v8
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Runs every hour
-    - cron: '30 * * * *' # Runs every half hour
-  workflow_dispatch:      # Allows you to click "Run workflow" manually
+    - cron: '0 * * * *'   # Every hour at :00
+    - cron: '30 * * * *'  # Every hour at :30
+  workflow_dispatch:       # Manual trigger from Actions tab
   push:
     branches: [main]
     paths: ['scripts/crawler.py']
@@ -15,10 +15,10 @@ permissions:
 jobs:
   crawl:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Python 3.11
@@ -26,26 +26,32 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
-        run: |
-          pip install pandas requests beautifulsoup4
-          # If your script needs other libraries, add them here
-
-      - name: Run Polaris ORM Crawler
+      - name: Run ORM Crawler
         run: python scripts/crawler.py
         env:
+          # Add these in: Repo → Settings → Secrets and variables → Actions → New repository secret
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
           CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
 
-      - name: Commit crawled data to repo
+      - name: Commit crawled data
         run: |
           git config user.name "Polaris ORM Bot"
-          git config user.email "orm-bot@polaris.edu"
+          git config user.email "orm@polariscampus.com"
           git add data/*.json
           if git diff --staged --quiet; then
-            echo "No new data this run"
+            echo "No new data changes this run"
           else
-            git commit -m "ORM: Data Update — $(date -u +'%H:%M %d %b UTC')"
+            # Extract BPS score for commit message
+            BPS=$(python3 -c "
+import json
+try:
+    d = json.load(open('data/summary.json'))
+    bps = d.get('bps',{})
+    print(f\"BPS={bps.get('bps','?')}/100 ({bps.get('grade','?')}) | {d.get('total_mentions','?')} mentions\")
+except:
+    print('data updated')
+" 2>/dev/null || echo "data updated")
+            git commit -m "ORM: ${BPS} — $(date -u +'%H:%M %d %b UTC')"
             git push
           fi
