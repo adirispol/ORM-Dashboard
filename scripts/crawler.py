@@ -1,21 +1,20 @@
-# Polaris ORM Crawler v11 (Production Ready)
+# Polaris ORM Crawler v12 (Stable Production Version)
 
 import os, json, time, urllib.parse, urllib.request
 from datetime import datetime, timezone
-
 from pathlib import Path
+from bs4 import BeautifulSoup
 
 # ================= CONFIG =================
 BRAND = "Polaris School of Technology"
 
 QUERIES = [
-    "Polaris School of Technology review",
     "Polaris School of Technology",
-    "PST",
+    "Polaris School of Technology placement",
     "Polaris vs Scaler School of Technology",
     "Polaris Campus",
+    "PST"
     "Polaris",
-    "Polaris Bangalore",
 ]
 
 DATA_DIR = Path("data")
@@ -25,15 +24,14 @@ GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
 GOOGLE_CX = os.environ.get("GOOGLE_CX")
 YOUTUBE_API_KEY = os.environ.get("YOUTUBE_API_KEY")
 
-DATA_DIR = "data"
-os.makedirs(DATA_DIR, exist_ok=True)
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+}
 
 # ================= HELPERS =================
 def fetch(url):
     try:
-        req = urllib.request.Request(url, headers={
-            "User-Agent": "Mozilla/5.0"
-        })
+        req = urllib.request.Request(url, headers=HEADERS)
         with urllib.request.urlopen(req, timeout=20) as r:
             return r.read().decode("utf-8", errors="ignore")
     except Exception as e:
@@ -53,7 +51,7 @@ def google_search(query, site=None):
 
     url = (
         "https://www.googleapis.com/customsearch/v1?"
-        f"key={GOOGLE_API_KEY}&cx={GOOGLE_CX}&q={urllib.parse.quote(q)}&num=10"
+        f"key={GOOGLE_API_KEY}&cx={GOOGLE_CX}&q={urllib.parse.quote(q)}"
     )
 
     raw = fetch(url)
@@ -84,7 +82,7 @@ def youtube_videos():
     url = (
         "https://www.googleapis.com/youtube/v3/search?"
         f"q={urllib.parse.quote(BRAND)}&type=video&part=snippet"
-        f"&maxResults=10&key={YOUTUBE_API_KEY}"
+        f"&maxResults=5&key={YOUTUBE_API_KEY}"
     )
 
     raw = fetch(url)
@@ -99,6 +97,7 @@ def youtube_videos():
             results.append({
                 "title": i["snippet"]["title"],
                 "url": f"https://youtube.com/watch?v={vid}",
+                "video_id": vid,
                 "platform": "youtube",
                 "date": now()
             })
@@ -126,57 +125,58 @@ def youtube_comments(video_id):
         items = json.loads(raw).get("items", [])
         for i in items:
             text = i["snippet"]["topLevelComment"]["snippet"]["textDisplay"]
-            if "polaris" in text.lower():
-                comments.append(text)
+            comments.append(text)
     except:
         pass
 
     return comments
 
+# ================= BASIC SCRAPER (SAFE FALLBACK) =================
+def scrape_page(url):
+    html = fetch(url)
+    if not html:
+        return ""
+
+    soup = BeautifulSoup(html, "html.parser")
+    text = soup.get_text(" ", strip=True)
+    return text[:1000]  # limit
+
 # ================= MAIN =================
-def main():
-    print("🚀 Running ORM Crawler v11")
+def run():
+    print("🚀 Running ORM Crawler v12")
 
     all_data = []
 
-    queries = [
-        BRAND,
-        f"{BRAND} review",
-        f"{BRAND} placement",
-        f"{BRAND} vs Scaler",
-        "PST Pune BTech"
-    ]
-
-    # ---- Google based scraping ----
-    for q in queries:
+    # -------- GOOGLE SEARCH --------
+    for q in QUERIES:
         print("🔎", q)
-        all_data += google_search(q)
-        all_data += google_search(q, "quora.com")
-        all_data += google_search(q, "medium.com")
-        all_data += google_search(q, "shiksha.com")
-        all_data += google_search(q, "collegedunia.com")
-        time.sleep(1)
 
-    # ---- YouTube ----
-    yt = youtube_videos()
-    all_data += yt
+        # Only allowed domains (important due to restriction)
+        for site in ["reddit.com", "quora.com", "shiksha.com"]:
+            results = google_search(q, site)
 
-    # ---- YouTube comments ----
-    for v in yt[:5]:
-        vid = v["url"].split("v=")[-1]
-        comments = youtube_comments(vid)
-        for c in comments:
-            all_data.append({
-                "platform": "youtube_comment",
-                "text": c,
-                "date": now()
-            })
+            for r in results:
+                r["content"] = scrape_page(r["url"])
+                all_data.append(r)
 
-    # ---- Save ----
-    with open(f"{DATA_DIR}/mentions.json", "w") as f:
+        time.sleep(2)
+
+    # -------- YOUTUBE --------
+    print("▶️ YouTube")
+    videos = youtube_videos()
+
+    for v in videos:
+        comments = youtube_comments(v["video_id"])
+        v["comments"] = comments
+        all_data.append(v)
+
+    # -------- SAVE --------
+    file = DATA_DIR / "output.json"
+    with open(file, "w", encoding="utf-8") as f:
         json.dump(all_data, f, indent=2)
 
-    print("✅ DONE:", len(all_data))
+    print(f"✅ DONE: {len(all_data)} records saved")
+
 
 if __name__ == "__main__":
-    main()
+    run()
