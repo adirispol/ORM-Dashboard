@@ -15,7 +15,7 @@ from pathlib import Path
 BRAND_QUERIES = [
     '"Polaris School of Technology"',
     '"Polaris School of Technology" review',
-    '"Polaris",
+    "Polaris",
     '"Polaris School of Technology" BTech',
     "PST",
     "Polaris Campus",
