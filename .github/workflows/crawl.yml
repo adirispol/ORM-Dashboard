@@ -1,9 +1,9 @@
-name: Polaris ORM Crawler
+name: Polaris Crawler
 
 on:
   schedule:
-    - cron: '*/30 * * * *' # Runs every 30 minutes
-  workflow_dispatch: # Allows manual trigger
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
 
 jobs:
   build:
@@ -34,16 +34,17 @@ jobs:
           git config user.name "Polaris ORM Bot"
           git config user.email "orm@polariscampus.com"
           
-          # Create data directory if it doesn't exist
+          # Create data directory if script didn't create it
           mkdir -p data
           
-          git add data/*.json || echo "No JSON files to add"
+          # Use 'git add -A data' to avoid the "pathspec" error if files are missing
+          git add data/
           
           if git diff --staged --quiet; then
             echo "No new data changes this run"
           else
-            # Extract BPS score for commit message using a safe one-liner
-            BPS=$(python3 -c "import json, os; path='data/summary.json'; d=json.load(open(path)) if os.path.exists(path) else {}; bps=d.get('bps',{}); print(f\"{bps.get('bps','?')}/100 ({bps.get('grade','?')}) | {d.get('total_mentions','?')} mentions\")" 2>/dev/null || echo "Data Updated")
+            # Extract BPS safely (Handle case where summary.json might be missing)
+            BPS=$(python3 -c "import json, os; p='data/summary.json'; d=json.load(open(p)) if os.path.exists(p) else {}; b=d.get('bps',{}); print(f\"{b.get('bps','?')}/100 ({b.get('grade','?')}) | {d.get('total_mentions','?')} mentions\")" 2>/dev/null || echo "Data Updated")
             
             git commit -m "ORM: ${BPS} - $(date -u +'%H:%M %d %b UTC')"
             git push
