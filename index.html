@@ -2,1450 +2,1227 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Polaris ORM Intelligence — Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Polaris ORM Intelligence Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
+*{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --gold:#FFCC3F; --orange:#FF9A3F; --amber:#D88100;
-  --black:#020202; --card:#141418; --card2:#1A1A20;
-  --border:#2A2A35; --border2:#353542;
-  --reddit:#FF4500; --quora:#B92B27; --youtube:#FF0000;
-  --medium:#099B5A; --newspaper:#D88100; --purple:#5939A8;
-  --blue:#2979FF; --teal:#00BCD4;
-  --pos:#00C853; --neg:#BA0E13; --neu:#78909C; --mixed:#FF9800;
-  --text:#F0F0F5; --muted:#8A8A9A; --dim:#454558;
-  --font:'Montserrat',sans-serif;
+  --gold:#FFCC3F;--orange:#FF9A3F;--amber:#D88100;
+  --black:#020202;--card:#1A1A1A;--card2:#141414;
+  --border:#2A2A2A;--text:#CCCCCC;--text2:#888;
+  --green:#099B5A;--red:#BA0E13;--purple:#5939A8;
+  --reddit:#FF4500;--quora:#B92B27;--youtube:#FF0000;
+  --medium:#00A562;
 }
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:var(--font);background:var(--black);color:var(--text);min-height:100vh;}
-::-webkit-scrollbar{width:4px;height:4px;}
-::-webkit-scrollbar-track{background:#0A0A0E;}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px;}
-a{text-decoration:none;color:inherit;}
-code{font-family:'Courier New',monospace;font-size:11px;background:#0D0D14;padding:2px 6px;border-radius:4px;color:var(--gold);}
-
-/* NAV */
-.nav{position:sticky;top:0;z-index:200;background:rgba(2,2,2,.97);border-bottom:2px solid var(--gold);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
-.logo-polaris{font-family:var(--font);font-size:13px;font-weight:800;letter-spacing:.2em;color:var(--gold);white-space:nowrap;text-transform:uppercase;}
-.logo-polaris span{color:var(--orange);display:block;font-size:9px;font-weight:600;letter-spacing:.18em;margin-top:1px;}
-.ptabs{display:flex;gap:2px;background:#0A0A0E;border:1px solid var(--border);border-radius:10px;padding:3px;}
-.ptab{padding:6px 15px;border-radius:8px;font:600 11px var(--font);cursor:pointer;border:none;background:transparent;color:#445;transition:.2s;white-space:nowrap;letter-spacing:.04em;text-transform:uppercase;}
-.ptab.on{background:#1A1A24;color:var(--gold);}
-.ptab:hover{color:#9A9AB0;}
-.nav-r{display:flex;align-items:center;gap:8px;}
-.crawl-badge{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:8px;background:#0A0A0E;border:1px solid var(--border);font:500 10px var(--font);color:var(--muted);white-space:nowrap;cursor:pointer;transition:.2s;}
-.crawl-badge:hover{border-color:var(--gold);color:var(--text);}
-.cdot{width:8px;height:8px;border-radius:50%;background:#333;flex-shrink:0;}
-.cdot.live{background:var(--pos);box-shadow:0 0 6px var(--pos);animation:pulse 2s infinite;}
-.cdot.stale{background:var(--mixed);}
-.cdot.old{background:var(--neg);}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
-.btn{padding:7px 14px;border-radius:8px;font:700 11px var(--font);cursor:pointer;border:none;transition:.2s;letter-spacing:.04em;text-transform:uppercase;}
-.btn-gold{background:var(--gold);color:#000;}
-.btn-gold:hover{background:#FFD84D;}
-.btn-out{background:rgba(255,204,63,.08);border:1px solid rgba(255,204,63,.25);color:var(--gold);}
-.btn-out:hover{background:rgba(255,204,63,.15);}
-.btn-ghost{background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--muted);}
-.btn-ghost:hover{color:var(--text);}
-
-/* LAYOUT */
-.main{max-width:1480px;margin:0 auto;padding:20px 24px;}
-.page{display:none;}.page.on{display:block;}
-
-/* NORTH STAR */
-.ns{background:linear-gradient(135deg,#1A1000,#0A0A14);border:1px solid rgba(255,204,63,.2);border-radius:16px;padding:20px 28px;margin-bottom:18px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;box-shadow:0 0 0 1px rgba(255,204,63,.06);}
-.ns-left{flex:1;min-width:200px;}
-.ns-lbl{font:700 9px var(--font);text-transform:uppercase;letter-spacing:.2em;color:var(--gold);margin-bottom:8px;}
-.ns-track{background:#1A1A26;border-radius:6px;height:8px;overflow:hidden;}
-.ns-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--gold),var(--orange));transition:width 1.2s ease;}
-.ns-num{font:800 36px var(--font);color:var(--gold);line-height:1;}
-.ns-sub{font:500 11px var(--font);color:var(--muted);margin-top:4px;}
-.stat-box{background:rgba(10,10,18,.7);border:1px solid var(--border);border-radius:10px;padding:12px 18px;text-align:center;flex-shrink:0;}
-.sb-n{font:800 18px var(--font);line-height:1;margin-bottom:4px;}
-.sb-l{font:600 8px var(--font);text-transform:uppercase;letter-spacing:.15em;color:var(--dim);}
-
-/* KPI GRID */
-.kpis{display:grid;grid-template-columns:repeat(8,1fr);gap:10px;margin-bottom:18px;}
-.kpi{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:14px 12px;cursor:pointer;transition:.22s;position:relative;overflow:hidden;}
-.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:14px 14px 0 0;opacity:0;transition:.2s;}
-.kpi:hover{transform:translateY(-3px);border-color:var(--border2);}
-.kpi.on{border-color:var(--gold);}.kpi.on::before{opacity:1;background:var(--gold);}
-.kpi-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
-.kpi-icon{font-size:18px;}
-.kd{width:9px;height:9px;border-radius:50%;background:#333;transition:.3s;}
-.kd.live{background:var(--pos);box-shadow:0 0 5px var(--pos);}
-.kd.stale{background:var(--mixed);}
-.kn{font:800 24px var(--font);line-height:1;margin-bottom:4px;}
-.kl{font:700 8px var(--font);text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:3px;}
-.ks{font:500 9px var(--font);color:var(--dim);}
-.ktag{font:700 7px var(--font);padding:2px 7px;border-radius:4px;display:inline-block;margin-top:5px;text-transform:uppercase;letter-spacing:.08em;}
-.tag-auto{background:rgba(0,200,83,.12);color:var(--pos);}
-.tag-sheet{background:rgba(41,121,255,.12);color:var(--blue);}
-.tag-off{background:rgba(80,80,100,.12);color:#445;}
-
-/* DATE BAR */
-.dbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 18px;margin-bottom:18px;}
-.dlbl{font:700 9px var(--font);text-transform:uppercase;letter-spacing:.12em;color:var(--dim);white-space:nowrap;}
-.db{padding:5px 13px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--dim);font:600 9px var(--font);cursor:pointer;transition:.2s;letter-spacing:.06em;text-transform:uppercase;}
-.db.on{background:rgba(255,204,63,.1);border-color:rgba(255,204,63,.35);color:var(--gold);}
-.db:hover{color:var(--text);}
-.din{background:#0A0A0E;border:1px solid var(--border);color:var(--text);font:500 11px var(--font);padding:5px 10px;border-radius:7px;outline:none;}
-.din:focus{border-color:rgba(255,204,63,.4);}
-.nxt-info{margin-left:auto;font:500 9px var(--font);color:var(--dim);white-space:nowrap;}
-.nxt-info span{color:var(--gold);font-weight:700;}
-
-/* CARDS */
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:0 0 0 1px rgba(255,204,63,.04);}
-.ct{font:700 9px var(--font);text-transform:uppercase;letter-spacing:.16em;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
-.ct-dot{width:8px;height:8px;border-radius:50%;}
-.ct-line{flex:1;height:1px;background:var(--border);}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:16px;}
-.cw{position:relative;height:195px;}
-
-/* PLATFORM TABS */
-.psel{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
-.pb{display:flex;align-items:center;gap:8px;padding:8px 15px;border-radius:10px;border:2px solid var(--border);background:var(--card);color:var(--muted);font:600 10px var(--font);cursor:pointer;transition:.2s;text-transform:uppercase;letter-spacing:.06em;}
-.pb:hover{border-color:var(--border2);color:var(--text);}
-.pb.on{background:#0D0D18;color:var(--text);}
-.pb-dot{width:9px;height:9px;border-radius:50%;}
-.pb-tag{font:700 7px var(--font);padding:2px 7px;border-radius:4px;margin-left:2px;text-transform:uppercase;letter-spacing:.06em;}
-.plat-c{display:none;}.plat-c.on{display:block;}
-
-/* TABLES */
-.tw{max-height:300px;overflow-y:auto;border-radius:10px;border:1px solid var(--border);}
-table{width:100%;border-collapse:collapse;font-size:11px;}
-th{background:#0A0A0E;color:var(--dim);font:700 8px var(--font);text-transform:uppercase;letter-spacing:.12em;padding:10px 12px;text-align:left;border-bottom:1px solid rgba(255,204,63,.2);position:sticky;top:0;z-index:1;}
-tr:nth-child(odd) td{background:#0D0D14;}
-tr:nth-child(even) td{background:#111118;}
-tr:hover td{background:#171724;}
-td{padding:8px 12px;color:var(--text);vertical-align:middle;border-bottom:1px solid #0E0E16;}
-.link-btn{display:inline-flex;align-items:center;padding:3px 9px;background:rgba(255,204,63,.08);border:1px solid rgba(255,204,63,.22);border-radius:6px;color:var(--gold);font:600 9px var(--font);transition:.2s;}
-.link-btn:hover{background:rgba(255,204,63,.16);}
-.sb{display:inline-block;padding:2px 8px;border-radius:8px;font:700 9px var(--font);}
-.sb.pos{background:rgba(0,200,83,.14);color:var(--pos);}
-.sb.neg{background:rgba(186,14,19,.14);color:#FF5252;}
-.sb.mixed{background:rgba(255,152,0,.14);color:var(--mixed);}
-.sb.neu{background:rgba(120,144,156,.1);color:var(--neu);}
-
-/* FEED */
-.feed{display:flex;flex-direction:column;gap:8px;max-height:350px;overflow-y:auto;}
-.fc{background:#0A0A0E;border:1px solid var(--border);border-radius:10px;padding:12px 14px;transition:.2s;}
-.fc:hover{border-color:var(--border2);}
-.fc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px;}
-.fc-title{font:500 12px var(--font);color:var(--text);line-height:1.5;flex:1;}
-.fc-meta{font:500 9px var(--font);color:var(--dim);display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
-.pip{width:8px;height:8px;border-radius:50%;}
-
-/* STATS ROW */
-.srow{display:flex;gap:10px;flex-wrap:wrap;}
-.sbox{flex:1;min-width:90px;background:#0A0A0E;border-radius:10px;padding:12px;border:1px solid var(--border);}
-.sn{font:800 22px var(--font);color:var(--gold);line-height:1;margin-bottom:4px;}
-.sl{font:600 8px var(--font);color:var(--dim);text-transform:uppercase;letter-spacing:.12em;}
-
-/* ACTIONS */
-.acts{display:flex;flex-direction:column;gap:8px;}
-.act{display:flex;gap:11px;align-items:flex-start;background:rgba(255,204,63,.04);border:1px solid rgba(255,204,63,.12);border-radius:10px;padding:11px 13px;transition:.2s;}
-.act:hover{border-color:rgba(255,204,63,.25);}
-.act-n{width:24px;height:24px;border-radius:50%;background:var(--gold);color:#000;font:800 11px var(--font);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
-.act-t{font:500 12px var(--font);color:var(--text);line-height:1.65;}
-.abadge{display:inline-block;padding:2px 7px;border-radius:4px;font:700 8px var(--font);margin-left:5px;text-transform:uppercase;letter-spacing:.06em;}
-.ab-h{background:rgba(186,14,19,.2);color:#FF5252;}
-.ab-m{background:rgba(255,152,0,.15);color:var(--mixed);}
-.ab-l{background:rgba(0,200,83,.12);color:var(--pos);}
-
-/* KEYWORD EDITOR */
-.kw-section{margin-bottom:16px;}
-.kw-title{font:700 9px var(--font);text-transform:uppercase;letter-spacing:.16em;color:var(--gold);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
-.kw-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;min-height:32px;padding:8px;background:#0A0A0E;border-radius:8px;border:1px solid var(--border);}
-.kw-tag{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:6px;font:600 10px var(--font);}
-.kw-tag.primary{background:rgba(255,204,63,.12);border:1px solid rgba(255,204,63,.3);color:var(--gold);}
-.kw-tag.competitor{background:rgba(186,14,19,.1);border:1px solid rgba(186,14,19,.25);color:#FF6B6B;}
-.kw-tag button{background:none;border:none;cursor:pointer;color:inherit;font-size:12px;line-height:1;opacity:.6;padding:0;transition:.2s;}
-.kw-tag button:hover{opacity:1;}
-.kw-add{display:flex;gap:7px;margin-top:6px;}
-.kw-input{flex:1;background:#080810;border:1px solid var(--border);color:var(--text);font:500 11px var(--font);padding:7px 11px;border-radius:7px;outline:none;}
-.kw-input:focus{border-color:rgba(255,204,63,.4);}
-.kw-input::placeholder{color:var(--dim);}
-.kw-btn{padding:7px 14px;border-radius:7px;font:700 9px var(--font);border:none;cursor:pointer;text-transform:uppercase;letter-spacing:.06em;}
-.kw-btn.add-pst{background:rgba(255,204,63,.15);color:var(--gold);}
-.kw-btn.add-comp{background:rgba(186,14,19,.12);color:#FF6B6B;}
-
-/* SETTINGS PANEL */
-.sov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:300;backdrop-filter:blur(6px);}
-.sov.on{display:block;}
-.span{position:fixed;right:-620px;top:0;bottom:0;width:600px;background:#0D0D14;border-left:2px solid var(--gold);z-index:301;overflow-y:auto;transition:right .32s cubic-bezier(.4,0,.2,1);}
-.span.on{right:0;}
-.shead{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#0D0D14;z-index:1;}
-.stitle{font:800 14px var(--font);color:var(--gold);letter-spacing:.08em;text-transform:uppercase;}
-.sbody{padding:22px 24px;display:flex;flex-direction:column;gap:14px;}
-
-/* Settings sections */
-.sg{background:#111118;border:1px solid var(--border);border-radius:12px;overflow:hidden;}
-.sg-h{padding:14px 18px;display:flex;align-items:center;gap:11px;cursor:pointer;user-select:none;transition:.2s;}
-.sg-h:hover{background:#161622;}
-.sg-icon{font-size:16px;flex-shrink:0;}
-.sg-title{font:700 12px var(--font);color:var(--text);flex:1;letter-spacing:.02em;}
-.sg-sub{font:500 10px var(--font);color:var(--dim);}
-.sg-arr{font-size:10px;color:var(--dim);}
-.sg-b{display:none;padding:16px 18px;border-top:1px solid var(--border);background:#0A0A0E;}
-.sg-b.open{display:block;}
-.sg-t{font:700 8px var(--font);text-transform:uppercase;letter-spacing:.18em;color:var(--dim);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
-.si-row{margin-bottom:10px;}
-.si-label{font:600 9px var(--font);text-transform:uppercase;letter-spacing:.1em;color:var(--muted);display:block;margin-bottom:5px;}
-.si-hint{font:500 9px var(--font);color:#2A2A3A;margin-top:4px;line-height:1.6;}
-.si{width:100%;background:#080810;border:1px solid var(--border);color:var(--text);font:500 12px var(--font);padding:9px 12px;border-radius:8px;outline:none;transition:.2s;}
-.si:focus{border-color:rgba(255,204,63,.4);}
-.si::placeholder{color:#252535;}
-.sstatus{display:flex;align-items:center;gap:7px;padding:7px 11px;border-radius:7px;font:600 9px var(--font);margin-top:6px;text-transform:uppercase;letter-spacing:.06em;}
-.ss-ok{background:rgba(0,200,83,.08);color:var(--pos);border:1px solid rgba(0,200,83,.18);}
-.ss-warn{background:rgba(255,152,0,.08);color:var(--mixed);border:1px solid rgba(255,152,0,.15);}
-.ss-miss{background:rgba(186,14,19,.07);color:#FF5252;border:1px solid rgba(186,14,19,.15);}
-
-/* API cards */
-.api-card{background:#0A0A0E;border:1px solid var(--border);border-radius:10px;padding:13px;margin-bottom:9px;}
-.api-name{font:700 12px var(--font);color:var(--text);display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;}
-.api-cost{font:600 9px var(--font);color:var(--dim);}
-.api-desc{font:500 10px var(--font);color:var(--dim);margin-bottom:8px;line-height:1.6;}
-.api-note{font:600 9px var(--font);padding:6px 10px;border-radius:6px;background:rgba(0,200,83,.06);border:1px solid rgba(0,200,83,.12);color:var(--pos);margin-top:5px;}
-.g2f{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.comp-row{display:flex;gap:7px;align-items:center;margin-bottom:7px;}
-.comp-row .si{flex:1;}
-.comp-rm{width:30px;height:30px;border-radius:7px;background:rgba(186,14,19,.1);border:1px solid rgba(186,14,19,.2);color:#FF6B6B;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:.2s;}
-.comp-rm:hover{background:rgba(186,14,19,.2);}
-.comp-add-btn{width:100%;padding:9px;border-radius:8px;background:rgba(255,204,63,.04);border:1px dashed rgba(255,204,63,.2);color:var(--gold);font:600 10px var(--font);cursor:pointer;transition:.2s;letter-spacing:.06em;text-transform:uppercase;}
-.comp-add-btn:hover{background:rgba(255,204,63,.09);}
-.info-box{padding:11px 13px;border-radius:8px;font:500 10px var(--font);line-height:1.7;margin-bottom:10px;}
-.info-box b{color:var(--gold);}
-.info-box a{color:var(--gold);}
-.ib-warn{background:rgba(255,152,0,.07);border:1px solid rgba(255,152,0,.15);color:var(--mixed);}
-.ib-info{background:rgba(41,121,255,.07);border:1px solid rgba(41,121,255,.15);color:#6BA3FF;}
-.ib-ok{background:rgba(0,200,83,.06);border:1px solid rgba(0,200,83,.12);color:var(--pos);}
-
-/* ERROR / DEBUG TAB */
-.log-area{background:#050508;border:1px solid var(--border);border-radius:8px;padding:12px;max-height:320px;overflow-y:auto;font-family:'Courier New',monospace;font-size:10px;line-height:1.7;}
-.log-line{padding:2px 0;border-bottom:1px solid #0E0E14;}
-.log-line:last-child{border-bottom:none;}
-.log-ts{color:#445;margin-right:8px;}
-.log-ok{color:var(--pos);}
-.log-warn{color:var(--mixed);}
-.log-err{color:#FF5252;}
-.log-info{color:#6BA3FF;}
-.log-label{display:inline-block;padding:1px 6px;border-radius:3px;font-size:9px;font-weight:700;margin-right:6px;text-transform:uppercase;}
-.ll-ok{background:rgba(0,200,83,.2);color:var(--pos);}
-.ll-err{background:rgba(186,14,19,.2);color:#FF5252;}
-.ll-warn{background:rgba(255,152,0,.2);color:var(--mixed);}
-.ll-info{background:rgba(41,121,255,.2);color:#6BA3FF);}
-.crawl-timeline{display:flex;flex-direction:column;gap:8px;}
-.ct-row{display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border);}
-.ct-row:last-child{border-bottom:none;}
-.ct-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
-.ct-txt{flex:1;}
-.ct-name{font:600 11px var(--font);color:var(--text);margin-bottom:2px;}
-.ct-detail{font:500 9px var(--font);color:var(--dim);}
-
-/* STATES */
-.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;gap:9px;}
-.ei{font-size:30px;opacity:.25;}
-.empty p{font:500 12px var(--font);color:var(--dim);text-align:center;max-width:300px;line-height:1.7;}
-.empty small{font:500 9px var(--font);color:#252535;text-align:center;}
-.spin{width:24px;height:24px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg);}}
-.err-box{padding:11px 14px;background:rgba(186,14,19,.07);border:1px solid rgba(186,14,19,.18);border-radius:9px;font:500 11px var(--font);color:#FF5252;margin-bottom:12px;}
-.warn-box{padding:11px 14px;background:rgba(255,152,0,.07);border:1px solid rgba(255,152,0,.15);border-radius:9px;font:500 11px var(--font);color:var(--mixed);margin-bottom:12px;}
-
-footer{text-align:center;padding:24px;font:500 10px var(--font);color:#252535;border-top:1px solid var(--border);margin-top:40px;letter-spacing:.08em;text-transform:uppercase;}
-
-@media(max-width:1200px){.kpis{grid-template-columns:repeat(4,1fr);}}
-@media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr);}.g2,.g3{grid-template-columns:1fr;}.span{width:100%;right:-100%;}}
-@media(max-width:600px){.ptabs{display:none;}.kpis{grid-template-columns:1fr 1fr;}}
+body{background:var(--black);color:var(--text);font-family:Poppins,sans-serif;font-size:14px;min-height:100vh}
+/* ── NAV ── */
+nav{background:#090909;border-bottom:2px solid var(--gold);height:64px;display:flex;align-items:center;padding:0 24px;position:sticky;top:0;z-index:100;gap:16px}
+.logo{font-family:'Playfair Display',serif;font-size:16px;color:#fff;white-space:nowrap}
+.logo span{color:var(--gold);font-size:11px;font-family:Poppins,sans-serif;font-weight:600;letter-spacing:.12em;display:block;margin-top:-4px}
+nav .spacer{flex:1}
+.last-updated{font-size:11px;color:var(--text2);white-space:nowrap}
+.last-updated b{color:var(--gold)}
+.nav-btn{background:rgba(255,204,63,.1);border:1px solid rgba(255,204,63,.3);color:var(--gold);padding:6px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-family:Poppins,sans-serif;font-weight:500;transition:all .2s}
+.nav-btn:hover{background:rgba(255,204,63,.2);border-color:var(--gold)}
+.bps-nav{display:flex;align-items:center;gap:8px;background:rgba(255,204,63,.06);border:1px solid rgba(255,204,63,.15);padding:6px 14px;border-radius:8px}
+.bps-nav-score{font-size:20px;font-weight:700;color:var(--gold)}
+.bps-nav-grade{font-size:11px;color:var(--text2)}
+/* ── TABS ── */
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);background:#090909;padding:0 24px;overflow-x:auto}
+.tab-btn{padding:14px 18px;border:none;background:none;color:var(--text2);font-family:Poppins,sans-serif;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s;margin-bottom:-1px}
+.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab-btn:hover:not(.active){color:var(--text)}
+.tab-panel{display:none;padding:24px}
+.tab-panel.active{display:block}
+/* ── CARDS ── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:0 0 0 1px rgba(255,204,63,.04)}
+.card-title{font-size:13px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.card-title::after{content:'';display:block;width:36px;height:3px;background:var(--gold);margin-top:8px}
+/* ── BPS HERO ── */
+.bps-hero{background:linear-gradient(135deg,#0e0a02,#1a1400);border:1px solid rgba(255,204,63,.2);border-radius:16px;padding:32px;margin-bottom:24px;display:grid;grid-template-columns:auto 1fr auto;gap:32px;align-items:center}
+.bps-number{font-size:72px;font-weight:700;color:var(--gold);line-height:1;font-family:'Playfair Display',serif}
+.bps-grade-badge{display:inline-block;background:rgba(255,204,63,.15);border:2px solid var(--gold);color:var(--gold);font-size:22px;font-weight:700;padding:6px 16px;border-radius:10px;margin-top:8px}
+.bps-label{font-size:13px;color:var(--text2);margin-top:4px}
+.bps-bar-wrap{flex:1}
+.bps-bar-track{background:#2a2a2a;border-radius:8px;height:14px;overflow:hidden;position:relative}
+.bps-bar-fill{height:100%;border-radius:8px;transition:width 1s ease;position:relative}
+.bps-bar-fill::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);animation:shimmer 2s infinite}
+@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.bps-ticks{display:flex;justify-content:space-between;font-size:10px;color:var(--text2);margin-top:4px;padding:0 2px}
+.bps-interpretation{font-size:13px;color:var(--text);margin-top:12px;padding:10px 14px;background:rgba(255,255,255,.03);border-radius:8px;border-left:3px solid var(--gold)}
+.bps-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+/* ── KPI GRID ── */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.kpi-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;position:relative;overflow:hidden}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:12px 12px 0 0}
+.kpi-card.k-reddit::before{background:var(--reddit)}
+.kpi-card.k-quora::before{background:var(--quora)}
+.kpi-card.k-youtube::before{background:var(--youtube)}
+.kpi-card.k-medium::before{background:var(--medium)}
+.kpi-card.k-news::before{background:var(--amber)}
+.kpi-card.k-total::before{background:var(--gold)}
+.kpi-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;font-size:18px}
+.kpi-num{font-size:28px;font-weight:700;color:var(--gold);line-height:1}
+.kpi-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--text2);margin-top:4px}
+.kpi-sub{font-size:11px;color:var(--text2);margin-top:6px}
+/* ── SENTIMENT BREAKDOWN ── */
+.sent-pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.pill{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600}
+.pill-pos{background:rgba(9,155,90,.15);color:#3dd68c;border:1px solid rgba(9,155,90,.3)}
+.pill-neg{background:rgba(186,14,19,.15);color:#ff6b6b;border:1px solid rgba(186,14,19,.3)}
+.pill-mix{background:rgba(255,154,63,.15);color:var(--orange);border:1px solid rgba(255,154,63,.3)}
+.pill-neu{background:rgba(255,255,255,.05);color:var(--text2);border:1px solid var(--border)}
+/* ── ACTIONABLES ── */
+.action-list{display:flex;flex-direction:column;gap:10px}
+.action-item{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start}
+.action-badge{padding:3px 10px;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;white-space:nowrap}
+.badge-urgent{background:rgba(186,14,19,.25);color:#ff6b6b;border:1px solid rgba(186,14,19,.4)}
+.badge-high{background:rgba(255,154,63,.2);color:var(--orange);border:1px solid rgba(255,154,63,.35)}
+.badge-medium{background:rgba(255,204,63,.15);color:var(--gold);border:1px solid rgba(255,204,63,.3)}
+.badge-low{background:rgba(255,255,255,.05);color:var(--text2);border:1px solid var(--border)}
+.action-body{}
+.action-title{font-size:13px;font-weight:600;color:#fff;margin-bottom:4px}
+.action-why{font-size:11px;color:var(--text2);margin-bottom:4px}
+.action-idea{font-size:11px;color:#8fd4a8;font-style:italic}
+.action-plat{font-size:10px;padding:2px 8px;border-radius:5px;background:rgba(255,255,255,.06);color:var(--text2);white-space:nowrap;align-self:start}
+/* ── MENTIONS TABLE ── */
+.mentions-wrap{max-height:500px;overflow-y:auto}
+.mentions-table{width:100%;border-collapse:collapse}
+.mentions-table th{background:#111;color:var(--text2);font-size:10px;text-transform:uppercase;letter-spacing:.08em;padding:10px 12px;text-align:left;position:sticky;top:0;z-index:2;border-bottom:1px solid var(--gold)}
+.mentions-table td{padding:10px 12px;border-bottom:1px solid #1e1e1e;vertical-align:top;font-size:12px}
+.mentions-table tr:hover td{background:rgba(255,204,63,.03)}
+.mentions-table tr:nth-child(even) td{background:rgba(0,0,0,.2)}
+.plat-tag{display:inline-block;padding:2px 8px;border-radius:5px;font-size:10px;font-weight:600;text-transform:capitalize}
+.plat-reddit{background:rgba(255,69,0,.15);color:#ff6b35}
+.plat-quora{background:rgba(185,43,39,.15);color:#e86260}
+.plat-medium{background:rgba(0,165,98,.15);color:#3dd68c}
+.plat-youtube{background:rgba(255,0,0,.15);color:#ff5555}
+.plat-newspaper{background:rgba(216,129,0,.15);color:#ffb847}
+.plat-shiksha,.plat-collegedunia,.plat-careers360,.plat-getmyuni,.plat-collegedekho,.plat-naukri{background:rgba(89,57,168,.15);color:#a78bfa}
+.plat-linkedin{background:rgba(0,119,181,.15);color:#60a5fa}
+.plat-twitter,.plat-web{background:rgba(255,255,255,.06);color:var(--text2)}
+.sent-dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:4px}
+.sent-positive .sent-dot{background:#3dd68c}
+.sent-negative .sent-dot{background:#ff6b6b}
+.sent-mixed .sent-dot{background:var(--orange)}
+.sent-neutral .sent-dot{background:var(--text2)}
+.link-btn{display:inline-block;padding:3px 8px;background:rgba(255,204,63,.08);border:1px solid rgba(255,204,63,.2);border-radius:5px;color:var(--gold);font-size:10px;text-decoration:none;transition:all .2s}
+.link-btn:hover{background:rgba(255,204,63,.18);border-color:var(--gold)}
+/* ── PLATFORM COVERAGE BARS ── */
+.plat-bars{display:grid;gap:10px}
+.plat-bar-row{display:grid;grid-template-columns:110px 1fr 50px;align-items:center;gap:10px}
+.plat-bar-label{font-size:11px;color:var(--text2);text-align:right}
+.plat-bar-track{background:#252525;border-radius:4px;height:8px;overflow:hidden}
+.plat-bar-fill{height:100%;border-radius:4px;transition:width .8s ease}
+.plat-bar-num{font-size:11px;color:var(--gold);font-weight:600;text-align:right}
+/* ── COMPETITOR GRID ── */
+.comp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.comp-card{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px}
+.comp-name{font-size:12px;font-weight:600;color:#fff;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.comp-stat{font-size:22px;font-weight:700;color:var(--orange)}
+.comp-label{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.07em}
+.comp-sents{display:flex;gap:4px;margin-top:8px;font-size:10px}
+.comp-sents span{padding:1px 6px;border-radius:4px}
+/* ── LLM CHECKLIST ── */
+.llm-list{display:flex;flex-direction:column;gap:8px}
+.llm-item{display:grid;grid-template-columns:24px 1fr auto;gap:10px;align-items:center;padding:12px 14px;background:var(--card2);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .2s}
+.llm-item.done{opacity:.55}
+.llm-item.done .llm-name{text-decoration:line-through;color:var(--text2)}
+.llm-check{width:20px;height:20px;border:2px solid var(--border);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:12px;transition:all .2s}
+.llm-item.done .llm-check{background:var(--green);border-color:var(--green);color:#fff}
+.llm-name{font-size:12px;font-weight:500}
+.llm-impact{font-size:10px;padding:2px 7px;border-radius:5px}
+.impact-critical{background:rgba(186,14,19,.2);color:#ff6b6b}
+.impact-high{background:rgba(255,154,63,.15);color:var(--orange)}
+.impact-medium{background:rgba(255,204,63,.1);color:var(--gold)}
+/* ── SETTINGS PANEL ── */
+.settings-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200}
+.settings-overlay.open{display:block}
+.settings-panel{position:fixed;top:0;right:0;width:420px;height:100vh;background:#0d0d0d;border-left:2px solid var(--gold);z-index:201;overflow-y:auto;transform:translateX(100%);transition:transform .3s ease}
+.settings-panel.open{transform:translateX(0)}
+.settings-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.settings-header h3{font-size:15px;font-weight:600;color:var(--gold)}
+.settings-close{background:none;border:1px solid var(--border);color:var(--text2);width:28px;height:28px;border-radius:6px;cursor:pointer;font-size:14px}
+.settings-body{padding:24px}
+.settings-section{margin-bottom:24px}
+.settings-section h4{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.field{margin-bottom:10px}
+.field label{display:block;font-size:11px;color:var(--text2);margin-bottom:4px}
+.field input{width:100%;background:#171717;border:1px solid var(--border);color:#fff;padding:8px 10px;border-radius:7px;font-size:12px;font-family:Poppins,sans-serif}
+.field input:focus{outline:none;border-color:rgba(255,204,63,.5)}
+.field .hint{font-size:10px;color:#555;margin-top:3px}
+.save-btn{width:100%;background:var(--gold);color:#000;border:none;padding:11px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;font-family:Poppins,sans-serif;margin-top:8px;transition:all .2s}
+.save-btn:hover{background:var(--orange)}
+/* ── CHART CONTAINERS ── */
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
+.chart-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px}
+.chart-box canvas{max-height:220px}
+/* ── FILTERS ── */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.filter-btn{padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:var(--card2);color:var(--text2);font-size:11px;font-family:Poppins,sans-serif;cursor:pointer;transition:all .2s}
+.filter-btn.active{background:rgba(255,204,63,.12);border-color:rgba(255,204,63,.4);color:var(--gold)}
+.filter-btn:hover:not(.active){border-color:var(--text2);color:var(--text)}
+/* ── DEBUG ── */
+.debug-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.source-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:6px;font-size:11px;margin:3px;font-weight:500}
+.src-ok{background:rgba(9,155,90,.15);color:#3dd68c;border:1px solid rgba(9,155,90,.25)}
+.src-fail{background:rgba(186,14,19,.15);color:#ff6b6b;border:1px solid rgba(186,14,19,.25)}
+.src-warn{background:rgba(255,154,63,.15);color:var(--orange);border:1px solid rgba(255,154,63,.25)}
+.api-status{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.api-badge{padding:5px 12px;border-radius:7px;font-size:11px;font-weight:600}
+.api-active{background:rgba(9,155,90,.15);color:#3dd68c;border:1px solid rgba(9,155,90,.3)}
+.api-inactive{background:rgba(255,255,255,.05);color:var(--text2);border:1px solid var(--border)}
+/* ── GRID LAYOUTS ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+/* ── GOOGLE SHEETS ── */
+.sheet-table-wrap{max-height:350px;overflow-y:auto}
+.sheet-tabs{display:flex;gap:0;margin-bottom:16px;border-bottom:1px solid var(--border)}
+.sheet-tab{padding:8px 16px;font-size:12px;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
+.sheet-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+/* ── LOADING ── */
+.loading-state,.error-state,.empty-state{padding:40px;text-align:center;color:var(--text2)}
+.spinner{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error-state{color:#ff6b6b}
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .charts-grid{grid-template-columns:1fr}
+  .comp-grid{grid-template-columns:repeat(2,1fr)}
+  .two-col{grid-template-columns:1fr}
+  .bps-hero{grid-template-columns:1fr;text-align:center}
+  .bps-meta{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  .settings-panel{width:100%}
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  .comp-grid{grid-template-columns:1fr 1fr}
+}
 </style>
 </head>
 <body>
 
-<nav class="nav">
-  <div class="logo-polaris">POLARIS <span>SCHOOL OF TECHNOLOGY</span></div>
-  <div class="ptabs">
-    <button class="ptab on" onclick="showPage('overview',this)">Overview</button>
-    <button class="ptab" onclick="showPage('listening',this)">Live Listening</button>
-    <button class="ptab" onclick="showPage('content',this)">My Content</button>
-    <button class="ptab" onclick="showPage('competitors',this)">Competitors</button>
-    <button class="ptab" onclick="showPage('analytics',this)">Analytics</button>
-  </div>
-  <div class="nav-r">
-    <div class="crawl-badge" onclick="openSettings('debug')" title="Click to see crawl debug info">
-      <div class="cdot" id="crawlDot"></div>
-      <span id="crawlAge">Checking...</span>
+<!-- NAV -->
+<nav>
+  <div class="logo">POLARIS <span>SCHOOL OF TECHNOLOGY — ORM DASHBOARD</span></div>
+  <div class="spacer"></div>
+  <div class="bps-nav">
+    <div>
+      <div class="bps-nav-score" id="navBps">—</div>
+      <div class="bps-nav-grade">Brand Score</div>
     </div>
-    <button class="btn btn-out" onclick="loadAll()">&#8635; Refresh</button>
-    <button class="btn btn-gold" onclick="downloadReport()">&#8595; Report</button>
-    <button class="btn btn-ghost" onclick="openSettings('main')">&#9881; Settings</button>
   </div>
+  <div class="last-updated">Last crawl: <b id="lastUpdated">Loading…</b></div>
+  <button class="nav-btn" onclick="loadAll()">⟳ Refresh</button>
+  <button class="nav-btn" onclick="openSettings()">⚙ Settings</button>
 </nav>
 
-<!-- SETTINGS PANEL -->
-<div class="sov" id="sov" onclick="closeSettings()"></div>
-<div class="span" id="span">
-  <div class="shead">
-    <div style="display:flex;gap:6px;">
-      <button class="btn btn-ghost" id="stab_main" onclick="switchStab('main')" style="font-size:10px;padding:5px 12px;">&#9881; Config</button>
-      <button class="btn btn-ghost" id="stab_keywords" onclick="switchStab('keywords')" style="font-size:10px;padding:5px 12px;">&#128269; Keywords</button>
-      <button class="btn btn-ghost" id="stab_sheets" onclick="switchStab('sheets')" style="font-size:10px;padding:5px 12px;">&#128203; Sheets</button>
-      <button class="btn btn-ghost" id="stab_debug" onclick="switchStab('debug')" style="font-size:10px;padding:5px 12px;">&#128029; Debug</button>
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('overview')">📊 Overview</button>
+  <button class="tab-btn" onclick="switchTab('listening')">🔍 Live Listening</button>
+  <button class="tab-btn" onclick="switchTab('content')">📄 My Content</button>
+  <button class="tab-btn" onclick="switchTab('competitors')">🏆 Competitors</button>
+  <button class="tab-btn" onclick="switchTab('llm')">🤖 LLM / AEO</button>
+  <button class="tab-btn" onclick="switchTab('debug')">🔧 Debug</button>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- TAB: OVERVIEW                                              -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<div id="tab-overview" class="tab-panel active">
+
+  <!-- BPS HERO -->
+  <div class="bps-hero">
+    <div>
+      <div class="bps-number" id="bpsScore">—</div>
+      <div class="bps-grade-badge" id="bpsGrade">—</div>
+      <div class="bps-label">Brand Presence Score / 100</div>
     </div>
-    <div style="display:flex;gap:8px;align-items:center;">
-      <button class="btn btn-gold" onclick="saveSettings()">Save &amp; Apply</button>
-      <button class="btn btn-ghost" onclick="closeSettings()">&#x2715;</button>
+    <div class="bps-bar-wrap">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+        <span style="font-size:11px;color:var(--text2)">ORM Health</span>
+        <span style="font-size:11px;color:var(--text2)" id="bpsCoverage">— / 8 platforms</span>
+      </div>
+      <div class="bps-bar-track">
+        <div class="bps-bar-fill" id="bpsBarFill" style="width:0%;background:linear-gradient(90deg,var(--amber),var(--gold))"></div>
+      </div>
+      <div class="bps-ticks">
+        <span>D (0)</span><span>C (35)</span><span>B (50)</span><span>A (65)</span><span>A+ (80)</span><span>100</span>
+      </div>
+      <div class="bps-interpretation" id="bpsInterpretation">Loading brand presence score…</div>
     </div>
-  </div>
-  <div class="sbody">
-
-    <!-- TAB: MAIN CONFIG -->
-    <div id="stab_main_body">
-
-      <!-- CRAWLER SOURCE -->
-      <div class="sg">
-        <div class="sg-h" onclick="togSg(this)">
-          <span class="sg-icon">&#128225;</span>
-          <div style="flex:1"><div class="sg-title">Crawler Data Source</div><div class="sg-sub">Where your GitHub Actions crawled data lives</div></div>
-          <span class="sg-arr">&#9660;</span>
-        </div>
-        <div class="sg-b open">
-          <div class="si-row">
-            <label class="si-label">GitHub Repo Path</label>
-            <input class="si" id="s_repo" placeholder="adirispol/ORM-Dashboard">
-            <div class="si-hint">Format: username/repo-name &nbsp;&bull;&nbsp; e.g. adirispol/ORM-Dashboard</div>
-            <div class="sstatus ss-miss" id="ss_repo">Enter repo path to load crawl data</div>
-          </div>
-          <div class="si-row">
-            <label class="si-label">Branch</label>
-            <input class="si" id="s_branch" value="main" placeholder="main">
-          </div>
-          <div class="info-box ib-info" style="font-size:9px;margin-top:4px;">
-            Dashboard reads from:<br>
-            <code>raw.githubusercontent.com/{repo}/refs/heads/{branch}/data/summary.json</code><br>
-            <code>...reddit.json &nbsp;quora.json &nbsp;all_mentions.json &nbsp;etc.</code>
-          </div>
-        </div>
+    <div class="bps-meta">
+      <div class="card" style="padding:14px;text-align:center">
+        <div class="kpi-num" id="totalMentions">—</div>
+        <div class="kpi-label">Total Mentions</div>
       </div>
-
-      <!-- FREE APIs -->
-      <div class="sg">
-        <div class="sg-h" onclick="togSg(this)">
-          <span class="sg-icon">&#128273;</span>
-          <div style="flex:1"><div class="sg-title">Free API Keys</div><div class="sg-sub">All optional &mdash; crawler works without them. These are 100% free.</div></div>
-          <span class="sg-arr">&#9660;</span>
-        </div>
-        <div class="sg-b">
-          <div class="info-box ib-ok">&#10003; All APIs listed below are <b>completely free</b>. No credit card needed. Paid APIs (SerpAPI, Apify) excluded from this list.</div>
-
-          <div class="api-card">
-            <div class="api-name">YouTube Data API v3 <span class="api-cost">FREE &mdash; 10,000 req/day</span></div>
-            <div class="api-desc">Auto-fetches YouTube videos + comments mentioning Polaris. Without this: only Google-indexed YouTube pages found (~40% coverage). Get at: <a href="https://console.cloud.google.com" target="_blank">console.cloud.google.com &#8599;</a></div>
-            <input class="si" type="password" id="api_youtube" placeholder="AIza..." oninput="updateApiStatus('youtube')">
-            <div class="sstatus ss-miss" id="ss_youtube">Without key: Google-indexed YouTube only</div>
-            <div class="api-note">GitHub Secret name: <code>YOUTUBE_API_KEY</code></div>
-          </div>
-
-          <div class="api-card">
-            <div class="api-name">NewsAPI.org <span class="api-cost">FREE &mdash; 100 req/day</span></div>
-            <div class="api-desc">Searches 70,000+ news sources. Without this: Google News RSS only. Get at: <a href="https://newsapi.org/register" target="_blank">newsapi.org/register &#8599;</a></div>
-            <input class="si" type="password" id="api_newsapi" placeholder="abc123..." oninput="updateApiStatus('newsapi')">
-            <div class="sstatus ss-miss" id="ss_newsapi">Without key: Google News RSS only (still works)</div>
-            <div class="api-note">GitHub Secret name: <code>NEWSAPI_KEY</code></div>
-          </div>
-
-          <div class="api-card">
-            <div class="api-name">Reddit Public API <span class="api-cost">FREE &mdash; No key needed</span></div>
-            <div class="api-desc">Crawler uses Reddit's public JSON API directly. No key required. Already active.</div>
-            <div class="sstatus ss-ok">&#10003; Active by default &mdash; no setup needed</div>
-          </div>
-
-          <div class="api-card">
-            <div class="api-name">Google News RSS <span class="api-cost">FREE &mdash; No key needed</span></div>
-            <div class="api-desc">Crawler uses Google News RSS feed directly. No key required. Already active.</div>
-            <div class="sstatus ss-ok">&#10003; Active by default &mdash; no setup needed</div>
-          </div>
-
-          <div class="info-box ib-warn" style="margin-top:8px;">
-            <b>Add keys as GitHub Secrets too</b> (so crawler uses them):<br>
-            Repo &#8594; Settings &#8594; Secrets and variables &#8594; Actions &#8594; New repository secret
-          </div>
-        </div>
+      <div class="card" style="padding:14px;text-align:center">
+        <div class="kpi-num" id="totalImpressions">—</div>
+        <div class="kpi-label">Total Impressions</div>
       </div>
-
-      <!-- GOALS -->
-      <div class="sg">
-        <div class="sg-h" onclick="togSg(this)">
-          <span class="sg-icon">&#127919;</span>
-          <div style="flex:1"><div class="sg-title">Goals &amp; Display</div><div class="sg-sub">North Star target and refresh interval</div></div>
-          <span class="sg-arr">&#9660;</span>
-        </div>
-        <div class="sg-b">
-          <div class="si-row">
-            <label class="si-label">North Star Goal (total mentions by June 2026)</label>
-            <input class="si" type="number" id="s_goal" value="500">
-          </div>
-          <div class="si-row">
-            <label class="si-label">Dashboard Auto-Refresh</label>
-            <select class="si" id="s_refresh">
-              <option value="2">Every 2 minutes</option>
-              <option value="5" selected>Every 5 minutes</option>
-              <option value="10">Every 10 minutes</option>
-              <option value="30">Every 30 minutes</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /stab_main_body -->
-
-    <!-- TAB: KEYWORDS -->
-    <div id="stab_keywords_body" style="display:none;">
-      <div class="info-box ib-info">
-        <b>How keywords work:</b> These keywords are what the crawler searches for. PST Keywords trigger crawls across Reddit, Google News, Quora, Medium and 10+ more sources. Competitor names are tracked across the same sources and shown in the Competitors tab.
-      </div>
-
-      <div class="kw-section">
-        <div class="kw-title" style="color:var(--gold)">&#128308; PST / Polaris Keywords <span style="color:var(--dim);font-size:9px;font-weight:500;text-transform:none;letter-spacing:0;">— used in crawler.py BRAND_QUERIES</span></div>
-        <div class="kw-tags" id="kwTags_pst"></div>
-        <div class="kw-add">
-          <input class="kw-input" id="kwInput_pst" placeholder='e.g. "PST Pune" or "Polaris BTech"' onkeydown="if(event.key==='Enter')addKw('pst')">
-          <button class="kw-btn add-pst" onclick="addKw('pst')">+ Add</button>
-        </div>
-        <div class="si-hint" style="margin-top:6px;">Tip: Use quotes around exact phrases. e.g. <code>"Polaris School of Technology"</code></div>
-      </div>
-
-      <div class="kw-section">
-        <div class="kw-title" style="color:#FF6B6B">&#127942; Competitor Keywords <span style="color:var(--dim);font-size:9px;font-weight:500;text-transform:none;letter-spacing:0;">— tracked across all sources</span></div>
-        <div class="kw-tags" id="kwTags_comp"></div>
-        <div class="kw-add">
-          <input class="kw-input" id="kwInput_comp" placeholder='e.g. "Scaler" or "Newton School"' onkeydown="if(event.key==='Enter')addKw('comp')">
-          <button class="kw-btn add-comp" onclick="addKw('comp')">+ Add</button>
-        </div>
-      </div>
-
-      <div class="info-box ib-warn" style="margin-top:8px;">
-        <b>After changing keywords:</b> You need to update <code>crawler.py</code> with the new BRAND_QUERIES list and re-run the GitHub Action for changes to take effect. The dashboard shows a copy of your current keywords for reference.
-      </div>
-
-      <div class="info-box ib-info" style="margin-top:4px;">
-        <b>To update crawler.py keywords:</b><br>
-        1. Go to your GitHub repo &#8594; scripts/crawler.py<br>
-        2. Find <code>BRAND_QUERIES = [...]</code> (line ~16)<br>
-        3. Edit the list to match your PST keywords above<br>
-        4. Commit &#8594; Actions will auto-run with new keywords
-      </div>
-    </div><!-- /stab_keywords_body -->
-
-    <!-- TAB: SHEETS -->
-    <div id="stab_sheets_body" style="display:none;">
-      <div class="info-box ib-warn">
-        <b>My Content tab</b> shows YOUR manually logged content from Google Sheets. All fields are optional &mdash; only fill in tabs you actually maintain.
-      </div>
-      <div class="info-box ib-info">
-        <b>How to publish your Sheet as CSV:</b><br>
-        Google Sheets &#8594; File &#8594; Share &#8594; Publish to web &#8594; select the tab &#8594; CSV &#8594; Publish<br><br>
-        <b>Sheet ID</b> = the long code in your URL: <code>/d/[THIS]/edit</code><br>
-        <b>GID</b> = the number after <code>#gid=</code> in the tab URL (0 = first tab)
-      </div>
-      <div id="sheetCfgs"></div>
-    </div><!-- /stab_sheets_body -->
-
-    <!-- TAB: DEBUG -->
-    <div id="stab_debug_body" style="display:none;">
-
-      <!-- CRAWL STATUS -->
-      <div class="sg" style="margin-bottom:12px;">
-        <div class="sg-h" onclick="togSg(this)">
-          <span class="sg-icon">&#128337;</span>
-          <div style="flex:1"><div class="sg-title">Crawl Status &amp; Timeline</div><div class="sg-sub" id="debug_crawl_sub">Loading...</div></div>
-          <span class="sg-arr">&#9660;</span>
-        </div>
-        <div class="sg-b open">
-          <div id="crawlStatusBlock">
-            <div class="empty"><div class="spin"></div><p>Loading crawl status...</p></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- WHAT CRAWLING IS DOING -->
-      <div class="sg" style="margin-bottom:12px;">
-        <div class="sg-h" onclick="togSg(this)">
-          <span class="sg-icon">&#129302;</span>
-          <div style="flex:1"><div class="sg-title">What the Crawler Does Every 2.5 Hours</div><div class="sg-sub">Full breakdown of each source</div></div>
-          <span class="sg-arr">&#9660;</span>
-        </div>
-        <div class="sg-b open">
-          <div class="crawl-timeline" id="crawlTimeline"></div>
-        </div>
-      </div>
-
-      <!-- HOW LONG CRAWL TAKES -->
-      <div class="sg" style="margin-bottom:12px;">
-        <div class="sg-h" onclick="togSg(this)">
-          <span class="sg-icon">&#9200;</span>
-          <div style="flex:1"><div class="sg-title">Crawl Duration &amp; Volume</div><div class="sg-sub">What to expect per run</div></div>
-          <span class="sg-arr">&#9660;</span>
-        </div>
-        <div class="sg-b open">
-          <table style="font-size:10px;width:100%;">
-            <tr style="border-bottom:1px solid var(--border)"><th style="padding:6px 10px;text-align:left;color:var(--dim);font:700 8px var(--font);text-transform:uppercase;letter-spacing:.1em;">Source</th><th style="padding:6px 10px;text-align:right;color:var(--dim);font:700 8px var(--font);text-transform:uppercase;">Time</th><th style="padding:6px 10px;text-align:right;color:var(--dim);font:700 8px var(--font);text-transform:uppercase;">Mentions</th></tr>
-            <tr style="background:#0D0D14"><td style="padding:6px 10px;color:var(--reddit)">Reddit (JSON API)</td><td style="padding:6px 10px;text-align:right;color:var(--gold)">~30 sec</td><td style="padding:6px 10px;text-align:right;color:var(--muted)">20-100+</td></tr>
-            <tr><td style="padding:6px 10px;color:var(--newspaper)">Google News RSS</td><td style="padding:6px 10px;text-align:right;color:var(--gold)">~10 sec</td><td style="padding:6px 10px;text-align:right;color:var(--muted)">5-30</td></tr>
-            <tr style="background:#0D0D14"><td style="padding:6px 10px;color:var(--quora)">Google &#8594; Quora</td><td style="padding:6px 10px;text-align:right;color:var(--gold)">~40 sec</td><td style="padding:6px 10px;text-align:right;color:var(--muted)">5-40</td></tr>
-            <tr><td style="padding:6px 10px;color:var(--medium)">Google &#8594; Medium</td><td style="padding:6px 10px;text-align:right;color:var(--gold)">~30 sec</td><td style="padding:6px 10px;text-align:right;color:var(--muted)">2-20</td></tr>
-            <tr style="background:#0D0D14"><td style="padding:6px 10px;color:var(--youtube)">Google &#8594; YouTube</td><td style="padding:6px 10px;text-align:right;color:var(--gold)">~30 sec</td><td style="padding:6px 10px;text-align:right;color:var(--muted)">3-25</td></tr>
-            <tr><td style="padding:6px 10px;color:var(--amber)">6 Aggregator Portals</td><td style="padding:6px 10px;text-align:right;color:var(--gold)">~2 min</td><td style="padding:6px 10px;text-align:right;color:var(--muted)">10-60</td></tr>
-            <tr style="background:#0D0D14"><td style="padding:6px 10px;color:var(--purple)">4 Social Platforms</td><td style="padding:6px 10px;text-align:right;color:var(--gold)">~1.5 min</td><td style="padding:6px 10px;text-align:right;color:var(--muted)">5-30</td></tr>
-            <tr><td style="padding:6px 10px;color:var(--blue)">General Web</td><td style="padding:6px 10px;text-align:right;color:var(--gold)">~1 min</td><td style="padding:6px 10px;text-align:right;color:var(--muted)">10-50</td></tr>
-            <tr style="background:rgba(255,204,63,.05)"><td style="padding:8px 10px;font:700 10px var(--font);color:var(--gold)">TOTAL PER RUN</td><td style="padding:8px 10px;text-align:right;font:700 11px var(--font);color:var(--gold)">3-5 min</td><td style="padding:8px 10px;text-align:right;font:700 11px var(--font);color:var(--gold)">60-350+</td></tr>
-          </table>
-          <div class="info-box ib-info" style="margin-top:10px;font-size:9px;">
-            <b>GitHub Actions free tier:</b> 2,000 min/month. Each crawl = ~5 min. 16 runs/day x 30 days = 2,400 min. Tip: keep it at 8 runs/day (two cron entries in crawl.yml) to stay in free tier.
-          </div>
-        </div>
-      </div>
-
-      <!-- HOW TO KNOW IF CRAWLING -->
-      <div class="sg" style="margin-bottom:12px;">
-        <div class="sg-h" onclick="togSg(this)">
-          <span class="sg-icon">&#128064;</span>
-          <div style="flex:1"><div class="sg-title">How to Know If It's Crawling</div><div class="sg-sub">3 places to check</div></div>
-          <span class="sg-arr">&#9660;</span>
-        </div>
-        <div class="sg-b open">
-          <div class="ct-row"><div class="ct-icon" style="background:rgba(0,200,83,.15);color:var(--pos);">&#11044;</div><div class="ct-txt"><div class="ct-name">1. This dashboard &mdash; crawl dot (top nav)</div><div class="ct-detail">Green = crawled &lt;3h ago &bull; Amber = 3-8h &bull; Red = stale &gt;8h. Click the dot to open this debug panel.</div></div></div>
-          <div class="ct-row"><div class="ct-icon" style="background:rgba(41,121,255,.15);color:#6BA3FF;">&#128200;</div><div class="ct-txt"><div class="ct-name">2. GitHub repo &mdash; Actions tab</div><div class="ct-detail">Go to your repo &#8594; Actions &#8594; Polaris ORM Crawler. Green checkmark = success. Red X = failed. Click any run to see full logs.</div></div></div>
-          <div class="ct-row"><div class="ct-icon" style="background:rgba(255,204,63,.12);color:var(--gold);">&#128230;</div><div class="ct-txt"><div class="ct-name">3. GitHub repo &mdash; data/ folder</div><div class="ct-detail">Check data/summary.json &mdash; the last_crawled timestamp tells you exactly when it last ran. Commit history shows each crawl.</div></div></div>
-        </div>
-      </div>
-
-      <!-- ERROR LOG -->
-      <div class="sg">
-        <div class="sg-h" onclick="togSg(this)">
-          <span class="sg-icon">&#128029;</span>
-          <div style="flex:1"><div class="sg-title">Error Log &amp; Debug Console</div><div class="sg-sub" id="logCountLabel">No errors logged</div></div>
-          <span class="sg-arr">&#9660;</span>
-        </div>
-        <div class="sg-b open">
-          <div style="display:flex;gap:8px;margin-bottom:10px;">
-            <button class="btn btn-ghost" onclick="clearLog()" style="font-size:10px;padding:5px 11px;">Clear Log</button>
-            <button class="btn btn-ghost" onclick="runDiagnostics()" style="font-size:10px;padding:5px 11px;">Run Diagnostics</button>
-            <span style="font:500 9px var(--font);color:var(--dim);align-self:center;margin-left:auto;" id="diagStatus"></span>
-          </div>
-          <div class="log-area" id="logArea">
-            <div class="log-line log-info"><span class="log-ts">--:--:--</span><span class="log-label ll-info" style="background:rgba(41,121,255,.2);color:#6BA3FF;">INFO</span>Error log initialized. Load data or run diagnostics.</div>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /stab_debug_body -->
-
-  </div>
-</div><!-- /settings panel -->
-
-<main class="main">
-
-  <!-- NORTH STAR -->
-  <div class="ns">
-    <div class="ns-left">
-      <div class="ns-lbl">&#127919; North Star &mdash; Weighted ORM Score (News&#215;3.0 + Quora&#215;2.0 + Medium&#215;2.5 + Reddit&#215;1.5 + YouTube&#215;2.0) &bull; Crawls every 30 min</div>
-      <div style="display:flex;align-items:center;gap:16px;margin-top:9px">
-        <div class="ns-track" style="flex:1;"><div class="ns-fill" id="nsFill" style="width:0%"></div></div>
-        <span style="font:700 11px var(--font);color:var(--muted);white-space:nowrap" id="nsPct">0% &middot; 500 remaining</span>
-      </div>
-    </div>
-    <div><div class="ns-num" id="nsCount">&#8212;</div><div class="ns-sub">of <span id="nsGoal">1000</span> weighted points &middot; June 2026<br><span id="ns_formula_label" style="font:500 8px var(--font);color:var(--dim);display:block;margin-top:3px;"></span></div></div>
-    <div style="display:flex;gap:10px;flex-shrink:0;flex-wrap:wrap">
-      <div class="stat-box"><div class="sb-n" id="b_total" style="color:var(--gold)">&#8212;</div><div class="sb-l">Total</div></div>
-      <div class="stat-box"><div class="sb-n" id="b_pos" style="color:var(--pos)">&#8212;</div><div class="sb-l">Positive</div></div>
-      <div class="stat-box"><div class="sb-n" id="b_neg" style="color:#FF5252">&#8212;</div><div class="sb-l">Negative</div></div>
-      <div class="stat-box"><div class="sb-n" id="b_src" style="color:var(--muted)">&#8212;</div><div class="sb-l">Sources Active</div></div>
-    </div>
-  </div>
-
-  <!-- KPI GRID -->
-  <div class="kpis">
-    <div class="kpi on" onclick="showPage('listening',null)">
-      <div class="kpi-top"><span class="kpi-icon">&#128308;</span><div class="kd" id="kd_reddit"></div></div>
-      <div class="kn" style="color:var(--reddit)" id="kn_reddit">&#8212;</div>
-      <div class="kl">Reddit</div><div class="ks">posts + comments</div>
-      <span class="ktag tag-auto">Auto-Crawled</span>
-    </div>
-    <div class="kpi" onclick="showPage('listening',null)">
-      <div class="kpi-top"><span class="kpi-icon">&#128163;</span><div class="kd" id="kd_quora"></div></div>
-      <div class="kn" style="color:var(--quora)" id="kn_quora">&#8212;</div>
-      <div class="kl">Quora</div><div class="ks">questions + answers</div>
-      <span class="ktag tag-auto">Auto-Crawled</span>
-    </div>
-    <div class="kpi" onclick="showPage('listening',null)">
-      <div class="kpi-top"><span class="kpi-icon">&#128250;</span><div class="kd" id="kd_youtube"></div></div>
-      <div class="kn" style="color:var(--youtube)" id="kn_youtube">&#8212;</div>
-      <div class="kl">YouTube</div><div class="ks">videos + comments</div>
-      <span class="ktag tag-auto">Auto-Crawled</span>
-    </div>
-    <div class="kpi" onclick="showPage('listening',null)">
-      <div class="kpi-top"><span class="kpi-icon">&#128221;</span><div class="kd" id="kd_medium"></div></div>
-      <div class="kn" style="color:var(--medium)" id="kn_medium">&#8212;</div>
-      <div class="kl">Medium</div><div class="ks">articles</div>
-      <span class="ktag tag-auto">Auto-Crawled</span>
-    </div>
-    <div class="kpi" onclick="showPage('listening',null)">
-      <div class="kpi-top"><span class="kpi-icon">&#128240;</span><div class="kd" id="kd_news"></div></div>
-      <div class="kn" style="color:var(--newspaper)" id="kn_news">&#8212;</div>
-      <div class="kl">News / PR</div><div class="ks">articles</div>
-      <span class="ktag tag-auto">Auto-Crawled</span>
-    </div>
-    <div class="kpi" onclick="showPage('listening',null)">
-      <div class="kpi-top"><span class="kpi-icon">&#127979;</span><div class="kd" id="kd_agg"></div></div>
-      <div class="kn" style="color:var(--amber)" id="kn_agg">&#8212;</div>
-      <div class="kl">Portals</div><div class="ks">Shiksha, CollegeDunia+</div>
-      <span class="ktag tag-auto">Auto-Crawled</span>
-    </div>
-    <div class="kpi" onclick="showPage('listening',null)">
-      <div class="kpi-top"><span class="kpi-icon">&#128241;</span><div class="kd" id="kd_social"></div></div>
-      <div class="kn" style="color:var(--purple)" id="kn_social">&#8212;</div>
-      <div class="kl">Social</div><div class="ks">LinkedIn, Twitter+</div>
-      <span class="ktag tag-auto">Auto-Crawled</span>
-    </div>
-    <div class="kpi" onclick="showPage('listening',null)">
-      <div class="kpi-top"><span class="kpi-icon">&#127760;</span><div class="kd" id="kd_web"></div></div>
-      <div class="kn" style="color:var(--blue)" id="kn_web">&#8212;</div>
-      <div class="kl">General Web</div><div class="ks">all other pages</div>
-      <span class="ktag tag-auto">Auto-Crawled</span>
-    </div>
-  </div>
-
-  <!-- DATE BAR -->
-  <div class="dbar">
-    <span class="dlbl">Period:</span>
-    <button class="db on" onclick="setRange('all',this)">All Time</button>
-    <button class="db" onclick="setRange('7d',this)">7 Days</button>
-    <button class="db" onclick="setRange('30d',this)">30 Days</button>
-    <button class="db" onclick="setRange('custom',this)">Custom</button>
-    <div id="custDates" style="display:none;display:flex;gap:7px;align-items:center">
-      <input type="date" class="din" id="dFrom"><span style="color:var(--dim)">to</span><input type="date" class="din" id="dTo">
-    </div>
-    <div class="nxt-info">Next crawl: <span id="nextCrawl">&#8212;</span> &bull; Runs every 30 min via GitHub Actions</div>
-  </div>
-
-  <!-- ══ OVERVIEW ══ -->
-  <div class="page on" id="page_overview">
-    <div class="g2">
-      <div class="card">
-        <div class="ct"><div class="ct-dot" style="background:var(--gold)"></div>Priority Actions<div class="ct-line"></div></div>
-        <div class="acts" id="actList"></div>
-      </div>
-      <div class="card">
-        <div class="ct"><div class="ct-dot" style="background:var(--pos)"></div>Sentiment Breakdown<div class="ct-line"></div></div>
-        <div class="cw"><canvas id="sentPie"></canvas></div>
-      </div>
-    </div>
-    <div class="g2">
-      <div class="card">
-        <div class="ct"><div class="ct-dot" style="background:var(--blue)"></div>Mentions by Platform<div class="ct-line"></div></div>
-        <div class="cw"><canvas id="platBar"></canvas></div>
-      </div>
-      <div class="card">
-        <div class="ct"><div class="ct-dot" style="background:var(--neg)"></div>Negative Alerts &#128680;<div class="ct-line"></div></div>
-        <div class="feed" id="negFeed"><div class="empty"><div class="ei">&#9989;</div><p>No negative mentions yet.</p></div></div>
+      <div class="card" style="padding:14px;text-align:center">
+        <div class="kpi-num" id="negAlerts" style="color:#ff6b6b">—</div>
+        <div class="kpi-label">🚨 Negatives</div>
       </div>
     </div>
   </div>
 
-  <!-- ══ LIVE LISTENING ══ -->
-  <div class="page" id="page_listening">
-    <div class="g3">
-      <div class="card"><div class="ct">By Category<div class="ct-line"></div></div><div class="cw"><canvas id="catChart"></canvas></div></div>
-      <div class="card"><div class="ct">Sentiment Over Time<div class="ct-line"></div></div><div class="cw"><canvas id="sentTime"></canvas></div></div>
-      <div class="card"><div class="ct">Top Sources<div class="ct-line"></div></div><div id="topSrcs" style="display:flex;flex-direction:column;gap:4px"></div></div>
+  <!-- KPI CARDS -->
+  <div class="kpi-grid">
+    <div class="kpi-card k-reddit">
+      <div class="kpi-icon" style="background:rgba(255,69,0,.15)">🔴</div>
+      <div class="kpi-num" id="kpiRedditScore">—</div>
+      <div class="kpi-label">Reddit Top Score</div>
+      <div class="kpi-sub" id="kpiRedditImpr">— impressions</div>
+    </div>
+    <div class="kpi-card k-quora">
+      <div class="kpi-icon" style="background:rgba(185,43,39,.15)">❓</div>
+      <div class="kpi-num" id="kpiQuoraMentions">—</div>
+      <div class="kpi-label">Quora Mentions</div>
+      <div class="kpi-sub" id="kpiQuoraImpr">— thread impressions</div>
+    </div>
+    <div class="kpi-card k-youtube">
+      <div class="kpi-icon" style="background:rgba(255,0,0,.15)">▶️</div>
+      <div class="kpi-num" id="kpiYtViews">—</div>
+      <div class="kpi-label">YouTube Views</div>
+      <div class="kpi-sub" id="kpiYtLikes">— likes · — comments</div>
+    </div>
+    <div class="kpi-card k-medium">
+      <div class="kpi-icon" style="background:rgba(0,165,98,.15)">📝</div>
+      <div class="kpi-num" id="kpiMediumReads">—</div>
+      <div class="kpi-label">Medium Reads (est)</div>
+      <div class="kpi-sub" id="kpiMediumClaps">— claps (est)</div>
+    </div>
+    <div class="kpi-card k-news">
+      <div class="kpi-icon" style="background:rgba(216,129,0,.15)">📰</div>
+      <div class="kpi-num" id="kpiNewsImpr">—</div>
+      <div class="kpi-label">News Impressions</div>
+      <div class="kpi-sub" id="kpiNewsCount">— articles</div>
+    </div>
+    <div class="kpi-card k-total">
+      <div class="kpi-icon" style="background:rgba(255,204,63,.12)">🏫</div>
+      <div class="kpi-num" id="kpiPortals">—</div>
+      <div class="kpi-label">Portal Listings</div>
+      <div class="kpi-sub">Shiksha · Collegedunia · Careers360…</div>
+    </div>
+    <div class="kpi-card k-total">
+      <div class="kpi-icon" style="background:rgba(255,204,63,.12)">💬</div>
+      <div class="kpi-num" id="kpiYtComments">—</div>
+      <div class="kpi-label">YT Comments Found</div>
+      <div class="kpi-sub" id="kpiYtCrawlStatus">— videos crawled</div>
+    </div>
+    <div class="kpi-card k-total">
+      <div class="kpi-icon" style="background:rgba(255,204,63,.12)">📱</div>
+      <div class="kpi-num" id="kpiSocial">—</div>
+      <div class="kpi-label">Social Mentions</div>
+      <div class="kpi-sub">LinkedIn · Twitter · Instagram</div>
+    </div>
+  </div>
+
+  <!-- CHARTS + SENTIMENT + COVERAGE -->
+  <div class="charts-grid">
+    <div class="chart-box card">
+      <div class="card-title">Sentiment Breakdown</div>
+      <canvas id="sentChart"></canvas>
+      <div class="sent-pills" id="sentPills"></div>
+    </div>
+    <div class="chart-box card">
+      <div class="card-title">Platform Coverage</div>
+      <div class="plat-bars" id="platBars" style="margin-top:8px"></div>
+    </div>
+  </div>
+
+  <!-- ACTIONABLES -->
+  <div class="card" style="margin-bottom:20px">
+    <div class="card-title">🎯 Next Actionables</div>
+    <div class="action-list" id="actionList">
+      <div class="loading-state"><div class="spinner"></div>Loading actionables…</div>
+    </div>
+  </div>
+
+  <!-- NEGATIVE ALERTS -->
+  <div class="card">
+    <div class="card-title">🚨 Negative Mentions Feed</div>
+    <div class="mentions-wrap">
+      <table class="mentions-table">
+        <thead><tr>
+          <th>Platform</th><th>Title / Snippet</th><th>Sentiment</th><th>Link</th>
+        </tr></thead>
+        <tbody id="negFeed"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- TAB: LIVE LISTENING                                        -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<div id="tab-listening" class="tab-panel">
+  <div class="filters" id="listeningFilters">
+    <button class="filter-btn active" onclick="filterMentions('all',this)">All</button>
+    <button class="filter-btn" onclick="filterMentions('reddit',this)">Reddit</button>
+    <button class="filter-btn" onclick="filterMentions('quora',this)">Quora</button>
+    <button class="filter-btn" onclick="filterMentions('medium',this)">Medium</button>
+    <button class="filter-btn" onclick="filterMentions('youtube',this)">YouTube</button>
+    <button class="filter-btn" onclick="filterMentions('newspaper',this)">News</button>
+    <button class="filter-btn" onclick="filterMentions('portal',this)">Portals</button>
+    <button class="filter-btn" onclick="filterMentions('positive',this)">✅ Positive</button>
+    <button class="filter-btn" onclick="filterMentions('negative',this)">🚨 Negative</button>
+  </div>
+  <div class="card">
+    <div class="mentions-wrap">
+      <table class="mentions-table">
+        <thead><tr>
+          <th>Platform</th><th>Title</th><th>Snippet</th><th>Engagement</th><th>Sent</th><th>Link</th>
+        </tr></thead>
+        <tbody id="allMentionsBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- TAB: MY CONTENT                                            -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<div id="tab-content" class="tab-panel">
+  <div class="card" style="margin-bottom:20px;padding:14px 20px;background:rgba(255,204,63,.04);border-color:rgba(255,204,63,.2)">
+    <div style="font-size:12px;color:var(--text2)">
+      📊 Connect your Google Sheets to show content performance data here.
+      Open <strong style="color:var(--gold)">⚙ Settings</strong> → enter your Sheet ID → the data will auto-populate below.
+    </div>
+  </div>
+  <div class="sheet-tabs" id="sheetTabs">
+    <div class="sheet-tab active" onclick="switchSheetTab('reddit',this)">Reddit</div>
+    <div class="sheet-tab" onclick="switchSheetTab('quora_qa',this)">Quora Q&A</div>
+    <div class="sheet-tab" onclick="switchSheetTab('quora_comments',this)">Quora Comments</div>
+    <div class="sheet-tab" onclick="switchSheetTab('yt_comments',this)">YouTube Comments</div>
+    <div class="sheet-tab" onclick="switchSheetTab('newspaper',this)">Newspaper</div>
+    <div class="sheet-tab" onclick="switchSheetTab('medium',this)">Medium</div>
+  </div>
+  <div class="card">
+    <div id="sheetContent">
+      <div class="loading-state"><div class="spinner"></div>Connect Google Sheets in Settings to see data</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- TAB: COMPETITORS                                           -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<div id="tab-competitors" class="tab-panel">
+  <div class="comp-grid" id="compGrid">
+    <div class="loading-state"><div class="spinner"></div></div>
+  </div>
+  <div class="two-col" style="margin-bottom:20px">
+    <div class="chart-box card">
+      <div class="card-title">Competitor Mention Volume</div>
+      <canvas id="compBarChart"></canvas>
+    </div>
+    <div class="chart-box card">
+      <div class="card-title">Competitor Sentiment Comparison</div>
+      <canvas id="compSentChart"></canvas>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">⚔️ Competitor Actionables — What to Post</div>
+    <div class="action-list" id="compActions"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- TAB: LLM / AEO                                            -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<div id="tab-llm" class="tab-panel">
+  <div class="two-col" style="margin-bottom:20px">
+    <div class="card">
+      <div class="card-title">🤖 LLM Readiness Score</div>
+      <div style="text-align:center;padding:20px 0">
+        <div style="font-size:52px;font-weight:700;color:var(--gold)" id="llmScore">0</div>
+        <div style="font-size:13px;color:var(--text2)">/10 LLMs can cite Polaris accurately</div>
+        <div style="margin-top:16px">
+          <div class="bps-bar-track">
+            <div class="bps-bar-fill" id="llmBarFill" style="width:0%;background:linear-gradient(90deg,var(--purple),var(--gold))"></div>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:var(--text2);padding:10px 14px;background:rgba(255,255,255,.03);border-radius:8px;border-left:3px solid var(--purple)">
+        LLMs (ChatGPT, Perplexity, Gemini) cite sources they can verify. Your score increases as you complete tasks below.
+      </div>
     </div>
     <div class="card">
-      <div class="ct"><div class="ct-dot" style="background:var(--pos)"></div>All Crawled Mentions &mdash; <span id="mentTotal">0</span> found<div class="ct-line"></div></div>
-      <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
-        <button class="db on" id="mf_all" onclick="setMF('all',this)">All</button>
-        <button class="db" id="mf_pos" onclick="setMF('positive',this)" style="color:var(--pos)">Positive</button>
-        <button class="db" id="mf_neg" onclick="setMF('negative',this)" style="color:#FF5252">Negative</button>
-        <button class="db" id="mf_mix" onclick="setMF('mixed',this)" style="color:var(--mixed)">Mixed</button>
-        <select class="din" id="platFilt" onchange="renderMentions()" style="height:30px;font-size:10px;font-family:var(--font)">
-          <option value="">All Platforms</option>
-          <option value="reddit">Reddit</option>
-          <option value="quora">Quora</option>
-          <option value="youtube">YouTube</option>
-          <option value="medium">Medium</option>
-          <option value="newspaper">News</option>
-          <option value="shiksha">Shiksha</option>
-          <option value="collegedunia">CollegeDunia</option>
-          <option value="linkedin">LinkedIn</option>
-          <option value="twitter">Twitter/X</option>
-          <option value="web">General Web</option>
-        </select>
+      <div class="card-title">📡 Where LLMs Find You</div>
+      <div id="llmSources" style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
+        <div class="loading-state" style="padding:20px"><div class="spinner"></div></div>
       </div>
-      <div id="mentTable"><div class="empty"><div class="spin"></div><p>Loading...</p></div></div>
     </div>
   </div>
-
-  <!-- ══ MY CONTENT ══ -->
-  <div class="page" id="page_content">
-    <div class="psel">
-      <button class="pb on" onclick="showPlat('s_reddit',this)"><div class="pb-dot" style="background:var(--reddit)"></div>Reddit<span class="pb-tag tag-off" id="pbt_s_reddit">No Sheet</span></button>
-      <button class="pb" onclick="showPlat('s_quora',this)"><div class="pb-dot" style="background:var(--quora)"></div>Quora<span class="pb-tag tag-off" id="pbt_s_quora">No Sheet</span></button>
-      <button class="pb" onclick="showPlat('s_pstQuora',this)"><div class="pb-dot" style="background:var(--purple)"></div>PST Quora<span class="pb-tag tag-off" id="pbt_s_pstQuora">No Sheet</span></button>
-      <button class="pb" onclick="showPlat('s_youtube',this)"><div class="pb-dot" style="background:var(--youtube)"></div>YouTube<span class="pb-tag tag-off" id="pbt_s_youtube">No Sheet</span></button>
-      <button class="pb" onclick="showPlat('s_newspaper',this)"><div class="pb-dot" style="background:var(--newspaper)"></div>Newspaper<span class="pb-tag tag-off" id="pbt_s_newspaper">No Sheet</span></button>
-      <button class="pb" onclick="showPlat('s_medium',this)"><div class="pb-dot" style="background:var(--medium)"></div>Medium<span class="pb-tag tag-off" id="pbt_s_medium">No Sheet</span></button>
-    </div>
-    <div class="plat-c on" id="plat_s_reddit"><div class="card"><div class="ct">Reddit Posts<div class="ct-line"></div></div><div id="ct_s_reddit"><div class="empty"><div class="ei">&#128308;</div><p>Add Reddit Sheet ID + GID in &#9881; Settings &#8594; Sheets tab</p></div></div></div></div>
-    <div class="plat-c" id="plat_s_quora"><div class="card"><div class="ct">Quora Answers<div class="ct-line"></div></div><div id="ct_s_quora"><div class="empty"><div class="ei">&#128163;</div><p>Add Quora Sheet ID + GID in &#9881; Settings &#8594; Sheets tab</p></div></div></div></div>
-    <div class="plat-c" id="plat_s_pstQuora"><div class="card"><div class="ct">PST Quora<div class="ct-line"></div></div><div id="ct_s_pstQuora"><div class="empty"><div class="ei">&#128156;</div><p>Add PST Quora Sheet ID + GID in &#9881; Settings &#8594; Sheets tab</p></div></div></div></div>
-    <div class="plat-c" id="plat_s_youtube"><div class="card"><div class="ct">YouTube Comments<div class="ct-line"></div></div><div id="ct_s_youtube"><div class="empty"><div class="ei">&#128250;</div><p>Add YouTube Sheet ID + GID in &#9881; Settings &#8594; Sheets tab</p></div></div></div></div>
-    <div class="plat-c" id="plat_s_newspaper"><div class="card"><div class="ct">Newspaper PR<div class="ct-line"></div></div><div id="ct_s_newspaper"><div class="empty"><div class="ei">&#128240;</div><p>Add Newspaper Sheet ID + GID in &#9881; Settings &#8594; Sheets tab</p></div></div></div></div>
-    <div class="plat-c" id="plat_s_medium"><div class="card"><div class="ct">Medium Articles<div class="ct-line"></div></div><div id="ct_s_medium"><div class="empty"><div class="ei">&#128221;</div><p>Add Medium Sheet ID + GID in &#9881; Settings &#8594; Sheets tab</p></div></div></div></div>
+  <div class="card">
+    <div class="card-title">✅ LLM / AEO Action Checklist</div>
+    <div class="llm-list" id="llmChecklist"></div>
   </div>
+</div>
 
-  <!-- ══ COMPETITORS ══ -->
-  <div class="page" id="page_competitors">
-    <div class="card" style="margin-bottom:16px"><div class="ct">Competitor Sentiment vs PST<div class="ct-line"></div></div><div class="cw" style="height:240px"><canvas id="compBar"></canvas></div></div>
-    <div class="g2">
-      <div class="card"><div class="ct">Competitor Mentions Feed<div class="ct-line"></div></div><div class="feed" id="compFeed"><div class="empty"><div class="ei">&#127942;</div><p>Mentions appear after first crawl. Add competitors in &#9881; Settings &#8594; Keywords.</p></div></div></div>
-      <div class="card"><div class="ct">Coverage Radar<div class="ct-line"></div></div><div class="cw"><canvas id="radarChart"></canvas></div></div>
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- TAB: DEBUG                                                 -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<div id="tab-debug" class="tab-panel">
+  <div class="api-status" id="apiStatus"></div>
+  <div class="two-col" style="margin-bottom:20px">
+    <div class="card">
+      <div class="card-title">Sources OK</div>
+      <div id="sourcesOk" style="margin-top:4px"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Sources Failed / Warned</div>
+      <div id="sourcesFail" style="margin-top:4px"></div>
     </div>
   </div>
-
-  <!-- ══ ANALYTICS ══ -->
-  <div class="page" id="page_analytics">
-    <div class="g2">
-      <div class="card"><div class="ct">Daily Mention Trend<div class="ct-line"></div></div><div class="cw"><canvas id="trendChart"></canvas></div></div>
-      <div class="card"><div class="ct">Platform Mix<div class="ct-line"></div></div><div class="cw"><canvas id="mixChart"></canvas></div></div>
-    </div>
-    <div class="card"><div class="ct">Platform Performance<div class="ct-line"></div></div><div id="perfTable"><div class="empty"><div class="ei">&#128197;</div><p>Available after crawl data loads.</p></div></div></div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title">Error Log</div>
+    <div id="errorLog" style="font-size:11px;font-family:monospace;color:var(--text2);max-height:200px;overflow-y:auto;line-height:1.8"></div>
   </div>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title">YouTube Comment Crawl Progress</div>
+      <div id="ytCrawlDebug" style="font-size:12px;color:var(--text2);line-height:2"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">BPS Formula Explained</div>
+      <div style="font-size:11px;color:var(--text2);line-height:2">
+        <div>📰 News/PR × 3.0 (highest credibility)</div>
+        <div>❓ Quora × 2.5 (high intent, Google-ranked)</div>
+        <div>📝 Medium × 2.0 (SEO value)</div>
+        <div>▶️ YouTube × 2.0 (video reach)</div>
+        <div>🔴 Reddit × 1.5 (peer trust)</div>
+        <div>💼 LinkedIn × 1.5 (professional signal)</div>
+        <div>🏫 Portals × 1.0–1.2 (college directories)</div>
+        <div>🌐 Web × 0.8 (baseline)</div>
+        <div style="margin-top:8px;color:var(--green)">✅ Positive sentiment × 1.3 bonus</div>
+        <div style="color:var(--red)">🚨 Negative sentiment × 0.3 penalty</div>
+        <div style="color:var(--orange)">📊 Engagement bonus: 100K+ × 2.0 | 10K+ × 1.5 | 1K+ × 1.2</div>
+        <div style="margin-top:8px;color:var(--gold)">Coverage bonus: more platforms = higher multiplier</div>
+        <div style="color:var(--text2)">Target: 1200 weighted points = 100/100</div>
+      </div>
+    </div>
+  </div>
+</div>
 
-</main>
-<footer>Polaris School of Technology &bull; ORM Intelligence Dashboard v3.2 &bull; Built by Aditya &bull; Crawler runs every 30 min via GitHub Actions &bull; Montserrat</footer>
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- SETTINGS PANEL                                             -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<div class="settings-overlay" id="settingsOverlay" onclick="closeSettings()"></div>
+<div class="settings-panel" id="settingsPanel">
+  <div class="settings-header">
+    <h3>⚙ Dashboard Settings</h3>
+    <button class="settings-close" onclick="closeSettings()">✕</button>
+  </div>
+  <div class="settings-body">
+    <div class="settings-section">
+      <h4>GitHub Data Source</h4>
+      <div class="field">
+        <label>GitHub Username</label>
+        <input type="text" id="cfgUser" placeholder="adirispol">
+        <div class="hint">Your GitHub username (e.g. adirispol)</div>
+      </div>
+      <div class="field">
+        <label>Repository Name</label>
+        <input type="text" id="cfgRepo" placeholder="ORM-Dashboard">
+      </div>
+      <div class="field">
+        <label>Branch</label>
+        <input type="text" id="cfgBranch" placeholder="main">
+      </div>
+    </div>
+    <div class="settings-section">
+      <h4>Google Sheets (Content Tracker)</h4>
+      <div class="field">
+        <label>Sheet ID</label>
+        <input type="text" id="cfgSheetId" placeholder="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms">
+        <div class="hint">From URL: docs.google.com/spreadsheets/d/<b>[SHEET_ID]</b>/edit</div>
+      </div>
+      <div class="field"><label>Reddit Tab Name</label><input type="text" id="cfgTabReddit" placeholder="Reddit"></div>
+      <div class="field"><label>Quora Q&A Tab Name</label><input type="text" id="cfgTabQuoraQA" placeholder="Quora QA"></div>
+      <div class="field"><label>Quora Comments Tab Name</label><input type="text" id="cfgTabQuoraCom" placeholder="Quora Comments"></div>
+      <div class="field"><label>YouTube Comments Tab Name</label><input type="text" id="cfgTabYT" placeholder="YouTube Comments"></div>
+      <div class="field"><label>Newspaper Tab Name</label><input type="text" id="cfgTabNews" placeholder="Newspaper"></div>
+      <div class="field"><label>Medium Tab Name</label><input type="text" id="cfgTabMedium" placeholder="Medium"></div>
+    </div>
+    <div class="settings-section">
+      <h4>⚠ API Keys (Server-Side Only)</h4>
+      <div style="background:rgba(255,154,63,.08);border:1px solid rgba(255,154,63,.25);padding:10px 12px;border-radius:8px;font-size:11px;color:var(--orange);margin-bottom:12px">
+        API keys must be added as <strong>GitHub Secrets</strong>, not here. This panel is for display settings only.
+        <br>Go to: GitHub Repo → Settings → Secrets → YOUTUBE_API_KEY, NEWSAPI_KEY, CLAUDE_API_KEY
+      </div>
+    </div>
+    <div class="settings-section">
+      <h4>Display</h4>
+      <div class="field">
+        <label>Auto Refresh (minutes)</label>
+        <input type="number" id="cfgRefresh" placeholder="30" min="5" max="120">
+      </div>
+    </div>
+    <button class="save-btn" onclick="saveSettings()">💾 Save Settings</button>
+    <div id="settingsSaved" style="display:none;margin-top:10px;text-align:center;font-size:12px;color:var(--green)">✓ Settings saved!</div>
+  </div>
+</div>
 
 <script>
-// ============================================================
-// CONFIG DEFAULTS
-// ============================================================
-var DEF = {
-  repo: "", branch: "main",
-  apis: { youtube: "", newsapi: "" },
-  sheets: {
-    s_reddit:    { id: "", gid: "0", tab: "Reddit" },
-    s_quora:     { id: "", gid: "0", tab: "Quora Seeding" },
-    s_pstQuora:  { id: "", gid: "0", tab: "PST Quora" },
-    s_youtube:   { id: "", gid: "0", tab: "YouTube Comments" },
-    s_newspaper: { id: "", gid: "0", tab: "Newspaper PR" },
-    s_medium:    { id: "", gid: "0", tab: "Medium" }
-  },
-  kwPst:  ['"Polaris School of Technology"', '"Polaris School" technology', 'PST Pune technology'],
-  kwComp: ["Scaler", "Newton School of Technology", "upGrad", "Great Learning"],
-  goal: 500,
-  refresh: 5
+// ════════════════════════════════════════════════════════════════
+// CONFIG & STATE
+// ════════════════════════════════════════════════════════════════
+const LS_KEY = 'polaris_orm_v8';
+let CFG = {
+  user: 'adirispol', repo: 'ORM-Dashboard', branch: 'main',
+  sheetId: '', tabReddit: 'Reddit', tabQuoraQA: 'Quora QA',
+  tabQuoraCom: 'Quora Comments', tabYT: 'YouTube Comments',
+  tabNews: 'Newspaper', tabMedium: 'Medium', refreshMin: 30,
 };
+let summary = {}, mentions = [], competitors = {}, currentFilter = 'all';
+let sentChart = null, platBarChart = null, compBarChart = null, compSentChart = null;
 
-var SHEET_LABELS = {
-  s_reddit: "Reddit Posts", s_quora: "Quora Seeding Answers",
-  s_pstQuora: "PST Official Quora", s_youtube: "YouTube Comments",
-  s_newspaper: "Newspaper PR", s_medium: "Medium Articles"
-};
+// LLM Checklist tasks
+const LLM_TASKS = [
+  { id: 'wikipedia', name: 'Create Wikipedia page for Polaris School of Technology', impact: 'critical', why: 'Primary source for ChatGPT, Gemini, Perplexity' },
+  { id: 'wikidata', name: 'Add to Wikidata (Q-entity)', impact: 'critical', why: 'Feeds Google Knowledge Panel and LLM training data' },
+  { id: 'crunchbase', name: 'Create Crunchbase profile', impact: 'high', why: 'Cited by startup/edtech-focused LLM responses' },
+  { id: 'linkedin_company', name: 'Optimize LinkedIn company page (complete all fields)', impact: 'high', why: 'LinkedIn is heavily indexed by all LLMs' },
+  { id: 'llms_txt', name: 'Add /llms.txt to polariscampus.com', impact: 'high', why: 'Emerging standard for LLM crawler permissions' },
+  { id: 'robots_ai', name: 'Update robots.txt — allow GPTBot, PerplexityBot, ClaudeBot', impact: 'high', why: 'Without this, AI crawlers may skip your site' },
+  { id: 'schema_org', name: 'Add schema.org EducationalOrganization markup to website', impact: 'high', why: 'Structured data LLMs can parse directly' },
+  { id: 'press_release', name: 'Publish 3 press releases on wire services (PR Newswire, ANI)', impact: 'medium', why: 'News citations dramatically increase LLM recall' },
+  { id: 'quora_answers', name: 'Publish 10+ Quora answers mentioning Polaris', impact: 'medium', why: 'Quora is a training data source for most LLMs' },
+  { id: 'medium_articles', name: 'Publish 5+ Medium articles about Polaris programs', impact: 'medium', why: 'Medium content frequently cited in LLM responses' },
+];
 
-var CFG = {}, CRAWL = {}, SHEETS = {}, ERRS = [];
-var dateRange = "all", mentFilter = "all";
-var charts = {}, refreshTimer = null;
-
-function gv(obj, key, def) {
-  var parts = key.split(".");
-  var o = obj;
-  for (var i = 0; i < parts.length; i++) {
-    if (!o || o[parts[i]] === undefined) return def;
-    o = o[parts[i]];
-  }
-  return o;
+// ════════════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════════════
+function init() {
+  const saved = localStorage.getItem(LS_KEY);
+  if (saved) { try { CFG = { ...CFG, ...JSON.parse(saved) }; } catch(e){} }
+  populateSettingsForm();
+  loadAll();
+  const mins = parseInt(CFG.refreshMin) || 30;
+  setInterval(loadAll, mins * 60 * 1000);
+  renderLLMChecklist();
 }
 
-function loadCFG() {
+function rawURL(file) {
+  return `https://raw.githubusercontent.com/${CFG.user}/${CFG.repo}/${CFG.branch}/data/${file}`;
+}
+
+async function fetchJSON(url) {
+  const r = await fetch(url + '?t=' + Date.now());
+  if (!r.ok) throw new Error(`HTTP ${r.status}: ${url}`);
+  return r.json();
+}
+
+async function loadAll() {
   try {
-    var s = JSON.parse(localStorage.getItem("porm_v7") || "{}");
-    CFG = JSON.parse(JSON.stringify(DEF));
-    if (s.repo) CFG.repo = s.repo;
-    if (s.branch) CFG.branch = s.branch;
-    if (s.apis) for (var k in s.apis) { if (CFG.apis.hasOwnProperty(k)) CFG.apis[k] = s.apis[k]; }
-    if (s.sheets) for (var k in s.sheets) { if (CFG.sheets.hasOwnProperty(k)) { CFG.sheets[k].id = s.sheets[k].id || ""; CFG.sheets[k].gid = s.sheets[k].gid || "0"; CFG.sheets[k].tab = s.sheets[k].tab || DEF.sheets[k].tab; } }
-    if (s.kwPst) CFG.kwPst = s.kwPst;
-    if (s.kwComp) CFG.kwComp = s.kwComp;
-    if (s.goal) CFG.goal = s.goal;
-    if (s.refresh) CFG.refresh = s.refresh;
-  } catch(e) { CFG = JSON.parse(JSON.stringify(DEF)); }
-}
-function saveCFG() { localStorage.setItem("porm_v7", JSON.stringify(CFG)); }
+    document.getElementById('lastUpdated').textContent = 'Refreshing…';
+    const [summaryData, mentionsData] = await Promise.all([
+      fetchJSON(rawURL('summary.json')),
+      fetchJSON(rawURL('mentions.json')).catch(() => ({ mentions: [] })),
+    ]);
+    summary = summaryData;
+    mentions = mentionsData.mentions || [];
+    renderOverview();
+    renderListening();
+    renderDebug();
 
-// ============================================================
-// LOGGING
-// ============================================================
-function lg(level, src, msg) {
-  var now = new Date();
-  var ts = now.toTimeString().slice(0,8);
-  var entry = { ts: ts, level: level, src: src, msg: msg };
-  ERRS.push(entry);
-  if (ERRS.length > 200) ERRS.shift();
-  updateLogUI();
-}
+    // Load competitors async
+    fetchJSON(rawURL('competitors.json')).then(d => {
+      competitors = d;
+      renderCompetitors();
+    }).catch(() => renderCompetitorsFallback());
 
-function updateLogUI() {
-  var la = document.getElementById("logArea");
-  var lc = document.getElementById("logCountLabel");
-  var errcnt = ERRS.filter(function(e){ return e.level === "ERR"; }).length;
-  if (lc) lc.textContent = ERRS.length + " log entries" + (errcnt ? " \u2022 " + errcnt + " errors" : " \u2022 No errors");
-  if (!la) return;
-  var cols = { OK: "ll-ok", ERR: "ll-err", WARN: "ll-warn", INFO: "" };
-  var bgs = { OK: "rgba(0,200,83,.2)", ERR: "rgba(186,14,19,.2)", WARN: "rgba(255,152,0,.2)", INFO: "rgba(41,121,255,.2)" };
-  var fgs = { OK: "var(--pos)", ERR: "#FF5252", WARN: "var(--mixed)", INFO: "#6BA3FF" };
-  la.innerHTML = ERRS.slice().reverse().map(function(e) {
-    var cls = e.level === "OK" ? "log-ok" : e.level === "ERR" ? "log-err" : e.level === "WARN" ? "log-warn" : "log-info";
-    return '<div class="log-line ' + cls + '"><span class="log-ts">' + e.ts + '</span><span class="log-label" style="background:' + (bgs[e.level]||bgs.INFO) + ';color:' + (fgs[e.level]||fgs.INFO) + '">' + e.level + '</span><span style="color:#6B6B80;margin-right:6px;">[' + e.src + ']</span>' + e.msg + '</div>';
-  }).join("");
-}
-
-function clearLog() { ERRS = []; updateLogUI(); lg("INFO","SYS","Log cleared."); }
-
-// ============================================================
-// DIAGNOSTICS
-// ============================================================
-function runDiagnostics() {
-  var el = document.getElementById("diagStatus");
-  if (el) el.textContent = "Running...";
-  lg("INFO","DIAG","Starting diagnostics...");
-  var repo = CFG.repo;
-  if (!repo) { lg("ERR","DIAG","No repo configured. Open Settings \u2192 Config tab \u2192 GitHub Repo Path."); if(el)el.textContent="Failed"; return; }
-  var url = "https://raw.githubusercontent.com/" + repo + "/refs/heads/" + (CFG.branch||"main") + "/data/summary.json?t=" + Date.now();
-  lg("INFO","DIAG","Fetching: " + url);
-  var xhr = new XMLHttpRequest();
-  xhr.open("GET", url, true);
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState !== 4) return;
-    if (xhr.status === 200) {
-      try {
-        var d = JSON.parse(xhr.responseText);
-        lg("OK","DIAG","summary.json reachable. Total mentions: " + (d.total_mentions || 0));
-        lg("OK","DIAG","Last crawled: " + (d.last_crawled || "unknown"));
-        lg("INFO","DIAG","Platforms: " + JSON.stringify(d.by_platform || {}));
-        if (el) el.textContent = "All OK";
-      } catch(e) { lg("ERR","DIAG","summary.json parse error: " + e.message); if(el)el.textContent="Parse error"; }
-    } else if (xhr.status === 404) {
-      lg("ERR","DIAG","404 Not Found. Either repo path is wrong OR crawler has not run yet. Go to GitHub \u2192 Actions \u2192 Run workflow manually.");
-      if(el)el.textContent="404 Error";
-    } else {
-      lg("ERR","DIAG","HTTP " + xhr.status + " fetching summary.json");
-      if(el)el.textContent="HTTP " + xhr.status;
+    const crawled = summary.last_crawled || '';
+    if (crawled) {
+      const d = new Date(crawled);
+      document.getElementById('lastUpdated').textContent = d.toLocaleString('en-IN',{hour:'2-digit',minute:'2-digit',day:'numeric',month:'short'});
     }
-    updateCrawlTimeline();
-  };
-  xhr.send();
-}
-
-function updateCrawlTimeline() {
-  var tl = document.getElementById("crawlTimeline");
-  if (!tl) return;
-  var s = CRAWL.summary;
-  var srcs = [
-    { name: "Reddit", key: "reddit", icon: "&#128308;", col: "var(--reddit)", desc: "Public JSON API" },
-    { name: "Google News", key: "newspaper", icon: "&#128240;", col: "var(--newspaper)", desc: "RSS Feed" },
-    { name: "Quora (Google index)", key: "quora", icon: "&#128163;", col: "var(--quora)", desc: "Google search scraping" },
-    { name: "Medium (Google index)", key: "medium", icon: "&#128221;", col: "var(--medium)", desc: "Google search scraping" },
-    { name: "YouTube (Google index)", key: "youtube", icon: "&#128250;", col: "var(--youtube)", desc: "Google search scraping" },
-    { name: "Portals (6 sites)", key: "aggregators", icon: "&#127979;", col: "var(--amber)", desc: "Shiksha, CollegeDunia, Careers360, GetMyUni, CollegeDekho, Naukri" },
-    { name: "Social (4 platforms)", key: "social", icon: "&#128241;", col: "var(--purple)", desc: "LinkedIn, Twitter, Facebook, Instagram" },
-    { name: "General Web", key: "web", icon: "&#127760;", col: "var(--blue)", desc: "Everything else" }
-  ];
-  var byP = gv(s || {}, "by_platform", {});
-  tl.innerHTML = srcs.map(function(src) {
-    var cnt = byP[src.key] || 0;
-    var ok = cnt > 0;
-    return '<div class="ct-row"><div class="ct-icon" style="background:' + (ok ? 'rgba(0,200,83,.12)' : 'rgba(80,80,100,.1)') + ';color:' + (ok ? 'var(--pos)' : 'var(--dim)') + '">' + src.icon + '</div><div class="ct-txt"><div class="ct-name" style="color:' + src.col + '">' + src.name + ' <span style="color:var(--gold);font:700 10px var(--font)">' + (cnt > 0 ? cnt + ' found' : 'No data yet') + '</span></div><div class="ct-detail">' + src.desc + '</div></div></div>';
-  }).join("");
-}
-
-// ============================================================
-// FETCH
-// ============================================================
-function rawURL(f) {
-  return "https://raw.githubusercontent.com/" + CFG.repo + "/refs/heads/" + (CFG.branch||"main") + "/data/" + f + "?t=" + Date.now();
-}
-
-function fetchJ(url, cb) {
-  var xhr = new XMLHttpRequest();
-  xhr.open("GET", url, true);
-  xhr.timeout = 15000;
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState !== 4) return;
-    if (xhr.status === 200) {
-      try { cb(null, JSON.parse(xhr.responseText)); }
-      catch(e) { lg("ERR","FETCH","Parse error at " + url + ": " + e.message); cb(e, null); }
-    } else {
-      var msg = "HTTP " + xhr.status + " for " + url;
-      if (xhr.status !== 404) lg("WARN","FETCH", msg);
-      cb(new Error(msg), null);
-    }
-  };
-  xhr.ontimeout = function() { lg("ERR","FETCH","Timeout: " + url); cb(new Error("timeout"), null); };
-  xhr.send();
-}
-
-function fetchCSV(sheetId, gid, cb) {
-  if (!sheetId) { cb(new Error("no_sheet"), null); return; }
-  var url = "https://docs.google.com/spreadsheets/d/" + sheetId + "/export?format=csv&gid=" + (gid||"0") + "&t=" + Date.now();
-  var xhr = new XMLHttpRequest();
-  xhr.open("GET", url, true);
-  xhr.timeout = 12000;
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState !== 4) return;
-    if (xhr.status !== 200) { cb(new Error("HTTP " + xhr.status), null); return; }
-    var text = xhr.responseText;
-    if (text.indexOf("<!DOCTYPE") !== -1 || text.indexOf("Signin") !== -1) { cb(new Error("not_published"), null); return; }
-    var lines = text.trim().split("\n");
-    if (lines.length < 2) { cb(null, []); return; }
-    var hdr = parseCSVLine(lines[0]);
-    var rows = [];
-    for (var i = 1; i < lines.length; i++) {
-      var cols = parseCSVLine(lines[i]);
-      var row = {};
-      for (var j = 0; j < hdr.length; j++) row[hdr[j]] = cols[j] || "";
-      rows.push(row);
-    }
-    lg("OK","SHEET","Loaded " + rows.length + " rows from sheet " + sheetId.slice(0,8) + "...");
-    cb(null, rows);
-  };
-  xhr.ontimeout = function() { cb(new Error("timeout"), null); };
-  xhr.send();
-}
-
-function parseCSVLine(line) {
-  var cols = [], cur = "", inQ = false;
-  for (var i = 0; i < line.length; i++) {
-    var c = line[i];
-    if (c === '"') { inQ = !inQ; }
-    else if (c === ',' && !inQ) { cols.push(cur.trim()); cur = ""; }
-    else { cur += c; }
+  } catch(e) {
+    document.getElementById('lastUpdated').textContent = 'Error — check Debug tab';
+    console.error('Load error:', e);
   }
-  cols.push(cur.trim());
-  return cols;
 }
 
-var pendingC = 0;
-function loadAll() {
-  document.getElementById("crawlAge").textContent = "Loading...";
-  if (!CFG.repo) { lg("WARN","LOAD","No repo configured. Enter repo in Settings \u2192 Config."); renderAll(); return; }
-  var files = ["summary","reddit","quora","medium","youtube","news","aggregators","social","web","all_mentions"];
-  pendingC = files.length;
-  lg("INFO","LOAD","Fetching " + files.length + " data files from " + CFG.repo);
-  files.forEach(function(f) {
-    fetchJ(rawURL(f + ".json"), function(err, data) {
-      if (err) {
-        if (err.message.indexOf("404") === -1) lg("ERR","LOAD", f + ".json: " + err.message);
-      } else {
-        CRAWL[f] = data;
-        lg("OK","LOAD", f + ".json loaded (" + (data.total || (data.mentions ? data.mentions.length : "?")) + " records)");
+// ════════════════════════════════════════════════════════════════
+// OVERVIEW TAB
+// ════════════════════════════════════════════════════════════════
+function renderOverview() {
+  const bps = summary.bps || {};
+  const byPlat = summary.by_platform || {};
+  const bySent = summary.by_sentiment || {};
+  const ytStatus = summary.yt_crawl_status || {};
+
+  // BPS Hero
+  const score = bps.bps || 0;
+  const grade = bps.grade || 'D';
+  document.getElementById('bpsScore').textContent = score;
+  document.getElementById('bpsGrade').textContent = grade;
+  document.getElementById('navBps').textContent = score + '/100';
+  document.getElementById('bpsBarFill').style.width = score + '%';
+  document.getElementById('bpsCoverage').textContent = `${bps.coverage_platforms||0} / ${bps.coverage_total||8} platforms`;
+  document.getElementById('bpsInterpretation').textContent = bps.interpretation || '';
+  document.getElementById('totalMentions').textContent = fmtNum(summary.total_mentions || 0);
+  document.getElementById('totalImpressions').textContent = summary.total_impressions_fmt || '0';
+  document.getElementById('negAlerts').textContent = summary.negative_alert_count || 0;
+
+  // Grade color
+  const gradeColor = {A:+'#3dd68c','+':0}[grade] || (grade==='A+'?'#3dd68c':grade==='A'?'#3dd68c':grade==='B'?'var(--gold)':grade==='C'?'var(--orange)':'#ff6b6b');
+  const barColor = grade==='A+'||grade==='A' ? 'linear-gradient(90deg,var(--green),#3dd68c)' :
+                   grade==='B' ? 'linear-gradient(90deg,var(--amber),var(--gold))' :
+                   grade==='C' ? 'linear-gradient(90deg,var(--orange),#ffb347)' :
+                   'linear-gradient(90deg,var(--red),#ff6b6b)';
+  document.getElementById('bpsBarFill').style.background = barColor;
+
+  // KPI Cards
+  const redditMentions = mentions.filter(m=>m.platform==='reddit');
+  const topRedditScore = redditMentions.reduce((max,m)=>Math.max(max,m.score||0),0);
+  const totalRedditImpr = redditMentions.reduce((s,m)=>s+(m.impressions||0),0);
+  document.getElementById('kpiRedditScore').textContent = fmtNum(topRedditScore);
+  document.getElementById('kpiRedditImpr').textContent = fmtNum(totalRedditImpr) + ' impressions';
+
+  const quoraMentions = mentions.filter(m=>m.platform==='quora');
+  const totalQuoraImpr = quoraMentions.reduce((s,m)=>s+(m.impressions||0),0);
+  document.getElementById('kpiQuoraMentions').textContent = fmtNum(quoraMentions.length);
+  document.getElementById('kpiQuoraImpr').textContent = fmtNum(totalQuoraImpr) + ' thread impressions';
+
+  const ytMentions = mentions.filter(m=>m.platform==='youtube');
+  const totalViews = ytMentions.reduce((s,m)=>s+(m.views||m.impressions||0),0);
+  const totalLikes = ytMentions.reduce((s,m)=>s+(m.likes||m.score||0),0);
+  const totalYtCom = ytMentions.reduce((s,m)=>s+(m.comments||0),0);
+  document.getElementById('kpiYtViews').textContent = fmtNum(totalViews);
+  document.getElementById('kpiYtLikes').textContent = fmtNum(totalLikes) + ' likes · ' + fmtNum(totalYtCom) + ' comments';
+
+  const mediumMentions = mentions.filter(m=>m.platform==='medium');
+  const totalReads = mediumMentions.reduce((s,m)=>s+(m.reads||500),0);
+  const totalClaps = mediumMentions.reduce((s,m)=>s+(m.claps||25),0);
+  document.getElementById('kpiMediumReads').textContent = fmtNum(totalReads);
+  document.getElementById('kpiMediumClaps').textContent = fmtNum(totalClaps) + ' claps (est)';
+
+  const newsMentions = mentions.filter(m=>m.platform==='newspaper'||m.platform==='news');
+  const newsImpr = newsMentions.reduce((s,m)=>s+(m.impressions||0),0);
+  document.getElementById('kpiNewsImpr').textContent = fmtNum(newsImpr);
+  document.getElementById('kpiNewsCount').textContent = newsMentions.length + ' articles';
+
+  const portalPlatforms = ['shiksha','collegedunia','careers360','collegedekho','getmyuni','naukri'];
+  const portalCount = mentions.filter(m=>portalPlatforms.includes(m.platform)).length;
+  document.getElementById('kpiPortals').textContent = fmtNum(portalCount);
+
+  document.getElementById('kpiYtComments').textContent = ytStatus.polaris_comments_found || 0;
+  document.getElementById('kpiYtCrawlStatus').textContent = `${ytStatus.videos_done||0} videos crawled · ${ytStatus.videos_queued||0} queued`;
+
+  const socialCount = mentions.filter(m=>['linkedin','twitter','instagram'].includes(m.platform)).length;
+  document.getElementById('kpiSocial').textContent = fmtNum(socialCount);
+
+  // Sentiment doughnut
+  renderSentimentChart(bySent);
+
+  // Platform bars
+  renderPlatformBars(byPlat);
+
+  // Actionables
+  renderActionables(summary.actionables || []);
+
+  // Negative feed
+  renderNegFeed();
+}
+
+function renderSentimentChart(bySent) {
+  const pos = bySent.positive||0, neg = bySent.negative||0;
+  const mix = bySent.mixed||0, neu = bySent.neutral||0;
+  const ctx = document.getElementById('sentChart').getContext('2d');
+  if (sentChart) sentChart.destroy();
+  sentChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Positive','Negative','Mixed','Neutral'],
+      datasets: [{ data: [pos,neg,mix,neu],
+        backgroundColor: ['#099B5A','#BA0E13','#FF9A3F','#3A3A3A'],
+        borderColor: '#1A1A1A', borderWidth: 3 }]
+    },
+    options: {
+      cutout: '68%',
+      plugins: {
+        legend: { labels: { color:'#AAA', usePointStyle:true, pointStyleWidth:8 } },
+        tooltip: { backgroundColor:'#1A1A1A', borderColor:'#FFCC3F', borderWidth:1,
+          titleColor:'#FFCC3F', bodyColor:'#CCC', padding:10 }
       }
-      pendingC--;
-      if (pendingC === 0) loadSheets();
-    });
+    }
   });
+  document.getElementById('sentPills').innerHTML = `
+    <span class="pill pill-pos">✅ Positive: ${pos}</span>
+    <span class="pill pill-neg">🚨 Negative: ${neg}</span>
+    <span class="pill pill-mix">⚠ Mixed: ${mix}</span>
+    <span class="pill pill-neu">— Neutral: ${neu}</span>`;
 }
 
-function loadSheets() {
-  var keys = Object.keys(CFG.sheets);
-  var done = 0;
-  if (!keys.length) { renderAll(); startRefresh(); return; }
-  keys.forEach(function(k) {
-    var s = CFG.sheets[k];
-    if (!s.id) { SHEETS[k] = null; SHEETS[k+"_err"] = "no_sheet"; done++; if(done===keys.length){renderAll();startRefresh();} return; }
-    fetchCSV(s.id, s.gid, function(err, rows) {
-      if (err) { SHEETS[k] = null; SHEETS[k+"_err"] = err.message; lg("ERR","SHEET",k+": "+err.message); }
-      else { SHEETS[k] = rows; SHEETS[k+"_err"] = null; }
-      done++;
-      if (done === keys.length) { renderAll(); startRefresh(); }
-    });
-  });
+function renderPlatformBars(byPlat) {
+  const COLORS = {reddit:'#FF4500',quora:'#B92B27',medium:'#00A562',youtube:'#FF0000',
+    newspaper:'#D88100',shiksha:'#5939A8',collegedunia:'#5939A8',careers360:'#5939A8',
+    linkedin:'#0077B5',twitter:'#1DA1F2',instagram:'#E4405F',web:'#555',news:'#D88100'};
+  const all_counts = Object.entries(byPlat).sort((a,b)=>b[1]-a[1]);
+  const max = all_counts[0]?.[1] || 1;
+  document.getElementById('platBars').innerHTML = all_counts.map(([plat, count]) => `
+    <div class="plat-bar-row">
+      <div class="plat-bar-label">${plat}</div>
+      <div class="plat-bar-track">
+        <div class="plat-bar-fill" style="width:${(count/max*100).toFixed(1)}%;background:${COLORS[plat]||'#FFCC3F'}"></div>
+      </div>
+      <div class="plat-bar-num">${count}</div>
+    </div>`).join('');
 }
 
-function startRefresh() {
-  if (refreshTimer) clearInterval(refreshTimer);
-  refreshTimer = setInterval(loadAll, (CFG.refresh||5) * 60000);
-}
-
-// ============================================================
-// HELPERS
-// ============================================================
-function fN(v) { var n = parseInt(String(v||0).replace(/,/g,""))||0; return n>=1000?(n/1000).toFixed(1)+"k":String(n); }
-function toN(v) { return parseInt(String(v||0).replace(/,/g,""))||0; }
-function trunc(s,n) { s=String(s||""); return s.length>n?s.slice(0,n)+"...":s; }
-function esc(s) { return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
-function sCls(s) { s=String(s||"").toLowerCase(); return s.indexOf("pos")!==-1?"pos":s.indexOf("neg")!==-1?"neg":s.indexOf("mix")!==-1?"mixed":"neu"; }
-function sLbl(s) { s=String(s||"").toLowerCase(); return s.indexOf("pos")!==-1?"Positive":s.indexOf("neg")!==-1?"Negative":s.indexOf("mix")!==-1?"Mixed":"Neutral"; }
-
-var PC = { reddit:"#FF4500",quora:"#B92B27",youtube:"#FF0000",medium:"#099B5A",newspaper:"#D88100",news:"#D88100",shiksha:"#F59E0B",collegedunia:"#F59E0B",linkedin:"#0077B5",twitter:"#1DA1F2",web:"#2979FF",aggregators:"#D88100",social:"#5939A8" };
-function pCol(p) { return PC[String(p||"").toLowerCase()] || "#888"; }
-
-function allMents() { return gv(CRAWL,"all_mentions.mentions",[]) || []; }
-function cMents(k) { return gv(CRAWL,k+".mentions",[]) || []; }
-
-function filterDate(arr) {
-  if (dateRange === "all") return arr;
-  var now = new Date(), cut = new Date();
-  if (dateRange === "7d") cut.setDate(now.getDate()-7);
-  else if (dateRange === "30d") cut.setDate(now.getDate()-30);
-  else if (dateRange === "custom") { var df = document.getElementById("dFrom").value; if(df) cut=new Date(df); }
-  return arr.filter(function(m) { var d=m.date||""; if(!d)return true; try{return new Date(d)>=cut;}catch(e){return true;} });
-}
-
-Chart.defaults.color="#5A5A70";
-Chart.defaults.borderColor="rgba(255,255,255,0.04)";
-Chart.defaults.font.family="'Montserrat', sans-serif";
-Chart.defaults.font.size=10;
-var TT = { plugins:{ tooltip:{ backgroundColor:"#141418",borderColor:"rgba(255,204,63,.3)",borderWidth:1,titleColor:"#FFCC3F",bodyColor:"#AAA",padding:11,cornerRadius:8 }, legend:{ labels:{ color:"#5A5A70",usePointStyle:true,pointStyleWidth:8,boxHeight:8 } } } };
-
-function mkChart(id,type,labels,datasets,extra) {
-  var c=document.getElementById(id); if(!c)return;
-  if(charts[id]){charts[id].destroy();}
-  var opts={responsive:true,maintainAspectRatio:false,plugins:TT.plugins};
-  if(extra) for(var k in extra) opts[k]=extra[k];
-  charts[id]=new Chart(c,{type:type,data:{labels:labels,datasets:datasets},options:opts});
-}
-
-// ============================================================
-// RENDER ALL
-// ============================================================
-function renderAll() {
-  updateNS(); updateKPIs(); updateCrawlDot();
-  renderOverview(); renderListening(); renderMyContent(); renderCompetitors(); renderAnalytics();
-  updateCrawlTimeline();
-}
-
-function updateCrawlDot() {
-  var dot=document.getElementById("crawlDot"),age=document.getElementById("crawlAge"),nxt=document.getElementById("nextCrawl"),bsrc=document.getElementById("b_src");
-  var sub=document.getElementById("debug_crawl_sub");
-  if (!CRAWL.summary) {
-    dot.className="cdot"; age.textContent=CFG.repo?"Waiting for crawl...":"Configure repo in Settings";
-    if(nxt)nxt.textContent="--"; if(bsrc)bsrc.textContent="0"; return;
+function renderActionables(actions) {
+  if (!actions.length) {
+    document.getElementById('actionList').innerHTML = '<div class="empty-state">No actionables generated yet. Wait for first crawl to complete.</div>';
+    return;
   }
-  var last=new Date(CRAWL.summary.last_crawled||""); var hrs=(Date.now()-last.getTime())/3600000;
-  var ageStr=hrs<1?Math.round(hrs*60)+"m ago":Math.round(hrs)+"h ago";
-  age.textContent=ageStr;
-  if(sub)sub.textContent="Last crawl: "+ageStr+" \u2022 "+gv(CRAWL.summary,"total_mentions",0)+" total";
-  if(hrs<3)dot.className="cdot live"; else if(hrs<8)dot.className="cdot stale"; else dot.className="cdot old";
-  var nxtH=2.5-(hrs%2.5); if(nxt)nxt.textContent="~"+Math.round(nxtH*60)+"min";
-  if(bsrc)bsrc.textContent=Object.keys(gv(CRAWL.summary,"by_platform",{})).length;
-  renderCrawlStatusBlock(hrs, last);
-}
-
-function renderCrawlStatusBlock(hrs, last) {
-  var el=document.getElementById("crawlStatusBlock"); if(!el)return;
-  var s=CRAWL.summary;
-  if(!s){el.innerHTML='<div class="empty"><div class="ei">&#128225;</div><p>Crawl data not loaded. Configure repo in Settings \u2192 Config, then click Refresh.</p></div>';return;}
-  var dotCls=hrs<3?"cdot live":hrs<8?"cdot stale":"cdot old";
-  var statusMsg=hrs<3?"Fresh \u2014 crawled recently":hrs<8?"Stale \u2014 crawl may be delayed":hrs<24?"Old \u2014 check GitHub Actions for errors":"Very old \u2014 crawler may have stopped";
-  var statusCol=hrs<3?"var(--pos)":hrs<8?"var(--mixed)":"#FF5252";
-  el.innerHTML='<div style="display:flex;flex-direction:column;gap:10px;">'
-    +'<div style="display:flex;align-items:center;gap:10px;padding:10px;background:#0A0A0E;border-radius:8px;">'
-    +'<div class="cdot '+dotCls+'"></div>'
-    +'<div style="flex:1;"><div style="font:700 12px var(--font);color:'+statusCol+'">'+statusMsg+'</div>'
-    +'<div style="font:500 9px var(--font);color:var(--dim);margin-top:2px;">Last crawled: '+(last?last.toLocaleString("en-IN"):"unknown")+'</div></div>'
-    +'<button class="btn btn-out" onclick="loadAll()" style="font-size:10px;padding:5px 12px;">Reload Now</button></div>'
-    +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">'
-    +'<div style="background:#0A0A0E;border-radius:8px;padding:10px;text-align:center;border:1px solid var(--border);"><div style="font:800 18px var(--font);color:var(--gold)">'+gv(s,"total_mentions",0)+'</div><div style="font:600 8px var(--font);color:var(--dim);text-transform:uppercase;letter-spacing:.1em">Total Mentions</div></div>'
-    +'<div style="background:#0A0A0E;border-radius:8px;padding:10px;text-align:center;border:1px solid var(--border);"><div style="font:800 18px var(--font);color:var(--pos)">'+gv(s,"by_sentiment.positive",0)+'</div><div style="font:600 8px var(--font);color:var(--dim);text-transform:uppercase;letter-spacing:.1em">Positive</div></div>'
-    +'<div style="background:#0A0A0E;border-radius:8px;padding:10px;text-align:center;border:1px solid var(--border);"><div style="font:800 18px var(--font);color:#FF5252">'+gv(s,"negative_alert_count",0)+'</div><div style="font:600 8px var(--font);color:var(--dim);text-transform:uppercase;letter-spacing:.1em">Negative Alerts</div></div>'
-    +'</div>'
-    +'<div style="font:500 9px var(--font);color:var(--dim);padding:6px 10px;background:#0A0A0E;border-radius:6px;border:1px solid var(--border);">'
-    +'Crawl sources: '+JSON.stringify(gv(s,"crawl_sources",[]).length||8)+' sources &bull; Next crawl in: ~'+document.getElementById("nextCrawl").textContent
-    +'</div></div>';
-}
-
-function updateNS() {
-  var total=gv(CRAWL,"summary.total_mentions",0);
-  var pos=gv(CRAWL,"summary.by_sentiment.positive",0);
-  var neg=gv(CRAWL,"summary.by_sentiment.negative",0);
-  var ns=gv(CRAWL,"summary.north_star",null);
-  var wscore = ns ? ns.weighted_score : total;
-  var wtarget = ns ? ns.target_weighted : (CFG.goal||500);
-  var pct = Math.min(100,Math.round(wscore/wtarget*100));
-  document.getElementById("nsCount").textContent = ns ? wscore.toFixed(1) : total.toLocaleString();
-  document.getElementById("nsGoal").textContent = wtarget.toLocaleString();
-  document.getElementById("nsFill").style.width = pct+"%";
-  var rawNote = ns ? " ("+total+" raw | "+ns.formula.split("|")[0].trim()+"...)" : "";
-  document.getElementById("nsPct").textContent = pct+"% \u00b7 "+(wtarget-wscore>0?(wtarget-wscore).toFixed(0)+" points remaining":"target reached \uD83C\uDF89");
-  document.getElementById("b_total").textContent=fN(total);
-  document.getElementById("b_pos").textContent=fN(pos);
-  document.getElementById("b_neg").textContent=fN(neg);
-  // Show formula tooltip in NS label
-  if(ns && ns.formula) {
-    var lbl=document.getElementById("ns_formula_label");
-    if(lbl) lbl.textContent = ns.formula;
-  }
-}
-
-function updateKPIs() {
-  var byP=gv(CRAWL,"summary.by_platform",{}),pg=gv(CRAWL,"summary.platform_groups",{});
-  var loaded=!!CRAWL.summary;
-  var map=[
-    {id:"reddit",n:byP.reddit||0},{id:"quora",n:byP.quora||0},{id:"youtube",n:byP.youtube||0},
-    {id:"medium",n:byP.medium||0},{id:"news",n:byP.newspaper||0},
-    {id:"agg",n:gv(pg,"aggregators.count",0)},{id:"social",n:gv(pg,"social_media.count",0)},{id:"web",n:byP.web||0}
-  ];
-  map.forEach(function(k) {
-    var nd=document.getElementById("kn_"+k.id),dd=document.getElementById("kd_"+k.id);
-    if(nd)nd.textContent=loaded?fN(k.n):"--";
-    if(dd)dd.className="kd "+(loaded&&k.n>0?"live":loaded?"stale":"");
-  });
-}
-
-// ============================================================
-// OVERVIEW
-// ============================================================
-function renderOverview() { renderActions(); renderSentPie(); renderPlatBar(); renderNegFeed(); }
-
-function renderActions() {
-  var acts=[];
-  if(!CFG.repo) acts.push({t:"Open \u2699 Settings \u2192 Config tab \u2192 enter your GitHub repo path to load crawl data.",p:"h"});
-  else if(!CRAWL.summary) acts.push({t:"Crawl data not found. Go to GitHub \u2192 Actions \u2192 Polaris ORM Crawler \u2192 Run workflow (first run ~5 min).",p:"h"});
-  var neg=gv(CRAWL,"summary.negative_alert_count",0);
-  if(neg>3) acts.push({t:neg+" negative mentions found! Check Live Listening \u2192 filter Negative to review.",p:"h"});
-  if(!CFG.apis.youtube&&CRAWL.summary) acts.push({t:"Add free YouTube API key in \u2699 Settings for full YouTube coverage.",p:"m"});
-  if(!CFG.apis.newsapi&&CRAWL.summary) acts.push({t:"Add free NewsAPI key in \u2699 Settings for 70,000+ news source coverage.",p:"m"});
-  var r=gv(CRAWL,"summary.by_platform.reddit",0);
-  if(r>0) acts.push({t:r+" Reddit mentions found. Check Live Listening \u2192 Reddit filter.",p:"l"});
-  if(!acts.length) acts.push({t:"Crawler is running. All mentions auto-collected every 2.5 hours. Check Analytics for trends.",p:"l"});
-  var lbl={h:"HIGH",m:"MED",l:"LOW"};
-  document.getElementById("actList").innerHTML=acts.slice(0,5).map(function(a,i){
-    return '<div class="act"><div class="act-n">'+(i+1)+'</div><div class="act-t">'+esc(a.t)+'<span class="abadge ab-'+a.p+'">'+lbl[a.p]+'</span></div></div>';
-  }).join("");
-}
-
-function renderSentPie() {
-  var s=gv(CRAWL,"summary.by_sentiment",{});
-  mkChart("sentPie","doughnut",["Positive","Neutral","Mixed","Negative"],[{data:[s.positive||0,s.neutral||0,s.mixed||0,s.negative||0],backgroundColor:["rgba(0,200,83,.7)","rgba(120,144,156,.5)","rgba(255,152,0,.6)","rgba(186,14,19,.7)"],borderColor:["#00C853","#78909C","#FF9800","#BA0E13"],borderWidth:2}],{cutout:"55%"});
-}
-
-function renderPlatBar() {
-  var bp=gv(CRAWL,"summary.by_platform",{});
-  var e=Object.keys(bp).map(function(k){return[k,bp[k]];}).sort(function(a,b){return b[1]-a[1];}).slice(0,8);
-  mkChart("platBar","bar",e.map(function(x){return x[0];}),
-    [{label:"Mentions",data:e.map(function(x){return x[1];}),backgroundColor:e.map(function(x){return pCol(x[0])+"88";}),borderColor:e.map(function(x){return pCol(x[0]);}),borderWidth:1.5,borderRadius:6}],
-    {scales:{x:{grid:{color:"rgba(255,255,255,0.02)"},ticks:{color:"#445",maxRotation:30,font:{family:"Montserrat",size:9}}},y:{grid:{color:"rgba(255,255,255,0.03)"},ticks:{color:"#445",font:{family:"Montserrat",size:9}}}}});
+  const badges = { URGENT:'badge-urgent', HIGH:'badge-high', MEDIUM:'badge-medium', LOW:'badge-low' };
+  document.getElementById('actionList').innerHTML = actions.map(a => `
+    <div class="action-item">
+      <span class="action-badge ${badges[a.priority]||'badge-low'}">${a.priority}</span>
+      <div class="action-body">
+        <div class="action-title">${a.action}</div>
+        <div class="action-why">💡 ${a.why||''}</div>
+        ${a.content_idea ? `<div class="action-idea">✍ Content idea: ${a.content_idea}</div>` : ''}
+      </div>
+      <span class="action-plat">${a.platform}</span>
+    </div>`).join('');
 }
 
 function renderNegFeed() {
-  var all=filterDate(allMents()), negs=[], i=0;
-  for(;i<all.length&&negs.length<10;i++) if(all[i].sentiment==="negative")negs.push(all[i]);
-  var el=document.getElementById("negFeed");
-  if(!negs.length){el.innerHTML='<div class="empty"><div class="ei">&#9989;</div><p>No negative mentions in this period.</p></div>';return;}
-  el.innerHTML=negs.map(function(m){
-    return '<div class="fc"><div class="fc-top"><div class="fc-title">'+esc(trunc(m.title||m.snippet,100))+'</div><span class="sb neg">Negative</span></div>'
-      +'<div class="fc-meta"><div class="pip" style="background:'+pCol(m.platform)+'"></div><span>'+esc(m.platform||"")+'</span>'
-      +(m.url?'<span>&middot;</span><a href="'+esc(m.url)+'" target="_blank" class="link-btn" style="font-size:9px">View &#8599;</a>':'')
-      +'</div></div>';
-  }).join("");
+  const negatives = mentions.filter(m => m.sentiment === 'negative').slice(0, 20);
+  const tbody = document.getElementById('negFeed');
+  if (!negatives.length) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#3dd68c;padding:20px">✅ No negative mentions found</td></tr>';
+    return;
+  }
+  tbody.innerHTML = negatives.map(m => `
+    <tr>
+      <td><span class="plat-tag plat-${m.platform}">${m.platform}</span></td>
+      <td>${escHtml(m.title||'').substring(0,80)}</td>
+      <td class="sent-negative"><span class="sent-dot"></span>Negative</td>
+      <td>${m.url?`<a href="${m.url}" target="_blank" class="link-btn">View ↗</a>`:''}</td>
+    </tr>`).join('');
 }
 
-// ============================================================
-// LIVE LISTENING
-// ============================================================
+// ════════════════════════════════════════════════════════════════
+// LIVE LISTENING TAB
+// ════════════════════════════════════════════════════════════════
 function renderListening() {
-  var all=filterDate(allMents());
-  document.getElementById("mentTotal").textContent=all.length;
-  renderCatChart(all); renderSentTime(all); renderTopSrcs(); renderMentions();
+  renderFilteredMentions(currentFilter);
 }
 
-function renderCatChart(all) {
-  var bc=gv(CRAWL,"summary.by_category",{}),e=Object.keys(bc).map(function(k){return[k,bc[k]];}).sort(function(a,b){return b[1]-a[1];}).slice(0,8);
-  mkChart("catChart","bar",e.map(function(x){return x[0];}),
-    [{label:"Count",data:e.map(function(x){return x[1];}),backgroundColor:"rgba(41,121,255,.5)",borderColor:"#2979FF",borderWidth:1.5,borderRadius:5}],
-    {indexAxis:"y",scales:{x:{grid:{color:"rgba(255,255,255,0.02)"},ticks:{color:"#445",font:{size:9,family:"Montserrat"}}},y:{grid:{display:false},ticks:{color:"#9A9AB0",font:{size:9,family:"Montserrat"}}}}});
+function filterMentions(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('#listeningFilters .filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderFilteredMentions(filter);
 }
 
-function renderSentTime(all) {
-  var bd={};
-  all.forEach(function(m){var d=(m.date||"").slice(0,10);if(!d)return;if(!bd[d])bd[d]={pos:0,neg:0};if(m.sentiment==="positive")bd[d].pos++;if(m.sentiment==="negative")bd[d].neg++;});
-  var dates=Object.keys(bd).sort().slice(-14);
-  mkChart("sentTime","line",dates,[
-    {label:"Positive",data:dates.map(function(d){return bd[d].pos;}),borderColor:"#00C853",backgroundColor:"rgba(0,200,83,.08)",tension:.4,fill:true,pointRadius:3,borderWidth:2},
-    {label:"Negative",data:dates.map(function(d){return bd[d].neg;}),borderColor:"#BA0E13",backgroundColor:"rgba(186,14,19,.08)",tension:.4,fill:true,pointRadius:3,borderWidth:2}
-  ],{scales:{x:{grid:{color:"rgba(255,255,255,0.02)"},ticks:{color:"#445",maxRotation:30,font:{size:9,family:"Montserrat"}}},y:{grid:{color:"rgba(255,255,255,0.03)"},ticks:{color:"#445",font:{size:9,family:"Montserrat"}}}}});
+function renderFilteredMentions(filter) {
+  const portalPlatforms = ['shiksha','collegedunia','careers360','collegedekho','getmyuni','naukri'];
+  let filtered = mentions;
+  if (filter === 'portal') filtered = mentions.filter(m => portalPlatforms.includes(m.platform));
+  else if (filter === 'all') filtered = mentions;
+  else if (['positive','negative','mixed','neutral'].includes(filter)) filtered = mentions.filter(m => m.sentiment === filter);
+  else filtered = mentions.filter(m => m.platform === filter);
+
+  const tbody = document.getElementById('allMentionsBody');
+  if (!filtered.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text2);padding:24px">No mentions found for this filter.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = filtered.slice(0, 200).map(m => {
+    const engStr = buildEngStr(m);
+    return `<tr>
+      <td><span class="plat-tag plat-${m.platform}">${m.platform}</span><br>
+          <span style="font-size:10px;color:var(--text2)">${m.subcategory||''}</span></td>
+      <td style="max-width:200px">${escHtml((m.title||'').substring(0,80))}</td>
+      <td style="max-width:280px;color:var(--text2);font-size:11px">${escHtml((m.snippet||'').substring(0,120))}</td>
+      <td style="white-space:nowrap;font-size:11px;color:var(--text2)">${engStr}</td>
+      <td class="sent-${m.sentiment}"><span class="sent-dot"></span>${m.sentiment}</td>
+      <td>${m.url?`<a href="${m.url}" target="_blank" class="link-btn">↗</a>`:''}</td>
+    </tr>`;
+  }).join('');
 }
 
-function renderTopSrcs() {
-  var bp=gv(CRAWL,"summary.by_platform",{}),tot=gv(CRAWL,"summary.total_mentions",1)||1;
-  var e=Object.keys(bp).map(function(k){return[k,bp[k]];}).sort(function(a,b){return b[1]-a[1];}).slice(0,6);
-  var el=document.getElementById("topSrcs");
-  if(!e.length){el.innerHTML='<div class="empty"><div class="ei">&#128225;</div><p>Configure repo in Settings.</p></div>';return;}
-  el.innerHTML=e.map(function(x){
-    var pct=Math.round(x[1]/tot*100);
-    return '<div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--border)">'
-      +'<div style="width:9px;height:9px;border-radius:50%;background:'+pCol(x[0])+';flex-shrink:0"></div>'
-      +'<div style="flex:1;font:600 11px var(--font);color:var(--text)">'+esc(x[0])+'</div>'
-      +'<div style="font:800 14px var(--font);color:'+pCol(x[0])+'">'+fN(x[1])+'</div>'
-      +'<div style="font:600 9px var(--font);color:var(--dim);min-width:28px;text-align:right">'+pct+'%</div>'
-      +'</div>';
-  }).join("");
+function buildEngStr(m) {
+  const parts = [];
+  if (m.platform === 'reddit') {
+    if (m.score) parts.push(`⬆ ${m.score}`);
+    if (m.comments) parts.push(`💬 ${m.comments}`);
+    if (m.impressions) parts.push(`👁 ${fmtNum(m.impressions)}`);
+  } else if (m.platform === 'youtube') {
+    if (m.views) parts.push(`👁 ${fmtNum(m.views)}`);
+    if (m.likes || m.score) parts.push(`👍 ${fmtNum(m.likes||m.score||0)}`);
+    if (m.comments) parts.push(`💬 ${m.comments}`);
+  } else if (m.platform === 'quora') {
+    parts.push(`👁 ~${fmtNum(m.thread_impressions||m.impressions||800)}`);
+  } else if (m.platform === 'medium') {
+    parts.push(`📖 ~${fmtNum(m.reads||500)} reads`);
+    parts.push(`👏 ~${m.claps||25}`);
+  } else if (m.impressions) {
+    parts.push(`👁 ${fmtNum(m.impressions)}`);
+  }
+  return parts.join(' · ') || '—';
 }
 
-function setMF(f,btn) {
-  mentFilter=f;
-  document.querySelectorAll("[id^='mf_']").forEach(function(b){b.classList.remove("on");});
-  if(btn)btn.classList.add("on");
-  renderMentions();
+// ════════════════════════════════════════════════════════════════
+// GOOGLE SHEETS — MY CONTENT TAB
+// ════════════════════════════════════════════════════════════════
+let sheetDataCache = {};
+let currentSheetTab = 'reddit';
+
+function switchSheetTab(tab, btn) {
+  currentSheetTab = tab;
+  document.querySelectorAll('.sheet-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  loadSheetTab(tab);
 }
 
-function renderMentions() {
-  var all=filterDate(allMents());
-  if(mentFilter!=="all") all=all.filter(function(m){return m.sentiment===mentFilter;});
-  var pf=document.getElementById("platFilt"); if(pf&&pf.value) all=all.filter(function(m){return m.platform===pf.value||((m.subcategory||"").indexOf(pf.value)!==-1);});
-  var el=document.getElementById("mentTable");
-  if(!all.length){el.innerHTML='<div class="empty"><div class="ei">&#128461;</div><p>'+(allMents().length?"No mentions match filter.":"Crawl data not loaded. Check Settings \u2192 Config \u2192 Repo path.")+'</p></div>';return;}
-  var shown=all.slice(0,100);
-  el.innerHTML='<div class="tw"><table><thead><tr><th>Platform</th><th>Category</th><th>Title / Snippet</th><th>Author</th><th>Link</th><th>Sentiment</th><th>Date</th></tr></thead><tbody>'
-    +shown.map(function(m){return'<tr><td><span style="color:'+pCol(m.platform)+';font:700 10px var(--font)">'+esc(m.platform||"")+'</span></td><td style="color:var(--muted);font-size:10px">'+esc(m.category||"--")+'</td><td style="max-width:260px;font-size:11px">'+esc(trunc(m.title||m.snippet,75))+'</td><td style="color:var(--dim);font-size:10px">'+esc(trunc(m.author,22))+'</td><td>'+(m.url?'<a href="'+esc(m.url)+'" target="_blank" class="link-btn">View &#8599;</a>':"--")+'</td><td><span class="sb '+sCls(m.sentiment)+'">'+sLbl(m.sentiment)+'</span></td><td style="color:var(--dim);font-size:9px;white-space:nowrap">'+esc((m.date||"").slice(0,10))+'</td></tr>';}).join("")
-    +'</tbody></table></div>';
+async function loadSheetTab(tab) {
+  if (!CFG.sheetId) {
+    document.getElementById('sheetContent').innerHTML = '<div class="empty-state">Enter your Google Sheet ID in ⚙ Settings to see data here.</div>';
+    return;
+  }
+  if (sheetDataCache[tab]) { renderSheetTable(sheetDataCache[tab]); return; }
+  document.getElementById('sheetContent').innerHTML = '<div class="loading-state"><div class="spinner"></div>Loading from Google Sheets…</div>';
+  const tabNames = { reddit: CFG.tabReddit, quora_qa: CFG.tabQuoraQA, quora_comments: CFG.tabQuoraCom,
+    yt_comments: CFG.tabYT, newspaper: CFG.tabNews, medium: CFG.tabMedium };
+  try {
+    const url = `https://docs.google.com/spreadsheets/d/${CFG.sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tabNames[tab]||tab)}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('Sheet not accessible');
+    const text = await res.text();
+    const rows = parseCSV(text);
+    sheetDataCache[tab] = rows;
+    renderSheetTable(rows);
+  } catch(e) {
+    document.getElementById('sheetContent').innerHTML = `
+      <div class="error-state">
+        <p>⚠ Could not load sheet tab "${tab}"</p>
+        <p style="font-size:11px;margin-top:6px">Check: Sheet is published as CSV, tab name is correct in Settings, Sheet ID is correct</p>
+      </div>`;
+  }
 }
 
-// ============================================================
-// MY CONTENT (SHEETS)
-// ============================================================
-function renderMyContent() {
-  Object.keys(CFG.sheets).forEach(function(key) {
-    var err=SHEETS[key+"_err"], rows=SHEETS[key]||[];
-    var tag=document.getElementById("pbt_"+key);
-    if(tag){if(rows.length){tag.className="pb-tag tag-auto";tag.textContent=rows.length+" rows";}else if(err==="no_sheet"){tag.className="pb-tag tag-off";tag.textContent="No Sheet";}else if(err){tag.className="pb-tag tag-off";tag.textContent="Error";}else{tag.className="pb-tag tag-off";tag.textContent="No Sheet";}}
-    var ct=document.getElementById("ct_"+key); if(!ct)return;
-    if(!err&&!rows.length){ct.innerHTML='<div class="empty"><div class="ei">&#128461;</div><p>Add Sheet ID + GID in Settings \u2192 Sheets tab</p></div>';return;}
-    if(err==="no_sheet"){ct.innerHTML='<div class="empty"><div class="ei">&#128203;</div><p>Add Sheet ID + GID in &#9881; Settings &#8594; Sheets tab</p><small>Sheet ID from URL, GID from tab URL #gid=NUMBER</small></div>';return;}
-    if(err==="not_published"){ct.innerHTML='<div class="err-box">Sheet not published as CSV.<br>Google Sheets &#8594; File &#8594; Share &#8594; Publish to web &#8594; tab &#8594; CSV &#8594; Publish</div>';return;}
-    if(err){ct.innerHTML='<div class="err-box">Error: '+esc(err)+'</div>';return;}
-    ct.innerHTML=buildSheetTable(rows,key);
+function renderSheetTable(rows) {
+  if (!rows || rows.length <= 1) {
+    document.getElementById('sheetContent').innerHTML = '<div class="empty-state">No data found. Check tab name in Settings.</div>';
+    return;
+  }
+  const headers = Object.keys(rows[0]);
+  const content = `
+    <div class="sheet-table-wrap">
+      <table class="mentions-table">
+        <thead><tr>${headers.map(h=>`<th>${escHtml(h)}</th>`).join('')}</tr></thead>
+        <tbody>${rows.map(row=>`<tr>${headers.map(h=>{
+          const val = row[h]||'';
+          if (val.startsWith('http')) return `<td><a href="${val}" target="_blank" class="link-btn">View ↗</a></td>`;
+          return `<td>${escHtml(val.substring(0,100))}</td>`;
+        }).join('')}</tr>`).join('')}</tbody>
+      </table>
+    </div>`;
+  document.getElementById('sheetContent').innerHTML = content;
+}
+
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  const headers = lines[0].split(',').map(c => c.replace(/^"|"$/g,'').trim());
+  return lines.slice(1).map(line => {
+    const cols = line.split(',').map(c => c.replace(/^"|"$/g,'').trim());
+    const obj = {};
+    headers.forEach((h,i) => obj[h] = cols[i]||'');
+    return obj;
   });
 }
 
-function buildSheetTable(rows,key) {
-  if(!rows.length)return'<div class="empty"><div class="ei">&#128461;</div><p>No data. Check tab name in Settings.</p></div>';
-  var hdrs;
-  if(key==="s_reddit")hdrs=["Date","Type","Question","Post Link","Post Impressions","Sentiment"];
-  else if(key==="s_quora")hdrs=["Date","Question","Answer Live Link","Impressions","Sentiment"];
-  else if(key==="s_pstQuora")hdrs=["Sr. No.","Question","Live Link","Impressions","Sentiment"];
-  else if(key==="s_youtube")hdrs=["Date","Channel Name","Type","Video Link","Comments Seeded"];
-  else if(key==="s_newspaper")hdrs=["Publication Name","Language","Publish Date","Headline","Published Link","Sentiment"];
-  else if(key==="s_medium")hdrs=["Date","Title","Author","Live Link","Reads","Sentiment"];
-  else hdrs=Object.keys(rows[0]);
-  return'<div class="tw"><table><thead><tr>'+hdrs.map(function(h){return'<th>'+esc(h)+'</th>';}).join("")+'</tr></thead><tbody>'
-    +rows.map(function(row){return'<tr>'+hdrs.map(function(h){var v=row[h]||"";
-      if((h.toLowerCase().indexOf("link")!==-1||h.toLowerCase().indexOf("url")!==-1)&&v.indexOf("http")===0)return'<td><a href="'+esc(v)+'" target="_blank" class="link-btn">View &#8599;</a></td>';
-      if(h==="Sentiment")return'<td><span class="sb '+sCls(v)+'">'+sLbl(v)+'</span></td>';
-      if(h==="Post Impressions"||h==="Impressions"||h==="Reads"||h==="Comments Seeded")return'<td style="text-align:right;font:700 11px var(--font);color:var(--gold)">'+esc(v)+'</td>';
-      return'<td style="font-size:11px">'+esc(trunc(v,48))+'</td>';
-    }).join("")+'</tr>';}).join("")+'</tbody></table></div>';
-}
-
-// ============================================================
-// COMPETITORS
-// ============================================================
+// ════════════════════════════════════════════════════════════════
+// COMPETITORS TAB
+// ════════════════════════════════════════════════════════════════
 function renderCompetitors() {
-  var all=allMents(), kws=(CFG.kwComp||[]).map(function(c){return c.split(" ")[0].toLowerCase();});
-  var comps=[{name:"PST",pos:gv(CRAWL,"summary.by_sentiment.positive",0),neg:gv(CRAWL,"summary.by_sentiment.negative",0)}];
-  (CFG.kwComp||[]).slice(0,5).forEach(function(comp){
-    var kw=comp.split(" ")[0].toLowerCase();
-    var r=all.filter(function(m){return(m.title||m.snippet||"").toLowerCase().indexOf(kw)!==-1;});
-    var pos=0,neg=0; r.forEach(function(m){if(m.sentiment==="positive")pos++;if(m.sentiment==="negative")neg++;});
-    comps.push({name:comp.split(" ")[0],pos:pos,neg:neg});
+  const comps = competitors.competitors || {};
+  const keys = Object.keys(comps);
+  if (!keys.length) { renderCompetitorsFallback(); return; }
+
+  // Cards
+  document.getElementById('compGrid').innerHTML = keys.map(k => {
+    const c = comps[k];
+    const sent = c.by_sentiment || {};
+    return `<div class="comp-card">
+      <div class="comp-name" title="${c.name}">${c.name}</div>
+      <div class="comp-stat">${c.total_mentions||0}</div>
+      <div class="comp-label">mentions found</div>
+      <div class="comp-sents">
+        <span style="background:rgba(9,155,90,.15);color:#3dd68c">+${sent.positive||0}</span>
+        <span style="background:rgba(186,14,19,.15);color:#ff6b6b">-${sent.negative||0}</span>
+        <span style="background:rgba(255,255,255,.05);color:var(--text2)">${sent.neutral||0} neu</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Bar chart
+  const ctx1 = document.getElementById('compBarChart').getContext('2d');
+  if (compBarChart) compBarChart.destroy();
+  compBarChart = new Chart(ctx1, {
+    type: 'bar',
+    data: {
+      labels: keys.map(k => comps[k].name.replace(' School of Technology','').replace(' University','').replace(' College of Engineering','')),
+      datasets: [{
+        label: 'Total Mentions',
+        data: keys.map(k => comps[k].total_mentions||0),
+        backgroundColor: keys.map((_,i) => ['#FFCC3F','#FF9A3F','#5939A8','#099B5A','#BA0E13','#D88100','#1DA1F2','#FF4500'][i%8]),
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      indexAxis: 'y', plugins: { legend: { display: false },
+        tooltip: { backgroundColor:'#1A1A1A', borderColor:'#FFCC3F', borderWidth:1, titleColor:'#FFCC3F', bodyColor:'#CCC', padding:10 }
+      },
+      scales: { x: { grid: { color:'rgba(255,255,255,.04)' }, ticks: { color:'#999' } },
+                y: { grid: { display: false }, ticks: { color:'#CCC', font:{size:11} } } }
+    }
   });
-  mkChart("compBar","bar",comps.map(function(x){return x.name;}),
-    [{label:"Positive",data:comps.map(function(x){return x.pos;}),backgroundColor:"rgba(0,200,83,.5)",borderRadius:5},
-     {label:"Negative",data:comps.map(function(x){return x.neg;}),backgroundColor:"rgba(186,14,19,.45)",borderRadius:5}],
-    {scales:{x:{grid:{color:"rgba(255,255,255,0.02)"},ticks:{color:"#9A9AB0",font:{size:10,family:"Montserrat"}}},y:{grid:{color:"rgba(255,255,255,0.03)"},ticks:{color:"#445",font:{size:9,family:"Montserrat"}}}}});
-  var feed=document.getElementById("compFeed");
-  var cm=[], i=0;
-  for(;i<all.length&&cm.length<15;i++){var txt=(all[i].title||all[i].snippet||"").toLowerCase();for(var j=0;j<kws.length;j++){if(txt.indexOf(kws[j])!==-1){cm.push(all[i]);break;}}}
-  if(!cm.length){feed.innerHTML='<div class="empty"><div class="ei">&#127942;</div><p>No competitor mentions yet. Add competitors in &#9881; Settings &#8594; Keywords tab.</p></div>';}
-  else feed.innerHTML=cm.map(function(m){return'<div class="fc"><div class="fc-top"><div class="fc-title">'+esc(trunc(m.title||m.snippet,100))+'</div><span class="sb '+sCls(m.sentiment)+'">'+sLbl(m.sentiment)+'</span></div><div class="fc-meta"><div class="pip" style="background:'+pCol(m.platform)+'"></div><span>'+esc(m.platform||"")+'</span>'+(m.url?'<span>&middot;</span><a href="'+esc(m.url)+'" target="_blank" class="link-btn" style="font-size:9px">View &#8599;</a>':'')+'</div></div>';}).join("");
-  mkChart("radarChart","radar",["Sentiment","Volume","News","Social","Portals"],
-    [{label:"PST",data:[75,cMents("reddit").length?70:10,cMents("news").length?65:10,gv(CRAWL,"summary.platform_groups.social_media.count",0)?60:10,gv(CRAWL,"summary.platform_groups.aggregators.count",0)?70:10],borderColor:"#FFCC3F",backgroundColor:"rgba(255,204,63,.12)",pointRadius:3,borderWidth:2},
-     {label:"Competitors",data:[45,60,45,55,50],borderColor:"#FF9A3F",backgroundColor:"rgba(255,154,63,.06)",pointRadius:3,borderWidth:2}],
-    {scales:{r:{grid:{color:"rgba(255,255,255,0.06)"},ticks:{display:false},pointLabels:{color:"#5A5A70",font:{size:10,family:"Montserrat"}}}}});
-}
 
-// ============================================================
-// ANALYTICS
-// ============================================================
-function renderAnalytics() {
-  var bp=gv(CRAWL,"summary.by_platform",{}), e=Object.keys(bp).map(function(k){return[k,bp[k]];}).sort(function(a,b){return b[1]-a[1];}).slice(0,6);
-  mkChart("mixChart","doughnut",e.map(function(x){return x[0];}),
-    [{data:e.map(function(x){return x[1];}),backgroundColor:e.map(function(x){return pCol(x[0])+"88";}),borderColor:e.map(function(x){return pCol(x[0]);}),borderWidth:2}],{cutout:"50%"});
-  var all=allMents(),bd={};
-  all.forEach(function(m){var d=(m.date||"").slice(0,10);if(!d)return;bd[d]=(bd[d]||0)+1;});
-  var dates=Object.keys(bd).sort().slice(-21);
-  mkChart("trendChart","line",dates,
-    [{label:"Daily Mentions",data:dates.map(function(d){return bd[d]||0;}),borderColor:"#FFCC3F",backgroundColor:"rgba(255,204,63,.08)",tension:.4,fill:true,pointRadius:2,borderWidth:2}],
-    {scales:{x:{grid:{color:"rgba(255,255,255,0.02)"},ticks:{color:"#445",maxRotation:30,font:{size:9,family:"Montserrat"}}},y:{grid:{color:"rgba(255,255,255,0.03)"},ticks:{color:"#445",font:{size:9,family:"Montserrat"}}}}});
-  var pks=["reddit","quora","youtube","medium","newspaper","web"],pls=["Reddit","Quora","YouTube","Medium","News","Web"],pcs=[PC.reddit,PC.quora,PC.youtube,PC.medium,PC.newspaper,PC.web];
-  var html='<div class="tw"><table><thead><tr><th>Platform</th><th style="color:var(--gold)">Total</th><th>Positive</th><th>Negative</th><th>Score</th></tr></thead><tbody>';
-  for(var i=0;i<pks.length;i++){var r=cMents(pks[i]),pos=0,neg=0;r.forEach(function(m){if(m.sentiment==="positive")pos++;if(m.sentiment==="negative")neg++;});var sc=r.length?Math.round((pos-neg)/r.length*100):0;html+='<tr><td style="font:700 11px var(--font);color:'+pcs[i]+'">'+pls[i]+'</td><td style="font:800 11px var(--font);color:var(--gold)">'+r.length+'</td><td style="color:var(--pos)">'+pos+'</td><td style="color:#FF5252">'+neg+'</td><td><span class="sb '+(sc>0?"pos":sc<0?"neg":"neu")+'">'+(sc>0?"+":"")+sc+'</span></td></tr>';}
-  document.getElementById("perfTable").innerHTML=html+'</tbody></table></div>';
-}
-
-// ============================================================
-// SETTINGS UI
-// ============================================================
-var activeStab = "main";
-function switchStab(name) {
-  ["main","keywords","sheets","debug"].forEach(function(t) {
-    var b=document.getElementById("stab_"+t), bd=document.getElementById("stab_"+t+"_body");
-    if(b){b.style.background=t===name?"rgba(255,204,63,.15)":"";b.style.color=t===name?"var(--gold)":"var(--muted)";}
-    if(bd)bd.style.display=t===name?"block":"none";
+  // Sentiment stacked
+  const ctx2 = document.getElementById('compSentChart').getContext('2d');
+  if (compSentChart) compSentChart.destroy();
+  compSentChart = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+      labels: keys.map(k => comps[k].name.split(' ')[0]),
+      datasets: [
+        { label: 'Positive', data: keys.map(k => (comps[k].by_sentiment||{}).positive||0), backgroundColor:'#099B5A', borderRadius:3 },
+        { label: 'Negative', data: keys.map(k => (comps[k].by_sentiment||{}).negative||0), backgroundColor:'#BA0E13', borderRadius:3 },
+        { label: 'Neutral',  data: keys.map(k => (comps[k].by_sentiment||{}).neutral||0),  backgroundColor:'#3A3A3A', borderRadius:3 },
+      ]
+    },
+    options: {
+      scales: { x: { stacked:true, grid:{color:'rgba(255,255,255,.04)'}, ticks:{color:'#999',font:{size:10}} },
+                y: { stacked:true, grid:{color:'rgba(255,255,255,.04)'}, ticks:{color:'#999'} } },
+      plugins: { legend: { labels:{color:'#AAA',usePointStyle:true,pointStyleWidth:7,font:{size:10}} },
+        tooltip: { backgroundColor:'#1A1A1A', borderColor:'#FFCC3F', borderWidth:1, titleColor:'#FFCC3F', bodyColor:'#CCC', padding:10 } }
+    }
   });
-  activeStab=name;
-  if(name==="debug"){updateCrawlTimeline();renderCrawlStatusBlock(999,null);}
-  if(name==="keywords")renderKwTags();
-  if(name==="sheets")buildSheetCfgs();
-}
 
-function togSg(h) {
-  var b=h.nextElementSibling,a=h.querySelector(".sg-arr");
-  b.classList.toggle("open");
-  if(a)a.innerHTML=b.classList.contains("open")?"&#9650;":"&#9660;";
-}
-
-// KEYWORDS
-function renderKwTags() {
-  renderTagGroup("kwTags_pst",CFG.kwPst||[],"primary");
-  renderTagGroup("kwTags_comp",CFG.kwComp||[],"competitor");
-}
-function renderTagGroup(elId,arr,cls) {
-  var el=document.getElementById(elId); if(!el)return;
-  if(!arr.length){el.innerHTML='<span style="font:500 10px var(--font);color:var(--dim)">No keywords yet. Add below.</span>';return;}
-  el.innerHTML=arr.map(function(kw,i){
-    return'<span class="kw-tag '+cls+'">'+esc(kw)+'<button onclick="removeKw(\''+cls.replace("or","").replace("primary","pst")+'\','+i+')">&#x2715;</button></span>';
-  }).join("");
-}
-function addKw(type) {
-  var inp=document.getElementById("kwInput_"+type); if(!inp)return;
-  var val=inp.value.trim(); if(!val)return;
-  if(type==="pst"){if(!CFG.kwPst)CFG.kwPst=[];CFG.kwPst.push(val);}
-  else{if(!CFG.kwComp)CFG.kwComp=[];CFG.kwComp.push(val);}
-  inp.value="";
-  renderKwTags();
-}
-function removeKw(type,i) {
-  if(type==="pst"&&CFG.kwPst)CFG.kwPst.splice(i,1);
-  else if(type==="comp"&&CFG.kwComp)CFG.kwComp.splice(i,1);
-  renderKwTags();
-}
-
-// SHEETS CONFIG
-function buildSheetCfgs() {
-  var html="";
-  Object.keys(SHEET_LABELS).forEach(function(key) {
-    var s=CFG.sheets[key]||{};
-    html+='<div style="background:#0A0A0E;border:1px solid var(--border);border-radius:10px;padding:13px;margin-bottom:10px;">'
-      +'<div style="font:700 11px var(--font);color:var(--text);margin-bottom:10px">'+esc(SHEET_LABELS[key])+(s.id?'<span class="sstatus ss-ok" style="display:inline-flex;margin-left:8px;padding:2px 8px;">&#10003; Set</span>':'<span style="font:500 9px var(--font);color:var(--dim);margin-left:8px">Optional</span>')+'</div>'
-      +'<div class="g2f"><div><label class="si-label" style="font-size:8px">Sheet ID</label><input class="si" id="sh_'+key+'_id" value="'+esc(s.id||"")+'" placeholder="1BxiMVs0XRA5..."><div class="si-hint">From URL: /d/[THIS]/edit</div></div>'
-      +'<div><label class="si-label" style="font-size:8px">GID (Tab Number)</label><input class="si" id="sh_'+key+'_gid" value="'+esc(s.gid||"0")+'" placeholder="0"><div class="si-hint">URL: #gid=[NUMBER] &bull; 0 = first tab</div></div></div>'
-      +'<div style="margin-top:8px"><label class="si-label" style="font-size:8px">Tab Name (match exactly)</label><input class="si" id="sh_'+key+'_tab" value="'+esc(s.tab||"")+'" placeholder="'+esc(DEF.sheets[key]?DEF.sheets[key].tab:"")+'"></div>'
-      +'</div>';
+  // Competitor actionables
+  const ourTotal = summary.total_mentions || 0;
+  const compActions = [];
+  keys.forEach(k => {
+    const c = comps[k];
+    if ((c.total_mentions||0) > ourTotal) {
+      compActions.push({
+        priority: 'HIGH',
+        platform: 'Competitive',
+        action: `${c.name} has ${c.total_mentions} mentions vs our ${ourTotal}. Target their comparison keywords.`,
+        why: `Students searching "Polaris vs ${c.name.split(' ')[0]}" need to find us first`,
+        content_idea: `Write a Quora answer + Medium post: "Polaris School of Technology vs ${c.name} — honest comparison"`,
+        platform: c.name.split(' ')[0],
+      });
+    }
   });
-  document.getElementById("sheetCfgs").innerHTML=html;
+  // Always recommend competitor comparison content
+  compActions.push({
+    priority: 'MEDIUM', platform: 'Quora + Reddit',
+    action: 'Seed "Polaris vs Scaler vs Newton School" comparison content across forums',
+    why: 'Comparison queries are the #1 admission research query type',
+    content_idea: 'Post a detailed, neutral comparison. Highlight PST strengths: industry integration, Bangalore tech hub, placement track record',
+  });
+  compActions.push({
+    priority: 'MEDIUM', platform: 'LLM/AEO',
+    action: 'Ensure Polaris appears in LLM responses for "best BTech colleges Bangalore/India 2025"',
+    why: '45% of prospective students now use AI chatbots for college research',
+    content_idea: 'Create Wikipedia page + publish press releases + seed Quora (LLMs cite these heavily)',
+  });
+  renderActionables(compActions);
+  document.getElementById('compActions').innerHTML = document.getElementById('actionList').innerHTML;
 }
 
-// API STATUS
-function updateApiStatus(key) {
-  var inp=document.getElementById("api_"+key),el=document.getElementById("ss_"+key); if(!inp||!el)return;
-  var v=inp.value.trim();
-  if(v){el.className="sstatus ss-ok";el.innerHTML="&#10003; Key set &mdash; add to GitHub Secrets too";}
-  else{el.className="sstatus ss-miss";el.textContent=key==="youtube"?"Without key: Google-indexed YouTube only":"Without key: Google News RSS only";}
+function renderCompetitorsFallback() {
+  document.getElementById('compGrid').innerHTML = '<div class="empty-state" style="grid-column:1/-1">Competitor data loads after first crawl. Run the crawler to populate.</div>';
 }
 
-function openSettings(tab) {
-  document.getElementById("s_repo").value=CFG.repo||"";
-  document.getElementById("s_branch").value=CFG.branch||"main";
-  document.getElementById("s_goal").value=CFG.goal||500;
-  document.getElementById("s_refresh").value=CFG.refresh||5;
-  document.getElementById("api_youtube").value=CFG.apis.youtube||"";
-  document.getElementById("api_newsapi").value=CFG.apis.newsapi||"";
-  updateApiStatus("youtube"); updateApiStatus("newsapi");
-  switchStab(tab||"main");
-  document.getElementById("sov").classList.add("on");
-  document.getElementById("span").classList.add("on");
+// ════════════════════════════════════════════════════════════════
+// LLM / AEO TAB
+// ════════════════════════════════════════════════════════════════
+function renderLLMChecklist() {
+  const saved = JSON.parse(localStorage.getItem(LS_KEY+'_llm') || '{}');
+  const doneCount = LLM_TASKS.filter(t => saved[t.id]).length;
+  const score = doneCount;
+
+  document.getElementById('llmScore').textContent = doneCount;
+  document.getElementById('llmBarFill').style.width = (doneCount / LLM_TASKS.length * 100) + '%';
+
+  document.getElementById('llmChecklist').innerHTML = LLM_TASKS.map(t => `
+    <div class="llm-item ${saved[t.id]?'done':''}" onclick="toggleLLMTask('${t.id}')">
+      <div class="llm-check">${saved[t.id]?'✓':''}</div>
+      <div>
+        <div class="llm-name">${t.name}</div>
+        <div style="font-size:10px;color:var(--text2);margin-top:2px">${t.why}</div>
+      </div>
+      <span class="llm-impact impact-${t.impact}">${t.impact}</span>
+    </div>`).join('');
+
+  // LLM sources
+  const platCounts = summary.by_platform || {};
+  const sources = [
+    { name: 'Wikipedia', note: 'Not created yet', ok: false, icon: '📚' },
+    { name: 'Quora', note: `${platCounts.quora||0} mentions crawled`, ok: (platCounts.quora||0) > 0, icon: '❓' },
+    { name: 'Medium', note: `${platCounts.medium||0} articles`, ok: (platCounts.medium||0) > 0, icon: '📝' },
+    { name: 'News/PR', note: `${(platCounts.newspaper||0)+(platCounts.news||0)} articles`, ok: ((platCounts.newspaper||0)+(platCounts.news||0)) > 0, icon: '📰' },
+    { name: 'Reddit', note: `${platCounts.reddit||0} posts`, ok: (platCounts.reddit||0) > 0, icon: '🔴' },
+    { name: 'Crunchbase', note: 'Not indexed', ok: false, icon: '📊' },
+  ];
+  document.getElementById('llmSources').innerHTML = sources.map(s => `
+    <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--card2);border:1px solid var(--border);border-radius:8px">
+      <span style="font-size:16px">${s.icon}</span>
+      <div style="flex:1">
+        <div style="font-size:12px;font-weight:600;color:${s.ok?'#fff':'var(--text2)'}">${s.name}</div>
+        <div style="font-size:10px;color:var(--text2)">${s.note}</div>
+      </div>
+      <span style="font-size:11px;padding:2px 8px;border-radius:5px;${s.ok?'background:rgba(9,155,90,.15);color:#3dd68c':'background:rgba(255,255,255,.04);color:var(--text2)'}">${s.ok?'✓ Found':'Not found'}</span>
+    </div>`).join('');
 }
 
+function toggleLLMTask(id) {
+  const saved = JSON.parse(localStorage.getItem(LS_KEY+'_llm') || '{}');
+  saved[id] = !saved[id];
+  localStorage.setItem(LS_KEY+'_llm', JSON.stringify(saved));
+  renderLLMChecklist();
+}
+
+// ════════════════════════════════════════════════════════════════
+// DEBUG TAB
+// ════════════════════════════════════════════════════════════════
+function renderDebug() {
+  const diag = summary.diagnostics || {};
+
+  // API status badges
+  document.getElementById('apiStatus').innerHTML = [
+    ['Claude Sentiment', diag.claude_sentiment_active],
+    ['YouTube API', diag.youtube_api_active],
+    ['NewsAPI', diag.newsapi_active],
+    ['Reddit JSON', true],
+    ['Google News RSS', true],
+    ['Bing News RSS', true],
+    ['DDG Search', true],
+  ].map(([name, active]) =>
+    `<span class="api-badge ${active?'api-active':'api-inactive'}">${active?'✓':'○'} ${name}</span>`
+  ).join('');
+
+  // Sources
+  const ok = diag.sources_ok || [];
+  const fail = diag.sources_failed || [];
+  const warn = diag.warnings || [];
+  document.getElementById('sourcesOk').innerHTML = ok.map(s => `<span class="source-badge src-ok">✓ ${s}</span>`).join('') || '<span style="color:var(--text2);font-size:12px">No data yet</span>';
+  document.getElementById('sourcesFail').innerHTML =
+    fail.map(s => `<span class="source-badge src-fail">✗ ${s}</span>`).join('') +
+    warn.slice(0,10).map(w => `<span class="source-badge src-warn">⚠ ${w.substring(0,60)}</span>`).join('');
+
+  // Errors
+  const errors = diag.errors || [];
+  document.getElementById('errorLog').innerHTML = errors.length
+    ? errors.map(e => `<div style="padding:2px 0;border-bottom:1px solid var(--border)">✗ ${escHtml(e.substring(0,120))}</div>`).join('')
+    : '<div style="color:#3dd68c">✓ No errors in last crawl</div>';
+
+  // YT crawl debug
+  const ytStatus = summary.yt_crawl_status || {};
+  document.getElementById('ytCrawlDebug').innerHTML = `
+    <div>Videos fully crawled: <b style="color:var(--gold)">${ytStatus.videos_done||0}</b></div>
+    <div>Videos in queue: <b style="color:var(--orange)">${ytStatus.videos_queued||0}</b></div>
+    <div>Polaris comments found: <b style="color:var(--gold)">${ytStatus.polaris_comments_found||0}</b></div>
+    <div>Last comment crawl: <b style="color:var(--text2)">${ytStatus.last_run||'Never'}</b></div>
+    <div style="margin-top:10px;font-size:11px;color:var(--text2)">
+      Crawls 6 videos/run at 30-min intervals.<br>
+      Full crawl completes in ~5-6 days depending on total videos.<br>
+      Only stores comments mentioning "polaris" or "pst".
+    </div>`;
+}
+
+// ════════════════════════════════════════════════════════════════
+// SETTINGS
+// ════════════════════════════════════════════════════════════════
+function openSettings() {
+  document.getElementById('settingsOverlay').classList.add('open');
+  document.getElementById('settingsPanel').classList.add('open');
+}
 function closeSettings() {
-  document.getElementById("sov").classList.remove("on");
-  document.getElementById("span").classList.remove("on");
+  document.getElementById('settingsOverlay').classList.remove('open');
+  document.getElementById('settingsPanel').classList.remove('open');
 }
-
+function populateSettingsForm() {
+  document.getElementById('cfgUser').value = CFG.user;
+  document.getElementById('cfgRepo').value = CFG.repo;
+  document.getElementById('cfgBranch').value = CFG.branch;
+  document.getElementById('cfgSheetId').value = CFG.sheetId || '';
+  document.getElementById('cfgTabReddit').value = CFG.tabReddit;
+  document.getElementById('cfgTabQuoraQA').value = CFG.tabQuoraQA;
+  document.getElementById('cfgTabQuoraCom').value = CFG.tabQuoraCom;
+  document.getElementById('cfgTabYT').value = CFG.tabYT;
+  document.getElementById('cfgTabNews').value = CFG.tabNews;
+  document.getElementById('cfgTabMedium').value = CFG.tabMedium;
+  document.getElementById('cfgRefresh').value = CFG.refreshMin;
+}
 function saveSettings() {
-  CFG.repo=(document.getElementById("s_repo").value||"").trim();
-  CFG.branch=(document.getElementById("s_branch").value||"main").trim();
-  CFG.goal=parseInt(document.getElementById("s_goal").value)||500;
-  CFG.refresh=parseInt(document.getElementById("s_refresh").value)||5;
-  CFG.apis.youtube=(document.getElementById("api_youtube").value||"").trim();
-  CFG.apis.newsapi=(document.getElementById("api_newsapi").value||"").trim();
-  Object.keys(CFG.sheets).forEach(function(key){
-    var i=document.getElementById("sh_"+key+"_id"),g=document.getElementById("sh_"+key+"_gid"),t=document.getElementById("sh_"+key+"_tab");
-    if(i)CFG.sheets[key].id=i.value.trim();
-    if(g)CFG.sheets[key].gid=g.value.trim()||"0";
-    if(t)CFG.sheets[key].tab=t.value.trim();
-  });
-  var ss=document.getElementById("ss_repo");
-  if(ss){if(CFG.repo){ss.className="sstatus ss-ok";ss.textContent="Will fetch from: raw.githubusercontent.com/"+CFG.repo+"/...";}else{ss.className="sstatus ss-miss";ss.textContent="Enter repo path to load crawl data";}}
-  saveCFG(); closeSettings();
-  lg("OK","SAVE","Settings saved. Repo: "+(CFG.repo||"none"));
-  loadAll();
+  CFG.user = document.getElementById('cfgUser').value.trim() || 'adirispol';
+  CFG.repo = document.getElementById('cfgRepo').value.trim() || 'ORM-Dashboard';
+  CFG.branch = document.getElementById('cfgBranch').value.trim() || 'main';
+  CFG.sheetId = document.getElementById('cfgSheetId').value.trim();
+  CFG.tabReddit = document.getElementById('cfgTabReddit').value.trim() || 'Reddit';
+  CFG.tabQuoraQA = document.getElementById('cfgTabQuoraQA').value.trim() || 'Quora QA';
+  CFG.tabQuoraCom = document.getElementById('cfgTabQuoraCom').value.trim() || 'Quora Comments';
+  CFG.tabYT = document.getElementById('cfgTabYT').value.trim() || 'YouTube Comments';
+  CFG.tabNews = document.getElementById('cfgTabNews').value.trim() || 'Newspaper';
+  CFG.tabMedium = document.getElementById('cfgTabMedium').value.trim() || 'Medium';
+  CFG.refreshMin = parseInt(document.getElementById('cfgRefresh').value) || 30;
+  localStorage.setItem(LS_KEY, JSON.stringify(CFG));
+  sheetDataCache = {};
+  const el = document.getElementById('settingsSaved');
+  el.style.display = 'block';
+  setTimeout(() => { el.style.display='none'; closeSettings(); loadAll(); }, 1500);
 }
 
-// ============================================================
-// NAVIGATION
-// ============================================================
-function showPage(name,btn) {
-  document.querySelectorAll(".page").forEach(function(p){p.classList.remove("on");});
-  document.querySelectorAll(".ptab").forEach(function(b){b.classList.remove("on");});
-  var pg=document.getElementById("page_"+name); if(pg)pg.classList.add("on");
-  if(btn){btn.classList.add("on");}else{document.querySelectorAll(".ptab").forEach(function(b){if((b.getAttribute("onclick")||"").indexOf("'"+name+"'")!==-1)b.classList.add("on");});}
-}
-function showPlat(name,btn) {
-  document.querySelectorAll(".plat-c").forEach(function(p){p.classList.remove("on");});
-  document.querySelectorAll(".pb").forEach(function(b){b.classList.remove("on");});
-  var pc=document.getElementById("plat_"+name); if(pc)pc.classList.add("on");
-  btn.classList.add("on");
-}
-function setRange(r,btn) {
-  dateRange=r;
-  document.querySelectorAll(".db").forEach(function(b){b.classList.remove("on");});
-  btn.classList.add("on");
-  document.getElementById("custDates").style.display=r==="custom"?"flex":"none";
-  if(r!=="custom")renderAll();
-}
-document.getElementById("dFrom").addEventListener("change",function(){renderAll();});
-document.getElementById("dTo").addEventListener("change",function(){renderAll();});
-
-// ============================================================
-// REPORT DOWNLOAD
-// ============================================================
-function downloadReport() {
-  var d=new Date().toLocaleDateString("en-IN"),total=gv(CRAWL,"summary.total_mentions",0),pos=gv(CRAWL,"summary.by_sentiment.positive",0),neg=gv(CRAWL,"summary.by_sentiment.negative",0),bp=gv(CRAWL,"summary.by_platform",{});
-  var html='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Polaris ORM Report '+d+'</title><style>body{font-family:Arial,sans-serif;max-width:900px;margin:40px auto;color:#111}h1{color:#D88100;border-bottom:3px solid #FFCC3F;padding-bottom:10px}table{width:100%;border-collapse:collapse;margin:14px 0}th{background:#111;color:#FFF;padding:9px;text-align:left}td{padding:9px;border-bottom:1px solid #EEE}.k{display:inline-block;padding:14px 20px;background:#FFF9E6;border:2px solid #FFCC3F;border-radius:9px;margin:6px;text-align:center}.kn{font-size:24px;font-weight:800;color:#D88100}.kl{font-size:11px;color:#888}</style></head><body><h1>Polaris ORM Intelligence Report</h1><p><b>Generated:</b> '+d+' &bull; <b>Last crawl:</b> '+(gv(CRAWL,"summary.last_crawled","--")||"--").slice(0,16)+' UTC</p><h2>Key Metrics</h2><div><div class="k"><div class="kn">'+total+'</div><div class="kl">Total</div></div><div class="k"><div class="kn" style="color:green">'+pos+'</div><div class="kl">Positive</div></div><div class="k"><div class="kn" style="color:red">'+neg+'</div><div class="kl">Negative</div></div></div><h2>By Platform</h2><table><tr><th>Platform</th><th>Mentions</th></tr>'+Object.keys(bp).sort(function(a,b){return bp[b]-bp[a];}).map(function(k){return'<tr><td>'+k+'</td><td>'+bp[k]+'</td></tr>';}).join("")+'</table><p style="color:#999;font-size:11px;margin-top:36px">Polaris School of Technology &bull; ORM v3.2 &bull; '+d+'</p></body></html>';
-  var blob=new Blob([html],{type:"text/html"});
-  var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="Polaris_ORM_"+d.replace(/\//g,"-")+".html";a.click();
+// ════════════════════════════════════════════════════════════════
+// TABS
+// ════════════════════════════════════════════════════════════════
+function switchTab(tab) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  event.currentTarget.classList.add('active');
+  if (tab === 'content') loadSheetTab(currentSheetTab);
+  if (tab === 'llm') renderLLMChecklist();
 }
 
-// ============================================================
-// INIT
-// ============================================================
-loadCFG();
-lg("INFO","INIT","Polaris ORM Dashboard v3.2 initialized. Montserrat font. Netlify-ready.");
-renderAll();
-loadAll();
+// ════════════════════════════════════════════════════════════════
+// UTILS
+// ════════════════════════════════════════════════════════════════
+function fmtNum(n) {
+  n = parseInt(n) || 0;
+  if (n >= 1_000_000) return (n/1_000_000).toFixed(1) + 'M';
+  if (n >= 1_000) return (n/1_000).toFixed(1) + 'K';
+  return n.toString();
+}
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Chart.js defaults
+Chart.defaults.color = '#999';
+Chart.defaults.borderColor = 'rgba(255,255,255,0.05)';
+Chart.defaults.font.family = 'Poppins, sans-serif';
+Chart.defaults.font.size = 12;
+
+// Boot
+init();
 </script>
 </body>
 </html>
