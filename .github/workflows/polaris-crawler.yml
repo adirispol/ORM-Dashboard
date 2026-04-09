@@ -1,51 +1,38 @@
-name: Polaris Crawler
+name: Polaris ORM Crawler
 
 on:
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '0 * * * *'
+    - cron: '30 * * * *'
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['scripts/crawler.py']
+
+permissions:
+  contents: write
 
 jobs:
-  build:
+  crawl:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    timeout-minutes: 20
 
-      - name: Setup Python 3.11
-        uses: actions/setup-python@v5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install requests beautifulsoup4 lxml anthropic
+      # No pip install needed — crawler uses only Python stdlib
 
       - name: Run ORM Crawler
         run: python scripts/crawler.py
-        env:
-          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
-          GOOGLE_CX: ${{ secrets.GOOGLE_CX }}
-          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
 
-      - name: Commit crawled data
+      - name: Commit data
         run: |
           git config user.name "Polaris ORM Bot"
           git config user.email "orm@polariscampus.com"
-          
-          # Ensure directory exists even if script didn't create it
-          mkdir -p data
-          
-          # Add the whole directory; this won't crash if it's empty
           git add data/
-          
-          if git diff --staged --quiet; then
-            echo "No new data changes this run. Staying green."
-          else
-            # Extract BPS safely (Handle case where summary.json might be missing)
-            BPS=$(python3 -c "import json, os; p='data/summary.json'; d=json.load(open(p)) if os.path.exists(p) else {}; b=d.get('bps',{}); print(f\"{b.get('bps','?')}/100 ({b.get('grade','?')}) | {d.get('total_mentions','?')} mentions\")" 2>/dev/null || echo "Data Updated")
-            
-            git commit -m "ORM: ${BPS} - $(date -u +'%H:%M %d %b UTC')"
-            git push
-          fi
+          git diff --staged --quiet && echo "No changes" || \
+            git commit -m "ORM crawl $(date -u +'%H:%M %d %b')" && git push
