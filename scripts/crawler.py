@@ -216,11 +216,12 @@ def crawl_news():
     mentions = []
     seen = set()
 
+    _q1 = urllib.parse.quote('Polaris School of Technology')
+    _q2 = urllib.parse.quote('"Polaris School of Technology"')
     feeds = [
-        f"https://news.google.com/rss/search?q={urllib.parse.quote('Polaris School of Technology')}&hl=en-IN&gl=IN&ceid=IN:en",
-        query = urllib.parse.quote('"Polaris School of Technology"')
-        url = f"https://news.google.com/rss/search?q={query}&hl=en-IN&gl=IN&ceid=IN:en"
-        f"https://www.bing.com/news/search?q={urllib.parse.quote('Polaris School of Technology')}&format=rss",
+        f"https://news.google.com/rss/search?q={_q1}&hl=en-IN&gl=IN&ceid=IN:en",
+        f"https://news.google.com/rss/search?q={_q2}&hl=en-IN&gl=IN&ceid=IN:en",
+        f"https://www.bing.com/news/search?q={_q1}&format=rss",
     ]
 
     for feed_url in feeds:
