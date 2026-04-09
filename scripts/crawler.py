@@ -56,7 +56,10 @@ BRAND_QUERIES = [
     '"Polaris School of Technology" review',
     '"Polaris School of Technology" placement',
     '"Polaris School of Technology" BTech',
-    'PST Pune "industry integrated"',
+    'Polaris Campus"',
+    'Polaris"',
+    'PST"',
+    'Polaris Internship"',
 ]
 
 # 8 Bangalore/India BTech competitors
