@@ -218,7 +218,8 @@ def crawl_news():
 
     feeds = [
         f"https://news.google.com/rss/search?q={urllib.parse.quote('Polaris School of Technology')}&hl=en-IN&gl=IN&ceid=IN:en",
-        f"https://news.google.com/rss/search?q={urllib.parse.quote('\"Polaris School of Technology\"')}&hl=en-IN&gl=IN&ceid=IN:en",
+        query = urllib.parse.quote('"Polaris School of Technology"')
+        url = f"https://news.google.com/rss/search?q={query}&hl=en-IN&gl=IN&ceid=IN:en"
         f"https://www.bing.com/news/search?q={urllib.parse.quote('Polaris School of Technology')}&format=rss",
     ]
 
