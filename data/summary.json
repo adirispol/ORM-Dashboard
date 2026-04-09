@@ -1,30 +1,46 @@
 {
-  "last_crawled": "2026-04-09T12:28:12.567202+00:00",
-  "total_mentions": 83,
-  "total_impressions": 41500000,
-  "total_impressions_fmt": "41.5M",
+  "last_crawled": "2026-04-09T12:33:54.867584+00:00",
+  "total_mentions": 202,
+  "total_impressions": 41632400,
+  "total_impressions_fmt": "41.6M",
   "by_platform": {
-    "newspaper": 83
+    "newspaper": 83,
+    "quora": 28,
+    "medium": 25,
+    "youtube": 27,
+    "shiksha": 10,
+    "collegedunia": 10,
+    "careers360": 4,
+    "collegedekho": 10,
+    "web": 5
   },
   "by_sentiment": {
-    "positive": 2,
+    "positive": 13,
     "negative": 0,
-    "neutral": 75,
-    "mixed": 6
+    "neutral": 144,
+    "mixed": 45
   },
   "negative_alert_count": 0,
   "bps": {
-    "bps": 23.5,
-    "grade": "D",
-    "raw_score": 282.2,
+    "bps": 57.2,
+    "grade": "B",
+    "raw_score": 685.9,
     "target": 1200,
-    "total_mentions": 83,
-    "total_impressions": 41500000,
-    "total_impressions_fmt": "41.5M",
+    "total_mentions": 202,
+    "total_impressions": 41632400,
+    "total_impressions_fmt": "41.6M",
     "by_platform": {
-      "newspaper": 83
+      "newspaper": 83,
+      "quora": 28,
+      "medium": 25,
+      "youtube": 27,
+      "shiksha": 10,
+      "collegedunia": 10,
+      "careers360": 4,
+      "collegedekho": 10,
+      "web": 5
     },
-    "coverage_platforms": 1,
+    "coverage_platforms": 7,
     "coverage_total": 8,
     "formula": "Weighted by platform trust \u00d7 sentiment \u00d7 engagement | Coverage bonus",
     "grade_thresholds": {
@@ -34,22 +50,15 @@
       "C": 35,
       "D": 0
     },
-    "interpretation": "Brand barely visible online. Urgent action needed."
+    "interpretation": "Decent presence but patchy. Need consistent seeding."
   },
   "actionables": [
     {
       "priority": "HIGH",
       "platform": "Quora",
-      "action": "No Quora presence. Seed 3 questions and answer them.",
-      "why": "Quora is #1 source for BTech decision-making in India",
-      "content_idea": "'Is Polaris School of Technology good?' / 'PST Pune placement record?'"
-    },
-    {
-      "priority": "MEDIUM",
-      "platform": "Medium",
-      "action": "No Medium articles found. Publish 2 this month.",
-      "why": "Medium indexes fast and LLMs cite it frequently",
-      "content_idea": "'My BTech journey at Polaris School of Technology'"
+      "action": "28 Quora questions found. Answer unanswered ones.",
+      "why": "Each answer is passive SEO for admission keywords",
+      "content_idea": "300-word answer: story \u2192 curriculum \u2192 placement data \u2192 CTA"
     },
     {
       "priority": "MEDIUM",
@@ -75,34 +84,10 @@
       "aggregators",
       "web"
     ],
-    "sources_failed": [
-      "serper:no_key",
-      "serper:no_key",
-      "serper:no_key",
-      "serper:no_key",
-      "serper:no_key",
-      "serper:no_key",
-      "serper:no_key",
-      "serper:no_key",
-      "serper:no_key",
-      "serper:no_key",
-      "serper:no_key",
-      "serper:no_key",
-      "serper:no_key",
-      "serper:no_key",
-      "serper:no_key",
-      "serper:no_key",
-      "serper:no_key",
-      "serper:no_key",
-      "serper:no_key",
-      "serper:no_key",
-      "serper:no_key",
-      "serper:no_key",
-      "serper:no_key"
-    ],
+    "sources_failed": [],
     "errors": [],
     "warnings": [],
     "search_engine": "Serper.dev (Google Search API)",
-    "serper_key_present": false
+    "serper_key_present": true
   }
 }
