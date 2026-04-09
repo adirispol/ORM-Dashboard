@@ -13,7 +13,7 @@ QUERIES = [
     "Polaris vs Scaler School of Technology",
     "Polaris Campus",
     "Polaris",
-    Polaris Bangalore,
+    "Polaris Bangalore",
 ]
 
 DATA_DIR = Path("data")
