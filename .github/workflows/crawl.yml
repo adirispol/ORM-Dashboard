@@ -1,22 +1,13 @@
-name: Polaris ORM Crawler v8
+name: Polaris ORM Crawler
 
 on:
   schedule:
-    - cron: '0 * * * *'   # Every hour at :00
-    - cron: '30 * * * *'  # Every hour at :30
-  workflow_dispatch:       # Manual trigger from Actions tab
-  push:
-    branches: [main]
-    paths: ['scripts/crawler.py']
-
-permissions:
-  contents: write
+    - cron: '*/30 * * * *' # Runs every 30 minutes
+  workflow_dispatch: # Allows manual trigger
 
 jobs:
-  crawl:
+  build:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -26,10 +17,14 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4 lxml anthropic
+
       - name: Run ORM Crawler
-        run: python scripts/crawler.py
+        run: python crawler.py
         env:
-          # Add these in: Repo → Settings → Secrets and variables → Actions → New repository secret
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
           CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
@@ -38,20 +33,18 @@ jobs:
         run: |
           git config user.name "Polaris ORM Bot"
           git config user.email "orm@polariscampus.com"
-          git add data/*.json
+          
+          # Create data directory if it doesn't exist
+          mkdir -p data
+          
+          git add data/*.json || echo "No JSON files to add"
+          
           if git diff --staged --quiet; then
             echo "No new data changes this run"
           else
-            # Extract BPS score for commit message
-            BPS=$(python3 -c "
-import json
-try:
-    d = json.load(open('data/summary.json'))
-    bps = d.get('bps',{})
-    print(f\"BPS={bps.get('bps','?')}/100 ({bps.get('grade','?')}) | {d.get('total_mentions','?')} mentions\")
-except:
-    print('data updated')
-" 2>/dev/null || echo "data updated")
-            git commit -m "ORM: ${BPS} — $(date -u +'%H:%M %d %b UTC')"
+            # Extract BPS score for commit message using a safe one-liner
+            BPS=$(python3 -c "import json, os; path='data/summary.json'; d=json.load(open(path)) if os.path.exists(path) else {}; bps=d.get('bps',{}); print(f\"{bps.get('bps','?')}/100 ({bps.get('grade','?')}) | {d.get('total_mentions','?')} mentions\")" 2>/dev/null || echo "Data Updated")
+            
+            git commit -m "ORM: ${BPS} - $(date -u +'%H:%M %d %b UTC')"
             git push
           fi
