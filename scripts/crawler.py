@@ -401,7 +401,7 @@ def crawl_reddit():
     ]
     for query, sorts in searches:
         for sort in sorts:
-            url = (f"https://www.reddit.com/search.json?"
+            url = (f"https://api.pushshift.io/reddit/search/submission"
                    f"q={urllib.parse.quote(query)}&sort={sort}&limit=100&t=all")
             raw = fetch(url, ua=UA_DESK + " bot")
             if not raw: continue
@@ -446,7 +446,7 @@ def crawl_reddit():
             time.sleep(2)
 
     # Comments search
-    url = (f"https://www.reddit.com/search.json?"
+    url = (f"https://api.pushshift.io/reddit/search/submission"
            f'q={urllib.parse.quote(chr(34)+"Polaris School of Technology"+chr(34))}'
            f"&type=comment&sort=new&limit=100&t=all")
     raw = fetch(url)
