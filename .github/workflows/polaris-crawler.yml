@@ -25,9 +25,9 @@ jobs:
       - name: Run ORM Crawler
         run: python scripts/crawler.py
         env:
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          GOOGLE_CX: ${{ secrets.GOOGLE_CX }}
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
-          NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
-          CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
 
       - name: Commit crawled data
         run: |
