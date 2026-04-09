@@ -1,1 +1,197 @@
-
+{
+  "last_crawled": "2026-04-09T08:17:25.474107+00:00",
+  "total_mentions": 23,
+  "total_impressions": 17808000,
+  "total_impressions_fmt": "17.8M",
+  "by_platform": {
+    "newspaper": 13,
+    "quora": 10
+  },
+  "by_sentiment": {
+    "positive": 1,
+    "negative": 0,
+    "neutral": 19,
+    "mixed": 3
+  },
+  "by_category": {
+    "news": 13,
+    "discussion": 9,
+    "review": 1
+  },
+  "negative_alert_count": 0,
+  "bps": {
+    "bps": 5.4,
+    "grade": "D",
+    "raw_score": 64.8,
+    "target": 1200,
+    "total_mentions": 23,
+    "total_impressions": 17808000,
+    "total_impressions_fmt": "17.8M",
+    "by_platform": {
+      "newspaper": 13,
+      "quora": 10
+    },
+    "coverage_platforms": 2,
+    "coverage_total": 8,
+    "formula": "Weighted by platform trust × sentiment × engagement | Coverage bonus for multi-platform presence",
+    "grade_thresholds": {
+      "A+": 80,
+      "A": 65,
+      "B": 50,
+      "C": 35,
+      "D": 0
+    },
+    "interpretation": "Brand barely visible online. Urgent action needed."
+  },
+  "actionables": [
+    {
+      "priority": "HIGH",
+      "platform": "Quora",
+      "action": "10 Quora questions found. Answer unanswered ones first",
+      "why": "Quora answers rank on Google. Each answer is passive SEO for admission keywords",
+      "content_idea": "Write 300-word answer: personal story → curriculum → placement data → call to action",
+      "count": 10
+    },
+    {
+      "priority": "MEDIUM",
+      "platform": "Medium",
+      "action": "No Medium articles found. Publish 2 this month",
+      "why": "Medium articles index fast, rank for long-tail queries, and LLMs cite them",
+      "content_idea": "'My BTech journey at Polaris School of Technology' / 'How Polaris prepares you for AI roles'",
+      "count": 0
+    },
+    {
+      "priority": "MEDIUM",
+      "platform": "LLM/AEO",
+      "action": "Create Wikipedia page for Polaris School of Technology",
+      "why": "ChatGPT, Perplexity, Gemini pull from Wikipedia as primary citation",
+      "content_idea": "Draft: Founded year, programs (BTech Applied AI, PM&E, Cloud), AICTE recognition, campus, notable placements",
+      "count": 0
+    },
+    {
+      "priority": "MEDIUM",
+      "platform": "LLM/AEO",
+      "action": "Add Polaris to Wikidata and Crunchbase",
+      "why": "Wikidata feeds Google Knowledge Panel. Crunchbase feeds LLM training data",
+      "content_idea": "Add: institution name, website, location, programs, year founded",
+      "count": 0
+    },
+    {
+      "priority": "MEDIUM",
+      "platform": "ORM",
+      "action": "BPS Grade D — Increase content seeding across 3 platforms simultaneously",
+      "why": "Low ORM coverage means prospective students find nothing or find competitors",
+      "content_idea": "Run 30-day blitz: 3 Quora answers/week + 1 Reddit thread/week + 1 Medium article every 2 weeks",
+      "count": 0
+    }
+  ],
+  "yt_crawl_status": {
+    "videos_done": 0,
+    "videos_queued": 0,
+    "polaris_comments_found": 0,
+    "last_run": "Never"
+  },
+  "platform_groups": {
+    "content": {
+      "label": "Content Platforms",
+      "platforms": [
+        "reddit",
+        "quora",
+        "medium",
+        "youtube"
+      ],
+      "count": 10
+    },
+    "news": {
+      "label": "News & PR",
+      "platforms": [
+        "newspaper",
+        "news"
+      ],
+      "count": 13
+    },
+    "aggregators": {
+      "label": "College Portals",
+      "platforms": [
+        "shiksha",
+        "collegedunia",
+        "collegedekho",
+        "careers360",
+        "getmyuni",
+        "naukri"
+      ],
+      "count": 0
+    },
+    "social": {
+      "label": "Social Media",
+      "platforms": [
+        "linkedin",
+        "twitter",
+        "instagram"
+      ],
+      "count": 0
+    }
+  },
+  "diagnostics": {
+    "sources_attempted": [
+      "comp:jain_univ",
+      "agg:getmyuni",
+      "comp:rvce",
+      "comp:alliance_univ",
+      "comp:pes_univ",
+      "web",
+      "comp:bms_coe",
+      "quora",
+      "social:instagram",
+      "agg:shiksha",
+      "agg:collegedunia",
+      "agg:naukri",
+      "comp:newton_sot",
+      "comp:cmr_univ",
+      "social:linkedin",
+      "comp:scaler_sot",
+      "agg:careers360",
+      "medium",
+      "agg:collegedekho",
+      "social:twitter"
+    ],
+    "sources_ok": [
+      "competitors",
+      "quora",
+      "aggregators",
+      "social",
+      "youtube",
+      "web",
+      "news",
+      "reddit",
+      "medium"
+    ],
+    "sources_failed": [],
+    "errors": [],
+    "warnings": [
+      "HTTP 403: https://www.reddit.com/search.json?q=Polaris%20School%20of%20Technology&sort=rel",
+      "HTTP 403: https://www.reddit.com/search.json?q=Polaris%20School%20of%20Technology&sort=new",
+      "HTTP 403: https://www.reddit.com/search.json?q=Polaris%20School%20of%20Technology&sort=top",
+      "HTTP 403: https://www.reddit.com/search.json?q=Polaris%20School%20of%20Technology&sort=com",
+      "HTTP 403: https://www.reddit.com/search.json?q=PST%20Pune%20technology%20BTech&sort=releva",
+      "HTTP 403: https://www.reddit.com/search.json?q=PST%20Pune%20technology%20BTech&sort=new&li",
+      "HTTP 403: https://www.reddit.com/search.json?q=%22Polaris%20School%20of%20Technology%22&ty",
+      "[quora] 0 results for: \"Polaris School of Technology\"",
+      "[quora] 0 results for: Polaris School of Technology placement salary",
+      "[quora] 0 results for: Polaris School of Technology vs Scaler",
+      "[quora] 0 results for: PST Pune BTech admission fee",
+      "[medium] 0 results for: \"Polaris School of Technology\"",
+      "[medium] 0 results for: Polaris School Technology review experience BTech",
+      "[medium] 0 results for: Polaris School Technology placement career",
+      "HTTP 400: https://www.googleapis.com/youtube/v3/search?q=Polaris%20School%20of%20Technolog",
+      "HTTP 400: https://www.googleapis.com/youtube/v3/search?q=PST%20Pune%20BTech%20review%20cam",
+      "[agg:shiksha] 0 results for: \"Polaris School of Technology\"",
+      "[agg:shiksha] 0 results for: Polaris School Technology review placement",
+      "[agg:collegedunia] 0 results for: \"Polaris School of Technology\"",
+      "[agg:collegedunia] 0 results for: Polaris School Technology review placement"
+    ],
+    "claude_sentiment_active": false,
+    "youtube_api_active": true,
+    "newsapi_active": true
+  }
+}

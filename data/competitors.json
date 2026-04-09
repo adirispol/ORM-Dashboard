@@ -1,1 +1,117 @@
-
+{
+  "last_crawled": "2026-04-09T08:17:25.472672+00:00",
+  "competitors": {
+    "scaler_sot": {
+      "name": "Scaler School of Technology",
+      "key": "scaler_sot",
+      "total_mentions": 0,
+      "by_platform": {},
+      "by_sentiment": {
+        "positive": 0,
+        "negative": 0,
+        "neutral": 0,
+        "mixed": 0
+      },
+      "sentiment_score": 0.0,
+      "mentions": []
+    },
+    "newton_sot": {
+      "name": "Newton School of Technology",
+      "key": "newton_sot",
+      "total_mentions": 0,
+      "by_platform": {},
+      "by_sentiment": {
+        "positive": 0,
+        "negative": 0,
+        "neutral": 0,
+        "mixed": 0
+      },
+      "sentiment_score": 0.0,
+      "mentions": []
+    },
+    "pes_univ": {
+      "name": "PES University",
+      "key": "pes_univ",
+      "total_mentions": 0,
+      "by_platform": {},
+      "by_sentiment": {
+        "positive": 0,
+        "negative": 0,
+        "neutral": 0,
+        "mixed": 0
+      },
+      "sentiment_score": 0.0,
+      "mentions": []
+    },
+    "rvce": {
+      "name": "RVCE Bangalore",
+      "key": "rvce",
+      "total_mentions": 0,
+      "by_platform": {},
+      "by_sentiment": {
+        "positive": 0,
+        "negative": 0,
+        "neutral": 0,
+        "mixed": 0
+      },
+      "sentiment_score": 0.0,
+      "mentions": []
+    },
+    "bms_coe": {
+      "name": "BMS College of Engineering",
+      "key": "bms_coe",
+      "total_mentions": 0,
+      "by_platform": {},
+      "by_sentiment": {
+        "positive": 0,
+        "negative": 0,
+        "neutral": 0,
+        "mixed": 0
+      },
+      "sentiment_score": 0.0,
+      "mentions": []
+    },
+    "alliance_univ": {
+      "name": "Alliance University",
+      "key": "alliance_univ",
+      "total_mentions": 0,
+      "by_platform": {},
+      "by_sentiment": {
+        "positive": 0,
+        "negative": 0,
+        "neutral": 0,
+        "mixed": 0
+      },
+      "sentiment_score": 0.0,
+      "mentions": []
+    },
+    "jain_univ": {
+      "name": "Jain University",
+      "key": "jain_univ",
+      "total_mentions": 0,
+      "by_platform": {},
+      "by_sentiment": {
+        "positive": 0,
+        "negative": 0,
+        "neutral": 0,
+        "mixed": 0
+      },
+      "sentiment_score": 0.0,
+      "mentions": []
+    },
+    "cmr_univ": {
+      "name": "CMR University",
+      "key": "cmr_univ",
+      "total_mentions": 0,
+      "by_platform": {},
+      "by_sentiment": {
+        "positive": 0,
+        "negative": 0,
+        "neutral": 0,
+        "mixed": 0
+      },
+      "sentiment_score": 0.0,
+      "mentions": []
+    }
+  }
+}
