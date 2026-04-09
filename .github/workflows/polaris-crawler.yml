@@ -1,13 +1,9 @@
-name: Polaris ORM Crawler
+name: ORM Crawler
 
 on:
   schedule:
-    - cron: '0 * * * *'
-    - cron: '30 * * * *'
-  workflow_dispatch:
-  push:
-    branches: [main]
-    paths: ['scripts/crawler.py']
+    - cron: '0 2 * * *'   # Runs daily at 2AM UTC (7:30 AM IST)
+  workflow_dispatch:        # Allows manual trigger from GitHub Actions tab
 
 permissions:
   contents: write
@@ -15,24 +11,33 @@ permissions:
 jobs:
   crawl:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0    # Full history needed to avoid push conflicts
 
-      - uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      # No pip install needed — crawler uses only Python stdlib
-
       - name: Run ORM Crawler
+        env:
+          SERPER_API_KEY: ${{ secrets.SERPER_API_KEY }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          GOOGLE_CX: ${{ secrets.GOOGLE_CX }}
+          NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: python scripts/crawler.py
 
       - name: Commit data
         run: |
           git config user.name "Polaris ORM Bot"
-          git config user.email "orm@polariscampus.com"
+          git config user.email "actions@github.com"
           git add data/
-          git diff --staged --quiet && echo "No changes" || \
-            git commit -m "ORM crawl $(date -u +'%H:%M %d %b')" && git push
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          git commit -m "ORM crawl $(date +'%H:%M %d %b')"
+          git pull --rebase origin main
+          git push origin main
