@@ -1,116 +1,12 @@
 {
-  "crawled_at": "2026-04-10T11:04:15.946605+00:00",
-  "bps": {
-    "bps": 12.0,
-    "grade": "D",
-    "raw_score": 143.7,
-    "total_mentions": 111,
-    "total_impressions": 253500,
-    "total_impressions_fmt": "253.5K",
-    "positive_mentions": 40,
-    "negative_mentions": 1,
-    "neutral_mentions": 70,
-    "by_platform": {
-      "quora": 45,
-      "medium": 18,
-      "portal": 41,
-      "web": 7
-    },
-    "coverage_platforms": 2,
-    "coverage_total": 8,
-    "grade_thresholds": {
-      "A+": 80,
-      "A": 65,
-      "B": 50,
-      "C": 35,
-      "D": 0
-    },
-    "interpretation": "Brand barely visible online. Urgent action needed."
+  "total_mentions": 38,
+  "platforms": {
+    "web": 38
   },
-  "total_mentions": 111,
-  "total_impressions": 253500,
-  "total_impressions_fmt": "253.5K",
-  "sentiment_breakdown": {
-    "positive": 40,
-    "neutral": 70,
+  "sentiment": {
+    "neutral": 37,
     "negative": 1
   },
-  "by_platform": {
-    "quora": 45,
-    "medium": 18,
-    "portal": 41,
-    "web": 7
-  },
-  "actionables": [
-    {
-      "priority": "URGENT",
-      "platform": "All",
-      "action": "Respond to 1 negative mention(s) found online",
-      "why": "Negative content damages admission inquiries",
-      "content_idea": "Write a factual, empathetic response. State facts, invite DM.",
-      "urls": [
-        "https://www.glassdoor.com/Reviews/Employee-Review-JPMorganChase-E5224839-RVW101958747.htm"
-      ]
-    },
-    {
-      "priority": "HIGH",
-      "platform": "Reddit",
-      "action": "Increase Reddit presence \u2014 only 0 posts found",
-      "why": "Reddit is heavily indexed by LLMs (ChatGPT, Perplexity)",
-      "content_idea": "Seed 3 Q/week in r/Indian_Academia, r/indianstudents, r/bangalore",
-      "urls": []
-    },
-    {
-      "priority": "MEDIUM",
-      "platform": "Quora + Reddit",
-      "action": "Seed Polaris vs Scaler / Newton comparison content",
-      "why": "Comparison queries are the #1 admission research query type",
-      "content_idea": "Neutral comparisons highlighting PST strengths: AI focus, Bangalore, placements",
-      "urls": []
-    },
-    {
-      "priority": "MEDIUM",
-      "platform": "LLM/AEO",
-      "action": "Ensure PST appears in LLM responses for \"best BTech colleges 2025\"",
-      "why": "45% of students use AI chatbots for college research",
-      "content_idea": "Create llms.txt, Wikipedia page, structured schema on polariscampus.com",
-      "urls": []
-    }
-  ],
-  "diagnostics": {
-    "ok": [
-      "reddit",
-      "news",
-      "quora",
-      "medium",
-      "youtube",
-      "portals",
-      "web"
-    ],
-    "failed": [],
-    "errors": [
-      "fetch failed: https://www.reddit.com/search.json?q=%22Polaris%20School%20of%20Technology%22&so",
-      "fetch failed: https://www.reddit.com/search.json?q=%22Polaris%20School%20of%20Technology%22&so",
-      "fetch failed: https://www.reddit.com/search.json?q=%22Polaris%20School%20of%20Technology%22&so",
-      "fetch failed: https://www.reddit.com/search.json?q=%22Polaris%20School%20of%20Technology%22%20",
-      "fetch failed: https://www.reddit.com/search.json?q=%22Polaris%20School%20of%20Technology%22%20",
-      "fetch failed: https://www.reddit.com/search.json?q=%22Polaris%20School%20of%20Technology%22%20",
-      "fetch failed: https://www.reddit.com/search.json?q=%22Polaris%20School%20of%20Technology%22%20",
-      "fetch failed: https://www.reddit.com/search.json?q=%22Polaris%20School%20of%20Technology%22%20",
-      "fetch failed: https://www.reddit.com/search.json?q=%22Polaris%20School%20of%20Technology%22%20",
-      "fetch failed: https://www.reddit.com/search.json?q=%22Polaris%20Campus%22&sort=relevance&limit",
-      "fetch failed: https://www.reddit.com/search.json?q=%22Polaris%20Campus%22&sort=new&limit=100&t",
-      "fetch failed: https://www.reddit.com/search.json?q=%22Polaris%20Campus%22&sort=top&limit=100&t",
-      "fetch failed: https://medium.com/tag/polaris-school-of-technology/feed",
-      "fetch failed: https://medium.com/tag/btech-india/feed",
-      "fetch failed: https://medium.com/tag/applied-ai-engineering/feed",
-      "fetch failed: https://www.googleapis.com/youtube/v3/search?part=snippet&q=Polaris%20School%20o",
-      "fetch failed: https://www.googleapis.com/youtube/v3/search?part=snippet&q=Polaris%20Campus%20B",
-      "fetch failed: https://www.googleapis.com/youtube/v3/search?part=snippet&q=Polaris%20School%20o",
-      "fetch failed: https://www.googleapis.com/youtube/v3/search?part=snippet&q=Polaris%20Campus%20B"
-    ]
-  },
-  "serper_key_present": true,
-  "youtube_api_present": true,
-  "newsapi_present": true
+  "impressions": 38000,
+  "last_updated": "2026-04-10T11:31:13.221641+00:00"
 }
