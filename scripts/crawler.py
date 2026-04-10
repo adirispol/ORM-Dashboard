@@ -1,225 +1,243 @@
 import os
 import json
 import time
-import requests
-import snscrape.modules.reddit as sreddit
+import urllib.request
+import urllib.parse
 from datetime import datetime, timezone
 from collections import Counter
 
-SERPER_API_KEY = os.getenv("SERPER_API_KEY")
-YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
+# ================= CONFIG ================= #
+
+SERPER_API_KEY = os.getenv("SERPER_API_KEY", "")
+YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY", "")
 
 BRAND_QUERIES = [
     "Polaris School of Technology",
     "Polaris Campus",
     "Polaris BTech AI",
+    "PST Bangalore"
     "Polaris",
-    "PST"
 ]
 
-MAX_TOTAL = 300
-
-# ---------------- HELPERS ---------------- #
+# ================= HELPERS ================= #
 
 def now():
     return datetime.now(timezone.utc).isoformat()
 
+def fetch_json(url, headers=None):
+    try:
+        req = urllib.request.Request(url)
+        if headers:
+            for k, v in headers.items():
+                req.add_header(k, v)
+        with urllib.request.urlopen(req, timeout=20) as res:
+            return json.loads(res.read().decode())
+    except:
+        return None
+
+def post_json(url, payload, headers=None):
+    try:
+        data = json.dumps(payload).encode()
+        req = urllib.request.Request(url, data=data, method="POST")
+        if headers:
+            for k, v in headers.items():
+                req.add_header(k, v)
+        with urllib.request.urlopen(req, timeout=20) as res:
+            return json.loads(res.read().decode())
+    except:
+        return None
+
 def sentiment(text):
-    text = text.lower()
-    if any(x in text for x in ["scam", "fake", "bad", "worst"]):
+    t = text.lower()
+    if any(x in t for x in ["scam","fake","bad","worst"]):
         return "negative"
-    if any(x in text for x in ["good", "great", "best", "awesome"]):
+    if any(x in t for x in ["good","great","best","awesome"]):
         return "positive"
     return "neutral"
 
-def score(s):
-    return {"positive": 1, "neutral": 0, "negative": -1}[s]
+def sentiment_score(s):
+    return {"positive":1,"neutral":0,"negative":-1}[s]
 
-# ---------------- REDDIT (SNSCRAPE) ---------------- #
+# ================= SERPER CORE ================= #
 
-def crawl_reddit():
-    print("🟠 Reddit via snscrape...")
+def serper_search(query):
+    if not SERPER_API_KEY:
+        return []
+
+    url = "https://google.serper.dev/search"
+    headers = {"X-API-KEY": SERPER_API_KEY}
+    payload = {"q": query, "num": 10}
+
+    res = post_json(url, payload, headers)
+    if not res:
+        return []
+
+    return res.get("organic", [])
+
+def build_mentions(results, platform):
+    mentions = []
+
+    for r in results[:MAX_LINKS_PER_PLATFORM]:
+        title = r.get("title", "")
+        link = r.get("link", "")
+
+        s = sentiment(title)
+
+        mentions.append({
+            "platform": platform,
+            "text": title,
+            "url": link,
+            "date": now(),
+            "sentiment": s,
+            "score": sentiment_score(s),
+            "impressions": 1000
+        })
+
+    return mentions
+
+# ================= PLATFORM CRAWLERS ================= #
+
+def crawl_quora():
+    print("❓ Quora...")
     data = []
 
-    for query in BRAND_QUERIES:
-        try:
-            scraper = sreddit.RedditSearchScraper(query)
+    for q in BRAND_QUERIES:
+        results = serper_search(f'site:quora.com "{q}"')
+        data += build_mentions(results, "quora")
+        time.sleep(1)
 
-            for i, post in enumerate(scraper.get_items()):
-                if i > 50:
-                    break
-
-                text = f"{post.title} {post.selftext}"
-                s = sentiment(text)
-
-                data.append({
-                    "platform": "reddit",
-                    "text": text[:200],
-                    "url": post.url,
-                    "date": post.date.isoformat(),
-                    "sentiment": s,
-                    "score": score(s),
-                    "impressions": post.score * 20 if post.score else 100
-                })
-
-                if len(data) >= MAX_TOTAL:
-                    return data
-
-        except Exception as e:
-            print("Reddit error:", e)
-
-    print(f"   → {len(data)} posts")
+    print(f"   → {len(data)} mentions")
     return data
 
-# ---------------- YOUTUBE ---------------- #
+def crawl_reddit():
+    print("🟠 Reddit (via Serper)...")
+    data = []
 
-def fetch_comments(video_id):
-    comments = []
+    for q in BRAND_QUERIES:
+        results = serper_search(f'site:reddit.com "{q}"')
+        data += build_mentions(results, "reddit")
+        time.sleep(1)
 
-    url = "https://www.googleapis.com/youtube/v3/commentThreads"
-    params = {
-        "part": "snippet",
-        "videoId": video_id,
-        "key": YOUTUBE_API_KEY,
-        "maxResults": 10
-    }
+    print(f"   → {len(data)} mentions")
+    return data
 
-    try:
-        res = requests.get(url, params=params)
-        if res.status_code != 200:
-            return comments
+def crawl_medium():
+    print("📝 Medium...")
+    data = []
 
-        for item in res.json().get("items", []):
-            c = item["snippet"]["topLevelComment"]["snippet"]
-            text = c["textDisplay"]
-            s = sentiment(text)
+    for q in BRAND_QUERIES:
+        results = serper_search(f'site:medium.com "{q}"')
+        data += build_mentions(results, "medium")
+        time.sleep(1)
 
-            comments.append({
-                "platform": "youtube_comment",
-                "text": text[:200],
-                "url": f"https://youtube.com/watch?v={video_id}",
-                "date": c["publishedAt"],
-                "sentiment": s,
-                "score": score(s),
-                "impressions": 50
-            })
-    except:
-        pass
+    print(f"   → {len(data)} mentions")
+    return data
 
-    return comments
+def crawl_portals():
+    print("🏛 Portals...")
+    data = []
 
+    portals = [
+        "shiksha.com",
+        "collegedunia.com",
+        "careers360.com"
+    ]
+
+    for site in portals:
+        for q in BRAND_QUERIES:
+            results = serper_search(f'site:{site} "{q}"')
+            data += build_mentions(results, "portal")
+            time.sleep(1)
+
+    print(f"   → {len(data)} mentions")
+    return data
+
+def crawl_web():
+    print("🌐 Web...")
+    data = []
+
+    for q in BRAND_QUERIES:
+        results = serper_search(q)
+        data += build_mentions(results, "web")
+        time.sleep(1)
+
+    print(f"   → {len(data)} mentions")
+    return data
+
+# ================= YOUTUBE ================= #
 
 def crawl_youtube():
     print("▶ YouTube...")
     data = []
 
     if not YOUTUBE_API_KEY:
+        print("   ⚠ No API key")
         return data
 
-    for query in BRAND_QUERIES:
-        try:
-            url = "https://www.googleapis.com/youtube/v3/search"
-            params = {
-                "part": "snippet",
-                "q": query,
-                "key": YOUTUBE_API_KEY,
-                "maxResults": 10,
-                "type": "video"
-            }
+    video_ids = []
 
-            res = requests.get(url, params=params)
-            if res.status_code != 200:
-                continue
+    # search videos
+    for q in BRAND_QUERIES:
+        url = (
+            "https://www.googleapis.com/youtube/v3/search?"
+            f"part=snippet&q={urllib.parse.quote(q)}"
+            f"&type=video&maxResults=10&key={YOUTUBE_API_KEY}"
+        )
 
-            for item in res.json().get("items", []):
-                vid = item["id"]["videoId"]
-                title = item["snippet"]["title"]
-                s = sentiment(title)
-
-                data.append({
-                    "platform": "youtube",
-                    "text": title,
-                    "url": f"https://youtube.com/watch?v={vid}",
-                    "date": item["snippet"]["publishedAt"],
-                    "sentiment": s,
-                    "score": score(s),
-                    "impressions": 5000
-                })
-
-                data += fetch_comments(vid)
-
-                if len(data) >= MAX_TOTAL:
-                    return data
-
-        except:
+        res = fetch_json(url)
+        if not res:
             continue
 
-    print(f"   → {len(data)} items")
+        for item in res.get("items", []):
+            vid = item["id"]["videoId"]
+            title = item["snippet"]["title"]
+
+            video_ids.append(vid)
+
+            s = sentiment(title)
+
+            data.append({
+                "platform": "youtube",
+                "text": title,
+                "url": f"https://youtube.com/watch?v={vid}",
+                "date": item["snippet"]["publishedAt"],
+                "sentiment": s,
+                "score": sentiment_score(s),
+                "impressions": 0
+            })
+
+        time.sleep(1)
+
+    # get comment counts
+    if video_ids:
+        ids = ",".join(video_ids[:50])
+        stats_url = (
+            "https://www.googleapis.com/youtube/v3/videos?"
+            f"part=statistics&id={ids}&key={YOUTUBE_API_KEY}"
+        )
+
+        stats = fetch_json(stats_url)
+        if stats:
+            for i, item in enumerate(stats.get("items", [])):
+                count = int(item["statistics"].get("commentCount", 0))
+                if i < len(data):
+                    data[i]["impressions"] = count
+
+    print(f"   → {len(data)} videos")
     return data
 
-# ---------------- WEB ---------------- #
-
-def crawl_web():
-    print("🌐 Web (Serper)...")
-    data = []
-
-    if not SERPER_API_KEY:
-        return data
-
-    for query in BRAND_QUERIES:
-        try:
-            res = requests.post(
-                "https://google.serper.dev/search",
-                headers={"X-API-KEY": SERPER_API_KEY},
-                json={"q": query}
-            )
-
-            if res.status_code != 200:
-                continue
-
-            for r in res.json().get("organic", [])[:10]:
-                link = r.get("link", "")
-                text = r.get("title", "")
-                s = sentiment(text)
-
-                platform = "web"
-                if "quora.com" in link:
-                    platform = "quora"
-                elif "medium.com" in link:
-                    platform = "medium"
-
-                data.append({
-                    "platform": platform,
-                    "text": text,
-                    "url": link,
-                    "date": now(),
-                    "sentiment": s,
-                    "score": score(s),
-                    "impressions": 1000
-                })
-
-                if len(data) >= MAX_TOTAL:
-                    return data
-
-        except:
-            continue
-
-    print(f"   → {len(data)} results")
-    return data
-
-# ---------------- MAIN ---------------- #
+# ================= MAIN ================= #
 
 def main():
     print("🚀 Running ORM crawler...")
 
     all_data = []
     all_data += crawl_reddit()
-    all_data += crawl_youtube()
+    all_data += crawl_quora()
+    all_data += crawl_medium()
+    all_data += crawl_portals()
     all_data += crawl_web()
-
-    # Deduplicate
-    unique = {x["url"] + x["text"]: x for x in all_data}
-    all_data = list(unique.values())
+    all_data += crawl_youtube()
 
     total = len(all_data)
     sentiments = Counter([x["sentiment"] for x in all_data])
@@ -228,8 +246,8 @@ def main():
 
     summary = {
         "total_mentions": total,
-        "platforms": dict(platforms),
-        "sentiment": dict(sentiments),
+        "platforms": platforms,
+        "sentiment": sentiments,
         "impressions": impressions,
         "last_updated": now()
     }
@@ -242,8 +260,10 @@ def main():
     with open("data/summary.json", "w") as f:
         json.dump(summary, f, indent=2)
 
-    print("✅ DONE")
+    print("\n✅ DONE")
     print("Mentions:", total)
+    print("Impressions:", impressions)
+
 
 if __name__ == "__main__":
     main()
