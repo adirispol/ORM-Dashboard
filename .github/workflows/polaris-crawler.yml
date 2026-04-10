@@ -2,42 +2,38 @@ name: ORM Crawler
 
 on:
   schedule:
-    - cron: '0 2 * * *'   # Runs daily at 2AM UTC (7:30 AM IST)
-  workflow_dispatch:        # Allows manual trigger from GitHub Actions tab
-
-permissions:
-  contents: write
+    - cron: "0 * * * *"
+  workflow_dispatch:
 
 jobs:
-  crawl:
+  run:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0    # Full history needed to avoid push conflicts
+        uses: actions/checkout@v3
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
-      - name: Run ORM Crawler
+      # 🔥 THIS IS THE FIX
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Run crawler
         env:
           SERPER_API_KEY: ${{ secrets.SERPER_API_KEY }}
-          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
-          GOOGLE_CX: ${{ secrets.GOOGLE_CX }}
-          NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: python scripts/crawler.py
 
-      - name: Commit data
+      - name: Push data
         run: |
-          git config user.name "Polaris ORM Bot"
-          git config user.email "actions@github.com"
+          git config --global user.name "bot"
+          git config --global user.email "bot@github.com"
           git add data/
-          git diff --cached --quiet && echo "No changes to commit" && exit 0
-          git commit -m "ORM crawl $(date +'%H:%M %d %b')"
-          git pull --rebase origin main
-          git push origin main
+          git commit -m "update data" || echo "no change"
+          git push
