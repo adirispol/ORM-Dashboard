@@ -1,15 +1,15 @@
 {
-  "total_mentions": 39,
+  "total_mentions": 41,
   "platforms": {
-    "web": 36,
-    "medium": 1,
+    "web": 37,
+    "medium": 2,
     "quora": 2
   },
   "sentiment": {
-    "neutral": 36,
+    "neutral": 38,
     "negative": 2,
     "positive": 1
   },
-  "impressions": 39000,
-  "last_updated": "2026-04-10T11:51:15.608990+00:00"
+  "impressions": 41000,
+  "last_updated": "2026-04-10T12:20:38.649907+00:00"
 }
