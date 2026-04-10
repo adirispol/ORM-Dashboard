@@ -530,7 +530,7 @@ async function fetchData() {
     const table = document.getElementById("mentionsTable");
     table.innerHTML = "";
 
-    // ================= PLATFORM COUNT FIX =================
+// ================= PLATFORM COUNT FIX =================
 
 const platformCounts = {
   reddit: 0,
@@ -542,6 +542,7 @@ const platformCounts = {
   web: 0
 };
 
+// COUNT ONLY ONCE ✅
 mentions.forEach(m => {
   const p = (m.platform || "").toLowerCase();
 
@@ -554,7 +555,7 @@ mentions.forEach(m => {
   else platformCounts.web++;
 });
 
-// UPDATE UI
+// UPDATE UI ONLY ONCE ✅
 document.getElementById("redditScore").innerText = platformCounts.reddit;
 document.getElementById("quoraMentions").innerText = platformCounts.quora;
 document.getElementById("youtubeViews").innerText = platformCounts.youtube;
