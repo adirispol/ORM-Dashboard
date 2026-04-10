@@ -16,38 +16,14 @@ BRAND_QUERIES = [
     "Polaris Campus",
     "Polaris BTech AI",
     "PST Bangalore"
-    "Polaris",
 ]
 
-MAX_LINKS_PER_PLATFORM = 300
+MAX_LINKS_PER_PLATFORM = 30
 
 # ================= HELPERS ================= #
 
 def now():
     return datetime.now(timezone.utc).isoformat()
-
-def fetch_json(url, headers=None):
-    try:
-        req = urllib.request.Request(url)
-        if headers:
-            for k, v in headers.items():
-                req.add_header(k, v)
-        with urllib.request.urlopen(req, timeout=20) as res:
-            return json.loads(res.read().decode())
-    except:
-        return None
-
-def post_json(url, payload, headers=None):
-    try:
-        data = json.dumps(payload).encode()
-        req = urllib.request.Request(url, data=data, method="POST")
-        if headers:
-            for k, v in headers.items():
-                req.add_header(k, v)
-        with urllib.request.urlopen(req, timeout=20) as res:
-            return json.loads(res.read().decode())
-    except:
-        return None
 
 def sentiment(text):
     t = text.lower()
@@ -60,21 +36,37 @@ def sentiment(text):
 def sentiment_score(s):
     return {"positive":1,"neutral":0,"negative":-1}[s]
 
-# ================= SERPER CORE ================= #
+# ================= SERPER FIXED ================= #
 
 def serper_search(query):
     if not SERPER_API_KEY:
+        print("❌ SERPER KEY MISSING")
         return []
 
     url = "https://google.serper.dev/search"
-    headers = {"X-API-KEY": SERPER_API_KEY}
-    payload = {"q": query, "num": 10}
 
-    res = post_json(url, payload, headers)
-    if not res:
+    headers = {
+        "X-API-KEY": SERPER_API_KEY,
+        "Content-Type": "application/json"
+    }
+
+    payload = json.dumps({
+        "q": query,
+        "gl": "in",
+        "hl": "en",
+        "num": 10
+    }).encode("utf-8")
+
+    try:
+        req = urllib.request.Request(url, data=payload, headers=headers, method="POST")
+        with urllib.request.urlopen(req, timeout=20) as res:
+            data = json.loads(res.read().decode())
+            results = data.get("organic", [])
+            print(f"DEBUG SERPER: {query} → {len(results)} results")
+            return results
+    except Exception as e:
+        print("❌ Serper error:", e)
         return []
-
-    return res.get("organic", [])
 
 def build_mentions(results, platform):
     mentions = []
@@ -97,53 +89,42 @@ def build_mentions(results, platform):
 
     return mentions
 
-# ================= PLATFORM CRAWLERS ================= #
+# ================= PLATFORMS ================= #
 
 def crawl_quora():
-    print("❓ Quora...")
+    print("\n❓ Quora...")
     data = []
-
     for q in BRAND_QUERIES:
         results = serper_search(f'site:quora.com "{q}"')
         data += build_mentions(results, "quora")
         time.sleep(1)
-
     print(f"   → {len(data)} mentions")
     return data
 
 def crawl_reddit():
-    print("🟠 Reddit (via Serper)...")
+    print("\n🟠 Reddit...")
     data = []
-
     for q in BRAND_QUERIES:
         results = serper_search(f'site:reddit.com "{q}"')
         data += build_mentions(results, "reddit")
         time.sleep(1)
-
     print(f"   → {len(data)} mentions")
     return data
 
 def crawl_medium():
-    print("📝 Medium...")
+    print("\n📝 Medium...")
     data = []
-
     for q in BRAND_QUERIES:
         results = serper_search(f'site:medium.com "{q}"')
         data += build_mentions(results, "medium")
         time.sleep(1)
-
     print(f"   → {len(data)} mentions")
     return data
 
 def crawl_portals():
-    print("🏛 Portals...")
+    print("\n🏛 Portals...")
     data = []
-
-    portals = [
-        "shiksha.com",
-        "collegedunia.com",
-        "careers360.com"
-    ]
+    portals = ["shiksha.com", "collegedunia.com", "careers360.com"]
 
     for site in portals:
         for q in BRAND_QUERIES:
@@ -155,30 +136,34 @@ def crawl_portals():
     return data
 
 def crawl_web():
-    print("🌐 Web...")
+    print("\n🌐 Web...")
     data = []
-
     for q in BRAND_QUERIES:
         results = serper_search(q)
         data += build_mentions(results, "web")
         time.sleep(1)
-
     print(f"   → {len(data)} mentions")
     return data
 
 # ================= YOUTUBE ================= #
 
+def fetch_json(url):
+    try:
+        with urllib.request.urlopen(url, timeout=20) as res:
+            return json.loads(res.read().decode())
+    except:
+        return None
+
 def crawl_youtube():
-    print("▶ YouTube...")
+    print("\n▶ YouTube...")
     data = []
 
     if not YOUTUBE_API_KEY:
-        print("   ⚠ No API key")
+        print("⚠ YOUTUBE KEY MISSING")
         return data
 
     video_ids = []
 
-    # search videos
     for q in BRAND_QUERIES:
         url = (
             "https://www.googleapis.com/youtube/v3/search?"
@@ -210,7 +195,7 @@ def crawl_youtube():
 
         time.sleep(1)
 
-    # get comment counts
+    # fetch comment counts
     if video_ids:
         ids = ",".join(video_ids[:50])
         stats_url = (
@@ -231,7 +216,10 @@ def crawl_youtube():
 # ================= MAIN ================= #
 
 def main():
-    print("🚀 Running ORM crawler...")
+    print("🚀 Running ORM crawler...\n")
+
+    print("SERPER:", "OK" if SERPER_API_KEY else "MISSING")
+    print("YOUTUBE:", "OK" if YOUTUBE_API_KEY else "MISSING")
 
     all_data = []
     all_data += crawl_reddit()
