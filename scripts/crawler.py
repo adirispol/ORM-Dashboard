@@ -18,7 +18,7 @@ BRAND_QUERIES = [
     "PST Bangalore"
 ]
 
-MAX_LINKS_PER_PLATFORM = 3000
+MAX_LINKS_PER_PLATFORM = 5000
 
 # ================= HELPERS ================= #
 
