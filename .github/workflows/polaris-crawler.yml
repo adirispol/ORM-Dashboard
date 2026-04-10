@@ -10,13 +10,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
-      - uses: actions/setup-python@v4
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
           python-version: "3.11"
 
-      - run: |
+      - name: Install dependencies
+        run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
@@ -26,51 +29,10 @@ jobs:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: python scripts/crawler.py
 
-      - name: Push data
+      - name: Commit & Push data
         run: |
           git config --global user.name "bot"
           git config --global user.email "bot@github.com"
           git add data/
-          git commit -m "update data" || echo "no change"
-          git pushname: ORM Full Crawler
-
-on:
-  schedule:
-    - cron: "0 * * * *"
-  workflow_dispatch:
-
-jobs:
-  run:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
-
-      - name: Install deps
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Run Main Crawler
-        env:
-          SERPER_API_KEY: ${{ secrets.SERPER_API_KEY }}
-          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
-        run: python scripts/crawler.py
-
-      - name: Run Reddit
-        env:
-          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
-          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
-        run: python scripts/reddit_crawler.py
-
-      - name: Push data
-        run: |
-          git config --global user.name "bot"
-          git config --global user.email "bot@github.com"
-          git add data/
-          git commit -m "update data" || echo "no change"
+          git commit -m "auto update data" || echo "no changes"
           git push
