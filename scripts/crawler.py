@@ -1,46 +1,32 @@
 import os
 import json
-import time
 import requests
 from datetime import datetime, timezone
 from collections import Counter
 
-# Optional APIs
+# ---------------- CONFIG ---------------- #
+
 SERPER_API_KEY = os.getenv("SERPER_API_KEY")
 YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
-
-# Reddit (PRAW)
-import praw
-
-# ---------------- CONFIG ---------------- #
 
 BRAND_QUERIES = [
     "Polaris School of Technology",
     "Polaris Campus",
-    "Polaris BTech AI"
-    "Polaris"
+    "Polaris BTech AI",
+    "Polaris",
     "PST"
 ]
 
-MAX_RESULTS = 25
+MAX_RESULTS = 10
 
 # ---------------- HELPERS ---------------- #
 
 def now():
     return datetime.now(timezone.utc).isoformat()
 
-def safe_request(url, params=None):
-    try:
-        res = requests.get(url, params=params, timeout=10)
-        if res.status_code != 200:
-            return None
-        return res.json()
-    except:
-        return None
-
 def sentiment(text):
     text = text.lower()
-    if any(x in text for x in ["bad", "worst", "fake", "scam"]):
+    if any(x in text for x in ["scam", "fake", "bad", "worst"]):
         return "negative"
     if any(x in text for x in ["good", "great", "best", "awesome"]):
         return "positive"
@@ -49,38 +35,71 @@ def sentiment(text):
 def sentiment_score(s):
     return {"positive": 1, "neutral": 0, "negative": -1}[s]
 
-# ---------------- REDDIT ---------------- #
+def safe_get(url):
+    try:
+        r = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
+        if r.status_code == 200:
+            return r
+    except:
+        return None
+
+# ---------------- REDDIT HYBRID ---------------- #
 
 def crawl_reddit():
-    print("🟠 Reddit...")
+    print("🟠 Reddit (Hybrid)...")
     data = []
 
-    try:
-        reddit = praw.Reddit(
-            client_id=os.getenv("REDDIT_CLIENT_ID"),
-            client_secret=os.getenv("REDDIT_CLIENT_SECRET"),
-            user_agent="orm-dashboard"
-        )
+    if not SERPER_API_KEY:
+        return data
 
-        for query in BRAND_QUERIES:
-            for post in reddit.subreddit("all").search(query, limit=MAX_RESULTS):
-                text = f"{post.title} {post.selftext}"
-                s = sentiment(text)
+    for query in BRAND_QUERIES:
+        try:
+            res = requests.post(
+                "https://google.serper.dev/search",
+                headers={"X-API-KEY": SERPER_API_KEY},
+                json={"q": f"{query} site:reddit.com"}
+            )
 
-                data.append({
-                    "platform": "reddit",
-                    "text": text[:200],
-                    "url": f"https://reddit.com{post.permalink}",
-                    "date": datetime.fromtimestamp(post.created_utc, tz=timezone.utc).isoformat(),
-                    "sentiment": s,
-                    "score": sentiment_score(s),
-                    "impressions": post.score * 20
-                })
+            if res.status_code != 200:
+                continue
 
-    except Exception as e:
-        print("Reddit error:", e)
+            links = res.json().get("organic", [])[:MAX_RESULTS]
 
-    print(f"   → {len(data)} posts")
+            for r in links:
+                link = r.get("link")
+                if not link or "reddit.com" not in link:
+                    continue
+
+                json_url = link.rstrip("/") + ".json"
+                reddit_res = safe_get(json_url)
+
+                if not reddit_res:
+                    continue
+
+                try:
+                    j = reddit_res.json()
+                    post = j[0]["data"]["children"][0]["data"]
+
+                    text = f"{post.get('title','')} {post.get('selftext','')}"
+                    s = sentiment(text)
+
+                    data.append({
+                        "platform": "reddit",
+                        "text": text[:200],
+                        "url": link,
+                        "date": datetime.fromtimestamp(post["created_utc"], tz=timezone.utc).isoformat(),
+                        "sentiment": s,
+                        "score": sentiment_score(s),
+                        "impressions": post.get("score", 1) * 25
+                    })
+
+                except:
+                    continue
+
+        except:
+            continue
+
+    print(f"   → {len(data)} mentions")
     return data
 
 # ---------------- YOUTUBE ---------------- #
@@ -92,23 +111,24 @@ def crawl_youtube():
     if not YOUTUBE_API_KEY:
         return data
 
-    try:
-        for query in BRAND_QUERIES:
-            search_url = "https://www.googleapis.com/youtube/v3/search"
+    for query in BRAND_QUERIES:
+        try:
+            url = "https://www.googleapis.com/youtube/v3/search"
 
             params = {
                 "part": "snippet",
                 "q": query,
                 "key": YOUTUBE_API_KEY,
-                "maxResults": 10,
+                "maxResults": MAX_RESULTS,
                 "type": "video"
             }
 
-            res = safe_request(search_url, params)
-            if not res:
+            res = requests.get(url, params=params)
+
+            if res.status_code != 200:
                 continue
 
-            for item in res.get("items", []):
+            for item in res.json().get("items", []):
                 title = item["snippet"]["title"]
                 s = sentiment(title)
 
@@ -122,13 +142,13 @@ def crawl_youtube():
                     "impressions": 5000
                 })
 
-    except Exception as e:
-        print("YouTube error:", e)
+        except:
+            continue
 
     print(f"   → {len(data)} videos")
     return data
 
-# ---------------- WEB (SERPER) ---------------- #
+# ---------------- WEB ---------------- #
 
 def crawl_web():
     print("🌐 Web...")
@@ -137,19 +157,18 @@ def crawl_web():
     if not SERPER_API_KEY:
         return data
 
-    try:
-        url = "https://google.serper.dev/search"
-        headers = {"X-API-KEY": SERPER_API_KEY}
-
-        for query in BRAND_QUERIES:
-            res = requests.post(url, json={"q": query}, headers=headers)
+    for query in BRAND_QUERIES:
+        try:
+            res = requests.post(
+                "https://google.serper.dev/search",
+                headers={"X-API-KEY": SERPER_API_KEY},
+                json={"q": query}
+            )
 
             if res.status_code != 200:
                 continue
 
-            results = res.json().get("organic", [])[:10]
-
-            for r in results:
+            for r in res.json().get("organic", [])[:MAX_RESULTS]:
                 text = r.get("title", "")
                 s = sentiment(text)
 
@@ -163,8 +182,8 @@ def crawl_web():
                     "impressions": 1000
                 })
 
-    except Exception as e:
-        print("Web error:", e)
+        except:
+            continue
 
     print(f"   → {len(data)} results")
     return data
@@ -172,14 +191,16 @@ def crawl_web():
 # ---------------- MAIN ---------------- #
 
 def main():
-    print("🚀 Running ORM crawler...")
+    print("🚀 Running Hybrid ORM Crawler...")
 
     all_data = []
     all_data += crawl_reddit()
     all_data += crawl_youtube()
     all_data += crawl_web()
 
-    # ---------------- SUMMARY ---------------- #
+    # Deduplicate
+    unique = {item["url"]: item for item in all_data}.values()
+    all_data = list(unique)
 
     total = len(all_data)
     sentiments = Counter([x["sentiment"] for x in all_data])
@@ -188,13 +209,11 @@ def main():
 
     summary = {
         "total_mentions": total,
-        "platforms": platforms,
-        "sentiment": sentiments,
+        "platforms": dict(platforms),
+        "sentiment": dict(sentiments),
         "impressions": impressions,
         "last_updated": now()
     }
-
-    # ---------------- SAVE ---------------- #
 
     os.makedirs("data", exist_ok=True)
 
@@ -207,7 +226,6 @@ def main():
     print("\n✅ DONE")
     print("Mentions:", total)
     print("Impressions:", impressions)
-
 
 if __name__ == "__main__":
     main()
