@@ -478,8 +478,26 @@ input:focus{outline:none;border-color:rgba(255,204,63,.4)}
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
 <script>
 const BASE_URL = "https://raw.githubusercontent.com/adirispol/ORM-Dashboard/main/data";
+
+// ✅ FIX: Platform normalizer
+function normalizePlatform(p) {
+  if (!p) return "web";
+
+  p = p.toLowerCase();
+
+  if (p.includes("youtube")) return "youtube";
+  if (p.includes("reddit")) return "reddit";
+  if (p.includes("quora")) return "quora";
+  if (p.includes("medium")) return "medium";
+  if (p.includes("news") || p.includes("newspaper")) return "news";
+  if (p.includes("portal") || p.includes("shiksha") || p.includes("college")) return "portal";
+
+  return "web";
+}
 
 async function fetchData() {
   try {
@@ -489,9 +507,13 @@ async function fetchData() {
     const summary = await summaryRes.json();
     const mentions = await mentionsRes.json();
 
+    // ✅ FIX: Total numbers
     document.getElementById("totalMentions").innerText = summary.total_mentions || 0;
-    document.getElementById("totalImpressions").innerText = summary.impressions || 0;
 
+    document.getElementById("totalImpressions").innerText =
+      summary.impressions || summary.total_impressions || 0;
+
+    // ✅ Sentiment Chart
     const ctx = document.getElementById("sentimentChart");
 
     new Chart(ctx, {
@@ -504,27 +526,37 @@ async function fetchData() {
       }
     });
 
+    // ✅ TABLE FIX
     const table = document.getElementById("mentionsTable");
     table.innerHTML = "";
 
     mentions.slice(0, 50).forEach(item => {
-      table.innerHTML += `
+
+      const platform = normalizePlatform(item.platform);
+
+      const impressions = item.impressions || item.views || item.score || 0;
+
+      const text = item.text || item.title || "";
+
+      const row = `
         <tr>
-          <td>${item.platform}</td>
-          <td>${item.text}</td>
+          <td>${platform}</td>
+          <td>${text}</td>
           <td>${item.sentiment}</td>
+          <td>${impressions}</td>
           <td><a href="${item.url}" target="_blank">View</a></td>
         </tr>
       `;
+
+      table.innerHTML += row;
     });
 
   } catch (err) {
-    console.error(err);
+    console.error("Error loading data:", err);
   }
 }
 
 fetchData();
-</script>
 </script>
 </body>
 </html>
