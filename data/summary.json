@@ -1,12 +1,12 @@
 {
-  "last_crawled": "2026-04-09T12:33:54.867584+00:00",
-  "total_mentions": 202,
-  "total_impressions": 41632400,
-  "total_impressions_fmt": "41.6M",
+  "last_crawled": "2026-04-10T07:11:00.298696+00:00",
+  "total_mentions": 196,
+  "total_impressions": 40130600,
+  "total_impressions_fmt": "40.1M",
   "by_platform": {
-    "newspaper": 83,
-    "quora": 28,
-    "medium": 25,
+    "newspaper": 80,
+    "quora": 27,
+    "medium": 23,
     "youtube": 27,
     "shiksha": 10,
     "collegedunia": 10,
@@ -15,24 +15,24 @@
     "web": 5
   },
   "by_sentiment": {
-    "positive": 13,
+    "positive": 14,
     "negative": 0,
-    "neutral": 144,
-    "mixed": 45
+    "neutral": 136,
+    "mixed": 46
   },
   "negative_alert_count": 0,
   "bps": {
-    "bps": 57.2,
+    "bps": 55.3,
     "grade": "B",
-    "raw_score": 685.9,
+    "raw_score": 663.6,
     "target": 1200,
-    "total_mentions": 202,
-    "total_impressions": 41632400,
-    "total_impressions_fmt": "41.6M",
+    "total_mentions": 196,
+    "total_impressions": 40130600,
+    "total_impressions_fmt": "40.1M",
     "by_platform": {
-      "newspaper": 83,
-      "quora": 28,
-      "medium": 25,
+      "newspaper": 80,
+      "quora": 27,
+      "medium": 23,
       "youtube": 27,
       "shiksha": 10,
       "collegedunia": 10,
@@ -56,7 +56,7 @@
     {
       "priority": "HIGH",
       "platform": "Quora",
-      "action": "28 Quora questions found. Answer unanswered ones.",
+      "action": "27 Quora questions found. Answer unanswered ones.",
       "why": "Each answer is passive SEO for admission keywords",
       "content_idea": "300-word answer: story \u2192 curriculum \u2192 placement data \u2192 CTA"
     },
