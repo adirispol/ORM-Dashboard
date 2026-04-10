@@ -19,6 +19,8 @@ BRAND_QUERIES = [
     "Polaris",
 ]
 
+MAX_LINKS_PER_PLATFORM = 300
+
 # ================= HELPERS ================= #
 
 def now():
