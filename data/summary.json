@@ -1,20 +1,20 @@
 {
-  "crawled_at": "2026-04-10T10:53:59.016686+00:00",
+  "crawled_at": "2026-04-10T11:04:15.946605+00:00",
   "bps": {
-    "bps": 10.8,
+    "bps": 12.0,
     "grade": "D",
-    "raw_score": 129.0,
-    "total_mentions": 102,
-    "total_impressions": 246300,
-    "total_impressions_fmt": "246.3K",
-    "positive_mentions": 39,
-    "negative_mentions": 0,
-    "neutral_mentions": 63,
+    "raw_score": 143.7,
+    "total_mentions": 111,
+    "total_impressions": 253500,
+    "total_impressions_fmt": "253.5K",
+    "positive_mentions": 40,
+    "negative_mentions": 1,
+    "neutral_mentions": 70,
     "by_platform": {
-      "quora": 36,
-      "medium": 17,
+      "quora": 45,
+      "medium": 18,
       "portal": 41,
-      "web": 8
+      "web": 7
     },
     "coverage_platforms": 2,
     "coverage_total": 8,
@@ -27,21 +27,31 @@
     },
     "interpretation": "Brand barely visible online. Urgent action needed."
   },
-  "total_mentions": 102,
-  "total_impressions": 246300,
-  "total_impressions_fmt": "246.3K",
+  "total_mentions": 111,
+  "total_impressions": 253500,
+  "total_impressions_fmt": "253.5K",
   "sentiment_breakdown": {
-    "positive": 39,
-    "neutral": 63,
-    "negative": 0
+    "positive": 40,
+    "neutral": 70,
+    "negative": 1
   },
   "by_platform": {
-    "quora": 36,
-    "medium": 17,
+    "quora": 45,
+    "medium": 18,
     "portal": 41,
-    "web": 8
+    "web": 7
   },
   "actionables": [
+    {
+      "priority": "URGENT",
+      "platform": "All",
+      "action": "Respond to 1 negative mention(s) found online",
+      "why": "Negative content damages admission inquiries",
+      "content_idea": "Write a factual, empathetic response. State facts, invite DM.",
+      "urls": [
+        "https://www.glassdoor.com/Reviews/Employee-Review-JPMorganChase-E5224839-RVW101958747.htm"
+      ]
+    },
     {
       "priority": "HIGH",
       "platform": "Reddit",
