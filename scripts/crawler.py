@@ -35,6 +35,7 @@ BRAND_QUERIES = [
     '"Polaris Campus"',
     '"PST Bangalore"',
     '"Polaris Campus" placement',
+    '"Polaris"',
 ]
 
 COMPETITOR_QUERIES = [
