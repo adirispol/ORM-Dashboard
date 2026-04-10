@@ -530,6 +530,38 @@ async function fetchData() {
     const table = document.getElementById("mentionsTable");
     table.innerHTML = "";
 
+    // ================= PLATFORM COUNT FIX =================
+
+const platformCounts = {
+  reddit: 0,
+  quora: 0,
+  youtube: 0,
+  medium: 0,
+  news: 0,
+  portal: 0,
+  web: 0
+};
+
+mentions.forEach(m => {
+  const p = (m.platform || "").toLowerCase();
+
+  if (p.includes("reddit")) platformCounts.reddit++;
+  else if (p.includes("quora")) platformCounts.quora++;
+  else if (p.includes("youtube")) platformCounts.youtube++;
+  else if (p.includes("medium")) platformCounts.medium++;
+  else if (p.includes("news")) platformCounts.news++;
+  else if (p.includes("portal")) platformCounts.portal++;
+  else platformCounts.web++;
+});
+
+// UPDATE UI
+document.getElementById("redditScore").innerText = platformCounts.reddit;
+document.getElementById("quoraMentions").innerText = platformCounts.quora;
+document.getElementById("youtubeViews").innerText = platformCounts.youtube;
+document.getElementById("mediumReads").innerText = platformCounts.medium;
+document.getElementById("newsImpressions").innerText = platformCounts.news;
+document.getElementById("portalListings").innerText = platformCounts.portal;
+    
     mentions.slice(0, 50).forEach(item => {
 
       const platform = normalizePlatform(item.platform);
