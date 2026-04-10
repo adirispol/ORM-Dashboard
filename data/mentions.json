@@ -3,7 +3,7 @@
     "platform": "web",
     "text": "Polaris School of Technology",
     "url": "https://polariscampus.com/",
-    "date": "2026-04-10T11:31:10.346327+00:00",
+    "date": "2026-04-10T11:51:12.175564+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
@@ -12,7 +12,7 @@
     "platform": "web",
     "text": "Polaris School of Technology - YouTube",
     "url": "https://www.youtube.com/@polariscampus",
-    "date": "2026-04-10T11:31:10.346354+00:00",
+    "date": "2026-04-10T11:51:12.175583+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
@@ -21,7 +21,7 @@
     "platform": "web",
     "text": "Polaris Career Center: Home",
     "url": "https://www.polaris.edu/",
-    "date": "2026-04-10T11:31:11.035043+00:00",
+    "date": "2026-04-10T11:51:12.835653+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
@@ -30,7 +30,7 @@
     "platform": "web",
     "text": "Should i join polaris school of technology? Is it better than other ...",
     "url": "https://www.reddit.com/r/Btechtards/comments/1edc645/should_i_join_polaris_school_of_technology_is_it/",
-    "date": "2026-04-10T11:31:11.713275+00:00",
+    "date": "2026-04-10T11:51:12.175593+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
@@ -39,34 +39,25 @@
     "platform": "web",
     "text": "Polaris School of Technology (@polariscampus) - Instagram",
     "url": "https://www.instagram.com/polariscampus/",
-    "date": "2026-04-10T11:31:11.035079+00:00",
+    "date": "2026-04-10T11:51:14.259254+00:00",
     "sentiment": "negative",
     "score": -1,
     "impressions": 1000
   },
   {
-    "platform": "web",
+    "platform": "medium",
     "text": "What It's Really Like Studying at Polaris School of Technology ...",
     "url": "https://medium.com/@guptashilpaa8/what-its-really-like-studying-at-polaris-school-of-technology-student-perspective-e7282c1473dd",
-    "date": "2026-04-10T11:31:11.713265+00:00",
+    "date": "2026-04-10T11:51:14.259242+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
   },
   {
-    "platform": "web",
+    "platform": "quora",
     "text": "Is it worth attending Polaris School of Technology after ... - Quora",
     "url": "https://www.quora.com/Is-it-worth-attending-Polaris-School-of-Technology-after-seeing-the-recent-YouTube-reviews",
-    "date": "2026-04-10T11:31:10.346382+00:00",
-    "sentiment": "neutral",
-    "score": 0,
-    "impressions": 1000
-  },
-  {
-    "platform": "web",
-    "text": "Honest review of Polaris School of Technology - YouTube",
-    "url": "https://www.youtube.com/watch?v=EcCAFzcfims",
-    "date": "2026-04-10T11:31:10.346392+00:00",
+    "date": "2026-04-10T11:51:12.175605+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
@@ -75,34 +66,34 @@
     "platform": "web",
     "text": "Batch starts Aug 2026 - Polaris School of Technology",
     "url": "https://polariscampus.com/admissions",
-    "date": "2026-04-10T11:31:10.346398+00:00",
+    "date": "2026-04-10T11:51:12.175613+00:00",
     "sentiment": "neutral",
     "score": 0,
+    "impressions": 1000
+  },
+  {
+    "platform": "web",
+    "text": "Honest review of Polaris School of Technology - YouTube",
+    "url": "https://www.youtube.com/watch?v=EcCAFzcfims",
+    "date": "2026-04-10T11:51:12.175618+00:00",
+    "sentiment": "neutral",
+    "score": 0,
+    "impressions": 1000
+  },
+  {
+    "platform": "web",
+    "text": "Polaris School of Technology (@PolarisCampus) - Facebook",
+    "url": "https://www.facebook.com/PolarisCampus/",
+    "date": "2026-04-10T11:51:12.175622+00:00",
+    "sentiment": "negative",
+    "score": -1,
     "impressions": 1000
   },
   {
     "platform": "web",
     "text": "Polaris School of Technology - Most Awaited Campus Tour! - YouTube",
     "url": "https://www.youtube.com/watch?v=GM69qIe2_IE",
-    "date": "2026-04-10T11:31:11.035072+00:00",
-    "sentiment": "neutral",
-    "score": 0,
-    "impressions": 1000
-  },
-  {
-    "platform": "web",
-    "text": "Polaris Career Center - Ohio Department of Higher Education",
-    "url": "https://highered.ohio.gov/wps/portal/gov/odhe/about/ohios-campuses/universities-map-data/polaris-career-center",
-    "date": "2026-04-10T11:31:11.035063+00:00",
-    "sentiment": "neutral",
-    "score": 0,
-    "impressions": 1000
-  },
-  {
-    "platform": "web",
-    "text": "Polaris Career Center - Wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Polaris_Career_Center",
-    "date": "2026-04-10T11:31:11.035068+00:00",
+    "date": "2026-04-10T11:51:12.835663+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
@@ -111,7 +102,25 @@
     "platform": "web",
     "text": "Polaris Career Center Campus Life - BigFuture College Search",
     "url": "https://bigfuture.collegeboard.org/colleges/polaris-career-center/campus-life",
-    "date": "2026-04-10T11:31:11.035075+00:00",
+    "date": "2026-04-10T11:51:12.835668+00:00",
+    "sentiment": "neutral",
+    "score": 0,
+    "impressions": 1000
+  },
+  {
+    "platform": "web",
+    "text": "Polaris Career Center - Ohio Department of Higher Education",
+    "url": "https://highered.ohio.gov/wps/portal/gov/odhe/about/ohios-campuses/universities-map-data/polaris-career-center",
+    "date": "2026-04-10T11:51:12.835677+00:00",
+    "sentiment": "neutral",
+    "score": 0,
+    "impressions": 1000
+  },
+  {
+    "platform": "web",
+    "text": "Polaris Career Center - Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Polaris_Career_Center",
+    "date": "2026-04-10T11:51:12.835681+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
@@ -120,7 +129,7 @@
     "platform": "web",
     "text": "Polaris School of Technology",
     "url": "https://polariscampus.com/programs/applied-artificial-intelligence",
-    "date": "2026-04-10T11:31:11.713235+00:00",
+    "date": "2026-04-10T11:51:14.259217+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
@@ -129,7 +138,7 @@
     "platform": "web",
     "text": "Data Science & Artificial Intelligence Course",
     "url": "https://online.polaris.edu/training-programs/data-science-and-artificial-intelligence-course/",
-    "date": "2026-04-10T11:31:11.713252+00:00",
+    "date": "2026-04-10T11:51:14.259228+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
@@ -138,43 +147,34 @@
     "platform": "web",
     "text": "Why an Integrated B.Tech in AI & ML with Polaris School of ...",
     "url": "https://www.msu.edu.in/blog/why-an-integrated-btech-in-ai-ml-with-polaris-school-of-technology-is-the-smartest-path-to-a-future-proof-tech-career",
-    "date": "2026-04-10T11:31:11.713257+00:00",
+    "date": "2026-04-10T11:51:14.259233+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
   },
   {
-    "platform": "web",
+    "platform": "quora",
     "text": "Is the Applied AI B.Tech at Polaris a serious degree or just regular ...",
     "url": "https://www.quora.com/Is-the-Applied-AI-B-Tech-at-Polaris-a-serious-degree-or-just-regular-CS-with-an-AI-label",
-    "date": "2026-04-10T11:31:11.713261+00:00",
+    "date": "2026-04-10T11:51:14.259238+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
   },
   {
     "platform": "web",
-    "text": "How is AI, College and Content Failing You, And How To Adapt?",
-    "url": "https://www.youtube.com/watch?v=SnPwOnKkgYU",
-    "date": "2026-04-10T11:31:11.713268+00:00",
-    "sentiment": "neutral",
-    "score": 0,
+    "text": "Ive seen a lot of good things about Polaris School of Technology ...",
+    "url": "https://www.reddit.com/r/Students/comments/1jw0uev/ive_seen_a_lot_of_good_things_about_polaris/",
+    "date": "2026-04-10T11:51:14.259247+00:00",
+    "sentiment": "positive",
+    "score": 1,
     "impressions": 1000
   },
   {
     "platform": "web",
     "text": "B.Tech CSE in Applied Artificial Intelligence at Polaris School of ...",
     "url": "https://www.shiksha.com/college/polaris-school-of-technology-electronic-city-bangalore-238876/course-b-tech-cse-in-applied-artificial-intelligence-1471220",
-    "date": "2026-04-10T11:31:11.713272+00:00",
-    "sentiment": "neutral",
-    "score": 0,
-    "impressions": 1000
-  },
-  {
-    "platform": "web",
-    "text": "Polaris ML/AI Training | Your Complete AI Career Launchpad",
-    "url": "https://polarisaistudio.com/ml-ai-training/",
-    "date": "2026-04-10T11:31:11.713278+00:00",
+    "date": "2026-04-10T11:51:14.259251+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
@@ -183,7 +183,16 @@
     "platform": "web",
     "text": "POLARIS: Is Multi-Agentic Reasoning the Next Wave in Engineering ...",
     "url": "https://arxiv.org/abs/2512.04702",
-    "date": "2026-04-10T11:31:11.713282+00:00",
+    "date": "2026-04-10T11:51:14.259258+00:00",
+    "sentiment": "neutral",
+    "score": 0,
+    "impressions": 1000
+  },
+  {
+    "platform": "web",
+    "text": "Polaris ML/AI Training | Your Complete AI Career Launchpad",
+    "url": "https://polarisaistudio.com/ml-ai-training/",
+    "date": "2026-04-10T11:51:14.259262+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
@@ -192,25 +201,16 @@
     "platform": "web",
     "text": "POLARIS\u00ae Official Site | SxS, ATVs, Motorcycles, Snowmobiles",
     "url": "https://www.polaris.com/en-us/",
-    "date": "2026-04-10T11:31:12.414267+00:00",
+    "date": "2026-04-10T11:51:14.959983+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
   },
   {
     "platform": "web",
-    "text": "New & Used Polaris Powersports for Sale - Team Mancuso",
-    "url": "https://www.teammancuso.com/all-inventory/polaris",
-    "date": "2026-04-10T11:31:12.414284+00:00",
-    "sentiment": "neutral",
-    "score": 0,
-    "impressions": 1000
-  },
-  {
-    "platform": "web",
-    "text": "Polaris Parts & Accessories, Polaris Parts House | Babbitt's",
-    "url": "https://www.polarispartshouse.com/",
-    "date": "2026-04-10T11:31:12.414289+00:00",
+    "text": "Polaris Inc. - YouTube",
+    "url": "https://www.youtube.com/c/PolarisInc",
+    "date": "2026-04-10T11:51:14.959993+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
@@ -219,34 +219,43 @@
     "platform": "web",
     "text": "Polaris Inc. - Wikipedia",
     "url": "https://en.wikipedia.org/wiki/Polaris_Inc.",
-    "date": "2026-04-10T11:31:12.414293+00:00",
+    "date": "2026-04-10T11:51:14.959998+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
   },
   {
     "platform": "web",
-    "text": "Polaris Off Road (@polarisorv) \u2022 Instagram photos and videos",
-    "url": "https://www.instagram.com/polarisorv/",
-    "date": "2026-04-10T11:31:12.414298+00:00",
+    "text": "Polaris\u00ae Powersports Vehicles For Sale near Altoona, PA",
+    "url": "https://www.fivestarduncansville.com/default.asp?page=xAllInventory&make=polaris",
+    "date": "2026-04-10T11:51:14.960002+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
   },
   {
     "platform": "web",
-    "text": "Polaris\u00ae Dealership Near Houston, TX - K's Motorsports",
-    "url": "https://www.ksmotorsports.com/polaris-powersports-for-sale-near-houston-tx--xAllInventory?make=polaris",
-    "date": "2026-04-10T11:31:12.414302+00:00",
+    "text": "Polaris Parts & Accessories, Polaris Parts House | Babbitt's",
+    "url": "https://www.polarispartshouse.com/",
+    "date": "2026-04-10T11:51:14.960006+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
   },
   {
     "platform": "web",
-    "text": "Polaris Off Road - YouTube",
-    "url": "https://www.youtube.com/PolarisORV",
-    "date": "2026-04-10T11:31:12.414305+00:00",
+    "text": "Polaris Motorcycle Values & Pricing - Kelley Blue Book",
+    "url": "https://www.kbb.com/motorcycles/polaris/",
+    "date": "2026-04-10T11:51:14.960010+00:00",
+    "sentiment": "neutral",
+    "score": 0,
+    "impressions": 1000
+  },
+  {
+    "platform": "web",
+    "text": "Polaris Xchange - Buy & Sell Powersports Vehicles",
+    "url": "http://polarisxchange.com/",
+    "date": "2026-04-10T11:51:14.960018+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
@@ -255,34 +264,34 @@
     "platform": "web",
     "text": "Pacific Standard Time",
     "url": "https://time.is/PST",
-    "date": "2026-04-10T11:31:13.220848+00:00",
+    "date": "2026-04-10T11:51:15.608463+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
   },
   {
     "platform": "web",
-    "text": "Pacific Standard Time \u2013 PST Time Zone",
+    "text": "Pacific Standard Time \u2013 PST Time Zone - PSTNET",
     "url": "https://pst.net/pst",
-    "date": "2026-04-10T11:31:13.220869+00:00",
+    "date": "2026-04-10T11:51:15.608475+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
   },
   {
     "platform": "web",
-    "text": "Pacific Time Zone",
+    "text": "Pacific Time Zone - Wikipedia",
     "url": "https://en.wikipedia.org/wiki/Pacific_Time_Zone",
-    "date": "2026-04-10T11:31:13.220873+00:00",
+    "date": "2026-04-10T11:51:15.608480+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
   },
   {
     "platform": "web",
-    "text": "Pacific Standard Time \u2013 PST Time Zone",
+    "text": "Pacific Standard Time \u2013 PST Time Zone - Time and Date",
     "url": "https://www.timeanddate.com/time/zones/pst",
-    "date": "2026-04-10T11:31:13.220877+00:00",
+    "date": "2026-04-10T11:51:15.608484+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
@@ -291,52 +300,52 @@
     "platform": "web",
     "text": "Current Pacific (PST/PDT) Time Now in USA and Canada",
     "url": "https://time-time.net/times/time-zones/usa-canada/current-pacific-time-pst.php",
-    "date": "2026-04-10T11:31:13.220881+00:00",
+    "date": "2026-04-10T11:51:15.608488+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
   },
   {
     "platform": "web",
-    "text": "What does \"Pacific Standard Time (PST)\" mean?",
-    "url": "https://www.globeair.com/g/pacific-standard-time-pst",
-    "date": "2026-04-10T11:31:13.220885+00:00",
-    "sentiment": "neutral",
-    "score": 0,
-    "impressions": 1000
-  },
-  {
-    "platform": "web",
-    "text": "Current Time in PST (Pacific Standard Time)",
-    "url": "https://time.now/timezones/pst/",
-    "date": "2026-04-10T11:31:13.220888+00:00",
-    "sentiment": "neutral",
-    "score": 0,
-    "impressions": 1000
-  },
-  {
-    "platform": "web",
-    "text": "PST to EST Converter",
+    "text": "PST to EST Converter - Savvy Time World Clock",
     "url": "https://savvytime.com/converter/pst-to-est",
-    "date": "2026-04-10T11:31:13.220891+00:00",
+    "date": "2026-04-10T11:51:15.608492+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
   },
   {
     "platform": "web",
-    "text": "PST Definition & Meaning",
-    "url": "https://www.merriam-webster.com/dictionary/PST",
-    "date": "2026-04-10T11:31:13.220894+00:00",
+    "text": "What does \"Pacific Standard Time (PST)\" mean? - GlobeAir",
+    "url": "https://www.globeair.com/g/pacific-standard-time-pst",
+    "date": "2026-04-10T11:51:15.608495+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
   },
   {
     "platform": "web",
-    "text": "\ud83d\udd52 LIVE: Pacific Standard Time (PST) Clock | Los Angeles ...",
+    "text": "Current Time in PST (Pacific Standard Time) - Time.now",
+    "url": "https://time.now/timezones/pst/",
+    "date": "2026-04-10T11:51:15.608499+00:00",
+    "sentiment": "neutral",
+    "score": 0,
+    "impressions": 1000
+  },
+  {
+    "platform": "web",
+    "text": "LIVE: Pacific Standard Time (PST) Clock | West Coast Time - YouTube",
     "url": "https://www.youtube.com/watch?v=EWNLbqdE62Q",
-    "date": "2026-04-10T11:31:13.220899+00:00",
+    "date": "2026-04-10T11:51:15.608503+00:00",
+    "sentiment": "neutral",
+    "score": 0,
+    "impressions": 1000
+  },
+  {
+    "platform": "web",
+    "text": "PST - Definition, Meaning & Synonyms - Vocabulary.com",
+    "url": "https://www.vocabulary.com/dictionary/PST",
+    "date": "2026-04-10T11:51:15.608507+00:00",
     "sentiment": "neutral",
     "score": 0,
     "impressions": 1000
