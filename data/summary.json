@@ -1,10 +1,10 @@
 {
   "total_mentions": 126,
   "platforms": {
-    "reddit": 19,
+    "reddit": 20,
     "quora": 17,
     "medium": 10,
-    "portal": 40,
+    "portal": 39,
     "web": 40
   },
   "sentiment": {
@@ -13,5 +13,5 @@
     "negative": 3
   },
   "impressions": 126000,
-  "last_updated": "2026-04-11T14:09:18.492935+00:00"
+  "last_updated": "2026-04-11T16:03:05.093474+00:00"
 }
