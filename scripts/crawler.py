@@ -20,6 +20,12 @@ BRAND_QUERIES = [
 
 MAX_LINKS_PER_PLATFORM = 5000
 
+# Estimated impressions by organic search position (based on avg CTR data)
+POSITION_IMPRESSIONS = {
+    1: 8500, 2: 4500, 3: 2800, 4: 1900, 5: 1400,
+    6: 1100, 7: 900,  8: 750,  9: 600,  10: 500
+}
+
 # ================= HELPERS ================= #
 
 def now():
@@ -27,16 +33,19 @@ def now():
 
 def sentiment(text):
     t = text.lower()
-    if any(x in t for x in ["scam","fake","bad","worst"]):
+    if any(x in t for x in ["scam", "fake", "bad", "worst", "fraud", "cheating", "avoid", "terrible"]):
         return "negative"
-    if any(x in t for x in ["good","great","best","awesome"]):
+    if any(x in t for x in ["good", "great", "best", "awesome", "excellent", "top", "recommended"]):
         return "positive"
     return "neutral"
 
 def sentiment_score(s):
-    return {"positive":1,"neutral":0,"negative":-1}[s]
+    return {"positive": 1, "neutral": 0, "negative": -1}[s]
 
-# ================= SERPER FIXED ================= #
+def position_to_impressions(position):
+    return POSITION_IMPRESSIONS.get(int(position), 400)
+
+# ================= SERPER ================= #
 
 def serper_search(query):
     if not SERPER_API_KEY:
@@ -44,12 +53,10 @@ def serper_search(query):
         return []
 
     url = "https://google.serper.dev/search"
-
     headers = {
         "X-API-KEY": SERPER_API_KEY,
         "Content-Type": "application/json"
     }
-
     payload = json.dumps({
         "q": query,
         "gl": "in",
@@ -62,7 +69,7 @@ def serper_search(query):
         with urllib.request.urlopen(req, timeout=20) as res:
             data = json.loads(res.read().decode())
             results = data.get("organic", [])
-            print(f"DEBUG SERPER: {query} → {len(results)} results")
+            print(f"  DEBUG SERPER: {query} → {len(results)} results")
             return results
     except Exception as e:
         print("❌ Serper error:", e)
@@ -70,11 +77,10 @@ def serper_search(query):
 
 def build_mentions(results, platform):
     mentions = []
-
     for r in results[:MAX_LINKS_PER_PLATFORM]:
         title = r.get("title", "")
         link = r.get("link", "")
-
+        position = r.get("position", 10)
         s = sentiment(title)
 
         mentions.append({
@@ -84,9 +90,42 @@ def build_mentions(results, platform):
             "date": now(),
             "sentiment": s,
             "score": sentiment_score(s),
-            "impressions": 1000
+            "impressions": position_to_impressions(position)
         })
+    return mentions
 
+# ================= REDDIT ENRICHMENT ================= #
+
+def get_reddit_stats(url):
+    """Fetch real upvote + comment count from Reddit's public JSON API."""
+    try:
+        json_url = url.rstrip("/") + ".json"
+        req = urllib.request.Request(
+            json_url,
+            headers={"User-Agent": "ORM-Crawler/1.0 (github.com/adirispol/ORM-Dashboard)"}
+        )
+        with urllib.request.urlopen(req, timeout=10) as res:
+            data = json.loads(res.read().decode())
+            post = data[0]["data"]["children"][0]["data"]
+            score = max(int(post.get("score", 0)), 0)
+            comments = int(post.get("num_comments", 0))
+            return score + comments
+    except Exception:
+        return None
+
+def enrich_reddit_impressions(mentions):
+    """Replace estimated impressions with real Reddit engagement data."""
+    print("  Enriching Reddit stats...")
+    enriched = 0
+    for mention in mentions:
+        url = mention.get("url", "")
+        if "reddit.com" in url and "/comments/" in url:
+            stats = get_reddit_stats(url)
+            if stats is not None:
+                mention["impressions"] = stats
+                enriched += 1
+            time.sleep(0.8)  # Respect Reddit rate limits
+    print(f"  Enriched {enriched}/{len(mentions)} Reddit posts with real stats")
     return mentions
 
 # ================= PLATFORMS ================= #
@@ -108,6 +147,7 @@ def crawl_reddit():
         results = serper_search(f'site:reddit.com "{q}"')
         data += build_mentions(results, "reddit")
         time.sleep(1)
+    data = enrich_reddit_impressions(data)
     print(f"   → {len(data)} mentions")
     return data
 
@@ -125,13 +165,11 @@ def crawl_portals():
     print("\n🏛 Portals...")
     data = []
     portals = ["shiksha.com", "collegedunia.com", "careers360.com"]
-
     for site in portals:
         for q in BRAND_QUERIES:
             results = serper_search(f'site:{site} "{q}"')
             data += build_mentions(results, "portal")
             time.sleep(1)
-
     print(f"   → {len(data)} mentions")
     return data
 
@@ -151,7 +189,8 @@ def fetch_json(url):
     try:
         with urllib.request.urlopen(url, timeout=20) as res:
             return json.loads(res.read().decode())
-    except:
+    except Exception as e:
+        print("❌ fetch_json error:", e)
         return None
 
 def crawl_youtube():
@@ -163,6 +202,7 @@ def crawl_youtube():
         return data
 
     video_ids = []
+    video_map = {}  # vid -> index in data
 
     for q in BRAND_QUERIES:
         url = (
@@ -170,19 +210,19 @@ def crawl_youtube():
             f"part=snippet&q={urllib.parse.quote(q)}"
             f"&type=video&maxResults=10&key={YOUTUBE_API_KEY}"
         )
-
         res = fetch_json(url)
         if not res:
             continue
 
         for item in res.get("items", []):
             vid = item["id"]["videoId"]
+            if vid in video_map:
+                continue  # skip duplicate video IDs
             title = item["snippet"]["title"]
-
-            video_ids.append(vid)
-
             s = sentiment(title)
 
+            video_map[vid] = len(data)
+            video_ids.append(vid)
             data.append({
                 "platform": "youtube",
                 "text": title,
@@ -195,29 +235,43 @@ def crawl_youtube():
 
         time.sleep(1)
 
-    # fetch comment counts
-    if video_ids:
-        ids = ",".join(video_ids[:50])
+    # Fetch real view counts in batches of 50
+    for batch_start in range(0, len(video_ids), 50):
+        batch = video_ids[batch_start:batch_start + 50]
+        ids = ",".join(batch)
         stats_url = (
             "https://www.googleapis.com/youtube/v3/videos?"
             f"part=statistics&id={ids}&key={YOUTUBE_API_KEY}"
         )
-
         stats = fetch_json(stats_url)
         if stats:
-            for i, item in enumerate(stats.get("items", [])):
-                count = int(item["statistics"].get("commentCount", 0))
-                if i < len(data):
-                    data[i]["impressions"] = count
+            for item in stats.get("items", []):
+                vid = item["id"]
+                view_count = int(item["statistics"].get("viewCount", 0))
+                if vid in video_map:
+                    data[video_map[vid]]["impressions"] = view_count
 
     print(f"   → {len(data)} videos")
     return data
 
 # ================= MAIN ================= #
 
+def deduplicate(mentions):
+    """Remove duplicate URLs, keeping the first occurrence."""
+    seen = set()
+    result = []
+    for m in mentions:
+        url = m.get("url", "")
+        if url and url not in seen:
+            seen.add(url)
+            result.append(m)
+    removed = len(mentions) - len(result)
+    if removed:
+        print(f"  Removed {removed} duplicate URLs")
+    return result
+
 def main():
     print("🚀 Running ORM crawler...\n")
-
     print("SERPER:", "OK" if SERPER_API_KEY else "MISSING")
     print("YOUTUBE:", "OK" if YOUTUBE_API_KEY else "MISSING")
 
@@ -229,6 +283,8 @@ def main():
     all_data += crawl_web()
     all_data += crawl_youtube()
 
+    all_data = deduplicate(all_data)
+
     total = len(all_data)
     sentiments = Counter([x["sentiment"] for x in all_data])
     platforms = Counter([x["platform"] for x in all_data])
@@ -236,8 +292,8 @@ def main():
 
     summary = {
         "total_mentions": total,
-        "platforms": platforms,
-        "sentiment": sentiments,
+        "platforms": dict(platforms),
+        "sentiment": dict(sentiments),
         "impressions": impressions,
         "last_updated": now()
     }
