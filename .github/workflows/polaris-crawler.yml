@@ -5,6 +5,9 @@ on:
     - cron: "0 * * * *"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -16,9 +19,8 @@ jobs:
         with:
           python-version: "3.11"
 
-      - run: |
-          python -m pip install --upgrade pip
-          pip install requests snscrape
+      - name: Install dependencies
+        run: pip install --upgrade pip
 
       - name: Run crawler
         env:
@@ -28,8 +30,8 @@ jobs:
 
       - name: Push data
         run: |
-          git config --global user.name "bot"
-          git config --global user.email "bot@github.com"
+          git config --global user.name "orm-bot"
+          git config --global user.email "orm-bot@github.com"
           git add data/
-          git commit -m "update data" || echo "no change"
+          git diff --cached --quiet || git commit -m "chore: update ORM data [skip ci]"
           git push
