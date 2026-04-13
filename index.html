@@ -652,6 +652,104 @@ async function fetchData() {
   }
 }
 
+// ── TAB SWITCHING ────────────────────────────────────────────
+function switchTab(tabName, btn) {
+  document.querySelectorAll('[id^="tab-"]').forEach(s => s.style.display = 'none');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  const target = document.getElementById('tab-' + tabName);
+  if (target) target.style.display = 'block';
+  if (btn) btn.classList.add('active');
+}
+
+// Show overview by default on load
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('[id^="tab-"]').forEach(s => s.style.display = 'none');
+  const ov = document.getElementById('tab-overview');
+  if (ov) ov.style.display = 'block';
+});
+
+// ── REFRESH ──────────────────────────────────────────────────
+function loadAll() {
+  fetchData();
+}
+
+// ── SETTINGS OVERLAY ─────────────────────────────────────────
+function openSettings() {
+  const overlay = document.getElementById('settingsOverlay');
+  if (overlay) overlay.style.display = 'flex';
+  // Pre-fill saved values
+  const cfg = getSavedConfig();
+  const fields = {
+    cfgUser: cfg.user, cfgRepo: cfg.repo, cfgBranch: cfg.branch,
+    cfgRefresh: cfg.refresh, cfgClaudeKey: cfg.claudeKey,
+    cfgNewsApi: cfg.newsapi, cfgKwPst: cfg.kwPst, cfgKwComp: cfg.kwComp
+  };
+  Object.entries(fields).forEach(([id, val]) => {
+    const el = document.getElementById(id);
+    if (el && val) el.value = val;
+  });
+  // Fill sheet rows
+  const sheets = cfg.sheets || {};
+  Object.entries(sheets).forEach(([key, val]) => {
+    const idEl = document.getElementById('sheet_' + key + '_id');
+    const tabEl = document.getElementById('sheet_' + key + '_tab');
+    if (idEl && val.id) idEl.value = val.id;
+    if (tabEl && val.tab) tabEl.value = val.tab;
+  });
+}
+
+function closeSettings() {
+  const overlay = document.getElementById('settingsOverlay');
+  if (overlay) overlay.style.display = 'none';
+}
+
+function saveSettings() {
+  const cfg = {
+    user:      document.getElementById('cfgUser')?.value    || 'adirispol',
+    repo:      document.getElementById('cfgRepo')?.value    || 'ORM-Dashboard',
+    branch:    document.getElementById('cfgBranch')?.value  || 'main',
+    refresh:   parseInt(document.getElementById('cfgRefresh')?.value) || 30,
+    claudeKey: document.getElementById('cfgClaudeKey')?.value || '',
+    newsapi:   document.getElementById('cfgNewsApi')?.value   || '',
+    kwPst:     document.getElementById('cfgKwPst')?.value     || '',
+    kwComp:    document.getElementById('cfgKwComp')?.value    || '',
+    sheets: {}
+  };
+  ['reddit','quora','quora_com','youtube','medium','news'].forEach(key => {
+    cfg.sheets[key] = {
+      id:  document.getElementById('sheet_' + key + '_id')?.value  || '',
+      tab: document.getElementById('sheet_' + key + '_tab')?.value || ''
+    };
+  });
+  localStorage.setItem('polaris_orm_v9', JSON.stringify(cfg));
+  closeSettings();
+  fetchData();
+}
+
+function getSavedConfig() {
+  try { return JSON.parse(localStorage.getItem('polaris_orm_v9') || '{}'); }
+  catch(e) { return {}; }
+}
+
+// ── LLM / AEO AI ANALYSIS ────────────────────────────────────
+function runAiAnalysis() {
+  const resultEl = document.getElementById('aiAnalysisResult');
+  if (!resultEl) return;
+  resultEl.innerText = 'Running AI analysis… (requires Claude API key in Settings)';
+  const cfg = getSavedConfig();
+  if (!cfg.claudeKey) {
+    resultEl.innerText = '⚠️ Add your Claude API key in Settings to enable AI analysis.';
+    return;
+  }
+  resultEl.innerText = '✅ Claude API key found. AI analysis feature coming in next update.';
+}
+
+// ── CLOSE SETTINGS ON OVERLAY CLICK ─────────────────────────
+document.addEventListener('click', e => {
+  const overlay = document.getElementById('settingsOverlay');
+  if (overlay && e.target === overlay) closeSettings();
+});
+  
 fetchData();
 </script>
 </body>
