@@ -483,109 +483,172 @@ input:focus{outline:none;border-color:rgba(255,204,63,.4)}
 <script>
 const BASE_URL = "https://raw.githubusercontent.com/adirispol/ORM-Dashboard/main/data";
 
-// ✅ FIX: Platform normalizer
 function normalizePlatform(p) {
   if (!p) return "web";
-
   p = p.toLowerCase();
-
   if (p.includes("youtube")) return "youtube";
   if (p.includes("reddit")) return "reddit";
   if (p.includes("quora")) return "quora";
   if (p.includes("medium")) return "medium";
   if (p.includes("news") || p.includes("newspaper")) return "news";
   if (p.includes("portal") || p.includes("shiksha") || p.includes("college")) return "portal";
-
   return "web";
 }
 
 async function fetchData() {
   try {
-    const summaryRes = await fetch(`${BASE_URL}/summary.json`);
+    const summaryRes  = await fetch(`${BASE_URL}/summary.json`);
     const mentionsRes = await fetch(`${BASE_URL}/mentions.json`);
-
-    const summary = await summaryRes.json();
+    const summary  = await summaryRes.json();
     const mentions = await mentionsRes.json();
 
-    // ✅ FIX: Total numbers
-    document.getElementById("totalMentions").innerText = summary.total_mentions || 0;
+    // ── TOTALS (from summary.json) ──────────────────────────
+    document.getElementById("totalMentions").innerText    = summary.total_mentions || 0;
+    document.getElementById("totalImpressions").innerText = (summary.impressions || summary.total_impressions || 0).toLocaleString();
 
-    document.getElementById("totalImpressions").innerText =
-      summary.impressions || summary.total_impressions || 0;
+    // ── PLATFORM BUCKETS ────────────────────────────────────
+    const reddit  = mentions.filter(m => normalizePlatform(m.platform) === "reddit");
+    const quora   = mentions.filter(m => normalizePlatform(m.platform) === "quora");
+    const youtube = mentions.filter(m => normalizePlatform(m.platform) === "youtube");
+    const medium  = mentions.filter(m => normalizePlatform(m.platform) === "medium");
+    const news    = mentions.filter(m => normalizePlatform(m.platform) === "news");
+    const portal  = mentions.filter(m => normalizePlatform(m.platform) === "portal");
+    const web     = mentions.filter(m => normalizePlatform(m.platform) === "web");
 
-    // ✅ Sentiment Chart
-    const ctx = document.getElementById("sentimentChart");
+    const sumImpr = arr => arr.reduce((s, m) => s + (m.impressions || m.views || 0), 0);
 
-    new Chart(ctx, {
-      type: "pie",
-      data: {
-        labels: Object.keys(summary.sentiment || {}),
-        datasets: [{
-          data: Object.values(summary.sentiment || {})
-        }]
-      }
-    });
+    // ── KPI CARDS (correct IDs matching your HTML) ──────────
+    document.getElementById("kpiRedditScore").innerText    = reddit.length ? Math.max(...reddit.map(m => m.score || 0)) : 0;
+    document.getElementById("kpiRedditImpr").innerText     = sumImpr(reddit).toLocaleString();
 
-    // ✅ TABLE FIX
-    const table = document.getElementById("mentionsTable");
-    table.innerHTML = "";
+    document.getElementById("kpiQuoraMentions").innerText  = quora.length;
+    document.getElementById("kpiQuoraImpr").innerText      = sumImpr(quora).toLocaleString();
 
-// ================= PLATFORM COUNT FIX =================
+    document.getElementById("kpiYtViews").innerText        = youtube.length ? sumImpr(youtube).toLocaleString() : "—";
+    document.getElementById("kpiYtSub").innerText          = "—";
 
-const platformCounts = {
-  reddit: 0,
-  quora: 0,
-  youtube: 0,
-  medium: 0,
-  news: 0,
-  portal: 0,
-  web: 0
-};
+    document.getElementById("kpiMediumReads").innerText    = sumImpr(medium).toLocaleString();
+    document.getElementById("kpiMediumClaps").innerText    = "—";
 
-// COUNT ONLY ONCE ✅
-mentions.forEach(m => {
-  const p = (m.platform || "").toLowerCase();
+    document.getElementById("kpiNewsImpr").innerText       = sumImpr([...news, ...web]).toLocaleString();
+    document.getElementById("kpiNewsCount").innerText      = news.length + web.length;
 
-  if (p.includes("reddit")) platformCounts.reddit++;
-  else if (p.includes("quora")) platformCounts.quora++;
-  else if (p.includes("youtube")) platformCounts.youtube++;
-  else if (p.includes("medium")) platformCounts.medium++;
-  else if (p.includes("news")) platformCounts.news++;
-  else if (p.includes("portal")) platformCounts.portal++;
-  else platformCounts.web++;
-});
+    const portalNames = [...new Set(portal.map(m => {
+      try { return new URL(m.url).hostname.replace("www.", ""); } catch(e) { return ""; }
+    }))].filter(Boolean).slice(0, 3).join(", ");
+    document.getElementById("kpiPortals").innerText      = portal.length;
+    document.getElementById("kpiPortalNames").innerText  = portalNames || "—";
 
-// UPDATE UI ONLY ONCE ✅
-document.getElementById("redditScore").innerText = platformCounts.reddit;
-document.getElementById("quoraMentions").innerText = platformCounts.quora;
-document.getElementById("youtubeViews").innerText = platformCounts.youtube;
-document.getElementById("mediumReads").innerText = platformCounts.medium;
-document.getElementById("newsImpressions").innerText = platformCounts.news;
-document.getElementById("portalListings").innerText = platformCounts.portal;
-    
-    mentions.slice(0, 50).forEach(item => {
+    // ── BRAND PRESENCE SCORE ────────────────────────────────
+    const activePlats = [reddit, quora, medium, portal, [...news,...web]].filter(a => a.length > 0).length;
+    const posRatio    = reddit.filter(m => m.sentiment === "positive").length / Math.max(reddit.length, 1);
+    const bps = Math.min(100, Math.round(
+      (activePlats / 5) * 65 +
+      posRatio * 20 +
+      Math.min(15, quora.length * 1.5) +
+      (portal.length > 10 ? 10 : portal.length)
+    ));
+    const grade = bps >= 80 ? "A+" : bps >= 65 ? "A" : bps >= 50 ? "B" : bps >= 35 ? "C" : "D";
 
-      const platform = normalizePlatform(item.platform);
+    document.getElementById("bpsScore").innerText         = bps;
+    document.getElementById("bpsGrade").innerText         = grade;
+    document.getElementById("bpsCoverage").innerText      = activePlats + " platforms";
+    document.getElementById("bpsBarFill").style.width     = bps + "%";
+    document.getElementById("bpsInterpretation").innerText =
+      bps >= 80 ? "Strong brand presence across all major platforms." :
+      bps >= 65 ? "Good presence. Expand content on weaker platforms." :
+      bps >= 50 ? "Moderate presence. More consistent posting needed." :
+                  "Low presence. Prioritise content seeding across platforms.";
 
-      const impressions = item.impressions || item.views || item.score || 0;
+    // ── HEADER BRAND SCORE ──────────────────────────────────
+    const bpsScoreBig = document.getElementById("bpsScoreBig");
+    if (bpsScoreBig) bpsScoreBig.innerText = bps;
 
-      const text = item.text || item.title || "";
+    // ── SENTIMENT CHART ─────────────────────────────────────
+    const sentCtx = document.getElementById("sentChart");
+    if (sentCtx) {
+      new Chart(sentCtx, {
+        type: "doughnut",
+        data: {
+          labels: Object.keys(summary.sentiment || {}),
+          datasets: [{ data: Object.values(summary.sentiment || {}), backgroundColor: ["#22c55e","#facc15","#ef4444"] }]
+        },
+        options: { plugins: { legend: { labels: { color: "#fff" } } }, cutout: "65%" }
+      });
+    }
 
-      const row = `
+    // ── PLATFORM DISTRIBUTION BARS ──────────────────────────
+    const platBars = document.getElementById("platBars");
+    if (platBars) {
+      const platData = [
+        { name: "Reddit",  count: reddit.length,  color: "#ff6314" },
+        { name: "Quora",   count: quora.length,   color: "#b92b27" },
+        { name: "Medium",  count: medium.length,  color: "#facc15" },
+        { name: "Portal",  count: portal.length,  color: "#22c55e" },
+        { name: "News/Web",count: news.length + web.length, color: "#60a5fa" }
+      ];
+      const maxCount = Math.max(...platData.map(p => p.count), 1);
+      platBars.innerHTML = platData.map(p => `
+        <div style="margin-bottom:10px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+            <span>${p.name}</span><span>${p.count}</span>
+          </div>
+          <div style="background:#333;border-radius:4px;height:8px">
+            <div style="background:${p.color};width:${Math.round((p.count/maxCount)*100)}%;height:8px;border-radius:4px"></div>
+          </div>
+        </div>`).join("");
+    }
+
+    // ── SENTIMENT PILLS ─────────────────────────────────────
+    const sentPills = document.getElementById("sentPills");
+    if (sentPills) {
+      const pos = mentions.filter(m => m.sentiment === "positive").length;
+      const neg = mentions.filter(m => m.sentiment === "negative").length;
+      const neu = mentions.filter(m => m.sentiment === "neutral").length;
+      sentPills.innerHTML = `
+        <span style="background:#22c55e22;color:#22c55e;padding:4px 12px;border-radius:20px;margin-right:8px">✅ Positive ${pos}</span>
+        <span style="background:#facc1522;color:#facc15;padding:4px 12px;border-radius:20px;margin-right:8px">😐 Neutral ${neu}</span>
+        <span style="background:#ef444422;color:#ef4444;padding:4px 12px;border-radius:20px">⚠️ Negative ${neg}</span>`;
+    }
+
+    // ── NEGATIVE FEED ───────────────────────────────────────
+    const negFeed = document.getElementById("negFeed");
+    if (negFeed) {
+      const negs = mentions.filter(m => m.sentiment === "negative").slice(0, 5);
+      negFeed.innerHTML = negs.length ? negs.map(m => `
+        <div style="padding:8px 0;border-bottom:1px solid #333;font-size:13px">
+          <span style="color:#ef4444;font-weight:600">[${normalizePlatform(m.platform)}]</span>
+          <a href="${m.url}" target="_blank" style="color:#ccc;margin-left:6px">${(m.text||"").substring(0,80)}…</a>
+        </div>`).join("") : `<div style="color:#666;font-size:13px">No negative mentions detected.</div>`;
+    }
+
+    // ── LIVE LISTENING TABLE ─────────────────────────────────
+    const allMentionsBody = document.getElementById("allMentionsBody");
+    if (allMentionsBody) {
+      allMentionsBody.innerHTML = mentions.slice(0, 50).map(m => `
         <tr>
-          <td>${platform}</td>
-          <td>${text}</td>
-          <td>${item.sentiment}</td>
-          <td>${impressions}</td>
-          <td><a href="${item.url}" target="_blank">View</a></td>
-        </tr>
-      `;
+          <td style="padding:8px;color:#aaa;font-size:12px">${normalizePlatform(m.platform)}</td>
+          <td style="padding:8px;font-size:12px">${(m.text||"").substring(0,80)}</td>
+          <td style="padding:8px;font-size:12px;color:${m.sentiment==="positive"?"#22c55e":m.sentiment==="negative"?"#ef4444":"#facc15"}">${m.sentiment}</td>
+          <td style="padding:8px;font-size:12px">${(m.impressions||0).toLocaleString()}</td>
+          <td style="padding:8px;font-size:12px"><a href="${m.url}" target="_blank" style="color:#d4a017">View</a></td>
+        </tr>`).join("");
+    }
 
-      table.innerHTML += row;
-    });
+    // ── LEGACY mentionsTable fallback ───────────────────────
+    const legacyTable = document.getElementById("mentionsTable");
+    if (legacyTable) legacyTable.innerHTML = "";
+
+    // ── LAST CRAWL TIMESTAMP ────────────────────────────────
+    const lastUpdatedEl = document.getElementById("lastUpdated");
+    if (lastUpdatedEl && summary.last_updated) {
+      const d = new Date(summary.last_updated);
+      lastUpdatedEl.innerText = d.toLocaleString("en-IN", { timeZone: "Asia/Kolkata", dateStyle: "medium", timeStyle: "short" });
+    }
 
   } catch (err) {
-    console.error("Error loading data:", err);
+    console.error("Dashboard error:", err);
+    document.getElementById("bpsInterpretation").innerText = "Error loading data. Check console.";
   }
 }
 
