@@ -479,278 +479,621 @@ input:focus{outline:none;border-color:rgba(255,204,63,.4)}
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-
 <script>
 const BASE_URL = "https://raw.githubusercontent.com/adirispol/ORM-Dashboard/main/data";
+let _mentions = [], _summary = {}, _compChart1 = null, _compChart2 = null, _sentChart = null;
 
+// ── CONFIG ────────────────────────────────────────────────────
+function getSavedConfig() {
+  try { return JSON.parse(localStorage.getItem('polaris_orm_v9') || '{}'); } catch(e) { return {}; }
+}
+const SHEET_PLATFORMS = [
+  { key:'reddit',    label:'Reddit',          defaultTab:'Reddit' },
+  { key:'quora',     label:'Quora QA',        defaultTab:'Quora Seeding' },
+  { key:'quora_com', label:'Quora Comments',  defaultTab:'Quora Comments' },
+  { key:'youtube',   label:'YouTube',         defaultTab:'YouTube Comments' },
+  { key:'medium',    label:'Medium',          defaultTab:'Medium' },
+  { key:'news',      label:'News / PR',       defaultTab:'Newspaper PR' }
+];
+const COMPETITORS = ['Scaler','Newton School of Technology','upGrad','Great Learning','Scaler School of Technology'];
+
+// ── NORMALISE ─────────────────────────────────────────────────
 function normalizePlatform(p) {
-  if (!p) return "web";
-  p = p.toLowerCase();
-  if (p.includes("youtube")) return "youtube";
-  if (p.includes("reddit")) return "reddit";
-  if (p.includes("quora")) return "quora";
-  if (p.includes("medium")) return "medium";
-  if (p.includes("news") || p.includes("newspaper")) return "news";
-  if (p.includes("portal") || p.includes("shiksha") || p.includes("college")) return "portal";
-  return "web";
+  if (!p) return 'web'; p = p.toLowerCase();
+  if (p.includes('youtube')) return 'youtube';
+  if (p.includes('reddit'))  return 'reddit';
+  if (p.includes('quora'))   return 'quora';
+  if (p.includes('medium'))  return 'medium';
+  if (p.includes('news') || p.includes('newspaper')) return 'news';
+  if (p.includes('portal') || p.includes('shiksha') || p.includes('college') || p.includes('dunia') || p.includes('careers')) return 'portal';
+  return 'web';
 }
 
+// ── FETCH & RENDER ALL ────────────────────────────────────────
 async function fetchData() {
+  debugLog('Fetching summary.json + mentions.json…');
   try {
-    const summaryRes  = await fetch(`${BASE_URL}/summary.json`);
-    const mentionsRes = await fetch(`${BASE_URL}/mentions.json`);
-    const summary  = await summaryRes.json();
-    const mentions = await mentionsRes.json();
+    const [sumRes, menRes] = await Promise.all([
+      fetch(`${BASE_URL}/summary.json`),
+      fetch(`${BASE_URL}/mentions.json`)
+    ]);
+    _summary  = await sumRes.json();
+    _mentions = await menRes.json();
+    debugLog('✅ summary.json loaded — ' + (_summary.total_mentions||0) + ' mentions');
+    debugLog('✅ mentions.json loaded — ' + _mentions.length + ' records');
+    renderOverview();
+    renderListening('all');
+    renderInventory('portals');
+    renderCompetitors();
+    renderLLM();
+    renderDebug();
+    updateLastCrawl();
+  } catch(err) {
+    debugLog('❌ Fetch error: ' + err.message);
+    console.error(err);
+    document.getElementById('bpsInterpretation').innerText = 'Error loading data. Check Debug tab.';
+  }
+}
+function loadAll() { fetchData(); }
 
-    // ── TOTALS (from summary.json) ──────────────────────────
-    document.getElementById("totalMentions").innerText    = summary.total_mentions || 0;
-    document.getElementById("totalImpressions").innerText = (summary.impressions || summary.total_impressions || 0).toLocaleString();
+// ── OVERVIEW ──────────────────────────────────────────────────
+function renderOverview() {
+  const reddit  = _mentions.filter(m => normalizePlatform(m.platform) === 'reddit');
+  const quora   = _mentions.filter(m => normalizePlatform(m.platform) === 'quora');
+  const youtube = _mentions.filter(m => normalizePlatform(m.platform) === 'youtube');
+  const medium  = _mentions.filter(m => normalizePlatform(m.platform) === 'medium');
+  const news    = _mentions.filter(m => normalizePlatform(m.platform) === 'news');
+  const portal  = _mentions.filter(m => normalizePlatform(m.platform) === 'portal');
+  const web     = _mentions.filter(m => normalizePlatform(m.platform) === 'web');
+  const sumImpr = arr => arr.reduce((s,m) => s+(m.impressions||m.views||0),0);
 
-    // ── PLATFORM BUCKETS ────────────────────────────────────
-    const reddit  = mentions.filter(m => normalizePlatform(m.platform) === "reddit");
-    const quora   = mentions.filter(m => normalizePlatform(m.platform) === "quora");
-    const youtube = mentions.filter(m => normalizePlatform(m.platform) === "youtube");
-    const medium  = mentions.filter(m => normalizePlatform(m.platform) === "medium");
-    const news    = mentions.filter(m => normalizePlatform(m.platform) === "news");
-    const portal  = mentions.filter(m => normalizePlatform(m.platform) === "portal");
-    const web     = mentions.filter(m => normalizePlatform(m.platform) === "web");
+  set('totalMentions',   _summary.total_mentions || 0);
+  set('totalImpressions', ((_summary.impressions||_summary.total_impressions||0)).toLocaleString());
+  const negCount = _mentions.filter(m=>m.sentiment==='negative').length;
+  set('negAlerts', negCount);
 
-    const sumImpr = arr => arr.reduce((s, m) => s + (m.impressions || m.views || 0), 0);
+  set('kpiRedditScore',   reddit.length ? Math.max(...reddit.map(m=>m.score||0)) : 0);
+  set('kpiRedditImpr',    sumImpr(reddit).toLocaleString());
+  set('kpiQuoraMentions', quora.length);
+  set('kpiQuoraImpr',     sumImpr(quora).toLocaleString());
+  set('kpiYtViews',       youtube.length ? sumImpr(youtube).toLocaleString() : '—');
+  set('kpiYtSub',         '—');
+  set('kpiMediumReads',   sumImpr(medium).toLocaleString());
+  set('kpiMediumClaps',   '—');
+  set('kpiNewsImpr',      sumImpr([...news,...web]).toLocaleString());
+  set('kpiNewsCount',     news.length + web.length);
+  const portalNames = [...new Set(portal.map(m=>{try{return new URL(m.url).hostname.replace('www.','')}catch(e){return ''}}))].filter(Boolean).slice(0,3).join(', ');
+  set('kpiPortals',     portal.length);
+  set('kpiPortalNames', portalNames||'—');
 
-    // ── KPI CARDS (correct IDs matching your HTML) ──────────
-    document.getElementById("kpiRedditScore").innerText    = reddit.length ? Math.max(...reddit.map(m => m.score || 0)) : 0;
-    document.getElementById("kpiRedditImpr").innerText     = sumImpr(reddit).toLocaleString();
+  // BPS
+  const activePlats = [reddit,quora,medium,portal,[...news,...web]].filter(a=>a.length>0).length;
+  const posRatio    = reddit.filter(m=>m.sentiment==='positive').length / Math.max(reddit.length,1);
+  const bps = Math.min(100, Math.round((activePlats/5)*65 + posRatio*20 + Math.min(15,quora.length*1.5) + (portal.length>10?10:portal.length)));
+  const grade = bps>=80?'A+':bps>=65?'A':bps>=50?'B':bps>=35?'C':'D';
+  set('bpsScore',   bps); set('bpsScoreBig', bps); set('bpsGrade', grade);
+  set('bpsCoverage', activePlats+' platforms');
+  document.getElementById('bpsBarFill').style.width = bps+'%';
+  set('bpsInterpretation',
+    bps>=80?'Strong brand presence across all major platforms.':
+    bps>=65?'Good presence. Expand content on weaker platforms.':
+    bps>=50?'Moderate presence. More consistent posting needed.':
+            'Low presence. Prioritise content seeding across platforms.');
 
-    document.getElementById("kpiQuoraMentions").innerText  = quora.length;
-    document.getElementById("kpiQuoraImpr").innerText      = sumImpr(quora).toLocaleString();
+  // Sentiment chart
+  if (_sentChart) { _sentChart.destroy(); _sentChart = null; }
+  const sCtx = document.getElementById('sentChart');
+  if (sCtx) {
+    _sentChart = new Chart(sCtx, {
+      type:'doughnut',
+      data:{ labels:Object.keys(_summary.sentiment||{}), datasets:[{data:Object.values(_summary.sentiment||{}),backgroundColor:['#22c55e','#facc15','#ef4444']}] },
+      options:{ plugins:{legend:{labels:{color:'#fff'}}}, cutout:'65%' }
+    });
+  }
 
-    document.getElementById("kpiYtViews").innerText        = youtube.length ? sumImpr(youtube).toLocaleString() : "—";
-    document.getElementById("kpiYtSub").innerText          = "—";
-
-    document.getElementById("kpiMediumReads").innerText    = sumImpr(medium).toLocaleString();
-    document.getElementById("kpiMediumClaps").innerText    = "—";
-
-    document.getElementById("kpiNewsImpr").innerText       = sumImpr([...news, ...web]).toLocaleString();
-    document.getElementById("kpiNewsCount").innerText      = news.length + web.length;
-
-    const portalNames = [...new Set(portal.map(m => {
-      try { return new URL(m.url).hostname.replace("www.", ""); } catch(e) { return ""; }
-    }))].filter(Boolean).slice(0, 3).join(", ");
-    document.getElementById("kpiPortals").innerText      = portal.length;
-    document.getElementById("kpiPortalNames").innerText  = portalNames || "—";
-
-    // ── BRAND PRESENCE SCORE ────────────────────────────────
-    const activePlats = [reddit, quora, medium, portal, [...news,...web]].filter(a => a.length > 0).length;
-    const posRatio    = reddit.filter(m => m.sentiment === "positive").length / Math.max(reddit.length, 1);
-    const bps = Math.min(100, Math.round(
-      (activePlats / 5) * 65 +
-      posRatio * 20 +
-      Math.min(15, quora.length * 1.5) +
-      (portal.length > 10 ? 10 : portal.length)
-    ));
-    const grade = bps >= 80 ? "A+" : bps >= 65 ? "A" : bps >= 50 ? "B" : bps >= 35 ? "C" : "D";
-
-    document.getElementById("bpsScore").innerText         = bps;
-    document.getElementById("bpsGrade").innerText         = grade;
-    document.getElementById("bpsCoverage").innerText      = activePlats + " platforms";
-    document.getElementById("bpsBarFill").style.width     = bps + "%";
-    document.getElementById("bpsInterpretation").innerText =
-      bps >= 80 ? "Strong brand presence across all major platforms." :
-      bps >= 65 ? "Good presence. Expand content on weaker platforms." :
-      bps >= 50 ? "Moderate presence. More consistent posting needed." :
-                  "Low presence. Prioritise content seeding across platforms.";
-
-    // ── HEADER BRAND SCORE ──────────────────────────────────
-    const bpsScoreBig = document.getElementById("bpsScoreBig");
-    if (bpsScoreBig) bpsScoreBig.innerText = bps;
-
-    // ── SENTIMENT CHART ─────────────────────────────────────
-    const sentCtx = document.getElementById("sentChart");
-    if (sentCtx) {
-      new Chart(sentCtx, {
-        type: "doughnut",
-        data: {
-          labels: Object.keys(summary.sentiment || {}),
-          datasets: [{ data: Object.values(summary.sentiment || {}), backgroundColor: ["#22c55e","#facc15","#ef4444"] }]
-        },
-        options: { plugins: { legend: { labels: { color: "#fff" } } }, cutout: "65%" }
-      });
+  // Platform bars (using canvas as div since platBars is canvas)
+  const pb = document.getElementById('platBars');
+  if (pb) {
+    const platData = [
+      {name:'Reddit',count:reddit.length,color:'#ff6314'},
+      {name:'Quora', count:quora.length, color:'#b92b27'},
+      {name:'Medium',count:medium.length,color:'#facc15'},
+      {name:'Portal',count:portal.length,color:'#22c55e'},
+      {name:'News/Web',count:news.length+web.length,color:'#60a5fa'}
+    ];
+    const maxC = Math.max(...platData.map(p=>p.count),1);
+    // Replace canvas with div for bar rendering
+    const parent = pb.parentNode;
+    let barDiv = document.getElementById('platBarsDiv');
+    if (!barDiv) {
+      barDiv = document.createElement('div');
+      barDiv.id = 'platBarsDiv';
+      pb.style.display = 'none';
+      parent.appendChild(barDiv);
     }
+    barDiv.innerHTML = platData.map(p=>`
+      <div style="margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;color:var(--text)">
+          <span>${p.name}</span><span style="color:var(--gold)">${p.count}</span>
+        </div>
+        <div style="background:#1a1a1a;border-radius:4px;height:8px">
+          <div style="background:${p.color};width:${Math.round((p.count/maxC)*100)}%;height:8px;border-radius:4px;transition:width .8s"></div>
+        </div>
+      </div>`).join('');
+  }
 
-    // ── PLATFORM DISTRIBUTION BARS ──────────────────────────
-    const platBars = document.getElementById("platBars");
-    if (platBars) {
-      const platData = [
-        { name: "Reddit",  count: reddit.length,  color: "#ff6314" },
-        { name: "Quora",   count: quora.length,   color: "#b92b27" },
-        { name: "Medium",  count: medium.length,  color: "#facc15" },
-        { name: "Portal",  count: portal.length,  color: "#22c55e" },
-        { name: "News/Web",count: news.length + web.length, color: "#60a5fa" }
-      ];
-      const maxCount = Math.max(...platData.map(p => p.count), 1);
-      platBars.innerHTML = platData.map(p => `
-        <div style="margin-bottom:10px">
-          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
-            <span>${p.name}</span><span>${p.count}</span>
-          </div>
-          <div style="background:#333;border-radius:4px;height:8px">
-            <div style="background:${p.color};width:${Math.round((p.count/maxCount)*100)}%;height:8px;border-radius:4px"></div>
-          </div>
-        </div>`).join("");
-    }
+  // Sentiment pills
+  const pos=_mentions.filter(m=>m.sentiment==='positive').length;
+  const neg=_mentions.filter(m=>m.sentiment==='negative').length;
+  const neu=_mentions.filter(m=>m.sentiment==='neutral').length;
+  const sp=document.getElementById('sentPills');
+  if(sp) sp.innerHTML=`
+    <span style="background:#22c55e22;color:#22c55e;padding:4px 12px;border-radius:20px;margin-right:8px">✅ Positive ${pos}</span>
+    <span style="background:#facc1522;color:#facc15;padding:4px 12px;border-radius:20px;margin-right:8px">😐 Neutral ${neu}</span>
+    <span style="background:#ef444422;color:#ef4444;padding:4px 12px;border-radius:20px">⚠️ Negative ${neg}</span>`;
 
-    // ── SENTIMENT PILLS ─────────────────────────────────────
-    const sentPills = document.getElementById("sentPills");
-    if (sentPills) {
-      const pos = mentions.filter(m => m.sentiment === "positive").length;
-      const neg = mentions.filter(m => m.sentiment === "negative").length;
-      const neu = mentions.filter(m => m.sentiment === "neutral").length;
-      sentPills.innerHTML = `
-        <span style="background:#22c55e22;color:#22c55e;padding:4px 12px;border-radius:20px;margin-right:8px">✅ Positive ${pos}</span>
-        <span style="background:#facc1522;color:#facc15;padding:4px 12px;border-radius:20px;margin-right:8px">😐 Neutral ${neu}</span>
-        <span style="background:#ef444422;color:#ef4444;padding:4px 12px;border-radius:20px">⚠️ Negative ${neg}</span>`;
-    }
+  // Negative feed
+  const nf=document.getElementById('negFeed');
+  if(nf){
+    const negs=_mentions.filter(m=>m.sentiment==='negative').slice(0,5);
+    nf.innerHTML=negs.length?negs.map(m=>`
+      <div class="neg-item">
+        <div class="neg-text">${(m.text||'').substring(0,100)}</div>
+        <div class="neg-src">${normalizePlatform(m.platform)} · <a href="${m.url}" target="_blank" style="color:var(--text2)">View</a></div>
+      </div>`).join(''):`<div class="empty-state"><div class="empty-state-icon">✅</div><div>No negative mentions detected.</div></div>`;
+  }
 
-    // ── NEGATIVE FEED ───────────────────────────────────────
-    const negFeed = document.getElementById("negFeed");
-    if (negFeed) {
-      const negs = mentions.filter(m => m.sentiment === "negative").slice(0, 5);
-      negFeed.innerHTML = negs.length ? negs.map(m => `
-        <div style="padding:8px 0;border-bottom:1px solid #333;font-size:13px">
-          <span style="color:#ef4444;font-weight:600">[${normalizePlatform(m.platform)}]</span>
-          <a href="${m.url}" target="_blank" style="color:#ccc;margin-left:6px">${(m.text||"").substring(0,80)}…</a>
-        </div>`).join("") : `<div style="color:#666;font-size:13px">No negative mentions detected.</div>`;
-    }
-
-    // ── LIVE LISTENING TABLE ─────────────────────────────────
-    const allMentionsBody = document.getElementById("allMentionsBody");
-    if (allMentionsBody) {
-      allMentionsBody.innerHTML = mentions.slice(0, 50).map(m => `
-        <tr>
-          <td style="padding:8px;color:#aaa;font-size:12px">${normalizePlatform(m.platform)}</td>
-          <td style="padding:8px;font-size:12px">${(m.text||"").substring(0,80)}</td>
-          <td style="padding:8px;font-size:12px;color:${m.sentiment==="positive"?"#22c55e":m.sentiment==="negative"?"#ef4444":"#facc15"}">${m.sentiment}</td>
-          <td style="padding:8px;font-size:12px">${(m.impressions||0).toLocaleString()}</td>
-          <td style="padding:8px;font-size:12px"><a href="${m.url}" target="_blank" style="color:#d4a017">View</a></td>
-        </tr>`).join("");
-    }
-
-    // ── LEGACY mentionsTable fallback ───────────────────────
-    const legacyTable = document.getElementById("mentionsTable");
-    if (legacyTable) legacyTable.innerHTML = "";
-
-    // ── LAST CRAWL TIMESTAMP ────────────────────────────────
-    const lastUpdatedEl = document.getElementById("lastUpdated");
-    if (lastUpdatedEl && summary.last_updated) {
-      const d = new Date(summary.last_updated);
-      lastUpdatedEl.innerText = d.toLocaleString("en-IN", { timeZone: "Asia/Kolkata", dateStyle: "medium", timeStyle: "short" });
-    }
-
-  } catch (err) {
-    console.error("Dashboard error:", err);
-    document.getElementById("bpsInterpretation").innerText = "Error loading data. Check console.";
+  // Actionables
+  const al=document.getElementById('actionList');
+  if(al){
+    const actions=[];
+    if(neg>0) actions.push({pri:'HIGH',title:'Respond to negative mentions',why:neg+' negative mentions found across platforms',idea:'Draft a professional response or flag for PR team',platform:'All Platforms'});
+    if(quora.length<10) actions.push({pri:'MEDIUM',title:'Increase Quora presence',why:'Only '+quora.length+' Quora mentions — low for an ed-tech brand',idea:'Seed 5 more Q&A pairs this week targeting admission queries',platform:'Quora'});
+    if(medium.length<5) actions.push({pri:'MEDIUM',title:'Publish more Medium articles',why:'Only '+medium.length+' Medium articles indexed',idea:'Target AI engineering career topics for organic reach',platform:'Medium'});
+    if(portal.length>0) actions.push({pri:'LOW',title:'Update portal listings',why:portal.length+' portals listing Polaris — verify accuracy',idea:'Check fee, ranking and placement data on each portal',platform:'Portals'});
+    actions.push({pri:'LOW',title:'Monitor competitor Reddit activity',why:'Track competitor mentions to identify positioning gaps',idea:'Set up keyword alerts for Scaler, Newton School of Technology',platform:'Reddit'});
+    al.innerHTML=actions.slice(0,4).map(a=>`
+      <div class="action-item" data-pri="${a.pri}">
+        <div class="action-title">${a.title}</div>
+        <div class="action-why">${a.why}</div>
+        <div class="action-idea">💡 ${a.idea}</div>
+        <div class="action-platform">${a.platform}</div>
+      </div>`).join('');
   }
 }
 
-// ── TAB SWITCHING ────────────────────────────────────────────
-function switchTab(tabName, btn) {
-  document.querySelectorAll('[id^="tab-"]').forEach(s => s.style.display = 'none');
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  const target = document.getElementById('tab-' + tabName);
-  if (target) target.style.display = 'block';
-  if (btn) btn.classList.add('active');
-}
-
-// Show overview by default on load
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('[id^="tab-"]').forEach(s => s.style.display = 'none');
-  const ov = document.getElementById('tab-overview');
-  if (ov) ov.style.display = 'block';
-});
-
-// ── REFRESH ──────────────────────────────────────────────────
-function loadAll() {
-  fetchData();
-}
-
-// ── SETTINGS OVERLAY ─────────────────────────────────────────
-function openSettings() {
-  const overlay = document.getElementById('settingsOverlay');
-  if (overlay) overlay.style.display = 'flex';
-  // Pre-fill saved values
-  const cfg = getSavedConfig();
-  const fields = {
-    cfgUser: cfg.user, cfgRepo: cfg.repo, cfgBranch: cfg.branch,
-    cfgRefresh: cfg.refresh, cfgClaudeKey: cfg.claudeKey,
-    cfgNewsApi: cfg.newsapi, cfgKwPst: cfg.kwPst, cfgKwComp: cfg.kwComp
-  };
-  Object.entries(fields).forEach(([id, val]) => {
-    const el = document.getElementById(id);
-    if (el && val) el.value = val;
-  });
-  // Fill sheet rows
-  const sheets = cfg.sheets || {};
-  Object.entries(sheets).forEach(([key, val]) => {
-    const idEl = document.getElementById('sheet_' + key + '_id');
-    const tabEl = document.getElementById('sheet_' + key + '_tab');
-    if (idEl && val.id) idEl.value = val.id;
-    if (tabEl && val.tab) tabEl.value = val.tab;
-  });
-}
-
-function closeSettings() {
-  const overlay = document.getElementById('settingsOverlay');
-  if (overlay) overlay.style.display = 'none';
-}
-
-function saveSettings() {
-  const cfg = {
-    user:      document.getElementById('cfgUser')?.value    || 'adirispol',
-    repo:      document.getElementById('cfgRepo')?.value    || 'ORM-Dashboard',
-    branch:    document.getElementById('cfgBranch')?.value  || 'main',
-    refresh:   parseInt(document.getElementById('cfgRefresh')?.value) || 30,
-    claudeKey: document.getElementById('cfgClaudeKey')?.value || '',
-    newsapi:   document.getElementById('cfgNewsApi')?.value   || '',
-    kwPst:     document.getElementById('cfgKwPst')?.value     || '',
-    kwComp:    document.getElementById('cfgKwComp')?.value    || '',
-    sheets: {}
-  };
-  ['reddit','quora','quora_com','youtube','medium','news'].forEach(key => {
-    cfg.sheets[key] = {
-      id:  document.getElementById('sheet_' + key + '_id')?.value  || '',
-      tab: document.getElementById('sheet_' + key + '_tab')?.value || ''
-    };
-  });
-  localStorage.setItem('polaris_orm_v9', JSON.stringify(cfg));
-  closeSettings();
-  fetchData();
-}
-
-function getSavedConfig() {
-  try { return JSON.parse(localStorage.getItem('polaris_orm_v9') || '{}'); }
-  catch(e) { return {}; }
-}
-
-// ── LLM / AEO AI ANALYSIS ────────────────────────────────────
-function runAiAnalysis() {
-  const resultEl = document.getElementById('aiAnalysisResult');
-  if (!resultEl) return;
-  resultEl.innerText = 'Running AI analysis… (requires Claude API key in Settings)';
-  const cfg = getSavedConfig();
-  if (!cfg.claudeKey) {
-    resultEl.innerText = '⚠️ Add your Claude API key in Settings to enable AI analysis.';
+// ── LIVE LISTENING ────────────────────────────────────────────
+function renderListening(filter) {
+  const body = document.getElementById('allMentionsBody');
+  if (!body) return;
+  let data = _mentions;
+  if (filter === 'positive' || filter === 'negative') {
+    data = data.filter(m => m.sentiment === filter);
+  } else if (filter !== 'all') {
+    data = data.filter(m => normalizePlatform(m.platform) === filter);
+  }
+  if (!data.length) {
+    body.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text2);padding:40px">No mentions found for this filter.</td></tr>`;
     return;
   }
-  resultEl.innerText = '✅ Claude API key found. AI analysis feature coming in next update.';
+  body.innerHTML = data.map(m => {
+    const platColor = {reddit:'#ff4500',quora:'#b92b27',youtube:'#ff0000',medium:'#00a562',news:'#1565c0',portal:'#7b1fa2',web:'#555'}[normalizePlatform(m.platform)]||'#555';
+    const sentClass = m.sentiment==='positive'?'sent-pos':m.sentiment==='negative'?'sent-neg':'sent-neu';
+    const d = m.date ? new Date(m.date).toLocaleDateString('en-IN',{day:'2-digit',month:'short'}) : '—';
+    return `<tr>
+      <td><span class="plat-badge" style="background:${platColor}22;color:${platColor}">${normalizePlatform(m.platform)}</span></td>
+      <td style="max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${(m.text||'').replace(/"/g,'')}">${(m.text||'').substring(0,90)}</td>
+      <td><span class="sent-badge ${sentClass}">${m.sentiment}</span></td>
+      <td>${(m.impressions||m.score||0).toLocaleString()}</td>
+      <td>${d}</td>
+      <td><a class="content-link" href="${m.url}" target="_blank">View ↗</a></td>
+    </tr>`;
+  }).join('');
+}
+function filterMentions(filter, btn) {
+  document.querySelectorAll('#listeningFilters .filter-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderListening(filter);
 }
 
-// ── CLOSE SETTINGS ON OVERLAY CLICK ─────────────────────────
-document.addEventListener('click', e => {
-  const overlay = document.getElementById('settingsOverlay');
-  if (overlay && e.target === overlay) closeSettings();
-});
-  
+// ── MY CONTENT (Sheets — optional) ───────────────────────────
+let _currentContentPlatform = 'reddit';
+function switchContentPlatform(key, btn) {
+  _currentContentPlatform = key;
+  document.querySelectorAll('#contentPlatformTabs .plt-tab').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderContentTab(key);
+}
+async function renderContentTab(key) {
+  const head = document.getElementById('contentTableHead');
+  const body = document.getElementById('contentTableBody');
+  const meta = document.getElementById('contentMeta');
+  if(!head||!body) return;
+  const cfg = getSavedConfig();
+  const sheet = (cfg.sheets||{})[key];
+  if(!sheet||!sheet.id) {
+    body.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text2);padding:40px">
+      <div class="empty-state-icon">📋</div>
+      No Google Sheet connected for this platform.<br>
+      <span style="font-size:11px">Add Sheet ID in ⚙ Settings to show data here.</span>
+    </td></tr>`;
+    meta.innerText = '';
+    head.innerHTML = '';
+    return;
+  }
+  body.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text2);padding:40px">Loading from Google Sheet…</td></tr>`;
+  try {
+    const gid = sheet.gid || '0';
+    const url = `https://docs.google.com/spreadsheets/d/${sheet.id}/gviz/tq?tqx=out:csv&gid=${gid}`;
+    const res = await fetch(url);
+    const csv = await res.text();
+    const rows = parseCSV(csv);
+    if(rows.length < 2) { body.innerHTML=`<tr><td colspan="6" style="text-align:center;color:var(--text2);padding:40px">Sheet is empty or not publicly accessible.</td></tr>`; return; }
+    const headers = rows[0];
+    head.innerHTML = headers.map(h=>`<th>${h}</th><th></th>`).slice(0, headers.length).join('').replace(/<th><\/th>/g,'');
+    head.innerHTML = headers.map(h=>`<th>${h}</th>`).join('');
+    body.innerHTML = rows.slice(1).map(row=>`<tr>${row.map(cell=>`<td>${cell}</td>`).join('')}</tr>`).join('');
+    meta.innerText = `${rows.length-1} rows loaded from Google Sheet`;
+    debugLog('✅ Sheet loaded: '+key+' ('+( rows.length-1)+' rows)');
+  } catch(e) {
+    body.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--red);padding:40px">Failed to load sheet: ${e.message}</td></tr>`;
+    debugLog('❌ Sheet error ('+key+'): '+e.message);
+  }
+}
+function parseCSV(text) {
+  return text.trim().split('\n').map(row => {
+    const cells=[]; let cur='', inQ=false;
+    for(let i=0;i<row.length;i++){
+      if(row[i]==='"'){ inQ=!inQ; }
+      else if(row[i]===','&&!inQ){ cells.push(cur.trim()); cur=''; }
+      else { cur+=row[i]; }
+    }
+    cells.push(cur.trim());
+    return cells;
+  });
+}
+
+// ── LINK INVENTORY ────────────────────────────────────────────
+function switchInventory(type, btn) {
+  document.querySelectorAll('#inventoryTabs .plt-tab').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderInventory(type);
+}
+function renderInventory(type) {
+  const body = document.getElementById('inventoryBody');
+  if(!body) return;
+  let data = _mentions;
+  if(type==='portals') data = _mentions.filter(m=>normalizePlatform(m.platform)==='portal');
+  else if(type==='quora') data = _mentions.filter(m=>normalizePlatform(m.platform)==='quora');
+  else if(type==='reddit') data = _mentions.filter(m=>normalizePlatform(m.platform)==='reddit');
+
+  if(!data.length){
+    body.innerHTML=`<tr><td colspan="5" style="text-align:center;color:var(--text2);padding:40px">No links found for this category.</td></tr>`;
+    return;
+  }
+  const flags = getFlags();
+  body.innerHTML = data.map((m,i)=>{
+    const urlKey = btoa(m.url||i).substring(0,12);
+    const isFlagged = flags[urlKey];
+    let hostname=''; try{hostname=new URL(m.url).hostname.replace('www.','')}catch(e){hostname=type;}
+    return `<tr>
+      <td style="color:var(--text2)">${i+1}</td>
+      <td><span class="plat-badge" style="background:rgba(123,31,162,.2);color:#ce93d8">${hostname}</span></td>
+      <td class="url-cell"><a class="content-link" href="${m.url}" target="_blank" title="${m.url}">${(m.text||m.url||'').substring(0,60)}</a></td>
+      <td style="color:var(--text2);font-size:11px">${normalizePlatform(m.platform)}</td>
+      <td><button class="flag-btn${isFlagged?' flagged':''}" onclick="toggleFlag('${urlKey}',this)">${isFlagged?'⚑ Flagged':'⚐ Flag'}</button></td>
+    </tr>`;
+  }).join('');
+}
+function getFlags(){ try{return JSON.parse(localStorage.getItem('polaris_flags')||'{}')}catch(e){return{}} }
+function toggleFlag(key, btn){
+  const f=getFlags(); f[key]=!f[key];
+  localStorage.setItem('polaris_flags',JSON.stringify(f));
+  btn.className='flag-btn'+(f[key]?' flagged':'');
+  btn.innerText=f[key]?'⚑ Flagged':'⚐ Flag';
+}
+
+// ── COMPETITORS ───────────────────────────────────────────────
+async function renderCompetitors() {
+  const grid    = document.getElementById('compGrid');
+  const actions = document.getElementById('compActions');
+  if(!grid) return;
+  grid.innerHTML = `<div style="color:var(--text2);padding:20px">Fetching competitor data from Reddit…</div>`;
+
+  const cfg = getSavedConfig();
+  const compKeywords = cfg.kwComp ? cfg.kwComp.split(',').map(k=>k.trim()).filter(Boolean) : COMPETITORS;
+  const myMentions  = _mentions.length;
+  const myImpr      = _mentions.reduce((s,m)=>s+(m.impressions||0),0);
+  const compResults = [];
+
+  for(const comp of compKeywords.slice(0,5)) {
+    try {
+      const q = encodeURIComponent(comp);
+      const res = await fetch(`https://www.reddit.com/search.json?q=${q}&limit=10&sort=new`,{headers:{'User-Agent':'ORM-Dashboard/1.0'}});
+      const data = await res.json();
+      const posts = data?.data?.children||[];
+      const mentions = posts.length;
+      const impr = posts.reduce((s,p)=>s+(p.data?.score||0),0);
+      const sentiments = posts.map(p => {
+        const t=(p.data?.title||'').toLowerCase();
+        return t.includes('bad')||t.includes('scam')||t.includes('avoid')||t.includes('worst')?'negative':
+               t.includes('good')||t.includes('best')||t.includes('recommend')||t.includes('great')?'positive':'neutral';
+      });
+      const pos=sentiments.filter(s=>s==='positive').length;
+      const neg=sentiments.filter(s=>s==='negative').length;
+      compResults.push({name:comp, mentions, impr, pos, neg, neutral:mentions-pos-neg});
+      debugLog('✅ Competitor fetched: '+comp+' ('+mentions+' mentions)');
+    } catch(e) {
+      compResults.push({name:comp, mentions:0, impr:0, pos:0, neg:0, neutral:0});
+      debugLog('⚠ Competitor fetch failed: '+comp);
+    }
+  }
+
+  // Cards
+  const maxMentions = Math.max(...compResults.map(c=>c.mentions), myMentions, 1);
+  grid.innerHTML = [
+    `<div class="comp-card" style="border-color:rgba(255,204,63,.3)">
+      <div class="comp-name" style="color:var(--gold)">🏫 Polaris (You)</div>
+      <div class="comp-mentions">${myMentions}</div>
+      <div class="comp-sub">Total Mentions · ${myImpr.toLocaleString()} Impressions</div>
+      <div class="comp-bar"><div class="comp-bar-fill" style="background:var(--gold);width:${Math.round((myMentions/maxMentions)*100)}%"></div></div>
+    </div>`,
+    ...compResults.map(c=>{
+      const barColors=['#ff6314','#b92b27','#facc15','#22c55e','#60a5fa'];
+      const idx=compResults.indexOf(c);
+      return `<div class="comp-card">
+        <div class="comp-name">${c.name}</div>
+        <div class="comp-mentions" style="color:var(--text)">${c.mentions}</div>
+        <div class="comp-sub">Reddit mentions · ${c.impr.toLocaleString()} score</div>
+        <div class="comp-bar"><div class="comp-bar-fill" style="background:${barColors[idx%barColors.length]};width:${Math.round((c.mentions/maxMentions)*100)}%"></div></div>
+      </div>`;
+    })
+  ].join('');
+
+  // Bar chart
+  if(_compChart1){_compChart1.destroy();_compChart1=null;}
+  const bc=document.getElementById('compBarChart');
+  if(bc){
+    _compChart1=new Chart(bc,{
+      type:'bar',
+      data:{
+        labels:['Polaris',...compResults.map(c=>c.name.split(' ')[0])],
+        datasets:[{label:'Mentions',data:[myMentions,...compResults.map(c=>c.mentions)],backgroundColor:['#FFCC3F','#ff6314','#b92b27','#facc15','#22c55e','#60a5fa']}]
+      },
+      options:{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#888'}},y:{ticks:{color:'#888'},grid:{color:'#222'}}}}
+    });
+  }
+
+  // Sentiment chart
+  if(_compChart2){_compChart2.destroy();_compChart2=null;}
+  const sc=document.getElementById('compSentChart');
+  if(sc){
+    const myPos=_mentions.filter(m=>m.sentiment==='positive').length;
+    const myNeg=_mentions.filter(m=>m.sentiment==='negative').length;
+    _compChart2=new Chart(sc,{
+      type:'bar',
+      data:{
+        labels:['Polaris',...compResults.map(c=>c.name.split(' ')[0])],
+        datasets:[
+          {label:'Positive',data:[myPos,...compResults.map(c=>c.pos)],backgroundColor:'#22c55e88'},
+          {label:'Negative',data:[myNeg,...compResults.map(c=>c.neg)],backgroundColor:'#ef444488'}
+        ]
+      },
+      options:{scales:{x:{ticks:{color:'#888'}},y:{ticks:{color:'#888'},grid:{color:'#222'}}},plugins:{legend:{labels:{color:'#ccc'}}}}
+    });
+  }
+
+  // Strategic actions
+  if(actions){
+    const topComp = compResults.sort((a,b)=>b.mentions-a.mentions)[0];
+    actions.innerHTML=[
+      topComp&&topComp.mentions>myMentions?`<div class="action-item" data-pri="HIGH"><div class="action-title">${topComp.name} has more Reddit mentions than Polaris</div><div class="action-why">${topComp.mentions} vs your ${myMentions}</div><div class="action-idea">💡 Increase Reddit seeding — post in r/Btechtards, r/Indian_Academia</div><div class="action-platform">Reddit</div></div>`:'',
+      `<div class="action-item" data-pri="MEDIUM"><div class="action-title">Monitor competitor Quora answers</div><div class="action-why">Competitors may be answering admission queries you're missing</div><div class="action-idea">💡 Search Quora for competitor name + "vs Polaris" and answer those threads</div><div class="action-platform">Quora</div></div>`,
+      `<div class="action-item" data-pri="LOW"><div class="action-title">Publish comparison content on Medium</div><div class="action-why">Own the "Polaris vs Scaler" narrative before competitors do</div><div class="action-idea">💡 Write "Why Polaris is different from bootcamps" article targeting comparison searches</div><div class="action-platform">Medium</div></div>`
+    ].join('');
+  }
+}
+
+// ── LLM / AEO ────────────────────────────────────────────────
+function renderLLM() {
+  // LLM score from mentions quality
+  const hasWiki=false, hasCrunch=false;
+  const mediumCount=_mentions.filter(m=>normalizePlatform(m.platform)==='medium').length;
+  const portalCount=_mentions.filter(m=>normalizePlatform(m.platform)==='portal').length;
+  const llmScore=Math.min(100,Math.round(mediumCount*4+portalCount*1.5+(hasWiki?20:0)+(hasCrunch?15:0)+10));
+  set('llmScore',llmScore);
+  const lb=document.getElementById('llmBarFill');
+  if(lb) lb.style.width=llmScore+'%';
+
+  const sources=[
+    {name:'Wikipedia',status:hasWiki,tip:'Not indexed — high priority for AI citations'},
+    {name:'Crunchbase',status:hasCrunch,tip:'Not listed — add for funding/company data'},
+    {name:'Medium Articles',status:mediumCount>0,tip:mediumCount+' articles indexed'},
+    {name:'Portal Listings',status:portalCount>0,tip:portalCount+' portals listing Polaris'},
+    {name:'Reddit Threads',status:_mentions.filter(m=>normalizePlatform(m.platform)==='reddit').length>0,tip:'Present on Reddit — good for conversational AI'},
+    {name:'Quora Answers',status:_mentions.filter(m=>normalizePlatform(m.platform)==='quora').length>0,tip:'Present on Quora — cited by Perplexity/ChatGPT'}
+  ];
+  const ls=document.getElementById('llmSources');
+  if(ls) ls.innerHTML=sources.map(s=>`
+    <div class="source-item">
+      <div class="source-dot" style="background:${s.status?'#22c55e':'#ef4444'}"></div>
+      <div><div class="source-name">${s.name}</div><div style="font-size:11px;color:var(--text2)">${s.tip}</div></div>
+      <div class="source-status" style="color:${s.status?'#22c55e':'#ef4444'}">${s.status?'✓ OK':'✗ Missing'}</div>
+    </div>`).join('');
+
+  const checklist=[
+    {ok:mediumCount>=3,text:'3+ Medium articles indexed',action:'Publish more long-form content on Medium'},
+    {ok:portalCount>=10,text:'10+ portal listings',action:'Submit to Shiksha, Collegedunia, Careers360'},
+    {ok:false,text:'Wikipedia page exists',action:'Create or improve Wikipedia entry for Polaris'},
+    {ok:false,text:'Crunchbase profile complete',action:'Add funding, team and description to Crunchbase'},
+    {ok:_mentions.filter(m=>m.sentiment==='positive').length>5,text:'Positive sentiment dominant',action:'Encourage more positive reviews and testimonials'},
+    {ok:_mentions.filter(m=>normalizePlatform(m.platform)==='quora').length>=5,text:'5+ Quora answers',action:'Seed more Quora Q&A targeting admission questions'}
+  ];
+  const cl=document.getElementById('llmChecklist');
+  if(cl) cl.innerHTML=checklist.map(c=>`
+    <div class="checklist-item">
+      <div class="check-icon">${c.ok?'✅':'⬜'}</div>
+      <div><div class="check-text">${c.text}</div>${!c.ok?`<div class="check-action">→ ${c.action}</div>`:''}</div>
+    </div>`).join('');
+
+  const cfg=getSavedConfig();
+  const ks=document.getElementById('aiKeyStatus');
+  if(ks) ks.innerText=cfg.claudeKey?'✅ Claude API key saved':'⚠ No Claude API key — add in Settings';
+}
+async function runClaudeAnalysis() {
+  const btn=document.getElementById('runAiBtn');
+  const result=document.getElementById('aiAnalysisResult');
+  const cfg=getSavedConfig();
+  if(!cfg.claudeKey){result.innerText='⚠️ Add your Claude API key in Settings to enable AI analysis.';return;}
+  btn.disabled=true; btn.innerText='Analysing…';
+  result.innerHTML=`<div class="ai-loading">Running Claude analysis on ${_mentions.length} mentions…</div>`;
+  try {
+    const sample=_mentions.slice(0,30).map(m=>`[${normalizePlatform(m.platform)}] ${m.sentiment}: ${(m.text||'').substring(0,80)}`).join('\n');
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':cfg.claudeKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,messages:[{role:'user',content:`You are a brand analyst for Polaris School of Technology (Bangalore BTech college). Analyse these brand mentions and give: 1) Top 5 keywords people associate with Polaris 2) Key sentiment themes 3) Top 3 urgent actions. Be concise.\n\nMentions:\n${sample}`}]})
+    });
+    const data=await res.json();
+    const text=data?.content?.[0]?.text||'No response';
+    result.innerHTML=`<div class="ai-result">${text.replace(/\n/g,'<br>')}</div>`;
+    // Keywords
+    const kw=document.getElementById('llmKeywords');
+    if(kw){
+      const words=['BTech','AI Engineering','Bangalore','Admissions','Placement','Applied AI','Campus','Fees','Reviews','Engineering'];
+      kw.innerHTML=words.map(w=>`<span class="kw-pill">${w}</span>`).join('');
+    }
+  } catch(e){
+    result.innerText='Error: '+e.message;
+    debugLog('❌ Claude API error: '+e.message);
+  }
+  btn.disabled=false; btn.innerText='▶ Run Analysis';
+}
+
+// ── DEBUG ─────────────────────────────────────────────────────
+const _logs=[];
+function debugLog(msg){
+  const ts=new Date().toLocaleTimeString('en-IN');
+  _logs.push(`[${ts}] ${msg}`);
+  const el=document.getElementById('errorLog');
+  if(el) el.innerHTML=_logs.slice(-30).reverse().map(l=>`<div>${l}</div>`).join('');
+}
+function renderDebug(){
+  const cfg=getSavedConfig();
+  const api=document.getElementById('apiStatus');
+  if(api){
+    const checks=[
+      {label:'summary.json',ok:!!_summary.total_mentions,detail:`${_summary.total_mentions||0} mentions, last updated: ${_summary.last_updated||'unknown'}`},
+      {label:'mentions.json',ok:_mentions.length>0,detail:`${_mentions.length} records loaded`},
+      {label:'Claude API Key',ok:!!cfg.claudeKey,detail:cfg.claudeKey?'Key saved (hidden)':'Not configured'},
+      {label:'NewsAPI Key',ok:!!cfg.newsapi,detail:cfg.newsapi?'Key saved':'Not configured'},
+      {label:'GitHub Repo',ok:true,detail:`${cfg.user||'adirispol'}/${cfg.repo||'ORM-Dashboard'}@${cfg.branch||'main'}`}
+    ];
+    api.innerHTML=checks.map(c=>`<div class="debug-item ${c.ok?'debug-ok':'debug-warn'}">
+      ${c.ok?'✅':'⚠'} <b>${c.label}</b> — ${c.detail}</div>`).join('');
+  }
+  const ok=document.getElementById('sourcesOk');
+  const fail=document.getElementById('sourcesFail');
+  if(ok&&fail){
+    const sheets=cfg.sheets||{};
+    const okItems=[],failItems=[];
+    SHEET_PLATFORMS.forEach(p=>{
+      const s=sheets[p.key];
+      if(s&&s.id){okItems.push(`<div class="debug-item debug-ok">✅ ${p.label} — Sheet ID saved (${s.tab||p.defaultTab})</div>`);}
+      else{failItems.push(`<div class="debug-item debug-warn">⚠ ${p.label} — No Sheet ID configured (optional)</div>`);}
+    });
+    ok.innerHTML=okItems.join('')||'<div class="debug-item debug-warn">No sheets configured yet</div>';
+    fail.innerHTML=failItems.join('')||'<div class="debug-item debug-ok">All sheets configured</div>';
+  }
+}
+
+// ── SETTINGS ─────────────────────────────────────────────────
+function buildSheetRows(){
+  const cfg=getSavedConfig();
+  const sheets=cfg.sheets||{};
+  const container=document.getElementById('platformSheetRows');
+  if(!container) return;
+  container.innerHTML=SHEET_PLATFORMS.map(p=>{
+    const s=sheets[p.key]||{};
+    return `<div class="platform-sheet-row">
+      <div class="platform-sheet-label">${p.label}</div>
+      <input type="text" id="sheet_${p.key}_id" placeholder="Sheet ID" value="${s.id||''}">
+      <input type="text" id="sheet_${p.key}_tab" placeholder="${p.defaultTab}" value="${s.tab||p.defaultTab}">
+      <input type="text" id="sheet_${p.key}_gid" placeholder="GID" value="${s.gid||'0'}" style="width:60px">
+    </div>`;
+  }).join('');
+}
+function openSettings(){
+  buildSheetRows();
+  const overlay=document.getElementById('settingsOverlay');
+  if(overlay) overlay.style.display='flex';
+  const cfg=getSavedConfig();
+  const map={cfgUser:cfg.user,cfgRepo:cfg.repo,cfgBranch:cfg.branch,cfgRefresh:cfg.refresh,cfgClaudeKey:cfg.claudeKey,cfgNewsApi:cfg.newsapi,cfgKwPst:cfg.kwPst,cfgKwComp:cfg.kwComp};
+  Object.entries(map).forEach(([id,val])=>{ const el=document.getElementById(id); if(el&&val!=null) el.value=val; });
+}
+function closeSettings(){
+  const overlay=document.getElementById('settingsOverlay');
+  if(overlay) overlay.style.display='none';
+}
+function closeSettingsOutside(e){
+  if(e.target===document.getElementById('settingsOverlay')) closeSettings();
+}
+function saveSettings(){
+  const cfg={
+    user:    document.getElementById('cfgUser')?.value    || 'adirispol',
+    repo:    document.getElementById('cfgRepo')?.value    || 'ORM-Dashboard',
+    branch:  document.getElementById('cfgBranch')?.value  || 'main',
+    refresh: parseInt(document.getElementById('cfgRefresh')?.value)||30,
+    claudeKey:document.getElementById('cfgClaudeKey')?.value||'',
+    newsapi: document.getElementById('cfgNewsApi')?.value ||'',
+    kwPst:   document.getElementById('cfgKwPst')?.value   ||'',
+    kwComp:  document.getElementById('cfgKwComp')?.value  ||'',
+    sheets:{}
+  };
+  SHEET_PLATFORMS.forEach(p=>{
+    cfg.sheets[p.key]={
+      id:  document.getElementById('sheet_'+p.key+'_id')?.value  ||'',
+      tab: document.getElementById('sheet_'+p.key+'_tab')?.value ||p.defaultTab,
+      gid: document.getElementById('sheet_'+p.key+'_gid')?.value ||'0'
+    };
+  });
+  localStorage.setItem('polaris_orm_v9',JSON.stringify(cfg));
+  const msg=document.getElementById('settingsSaved');
+  if(msg){ msg.style.display='block'; setTimeout(()=>msg.style.display='none',2000); }
+  closeSettings();
+  fetchData();
+  debugLog('✅ Settings saved');
+}
+
+// ── TAB SWITCHING ─────────────────────────────────────────────
+function switchTab(tabName, btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>{p.style.display='none';p.classList.remove('active');});
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  const target=document.getElementById('tab-'+tabName);
+  if(target){target.style.display='block';target.classList.add('active');}
+  if(btn) btn.classList.add('active');
+  if(tabName==='content') renderContentTab(_currentContentPlatform);
+  if(tabName==='debug') renderDebug();
+}
+
+// ── LAST CRAWL ────────────────────────────────────────────────
+function updateLastCrawl(){
+  const el=document.getElementById('lastUpdated');
+  if(el&&_summary.last_updated){
+    const d=new Date(_summary.last_updated);
+    el.innerText=d.toLocaleString('en-IN',{timeZone:'Asia/Kolkata',dateStyle:'medium',timeStyle:'short'});
+  }
+}
+
+// ── HELPERS ───────────────────────────────────────────────────
+function set(id, val){ const el=document.getElementById(id); if(el) el.innerText=val; }
+
+// ── INIT ──────────────────────────────────────────────────────
+document.querySelectorAll('.tab-panel').forEach(p=>{ p.style.display='none'; p.classList.remove('active'); });
+const ov=document.getElementById('tab-overview');
+if(ov){ ov.style.display='block'; ov.classList.add('active'); }
 fetchData();
 </script>
+
 </body>
 </html>
