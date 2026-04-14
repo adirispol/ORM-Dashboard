@@ -1,17 +1,17 @@
 {
-  "total_mentions": 93,
+  "total_mentions": 96,
   "platforms": {
     "reddit": 19,
     "quora": 17,
     "medium": 10,
     "portal": 29,
-    "web": 18
+    "web": 21
   },
   "sentiment": {
-    "neutral": 85,
-    "positive": 7,
+    "neutral": 89,
+    "positive": 6,
     "negative": 1
   },
-  "impressions": 232150,
-  "last_updated": "2026-04-14T15:54:35.433959+00:00"
+  "impressions": 233200,
+  "last_updated": "2026-04-14T19:57:29.448959+00:00"
 }
