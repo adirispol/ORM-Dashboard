@@ -1,37 +1,37 @@
-name: ORM Crawler
+name: Apify Social Crawler
 
 on:
   schedule:
-    - cron: "0 * * * *"
+    # Runs every day at 6 AM IST (00:30 UTC)
+    - cron: "30 0 * * *"
   workflow_dispatch:
+    # Also allows manual trigger from GitHub Actions tab
 
 permissions:
   contents: write
 
 jobs:
-  run:
+  apify-social:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
-      - uses: actions/setup-python@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
-        run: pip install --upgrade pip
-
-      - name: Run crawler
+      - name: Run Apify Social Crawler
         env:
-          SERPER_API_KEY: ${{ secrets.SERPER_API_KEY }}
-          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
-        run: python scripts/crawler.py
+          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+        run: python scripts/apify_social.py
 
-      - name: Push data
+      - name: Commit social.json
         run: |
-          git config --global user.name "orm-bot"
-          git config --global user.email "orm-bot@github.com"
-          git add data/
-          git diff --cached --quiet || git commit -m "chore: update ORM data [skip ci]"
+          git config --global user.name "apify-social-bot"
+          git config --global user.email "apify-bot@github.com"
+          git add data/social.json
+          git diff --cached --quiet || git commit -m "chore: update social.json from Apify [skip ci]"
           git push
