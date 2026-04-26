@@ -1,6 +1,81 @@
 [
   {
     "platform": "twitter",
+    "author": "Kiran Kumar Maharana @KiranMahar5740",
+    "text": "@polaris_code \nToday is an amazing experience in Polaris School of technology https://t.co/FN0jGUkqR3",
+    "url": "https://x.com/KiranMahar5740/status/2047979504468193654",
+    "date": "Sat Apr 25 10:02:18 +0000 2026",
+    "likes": 0,
+    "replies": 0,
+    "retweets": 0,
+    "impressions": 0,
+    "sentiment": "neutral",
+    "tags_polaris": "Yes",
+    "competitor": "None",
+    "scraped_at": "2026-04-26T03:59:53.768660+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": "pranav vatsa @vatsapranav_",
+    "text": "This is a POC built in 5 hours on @LyzrAI Architect \nat the Agentathon, Polaris School of Technology, Bengaluru.\n\nThe full product is in development on my own stack —\nLangGraph, FastAPI, Supabase, React.\n\nThis is just the beginning.",
+    "url": "https://x.com/vatsapranav_/status/2047973957228441864",
+    "date": "Sat Apr 25 09:40:15 +0000 2026",
+    "likes": 0,
+    "replies": 0,
+    "retweets": 0,
+    "impressions": 0,
+    "sentiment": "neutral",
+    "tags_polaris": "Yes",
+    "competitor": "None",
+    "scraped_at": "2026-04-26T03:59:53.768717+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": "Naman Gautam @NamanGa79269202",
+    "text": "It was an lovely experience at polaris school of technology with agentathon \n\n@polaris_code",
+    "url": "https://x.com/NamanGa79269202/status/2047955437103063303",
+    "date": "Sat Apr 25 08:26:40 +0000 2026",
+    "likes": 0,
+    "replies": 0,
+    "retweets": 0,
+    "impressions": 0,
+    "sentiment": "neutral",
+    "tags_polaris": "Yes",
+    "competitor": "None",
+    "scraped_at": "2026-04-26T03:59:53.768738+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": "Sourav @souravCoder1",
+    "text": "It was a wonderfull experience at agentathon held at polaris school of technology \n\n@polaris_code @DrinkQuenzy https://t.co/89j4ObUCTi",
+    "url": "https://x.com/souravCoder1/status/2047951023394943077",
+    "date": "Sat Apr 25 08:09:07 +0000 2026",
+    "likes": 9,
+    "replies": 0,
+    "retweets": 0,
+    "impressions": 315,
+    "sentiment": "neutral",
+    "tags_polaris": "Yes",
+    "competitor": "None",
+    "scraped_at": "2026-04-26T03:59:53.768760+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": "HARSHIT GARG @ErHarshitGarg",
+    "text": "Thrilled to be at the Lyzr Agentathon: Vibe‑Coding Challenge at Polaris School of Technology, Bengaluru! 🚀 Building full‑stack AI agents in a single afternoon with @LyzrAI, @Logitech, @Qdrant, @Hackclub, @theproductfolks &amp; @TheBuildersClub #AIAgentathon #VibeCoding",
+    "url": "https://x.com/ErHarshitGarg/status/2047917053185859879",
+    "date": "Sat Apr 25 05:54:08 +0000 2026",
+    "likes": 0,
+    "replies": 0,
+    "retweets": 0,
+    "impressions": 0,
+    "sentiment": "neutral",
+    "tags_polaris": "Yes",
+    "competitor": "None",
+    "scraped_at": "2026-04-26T03:59:53.768814+00:00"
+  },
+  {
+    "platform": "twitter",
     "author": "Archy Gupta @archygupta22",
     "text": "Over the weekend, I was in Bangalore and Delhi for two AI events. ✅\n\n📍Bangalore had the @emergentlabs Hackathon (VibeCon) by @ycombinator at Polaris School of Technology. \n\n👉Theme was “Vibe code your way into YC.”\n\nThe energy was crazy. \nA room full of participants team, i was amazed to see what they were building & demos.\n\nTop 10 presented their work. 3 won. ✌️\n\nThere were CEOs, board members, fo",
     "url": "https://x.com/archygupta22/status/2046216972636229957",
@@ -12,7 +87,7 @@
     "sentiment": "positive",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.542421+00:00"
+    "scraped_at": "2026-04-26T03:59:53.768917+00:00"
   },
   {
     "platform": "twitter",
@@ -27,7 +102,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.542467+00:00"
+    "scraped_at": "2026-04-26T03:59:53.768943+00:00"
   },
   {
     "platform": "twitter",
@@ -42,7 +117,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.542487+00:00"
+    "scraped_at": "2026-04-26T03:59:53.768976+00:00"
   },
   {
     "platform": "twitter",
@@ -57,7 +132,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.542509+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769000+00:00"
   },
   {
     "platform": "twitter",
@@ -72,7 +147,7 @@
     "sentiment": "positive",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.542538+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769025+00:00"
   },
   {
     "platform": "twitter",
@@ -87,7 +162,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.542555+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769044+00:00"
   },
   {
     "platform": "twitter",
@@ -102,7 +177,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.542574+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769063+00:00"
   },
   {
     "platform": "twitter",
@@ -117,7 +192,7 @@
     "sentiment": "positive",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.542689+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769161+00:00"
   },
   {
     "platform": "twitter",
@@ -132,7 +207,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.542714+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769185+00:00"
   },
   {
     "platform": "twitter",
@@ -147,7 +222,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.542733+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769202+00:00"
   },
   {
     "platform": "twitter",
@@ -162,7 +237,7 @@
     "sentiment": "positive",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.542747+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769220+00:00"
   },
   {
     "platform": "twitter",
@@ -177,7 +252,7 @@
     "sentiment": "positive",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.542766+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769248+00:00"
   },
   {
     "platform": "twitter",
@@ -192,7 +267,7 @@
     "sentiment": "positive",
     "tags_polaris": "Yes",
     "competitor": "Scaler School Of Technology, Newton School",
-    "scraped_at": "2026-04-25T03:37:31.542784+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769271+00:00"
   },
   {
     "platform": "twitter",
@@ -207,7 +282,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.542793+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769286+00:00"
   },
   {
     "platform": "twitter",
@@ -222,7 +297,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.542808+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769301+00:00"
   },
   {
     "platform": "twitter",
@@ -237,7 +312,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.542845+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769358+00:00"
   },
   {
     "platform": "twitter",
@@ -252,7 +327,7 @@
     "sentiment": "negative",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.542851+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769372+00:00"
   },
   {
     "platform": "twitter",
@@ -267,7 +342,7 @@
     "sentiment": "positive",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.542861+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769387+00:00"
   },
   {
     "platform": "twitter",
@@ -282,7 +357,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.542874+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769407+00:00"
   },
   {
     "platform": "twitter",
@@ -297,7 +372,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.542887+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769430+00:00"
   },
   {
     "platform": "twitter",
@@ -312,7 +387,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.542915+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769479+00:00"
   },
   {
     "platform": "twitter",
@@ -327,7 +402,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.542927+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769499+00:00"
   },
   {
     "platform": "twitter",
@@ -342,7 +417,7 @@
     "sentiment": "positive",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.542944+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769529+00:00"
   },
   {
     "platform": "twitter",
@@ -357,7 +432,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.542955+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769555+00:00"
   },
   {
     "platform": "twitter",
@@ -372,7 +447,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.542967+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769576+00:00"
   },
   {
     "platform": "twitter",
@@ -387,7 +462,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.543005+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769639+00:00"
   },
   {
     "platform": "twitter",
@@ -402,7 +477,7 @@
     "sentiment": "positive",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.543047+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769708+00:00"
   },
   {
     "platform": "twitter",
@@ -417,7 +492,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.543060+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769731+00:00"
   },
   {
     "platform": "twitter",
@@ -432,7 +507,7 @@
     "sentiment": "negative",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.543067+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769744+00:00"
   },
   {
     "platform": "twitter",
@@ -447,7 +522,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "Scaler School Of Technology",
-    "scraped_at": "2026-04-25T03:37:31.543082+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769768+00:00"
   },
   {
     "platform": "twitter",
@@ -462,7 +537,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.543091+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769785+00:00"
   },
   {
     "platform": "twitter",
@@ -477,7 +552,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.543105+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769833+00:00"
   },
   {
     "platform": "twitter",
@@ -492,7 +567,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.543118+00:00"
+    "scraped_at": "2026-04-26T03:59:53.769855+00:00"
   },
   {
     "platform": "twitter",
@@ -507,7 +582,7 @@
     "sentiment": "negative",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.543755+00:00"
+    "scraped_at": "2026-04-26T03:59:53.770823+00:00"
   },
   {
     "platform": "twitter",
@@ -522,7 +597,7 @@
     "sentiment": "negative",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.544341+00:00"
+    "scraped_at": "2026-04-26T03:59:53.771441+00:00"
   },
   {
     "platform": "twitter",
@@ -537,7 +612,7 @@
     "sentiment": "negative",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.544943+00:00"
+    "scraped_at": "2026-04-26T03:59:53.772115+00:00"
   },
   {
     "platform": "twitter",
@@ -552,7 +627,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.544952+00:00"
+    "scraped_at": "2026-04-26T03:59:53.772134+00:00"
   },
   {
     "platform": "twitter",
@@ -567,7 +642,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.544961+00:00"
+    "scraped_at": "2026-04-26T03:59:53.772145+00:00"
   },
   {
     "platform": "twitter",
@@ -582,7 +657,7 @@
     "sentiment": "negative",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.545553+00:00"
+    "scraped_at": "2026-04-26T03:59:53.772731+00:00"
   },
   {
     "platform": "twitter",
@@ -597,7 +672,7 @@
     "sentiment": "negative",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.546129+00:00"
+    "scraped_at": "2026-04-26T03:59:53.773324+00:00"
   },
   {
     "platform": "twitter",
@@ -612,7 +687,7 @@
     "sentiment": "negative",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.546719+00:00"
+    "scraped_at": "2026-04-26T03:59:53.773958+00:00"
   },
   {
     "platform": "twitter",
@@ -627,7 +702,7 @@
     "sentiment": "negative",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.547370+00:00"
+    "scraped_at": "2026-04-26T03:59:53.774547+00:00"
   },
   {
     "platform": "twitter",
@@ -642,7 +717,7 @@
     "sentiment": "negative",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.547952+00:00"
+    "scraped_at": "2026-04-26T03:59:53.775643+00:00"
   },
   {
     "platform": "twitter",
@@ -657,7 +732,7 @@
     "sentiment": "positive",
     "tags_polaris": "Yes",
     "competitor": "Upgrad",
-    "scraped_at": "2026-04-25T03:37:31.548391+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776097+00:00"
   },
   {
     "platform": "twitter",
@@ -672,82 +747,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.548410+00:00"
-  },
-  {
-    "platform": "twitter",
-    "author": "Arthur J. Pemberton @SpaceBound000",
-    "text": "🇺🇸 Jared Isaacman: Trump's Pick for NASA Administrator 🇺🇸\n\nBorn on January 5, 1983, Isaacman has carved out a reputation as an entrepreneur, philanthropist, and astronaut.\n\nIsaacman founded Shift4 Payments when he was just 16 years old, dropping out of high school to focus on his business. Under his leadership, Shift4 has grown into a payment processing giant, serving major clients across various ",
-    "url": "https://x.com/SpaceBound000/status/1864416188199027063",
-    "date": "Wed Dec 04 21:07:13 +0000 2024",
-    "likes": 0,
-    "replies": 0,
-    "retweets": 0,
-    "impressions": 0,
-    "sentiment": "neutral",
-    "tags_polaris": "Yes",
-    "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.548544+00:00"
-  },
-  {
-    "platform": "twitter",
-    "author": "Roشdah بنت oluڜsi @salewa022",
-    "text": "Pay your index fee into the following account \n\nPOLARIS BANK PLC\n4091868113\nEgba City College of Health, Sciences and Technology\n\nSchool Account Number 👆",
-    "url": "https://x.com/salewa022/status/1861355136267751727",
-    "date": "Tue Nov 26 10:23:41 +0000 2024",
-    "likes": 1,
-    "replies": 0,
-    "retweets": 0,
-    "impressions": 35,
-    "sentiment": "neutral",
-    "tags_polaris": "Yes",
-    "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.548562+00:00"
-  },
-  {
-    "platform": "twitter",
-    "author": "Billy Buddusky 🇺🇸🇺🇦 @Artfulgiant256",
-    "text": "Short story, in ‘83 as an Aviation Anti-Submarine Warfare Technician I attended a week of school at the Naval Avionics Facility in Indianapolis. One of my lasting memories is touring the “clean room” there where the guidance systems for Polaris missiles were built and maintained. Looking thru the windows where all the personnel were dressed like doctors in an operating room is a snapshot in my min",
-    "url": "https://x.com/Artfulgiant256/status/1857494042801746121",
-    "date": "Fri Nov 15 18:41:05 +0000 2024",
-    "likes": 3,
-    "replies": 0,
-    "retweets": 0,
-    "impressions": 105,
-    "sentiment": "neutral",
-    "tags_polaris": "Yes",
-    "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.548617+00:00"
-  },
-  {
-    "platform": "twitter",
-    "author": "The Admiral @7OceansGroup",
-    "text": "🔔 Dive into the depth of information with The Admiral bot and the Seven Oceans Discord Server! 🧭 Streamline your journey through news, markets, crypto, and gaming, with our Admiral bot at your service, summarizing Discord Channel chats and content effortlessly. 🌊✨\n\n📰 Jim Donovan, the longtime voice of the Cleveland Browns, has sadly passed away at the age of 67. #ClevelandBrowns\n\n😱 The Israeli air",
-    "url": "https://x.com/7OceansGroup/status/1850274120899891328",
-    "date": "Sat Oct 26 20:31:41 +0000 2024",
-    "likes": 0,
-    "replies": 0,
-    "retweets": 0,
-    "impressions": 0,
-    "sentiment": "neutral",
-    "tags_polaris": "Yes",
-    "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.548761+00:00"
-  },
-  {
-    "platform": "twitter",
-    "author": "Niket Raj Dwivedi @niketrajdwivedi",
-    "text": "I recently was invited by Polaris School of Technology  to interact with over 160 students in their ongoing batch. \n\nTalked about entrepreneurship, a career in tech, navigating thoughts on purpose and a lot of other fun things. There were tons of questions once the QnA started. \n\nI was happy to see how curious all the students were despite being just in second year of college.",
-    "url": "https://x.com/niketrajdwivedi/status/1848690945342279892",
-    "date": "Tue Oct 22 11:40:43 +0000 2024",
-    "likes": 9,
-    "replies": 0,
-    "retweets": 0,
-    "impressions": 315,
-    "sentiment": "neutral",
-    "tags_polaris": "Yes",
-    "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.548778+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776117+00:00"
   },
   {
     "platform": "twitter",
@@ -762,7 +762,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.548794+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776136+00:00"
   },
   {
     "platform": "twitter",
@@ -777,7 +777,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.548819+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776163+00:00"
   },
   {
     "platform": "twitter",
@@ -792,7 +792,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.548847+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776191+00:00"
   },
   {
     "platform": "twitter",
@@ -807,7 +807,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.548870+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776214+00:00"
   },
   {
     "platform": "twitter",
@@ -822,7 +822,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.548892+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776235+00:00"
   },
   {
     "platform": "twitter",
@@ -837,7 +837,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.548912+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776255+00:00"
   },
   {
     "platform": "twitter",
@@ -852,7 +852,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.548932+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776276+00:00"
   },
   {
     "platform": "twitter",
@@ -867,7 +867,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.548955+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776297+00:00"
   },
   {
     "platform": "twitter",
@@ -882,7 +882,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.548976+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776320+00:00"
   },
   {
     "platform": "twitter",
@@ -897,7 +897,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.548995+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776338+00:00"
   },
   {
     "platform": "twitter",
@@ -912,7 +912,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549012+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776354+00:00"
   },
   {
     "platform": "twitter",
@@ -927,7 +927,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549028+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776370+00:00"
   },
   {
     "platform": "twitter",
@@ -942,7 +942,7 @@
     "sentiment": "negative",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549058+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776402+00:00"
   },
   {
     "platform": "twitter",
@@ -950,14 +950,14 @@
     "text": "Join the celebration of The Graph's 4th birthday with community-led events across the globe! Don’t miss out—RSVP is required, and spots are limited.\n\n🇺🇸 San Francisco, United States\n📅 Tuesday, December 17\n🕜 6:00 PM to 9:00 PM PST\nRSVP: https://t.co/XnNFKUoUyn\n\n🇦🇷 Buenos Aires, Argentina\n📅 Tuesday, December 17\n🕜 5:30 PM to 9:30 PM GMT-3\nRSVP: https://t.co/KdO3CYZNXZ\n\n🇮🇳  Bangalore, India\n📅 Tuesday,",
     "url": "https://x.com/graphprotocol/status/1864001153048183033",
     "date": "Tue Dec 03 17:38:01 +0000 2024",
-    "likes": 297,
+    "likes": 298,
     "replies": 0,
     "retweets": 0,
-    "impressions": 10395,
+    "impressions": 10430,
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549122+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776563+00:00"
   },
   {
     "platform": "twitter",
@@ -972,7 +972,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549140+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776589+00:00"
   },
   {
     "platform": "twitter",
@@ -987,7 +987,7 @@
     "sentiment": "positive",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549154+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776606+00:00"
   },
   {
     "platform": "twitter",
@@ -1002,7 +1002,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549169+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776622+00:00"
   },
   {
     "platform": "twitter",
@@ -1017,7 +1017,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549199+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776653+00:00"
   },
   {
     "platform": "twitter",
@@ -1032,7 +1032,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549211+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776670+00:00"
   },
   {
     "platform": "twitter",
@@ -1047,7 +1047,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549227+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776687+00:00"
   },
   {
     "platform": "twitter",
@@ -1062,7 +1062,7 @@
     "sentiment": "positive",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549255+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776716+00:00"
   },
   {
     "platform": "twitter",
@@ -1077,7 +1077,7 @@
     "sentiment": "negative",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549312+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776735+00:00"
   },
   {
     "platform": "twitter",
@@ -1092,7 +1092,7 @@
     "sentiment": "negative",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549358+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776775+00:00"
   },
   {
     "platform": "twitter",
@@ -1107,7 +1107,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549387+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776836+00:00"
   },
   {
     "platform": "twitter",
@@ -1122,7 +1122,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549400+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776852+00:00"
   },
   {
     "platform": "twitter",
@@ -1137,7 +1137,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549418+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776882+00:00"
   },
   {
     "platform": "twitter",
@@ -1145,14 +1145,14 @@
     "text": "bc where is bangalore roon? my TL so dry wen PST roon goes to sleep.\n\nSam altman should assign roon's on 24 hours poasting rotation",
     "url": "https://x.com/cto_junior/status/1719538846612742368",
     "date": "Wed Nov 01 02:16:23 +0000 2023",
-    "likes": 47,
+    "likes": 48,
     "replies": 0,
     "retweets": 0,
-    "impressions": 1645,
+    "impressions": 1680,
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549430+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776898+00:00"
   },
   {
     "platform": "twitter",
@@ -1167,7 +1167,7 @@
     "sentiment": "positive",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549460+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776946+00:00"
   },
   {
     "platform": "twitter",
@@ -1182,7 +1182,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549470+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776969+00:00"
   },
   {
     "platform": "twitter",
@@ -1197,7 +1197,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549482+00:00"
+    "scraped_at": "2026-04-26T03:59:53.776989+00:00"
   },
   {
     "platform": "twitter",
@@ -1212,7 +1212,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549512+00:00"
+    "scraped_at": "2026-04-26T03:59:53.777029+00:00"
   },
   {
     "platform": "twitter",
@@ -1227,7 +1227,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549537+00:00"
+    "scraped_at": "2026-04-26T03:59:53.777056+00:00"
   },
   {
     "platform": "twitter",
@@ -1242,7 +1242,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549547+00:00"
+    "scraped_at": "2026-04-26T03:59:53.777116+00:00"
   },
   {
     "platform": "twitter",
@@ -1257,7 +1257,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549561+00:00"
+    "scraped_at": "2026-04-26T03:59:53.777131+00:00"
   },
   {
     "platform": "twitter",
@@ -1272,7 +1272,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549576+00:00"
+    "scraped_at": "2026-04-26T03:59:53.777145+00:00"
   },
   {
     "platform": "twitter",
@@ -1280,14 +1280,14 @@
     "text": "Bangalore Mythic Skin Giveaway (1 winner)\n\nwinner receives: \n- $140 worth of apex coins for Mythic Skin(all platforms)\n\n-like/rt to enter. be following \n@austinlangsy to be messaged\n\n-Come snag a free mythic by\n@PlayApex\n\nGoodluck!\n\nGiveaway ends 7/18 11:59PM PST #apexlegends https://t.co/cexh6q8tGN",
     "url": "https://x.com/austinlangsy/status/1547626988873011200",
     "date": "Thu Jul 14 17:00:02 +0000 2022",
-    "likes": 185,
+    "likes": 186,
     "replies": 0,
     "retweets": 0,
-    "impressions": 6475,
+    "impressions": 6510,
     "sentiment": "positive",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549587+00:00"
+    "scraped_at": "2026-04-26T03:59:53.777156+00:00"
   },
   {
     "platform": "twitter",
@@ -1302,7 +1302,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549619+00:00"
+    "scraped_at": "2026-04-26T03:59:53.777187+00:00"
   },
   {
     "platform": "twitter",
@@ -1317,7 +1317,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549634+00:00"
+    "scraped_at": "2026-04-26T03:59:53.777202+00:00"
   },
   {
     "platform": "twitter",
@@ -1332,7 +1332,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549660+00:00"
+    "scraped_at": "2026-04-26T03:59:53.777231+00:00"
   },
   {
     "platform": "twitter",
@@ -1347,7 +1347,7 @@
     "sentiment": "positive",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549671+00:00"
+    "scraped_at": "2026-04-26T03:59:53.777241+00:00"
   },
   {
     "platform": "twitter",
@@ -1362,7 +1362,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549703+00:00"
+    "scraped_at": "2026-04-26T03:59:53.777274+00:00"
   },
   {
     "platform": "twitter",
@@ -1377,7 +1377,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549717+00:00"
+    "scraped_at": "2026-04-26T03:59:53.777288+00:00"
   },
   {
     "platform": "twitter",
@@ -1392,7 +1392,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549730+00:00"
+    "scraped_at": "2026-04-26T03:59:53.777301+00:00"
   },
   {
     "platform": "twitter",
@@ -1407,7 +1407,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549761+00:00"
+    "scraped_at": "2026-04-26T03:59:53.777334+00:00"
   },
   {
     "platform": "twitter",
@@ -1422,7 +1422,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549780+00:00"
+    "scraped_at": "2026-04-26T03:59:53.777351+00:00"
   },
   {
     "platform": "twitter",
@@ -1437,7 +1437,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549790+00:00"
+    "scraped_at": "2026-04-26T03:59:53.777361+00:00"
   },
   {
     "platform": "twitter",
@@ -1452,7 +1452,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549817+00:00"
+    "scraped_at": "2026-04-26T03:59:53.777389+00:00"
   },
   {
     "platform": "twitter",
@@ -1467,7 +1467,7 @@
     "sentiment": "positive",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549828+00:00"
+    "scraped_at": "2026-04-26T03:59:53.777399+00:00"
   },
   {
     "platform": "twitter",
@@ -1482,7 +1482,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549842+00:00"
+    "scraped_at": "2026-04-26T03:59:53.777415+00:00"
   },
   {
     "platform": "twitter",
@@ -1497,7 +1497,7 @@
     "sentiment": "neutral",
     "tags_polaris": "No",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:31.549872+00:00"
+    "scraped_at": "2026-04-26T03:59:53.777446+00:00"
   },
   {
     "platform": "instagram",
@@ -1511,7 +1511,7 @@
     "sentiment": "negative",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:48.502261+00:00"
+    "scraped_at": "2026-04-26T04:00:15.450265+00:00"
   },
   {
     "platform": "instagram",
@@ -1525,7 +1525,7 @@
     "sentiment": "negative",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:48.502309+00:00"
+    "scraped_at": "2026-04-26T04:00:15.450317+00:00"
   },
   {
     "platform": "instagram",
@@ -1539,7 +1539,7 @@
     "sentiment": "negative",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:48.502336+00:00"
+    "scraped_at": "2026-04-26T04:00:15.450341+00:00"
   },
   {
     "platform": "instagram",
@@ -1553,7 +1553,7 @@
     "sentiment": "negative",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:48.502454+00:00"
+    "scraped_at": "2026-04-26T04:00:15.450421+00:00"
   },
   {
     "platform": "instagram",
@@ -1567,7 +1567,7 @@
     "sentiment": "negative",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:48.502503+00:00"
+    "scraped_at": "2026-04-26T04:00:15.450469+00:00"
   },
   {
     "platform": "instagram",
@@ -1581,7 +1581,7 @@
     "sentiment": "negative",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:48.502547+00:00"
+    "scraped_at": "2026-04-26T04:00:15.450513+00:00"
   },
   {
     "platform": "instagram",
@@ -1595,7 +1595,21 @@
     "sentiment": "negative",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:48.502604+00:00"
+    "scraped_at": "2026-04-26T04:00:15.450571+00:00"
+  },
+  {
+    "platform": "instagram",
+    "author": "@dollydoesvlogz",
+    "text": "Agentathon dumps 👅\n#hackathon #agentathon #lyzr #polarisschooloftechnology #hackathonvibes",
+    "url": "https://www.instagram.com/p/DXjwcA3CbTv/",
+    "date": "2026-04-25T14:53:26.000Z",
+    "likes": 101,
+    "comments": 13,
+    "impressions": 1010,
+    "sentiment": "neutral",
+    "tags_polaris": "Yes",
+    "competitor": "None",
+    "scraped_at": "2026-04-26T04:00:15.450593+00:00"
   },
   {
     "platform": "instagram",
@@ -1603,13 +1617,13 @@
     "text": "🌟 Big news, Hyderabad!\nPolaris School of Technology is coming to your city, for the first time ever! 🎉\n\nWe’re bringing the team behind India’s 300-seat CS program straight to Hyderabad, and we want to meet YOU.\n\nGot questions about life at our Bengaluru campus? \nCurious about our curriculum, hands-on learning approach, or outcomes? Come ask us anything- no filters, no scripts.\n\n📅 25th April, 2026 ",
     "url": "https://www.instagram.com/p/DXhOXp-iVz2/",
     "date": "2026-04-24T15:17:16.000Z",
-    "likes": 37,
+    "likes": 43,
     "comments": 0,
-    "impressions": 370,
+    "impressions": 430,
     "sentiment": "negative",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:48.502643+00:00"
+    "scraped_at": "2026-04-26T04:00:15.450631+00:00"
   },
   {
     "platform": "instagram",
@@ -1623,7 +1637,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:48.502655+00:00"
+    "scraped_at": "2026-04-26T04:00:15.450641+00:00"
   },
   {
     "platform": "instagram",
@@ -1637,7 +1651,7 @@
     "sentiment": "negative",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:48.502665+00:00"
+    "scraped_at": "2026-04-26T04:00:15.450650+00:00"
   },
   {
     "platform": "instagram",
@@ -1651,7 +1665,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:48.502675+00:00"
+    "scraped_at": "2026-04-26T04:00:15.450659+00:00"
   },
   {
     "platform": "instagram",
@@ -1665,7 +1679,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:48.502696+00:00"
+    "scraped_at": "2026-04-26T04:00:15.450679+00:00"
   },
   {
     "platform": "instagram",
@@ -1679,7 +1693,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:48.502724+00:00"
+    "scraped_at": "2026-04-26T04:00:15.450706+00:00"
   },
   {
     "platform": "instagram",
@@ -1693,7 +1707,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:48.502738+00:00"
+    "scraped_at": "2026-04-26T04:00:15.450719+00:00"
   },
   {
     "platform": "instagram",
@@ -1707,7 +1721,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:48.502747+00:00"
+    "scraped_at": "2026-04-26T04:00:15.450728+00:00"
   },
   {
     "platform": "instagram",
@@ -1721,7 +1735,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:48.502803+00:00"
+    "scraped_at": "2026-04-26T04:00:15.450783+00:00"
   },
   {
     "platform": "instagram",
@@ -1735,7 +1749,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:48.502835+00:00"
+    "scraped_at": "2026-04-26T04:00:15.450833+00:00"
   },
   {
     "platform": "instagram",
@@ -1749,7 +1763,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:48.502855+00:00"
+    "scraped_at": "2026-04-26T04:00:15.450854+00:00"
   },
   {
     "platform": "instagram",
@@ -1763,7 +1777,7 @@
     "sentiment": "positive",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:48.502880+00:00"
+    "scraped_at": "2026-04-26T04:00:15.450880+00:00"
   },
   {
     "platform": "instagram",
@@ -1777,7 +1791,7 @@
     "sentiment": "neutral",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:48.502896+00:00"
+    "scraped_at": "2026-04-26T04:00:15.450896+00:00"
   },
   {
     "platform": "instagram",
@@ -1791,7 +1805,7 @@
     "sentiment": "positive",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:48.502944+00:00"
+    "scraped_at": "2026-04-26T04:00:15.450941+00:00"
   },
   {
     "platform": "instagram",
@@ -1805,7 +1819,7 @@
     "sentiment": "positive",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:48.502982+00:00"
+    "scraped_at": "2026-04-26T04:00:15.450980+00:00"
   },
   {
     "platform": "instagram",
@@ -1819,7 +1833,7 @@
     "sentiment": "positive",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:48.503019+00:00"
+    "scraped_at": "2026-04-26T04:00:15.451017+00:00"
   },
   {
     "platform": "instagram",
@@ -1833,7 +1847,7 @@
     "sentiment": "positive",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:48.503055+00:00"
+    "scraped_at": "2026-04-26T04:00:15.451053+00:00"
   },
   {
     "platform": "instagram",
@@ -1847,7 +1861,7 @@
     "sentiment": "positive",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:48.503092+00:00"
+    "scraped_at": "2026-04-26T04:00:15.451090+00:00"
   },
   {
     "platform": "instagram",
@@ -1861,20 +1875,6 @@
     "sentiment": "positive",
     "tags_polaris": "Yes",
     "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:48.503128+00:00"
-  },
-  {
-    "platform": "instagram",
-    "author": "@admissionssquare",
-    "text": "Revolutionizing New Age 𝗕. 𝗧𝗲𝗰𝗵 Education in India!\n\n𝗣𝗼𝗹𝗮𝗿𝗶𝘀 𝗦𝗰𝗵𝗼𝗼𝗹 𝗼𝗳 𝗧𝗲𝗰𝗵𝗻𝗼𝗹𝗼𝗴𝘆, now in Whitefield, Bengaluru!\n\n🎓 𝟮𝟬𝟮𝟱 𝗔𝗱𝗺𝗶𝘀𝘀𝗶𝗼𝗻𝘀 𝗢𝗽𝗲𝗻 🎓\n\nPowered by 𝗖𝗹𝗮𝘀𝘀𝗽𝗹𝘂𝘀 𝗙𝗼𝘂𝗻𝗱𝗲𝗿𝘀, Polaris offers:\n\n⚡ 5000+ hrs. coding\n⚡ 5+ Internships\n⚡ AI + ML Specialization\n⚡ Founder & CTO Mentorship\n⚡ In-house Startup Incubator\n⚡ ₹10,000 USD Seed Funding for student ideas!\n\n💥 Real Learning. Real Projects. Real Careers.\n\n",
-    "url": "https://www.instagram.com/p/DM9YZN-KGSO/",
-    "date": "2025-08-05T03:58:22.000Z",
-    "likes": 0,
-    "comments": 0,
-    "impressions": 0,
-    "sentiment": "positive",
-    "tags_polaris": "Yes",
-    "competitor": "None",
-    "scraped_at": "2026-04-25T03:37:48.503162+00:00"
+    "scraped_at": "2026-04-26T04:00:15.451125+00:00"
   }
 ]
