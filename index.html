@@ -225,7 +225,51 @@ input:focus{outline:none;border-color:rgba(255,204,63,.4)}
 .report-tip{background:rgba(89,57,168,.08);border:1px solid rgba(89,57,168,.2);border-radius:8px;padding:12px 16px;font-size:12px;color:#c4b0f0;margin-bottom:20px;display:flex;align-items:flex-start;gap:10px}
 .report-tip::before{content:'💡';flex-shrink:0}
 
-/* ═══ UGC TRACKER TAB STYLES ═══ */
+/* ═══ MY CHANNELS TAB STYLES ═══ */
+.ch-hero{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-bottom:24px}
+.ch-card{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:20px;position:relative;overflow:hidden;transition:border-color .2s}
+.ch-card:hover{border-color:rgba(255,204,63,.25)}
+.ch-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.ch-card-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.ch-card-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.ch-card-name{font-size:13px;font-weight:600;color:#fff}
+.ch-card-handle{font-size:11px;color:var(--text2);margin-top:1px}
+.ch-stat-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.ch-stat{background:rgba(255,255,255,.03);border-radius:8px;padding:10px 12px}
+.ch-stat-val{font-size:20px;font-weight:700;color:#fff}
+.ch-stat-lbl{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.ch-stat-delta{font-size:10px;margin-top:3px}
+.ch-posts-preview{margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.ch-post-item{padding:7px 0;border-bottom:1px solid rgba(42,42,42,.4);font-size:11px;color:var(--text2);display:flex;align-items:flex-start;gap:8px}
+.ch-post-item:last-child{border-bottom:none}
+.ch-post-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ch-post-eng{color:var(--gold);white-space:nowrap;font-weight:600}
+.ch-empty{text-align:center;padding:20px 12px;color:var(--text2);font-size:12px}
+.ch-empty-icon{font-size:24px;margin-bottom:6px}
+.ch-status-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:3px}
+/* Channel totals bar */
+.ch-totals{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:24px}
+.ch-total-card{background:#111;border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-align:center}
+.ch-total-val{font-size:24px;font-weight:700;color:var(--gold)}
+.ch-total-lbl{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.07em;margin-top:3px}
+/* Handle editor */
+.ch-handle-editor{background:var(--card2);border:1px solid rgba(255,204,63,.15);border-radius:12px;padding:18px;margin-bottom:24px}
+.ch-handle-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-top:12px}
+.ch-handle-row{display:flex;align-items:center;gap:8px;background:#111;border-radius:8px;padding:8px 12px;border:1px solid var(--border)}
+.ch-handle-icon{font-size:16px;flex-shrink:0}
+.ch-handle-input{background:transparent;border:none;color:#fff;font-size:12px;font-family:Poppins,sans-serif;flex:1;outline:none}
+.ch-handle-input::placeholder{color:var(--text2)}
+.ch-save-handles{background:var(--gold);color:#000;border:none;border-radius:7px;padding:8px 20px;font-size:12px;font-weight:700;cursor:pointer;font-family:Poppins,sans-serif;margin-top:12px;transition:opacity .2s}
+.ch-save-handles:hover{opacity:.9}
+.ch-all-posts{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:20px}
+/* Growth chart */
+.ch-chart-wrap{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:20px}
+
+@media(max-width:768px){
+  .ch-hero{grid-template-columns:1fr}
+  .ch-totals{grid-template-columns:repeat(2,1fr)}
+  .ch-handle-grid{grid-template-columns:1fr}
+}
 .ugc-platform-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:24px}
 .ugc-plat-card{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:16px;position:relative;overflow:hidden;cursor:pointer;transition:border-color .2s}
 .ugc-plat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
@@ -332,6 +376,7 @@ input:focus{outline:none;border-color:rgba(255,204,63,.4)}
   <button class="tab-btn" onclick="switchTab('llm',this)">🤖 LLM / AEO</button>
   <button class="tab-btn" onclick="switchTab('report',this)">📋 ORM Report</button>
   <button class="tab-btn" onclick="switchTab('ugc',this)">📈 UGC Tracker</button>
+  <button class="tab-btn" onclick="switchTab('channels',this)">🏢 My Channels</button>
   <button class="tab-btn" onclick="switchTab('debug',this)">🔧 Debug</button>
 </div>
 
@@ -765,6 +810,67 @@ input:focus{outline:none;border-color:rgba(255,204,63,.4)}
 
 <!-- Tooltip -->
 <div class="cal-tooltip" id="ugcCalTooltip"></div>
+
+<!-- ═══════ MY CHANNELS ═══════ -->
+<div class="tab-panel" id="tab-channels">
+
+  <!-- Handle editor -->
+  <div class="ch-handle-editor">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+      <div>
+        <div style="font-size:13px;font-weight:600;color:#fff">Official Polaris Handles</div>
+        <div style="font-size:11px;color:var(--text2);margin-top:2px">Posts matching these handles are shown as "owned" content</div>
+      </div>
+      <button class="ch-save-handles" onclick="saveChannelHandles()">Save Handles</button>
+    </div>
+    <div class="ch-handle-grid">
+      <div class="ch-handle-row"><div class="ch-handle-icon">💼</div><input class="ch-handle-input" id="ch-linkedin" placeholder="LinkedIn handle e.g. polaris-school-of-technology"></div>
+      <div class="ch-handle-row"><div class="ch-handle-icon">📸</div><input class="ch-handle-input" id="ch-instagram" placeholder="Instagram e.g. polariscampus"></div>
+      <div class="ch-handle-row"><div class="ch-handle-icon">▶</div><input class="ch-handle-input" id="ch-youtube" placeholder="YouTube channel e.g. PolarisSchoolOfTechnology"></div>
+      <div class="ch-handle-row"><div class="ch-handle-icon">𝕏</div><input class="ch-handle-input" id="ch-twitter" placeholder="Twitter/X handle e.g. polariscampus"></div>
+      <div class="ch-handle-row"><div class="ch-handle-icon">👥</div><input class="ch-handle-input" id="ch-facebook" placeholder="Facebook page e.g. PolarisSchoolOfTech"></div>
+    </div>
+    <div id="ch-handle-saved" style="font-size:11px;color:var(--green);margin-top:8px;display:none">✅ Handles saved</div>
+  </div>
+
+  <!-- Totals row -->
+  <div class="sec-title">Channel Totals — Lifetime</div>
+  <div class="ch-totals" id="chTotals">
+    <div style="color:var(--text2);font-size:12px;padding:10px">Loading…</div>
+  </div>
+
+  <!-- Per-channel cards -->
+  <div class="sec-title">Channel Breakdown</div>
+  <div class="ch-hero" id="chCards">
+    <div style="color:var(--text2);font-size:12px;padding:20px">Loading channel data…</div>
+  </div>
+
+  <!-- Engagement chart -->
+  <div class="ch-chart-wrap">
+    <div class="sec-title">Engagement by Channel</div>
+    <canvas id="chEngChart" height="120"></canvas>
+  </div>
+
+  <!-- All channel posts table -->
+  <div class="sec-title" id="chAllPostsTitle">All Channel Posts</div>
+  <div class="ch-all-posts">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px" id="chPostFilter">
+      <button class="filter-btn active" onclick="filterChPosts('all',this)">All</button>
+      <button class="filter-btn" onclick="filterChPosts('linkedin',this)">💼 LinkedIn</button>
+      <button class="filter-btn" onclick="filterChPosts('instagram',this)">📸 Instagram</button>
+      <button class="filter-btn" onclick="filterChPosts('youtube',this)">▶ YouTube</button>
+      <button class="filter-btn" onclick="filterChPosts('twitter',this)">𝕏 Twitter</button>
+      <button class="filter-btn" onclick="filterChPosts('facebook',this)">👥 Facebook</button>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="ugc-posts-table">
+        <thead><tr><th>Platform</th><th>Date</th><th>Content</th><th>Likes</th><th>Comments</th><th>Shares</th><th>Impressions</th><th>Link</th></tr></thead>
+        <tbody id="chPostsBody"><tr><td colspan="8" style="text-align:center;color:var(--text2);padding:30px">Loading posts…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
 
 <!-- ═══════ DEBUG ═══════ -->
 <div class="tab-panel" id="tab-debug">
@@ -1663,6 +1769,7 @@ function switchTab(name, btn){
   if(name==='social') renderSocial(_currentSocial);
   if(name==='report') renderReportTab();
   if(name==='ugc') renderUGCTab();
+  if(name==='channels') renderChannelsTab();
 }
 
 
@@ -2011,6 +2118,221 @@ function renderUGCWeek(){
   grid.innerHTML = html;
 }
 
+
+}
+
+
+// ═══════════════════════════════════════════════════════
+// MY CHANNELS
+// ═══════════════════════════════════════════════════════
+let _chPostFilter = 'all';
+let _chEngChart = null;
+
+const CH_PLATFORMS = [
+  {key:'linkedin',  label:'LinkedIn',  icon:'💼', color:'#0A66C2'},
+  {key:'instagram', label:'Instagram', icon:'📸', color:'#E1306C'},
+  {key:'youtube',   label:'YouTube',   icon:'▶',  color:'#FF0000'},
+  {key:'twitter',   label:'Twitter/X', icon:'𝕏',  color:'#1DA1F2'},
+  {key:'facebook',  label:'Facebook',  icon:'👥', color:'#1877F2'},
+];
+
+function getChannelHandles(){
+  try{ return JSON.parse(localStorage.getItem('polaris_ch_handles')||'{}'); }
+  catch(e){ return {}; }
+}
+
+function saveChannelHandles(){
+  const handles = {};
+  CH_PLATFORMS.forEach(p=>{
+    const val = (id('ch-'+p.key)||{}).value||'';
+    if(val.trim()) handles[p.key] = val.trim().replace('@','').toLowerCase();
+  });
+  localStorage.setItem('polaris_ch_handles', JSON.stringify(handles));
+  const saved = id('ch-handle-saved');
+  if(saved){ saved.style.display='block'; setTimeout(()=>saved.style.display='none',2000); }
+  debugLog('✅ Channel handles saved');
+  renderChannelsTab();
+}
+
+function loadChannelHandlesIntoInputs(){
+  const handles = getChannelHandles();
+  CH_PLATFORMS.forEach(p=>{
+    const inp = id('ch-'+p.key);
+    if(inp) inp.value = handles[p.key]||'';
+  });
+}
+
+// Match a social post to a handle — checks author/username/accountName fields
+function matchesHandle(m, handle){
+  if(!handle) return true; // no handle set = show all from that platform
+  const h = handle.toLowerCase().replace('@','');
+  const fields = [m.author, m.username, m.handle, m.accountName, m.channelName, m.pageTitle, m.ownerUsername];
+  return fields.some(f=>f && f.toLowerCase().replace('@','').includes(h));
+}
+
+function getChannelPosts(platKey){
+  const handles = getChannelHandles();
+  const handle = handles[platKey]||'';
+  const raw = _social.filter(m=>normalizePlatform(m.platform)===platKey);
+  // If handle is set, filter to matching posts. If no handle set, show all from that platform
+  return handle ? raw.filter(m=>matchesHandle(m,handle)) : raw;
+}
+
+function renderChannelsTab(){
+  loadChannelHandlesIntoInputs();
+  renderChTotals();
+  renderChCards();
+  renderChChart();
+  renderChPosts('all');
+}
+
+function renderChTotals(){
+  const wrap = id('chTotals'); if(!wrap) return;
+  let totalPosts=0, totalLikes=0, totalComments=0, totalImpr=0, totalShares=0;
+  CH_PLATFORMS.forEach(p=>{
+    const data = getChannelPosts(p.key);
+    totalPosts += data.length;
+    totalLikes += data.reduce((s,m)=>s+(m.likes||m.reactions||m.likeCount||0),0);
+    totalComments += data.reduce((s,m)=>s+(m.comments||m.numComments||0),0);
+    totalImpr += data.reduce((s,m)=>s+(m.impressions||m.views||0),0);
+    totalShares += data.reduce((s,m)=>s+(m.reposts||m.retweets||m.shares||0),0);
+  });
+  const totalEng = totalLikes+totalComments+totalShares;
+  wrap.innerHTML = [
+    {val:totalPosts, lbl:'Total Posts'},
+    {val:fmtNum(totalLikes), lbl:'Total Likes'},
+    {val:fmtNum(totalComments), lbl:'Comments'},
+    {val:fmtNum(totalShares), lbl:'Shares'},
+    {val:fmtNum(totalEng), lbl:'Total Engagement'},
+    {val:totalImpr>0?fmtNum(totalImpr):'—', lbl:'Impressions'},
+  ].map(s=>`<div class="ch-total-card"><div class="ch-total-val">${s.val}</div><div class="ch-total-lbl">${s.lbl}</div></div>`).join('');
+}
+
+function renderChCards(){
+  const grid = id('chCards'); if(!grid) return;
+  const handles = getChannelHandles();
+  const now = new Date();
+  const weekAgo = new Date(now-7*86400000);
+
+  if(_social.length===0){
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text2)">
+      <div style="font-size:32px;margin-bottom:10px">🏢</div>
+      <div style="font-size:14px;color:var(--text);margin-bottom:8px">No Apify data yet</div>
+      <div style="font-size:12px">Run your Apify actors to populate social.json, then this tab will show your official channel stats.</div>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = CH_PLATFORMS.map(p=>{
+    const data = getChannelPosts(p.key);
+    const handle = handles[p.key]||'';
+    const total = data.length;
+    const likes = data.reduce((s,m)=>s+(m.likes||m.reactions||m.likeCount||0),0);
+    const comments = data.reduce((s,m)=>s+(m.comments||m.numComments||0),0);
+    const shares = data.reduce((s,m)=>s+(m.reposts||m.retweets||m.shares||0),0);
+    const impr = data.reduce((s,m)=>s+(m.impressions||m.views||0),0);
+    const eng = likes+comments+shares;
+    const thisWeek = data.filter(m=>new Date(m.date||m.posted_at||m.createdAt||0)>=weekAgo).length;
+    const recentPosts = data.slice(0,3);
+    const hasHandle = !!handle;
+    const statusColor = hasHandle&&total>0?'#22c55e':hasHandle&&total===0?'#f59e0b':'#6b7280';
+    const statusTip = hasHandle&&total>0?'Matched':'Handle set, no matches yet';
+
+    return `<div class="ch-card" style="border-top-color:${p.color}">
+      <div class="ch-card-header">
+        <div class="ch-card-icon" style="background:${p.color}18">${p.icon}</div>
+        <div>
+          <div class="ch-card-name">${p.label}</div>
+          <div class="ch-card-handle">${handle?'@'+handle:'No handle set'}</div>
+        </div>
+        <div class="ch-status-dot" style="background:${statusColor};margin-left:auto" title="${statusTip}"></div>
+      </div>
+      <div class="ch-stat-row">
+        <div class="ch-stat"><div class="ch-stat-val">${total}</div><div class="ch-stat-lbl">Total Posts</div><div class="ch-stat-delta" style="color:var(--gold)">${thisWeek} this week</div></div>
+        <div class="ch-stat"><div class="ch-stat-val">${fmtNum(eng)}</div><div class="ch-stat-lbl">Total Engagement</div><div class="ch-stat-delta" style="color:var(--text2)">♥${fmtNum(likes)} 💬${fmtNum(comments)}</div></div>
+      </div>
+      ${impr>0?`<div style="font-size:11px;color:var(--text2);margin-bottom:8px">👁 ~${fmtNum(impr)} impressions</div>`:''}
+      <div class="ch-posts-preview">
+        ${recentPosts.length
+          ? recentPosts.map(m=>`<div class="ch-post-item">
+              <div class="ch-post-text" title="${(m.text||m.caption||'').replace(/"/g,'')}">${(m.text||m.caption||m.title||'No text').substring(0,55)}</div>
+              <div class="ch-post-eng">♥${fmtNum(m.likes||m.reactions||0)}</div>
+            </div>`).join('')
+          : `<div class="ch-empty"><div class="ch-empty-icon">📭</div>${handle?'No posts matched — check handle spelling':'Set handle above to filter posts'}</div>`
+        }
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderChChart(){
+  if(_chEngChart){_chEngChart.destroy();_chEngChart=null;}
+  const ctx = id('chEngChart'); if(!ctx) return;
+  const labels=[], likes=[], comments=[], shares=[];
+  CH_PLATFORMS.forEach(p=>{
+    const data = getChannelPosts(p.key);
+    if(!data.length) return;
+    labels.push(p.label);
+    likes.push(data.reduce((s,m)=>s+(m.likes||m.reactions||m.likeCount||0),0));
+    comments.push(data.reduce((s,m)=>s+(m.comments||m.numComments||0),0));
+    shares.push(data.reduce((s,m)=>s+(m.reposts||m.retweets||m.shares||0),0));
+  });
+  if(!labels.length) return;
+  _chEngChart = new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels,
+      datasets:[
+        {label:'Likes',data:likes,backgroundColor:'rgba(255,204,63,.7)',borderRadius:6},
+        {label:'Comments',data:comments,backgroundColor:'rgba(9,155,90,.6)',borderRadius:6},
+        {label:'Shares',data:shares,backgroundColor:'rgba(89,57,168,.6)',borderRadius:6},
+      ]
+    },
+    options:{
+      plugins:{legend:{labels:{color:'#ccc',font:{family:'Poppins',size:11}}}},
+      scales:{
+        x:{ticks:{color:'#888',font:{family:'Poppins'}},grid:{color:'#222'}},
+        y:{ticks:{color:'#888',font:{family:'Poppins'}},grid:{color:'#222'}}
+      }
+    }
+  });
+}
+
+function filterChPosts(filter, btn){
+  _chPostFilter = filter;
+  document.querySelectorAll('#chPostFilter .filter-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderChPosts(filter);
+}
+
+function renderChPosts(filter){
+  const body = id('chPostsBody'); if(!body) return;
+  let allPosts = [];
+  CH_PLATFORMS.forEach(p=>{
+    const data = getChannelPosts(p.key);
+    data.forEach(m=>{ allPosts.push({...m, _platKey:p.key, _platIcon:p.icon, _platColor:p.color, _platLabel:p.label}); });
+  });
+  // Sort by date desc
+  allPosts.sort((a,b)=>new Date(b.date||b.posted_at||b.createdAt||0)-new Date(a.date||a.posted_at||a.createdAt||0));
+  if(filter!=='all') allPosts = allPosts.filter(m=>m._platKey===filter);
+  if(!allPosts.length){
+    body.innerHTML = `<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:30px">${_social.length===0?'No Apify data yet — run your actors first.':'No posts for this filter.'}</td></tr>`;
+    return;
+  }
+  body.innerHTML = allPosts.slice(0,100).map(m=>{
+    const sc=m.sentiment==='positive'?'sent-pos':m.sentiment==='negative'?'sent-neg':'sent-neu';
+    return `<tr>
+      <td><span class="plat-badge" style="background:${m._platColor}22;color:${m._platColor}">${m._platIcon} ${m._platLabel}</span></td>
+      <td style="color:var(--text2);white-space:nowrap">${fmtDate(m.date||m.posted_at||m.createdAt)}</td>
+      <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${(m.text||m.caption||'').replace(/"/g,'')}">${(m.text||m.caption||m.title||'').substring(0,70)}</td>
+      <td style="color:var(--gold)">${fmtNum(m.likes||m.reactions||m.likeCount||0)}</td>
+      <td style="color:var(--text2)">${fmtNum(m.comments||m.numComments||0)}</td>
+      <td style="color:var(--text2)">${fmtNum(m.reposts||m.retweets||m.shares||0)}</td>
+      <td style="color:var(--text2)">${fmtNum(m.impressions||m.views||0)||'—'}</td>
+      <td><a class="content-link" href="${m.url||m.postUrl||'#'}" target="_blank">↗</a></td>
+    </tr>`;
+  }).join('');
+}
 
 // ═══════════════════════════════════════════════════════
 // BOOT
