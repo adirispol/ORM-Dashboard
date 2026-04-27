@@ -925,9 +925,8 @@ input:focus{outline:none;border-color:rgba(255,204,63,.4)}
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════════
+
 // CONFIG & CONSTANTS
-// ═══════════════════════════════════════════════════════
 const DEFAULT_USER   = 'adirispol';
 const DEFAULT_REPO   = 'ORM-Dashboard';
 const DEFAULT_BRANCH = 'main';
@@ -952,9 +951,7 @@ let _reportVersion = 'short';
 let _reportHistory = [];
 let _currentBPS = 0;
 
-// ═══════════════════════════════════════════════════════
 // CONFIG HELPERS
-// ═══════════════════════════════════════════════════════
 function getSavedConfig(){
   try{ return JSON.parse(localStorage.getItem('polaris_orm_v10')||'{}'); }
   catch(e){ return {}; }
@@ -976,7 +973,7 @@ function saveSettings(){
   localStorage.setItem('polaris_orm_v10', JSON.stringify(cfg));
   const m = id('savedMsg'); m.style.display='block';
   setTimeout(()=>m.style.display='none', 2000);
-  debugLog('✅ Settings saved');
+  debugLog('Settings saved');
 }
 function openSettings(){
   const cfg = getSavedConfig();
@@ -987,20 +984,18 @@ function openSettings(){
   id('cfgApifyToken').value = cfg.apifyToken || '';
   id('cfgKwComp').value     = cfg.kwComp     || COMPETITORS.join(', ');
   const si = id('sheetInputs');
-  si.innerHTML = SHEET_PLATFORMS.map(p=>`
-    <div style="display:grid;grid-template-columns:120px 1fr 80px;gap:8px;align-items:center;margin-bottom:8px;padding:10px;background:rgba(255,255,255,.02);border-radius:8px;border:1px solid var(--border)">
-      <div style="font-size:12px;font-weight:600;color:var(--text)">${p.label}</div>
-      <input type="text" id="sheet_${p.key}" placeholder="Sheet ID" value="${((cfg.sheets||{})[p.key]||{}).id||''}">
-      <input type="text" id="gid_${p.key}" placeholder="GID (tab)" value="${((cfg.sheets||{})[p.key]||{}).gid||'0'}">
-    </div>`).join('');
+  si.innerHTML = SHEET_PLATFORMS.map(p=>
+    '<div style="display:grid;grid-template-columns:120px 1fr 80px;gap:8px;align-items:center;margin-bottom:8px;padding:10px;background:rgba(255,255,255,.02);border-radius:8px;border:1px solid var(--border)">'
+    +'<div style="font-size:12px;font-weight:600;color:var(--text)">'+p.label+'</div>'
+    +'<input type="text" id="sheet_'+p.key+'" placeholder="Sheet ID" value="'+((cfg.sheets||{})[p.key]||{}).id||''+'"><input type="text" id="gid_'+p.key+'" placeholder="GID" value="'+((cfg.sheets||{})[p.key]||{}).gid||'0'+'">'
+    +'</div>'
+  ).join('');
   id('settingsOverlay').classList.add('open');
 }
 function closeSettings(){ id('settingsOverlay').classList.remove('open'); }
-id('settingsOverlay').addEventListener('click', e=>{ if(e.target===id('settingsOverlay')) closeSettings(); });
+document.addEventListener('click', function(e){ if(e.target===id('settingsOverlay')) closeSettings(); });
 
-// ═══════════════════════════════════════════════════════
 // UTILITIES
-// ═══════════════════════════════════════════════════════
 function id(n){ return document.getElementById(n); }
 function set(n,v){ const el=id(n); if(el) el.innerText=v; }
 function normalizePlatform(p){
@@ -1012,44 +1007,46 @@ function normalizePlatform(p){
   if(p.includes('news')||p.includes('newspaper')) return 'news';
   if(p.includes('portal')||p.includes('shiksha')||p.includes('college')||p.includes('careers')) return 'portal';
   if(p.includes('linkedin'))  return 'linkedin';
-  if(p.includes('twitter')||p.includes('x.com')||p.includes(' x ')) return 'twitter';
+  if(p.includes('twitter')||p.includes('x.com')) return 'twitter';
   if(p.includes('instagram')) return 'instagram';
   if(p.includes('facebook'))  return 'facebook';
   return 'web';
 }
 function platBadge(p){
   const c = PLAT_COLORS[p]||'#555';
-  return `<span class="plat-badge" style="background:${c}22;color:${c}">${p}</span>`;
+  return '<span class="plat-badge" style="background:'+c+'22;color:'+c+'">'+p+'</span>';
 }
-function fmtDate(d){ try{ return new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'2-digit'}); }catch(e){return '—';} }
+function fmtDate(d){ try{ return new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'2-digit'}); }catch(e){return '--';} }
 function fmtNum(n){ const v=parseInt(n)||0; return v>=1000?(v/1000).toFixed(1)+'k':String(v); }
 
-// ═══════════════════════════════════════════════════════
 // DATA FETCH
-// ═══════════════════════════════════════════════════════
 function baseUrl(){
   const cfg=getSavedConfig();
   const u=cfg.user||DEFAULT_USER, r=cfg.repo||DEFAULT_REPO, b=cfg.branch||DEFAULT_BRANCH;
-  return `https://raw.githubusercontent.com/${u}/${r}/${b}`;
+  return 'https://raw.githubusercontent.com/'+u+'/'+r+'/'+b;
 }
 async function fetchData(){
   const base=baseUrl();
-  debugLog('Fetching summary.json + mentions.json…');
+  debugLog('Fetching data...');
   try{
-    const [sRes,mRes] = await Promise.all([fetch(base+'/data/summary.json'),fetch(base+'/data/mentions.json')]);
+    const [sRes,mRes] = await Promise.all([
+      fetch(base+'/data/summary.json'),
+      fetch(base+'/data/mentions.json')
+    ]);
     _summary  = await sRes.json();
     _mentions = await mRes.json();
-    debugLog('✅ summary.json — '+(_summary.total_mentions||0)+' mentions');
-    debugLog('✅ mentions.json — '+_mentions.length+' records');
+    debugLog('summary.json: '+(_summary.total_mentions||0)+' mentions');
+    debugLog('mentions.json: '+_mentions.length+' records');
   }catch(e){
-    debugLog('❌ Core data error: '+e.message);
-    id('bpsInterpretation').innerText='Error loading data. Check Debug tab.';
+    debugLog('Core data error: '+e.message);
+    const el=id('bpsInterpretation');
+    if(el) el.innerText='Error loading data. Check Debug tab.';
   }
   try{
     const soc=await fetch(base+'/data/social.json');
-    if(soc.ok){ _social=await soc.json(); debugLog('✅ social.json — '+_social.length+' social records'); }
-    else{ debugLog('⚠ social.json not found — run Apify action first'); }
-  }catch(e){ debugLog('⚠ social.json missing: '+e.message); }
+    if(soc.ok){ _social=await soc.json(); debugLog('social.json: '+_social.length+' records'); }
+    else{ debugLog('social.json not found - run Apify action first'); }
+  }catch(e){ debugLog('social.json missing: '+e.message); }
 
   renderOverview();
   renderListening('all');
@@ -1065,7 +1062,7 @@ function loadAll(){ fetchData(); }
 
 function updateLastCrawl(){
   const d=_summary.last_updated;
-  if(!d){ set('lastUpdated','—'); return; }
+  if(!d){ set('lastUpdated','--'); return; }
   try{
     const dt=new Date(d);
     const diff=Math.round((Date.now()-dt)/60000);
@@ -1073,9 +1070,7 @@ function updateLastCrawl(){
   }catch(e){ set('lastUpdated',d.substring(0,16)); }
 }
 
-// ═══════════════════════════════════════════════════════
 // OVERVIEW
-// ═══════════════════════════════════════════════════════
 function renderOverview(){
   const reddit  = _mentions.filter(m=>normalizePlatform(m.platform)==='reddit');
   const quora   = _mentions.filter(m=>normalizePlatform(m.platform)==='quora');
@@ -1106,16 +1101,15 @@ function renderOverview(){
   set('kpiNewsCount',     (news.length+web.length)+' articles');
   const pn=[...new Set(portal.map(m=>{try{return new URL(m.url).hostname.replace('www.','')}catch(e){return ''}}))].filter(Boolean).slice(0,3).join(', ');
   set('kpiPortals',     portal.length);
-  set('kpiPortalNames', pn||'—');
-
-  set('kpiLinkedIn',    socLI.length||'—');
-  set('kpiLinkedInSub', socLI.length?fmtNum(socLI.reduce((s,m)=>s+(m.reactions||m.likes||0),0))+' reactions':'Run scraper to populate');
-  set('kpiTwitter',     socTW.length||'—');
-  set('kpiTwitterSub',  socTW.length?fmtNum(socTW.reduce((s,m)=>s+(m.likes||0),0))+' likes':'Run scraper to populate');
-  set('kpiInstagram',   socIG.length||'—');
-  set('kpiInstagramSub',socIG.length?fmtNum(socIG.reduce((s,m)=>s+(m.likes||0),0))+' likes':'Run scraper to populate');
-  set('kpiFacebook',    socFB.length||'—');
-  set('kpiFacebookSub', socFB.length?fmtNum(socFB.reduce((s,m)=>s+(m.likes||0),0))+' reactions':'Run scraper to populate');
+  set('kpiPortalNames', pn||'--');
+  set('kpiLinkedIn',    socLI.length||'--');
+  set('kpiLinkedInSub', socLI.length?fmtNum(socLI.reduce((s,m)=>s+(m.reactions||m.likes||0),0))+' reactions':'Run scraper');
+  set('kpiTwitter',     socTW.length||'--');
+  set('kpiTwitterSub',  socTW.length?fmtNum(socTW.reduce((s,m)=>s+(m.likes||0),0))+' likes':'Run scraper');
+  set('kpiInstagram',   socIG.length||'--');
+  set('kpiInstagramSub',socIG.length?fmtNum(socIG.reduce((s,m)=>s+(m.likes||0),0))+' likes':'Run scraper');
+  set('kpiFacebook',    socFB.length||'--');
+  set('kpiFacebookSub', socFB.length?fmtNum(socFB.reduce((s,m)=>s+(m.likes||0),0))+' reactions':'Run scraper');
 
   const activePlats=[reddit,quora,medium,portal,[...news,...web]].filter(a=>a.length>0).length;
   const socialActive=[socLI,socTW,socIG,socFB].filter(a=>a.length>0).length;
@@ -1124,7 +1118,7 @@ function renderOverview(){
   const grade=_currentBPS>=80?'A+':_currentBPS>=65?'A':_currentBPS>=50?'B':_currentBPS>=35?'C':'D';
   set('bpsScore',_currentBPS); set('bpsScoreBig',_currentBPS); set('bpsGrade',grade);
   set('bpsCoverage',(activePlats+socialActive)+' platforms');
-  id('bpsBarFill').style.width=_currentBPS+'%';
+  const bf=id('bpsBarFill'); if(bf) bf.style.width=_currentBPS+'%';
   set('bpsInterpretation',
     _currentBPS>=80?'Strong brand presence across all major platforms.':
     _currentBPS>=65?'Good presence. Expand content on weaker platforms.':
@@ -1137,17 +1131,17 @@ function renderOverview(){
     const allSent=[..._mentions,..._social];
     const pos=allSent.filter(m=>m.sentiment==='positive').length;
     const neg=allSent.filter(m=>m.sentiment==='negative').length;
-    const neu=allSent.filter(m=>!m.sentiment||m.sentiment==='neutral').length;
+    const neu=allSent.length-pos-neg;
     _sentChart=new Chart(sCtx,{
       type:'doughnut',
       data:{labels:['Positive','Neutral','Negative'],datasets:[{data:[pos,neu,neg],backgroundColor:['#22c55e','#facc15','#ef4444'],borderColor:'#1a1a1a',borderWidth:2}]},
       options:{plugins:{legend:{labels:{color:'#ccc',font:{family:'Poppins'}}}},cutout:'65%'}
     });
     const sp=id('sentPills');
-    if(sp) sp.innerHTML=`
-      <span style="background:#22c55e22;color:#22c55e;padding:3px 10px;border-radius:20px;font-size:11px;margin-right:6px">✅ Positive ${pos}</span>
-      <span style="background:#facc1522;color:#facc15;padding:3px 10px;border-radius:20px;font-size:11px;margin-right:6px">😐 Neutral ${neu}</span>
-      <span style="background:#ef444422;color:#ef4444;padding:3px 10px;border-radius:20px;font-size:11px">⚠ Negative ${neg}</span>`;
+    if(sp) sp.innerHTML=
+      '<span style="background:#22c55e22;color:#22c55e;padding:3px 10px;border-radius:20px;font-size:11px;margin-right:6px">Positive '+pos+'</span>'
+      +'<span style="background:#facc1522;color:#facc15;padding:3px 10px;border-radius:20px;font-size:11px;margin-right:6px">Neutral '+neu+'</span>'
+      +'<span style="background:#ef444422;color:#ef4444;padding:3px 10px;border-radius:20px;font-size:11px">Negative '+neg+'</span>';
   }
 
   const platData=[
@@ -1163,24 +1157,21 @@ function renderOverview(){
   ].filter(p=>p.count>0);
   const maxC=Math.max(...platData.map(p=>p.count),1);
   const barDiv=id('platBarsDiv');
-  if(barDiv) barDiv.innerHTML=platData.map(p=>`
-    <div style="margin-bottom:10px">
-      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px;color:var(--text)">
-        <span>${p.name}</span><span style="color:var(--gold)">${p.count}</span>
-      </div>
-      <div style="background:#1a1a1a;border-radius:4px;height:7px">
-        <div style="background:${p.color};width:${Math.round((p.count/maxC)*100)}%;height:7px;border-radius:4px;transition:width .8s"></div>
-      </div>
-    </div>`).join('');
+  if(barDiv) barDiv.innerHTML=platData.map(p=>
+    '<div style="margin-bottom:10px">'
+    +'<div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px;color:var(--text)"><span>'+p.name+'</span><span style="color:var(--gold)">'+p.count+'</span></div>'
+    +'<div style="background:#1a1a1a;border-radius:4px;height:7px"><div style="background:'+p.color+';width:'+Math.round((p.count/maxC)*100)+'%;height:7px;border-radius:4px;transition:width .8s"></div></div>'
+    +'</div>'
+  ).join('');
 
   const nf=id('negFeed');
   if(nf){
     const negs=_mentions.filter(m=>m.sentiment==='negative').slice(0,5);
-    nf.innerHTML=negs.length?negs.map(m=>`
-      <div class="neg-item">
-        <div class="neg-text">${(m.text||'').substring(0,120)}</div>
-        <div class="neg-src">${normalizePlatform(m.platform)} · <a href="${m.url}" target="_blank" style="color:var(--text2)">View ↗</a></div>
-      </div>`).join(''):`<div class="empty-state"><div class="empty-state-icon">✅</div><div>No negative mentions.</div></div>`;
+    nf.innerHTML=negs.length?negs.map(m=>
+      '<div class="neg-item"><div class="neg-text">'+(m.text||'').substring(0,120)+'</div>'
+      +'<div class="neg-src">'+normalizePlatform(m.platform)+' - <a href="'+(m.url||'#')+'" target="_blank" style="color:var(--text2)">View</a></div></div>'
+    ).join(''):
+    '<div class="empty-state"><div class="empty-state-icon">OK</div><div>No negative mentions.</div></div>';
   }
 
   const al=id('actionList');
@@ -1188,23 +1179,323 @@ function renderOverview(){
     const neg=_mentions.filter(m=>m.sentiment==='negative').length;
     const acts=[];
     if(neg>0) acts.push({pri:'HIGH',title:'Respond to negative mentions',why:neg+' negative mentions detected',idea:'Draft response or flag for PR team',platform:'All Platforms'});
-    if(quora.length<10) acts.push({pri:'MEDIUM',title:'Increase Quora presence',why:'Only '+quora.length+' Quora mentions — low for ed-tech',idea:'Seed 5 Q&A pairs targeting admission queries this week',platform:'Quora'});
-    if(medium.length<5) acts.push({pri:'MEDIUM',title:'Publish more Medium articles',why:'Only '+medium.length+' Medium articles indexed',idea:'Target AI engineering career topics for organic reach',platform:'Medium'});
-    if(socLI.length===0) acts.push({pri:'MEDIUM',title:'Activate LinkedIn scraper',why:'No LinkedIn data — brand missing from social layer',idea:'Set APIFY_TOKEN secret and run the apify-social-crawler action',platform:'LinkedIn'});
-    acts.push({pri:'LOW',title:'Update portal listings',why:(portal.length||0)+' portals listing Polaris — verify accuracy',idea:'Check fee, ranking and placement data on each portal',platform:'Portals'});
-    al.innerHTML=acts.slice(0,4).map(a=>`
-      <div class="action-item" data-pri="${a.pri}">
-        <div class="action-title">${a.title}</div>
-        <div class="action-why">${a.why}</div>
-        <div class="action-idea">💡 ${a.idea}</div>
-        <div class="action-platform">${a.platform}</div>
-      </div>`).join('');
+    if(quora.length<10) acts.push({pri:'MEDIUM',title:'Increase Quora presence',why:'Only '+quora.length+' Quora mentions',idea:'Seed 5 Q&A pairs targeting admission queries',platform:'Quora'});
+    if(medium.length<5) acts.push({pri:'MEDIUM',title:'Publish more Medium articles',why:'Only '+medium.length+' Medium articles indexed',idea:'Target AI engineering career topics',platform:'Medium'});
+    if(socLI.length===0) acts.push({pri:'MEDIUM',title:'Activate LinkedIn scraper',why:'No LinkedIn data',idea:'Set APIFY_TOKEN and run apify-social-crawler action',platform:'LinkedIn'});
+    acts.push({pri:'LOW',title:'Update portal listings',why:(portal.length||0)+' portals listing Polaris',idea:'Check fee and placement data on each portal',platform:'Portals'});
+    al.innerHTML=acts.slice(0,4).map(a=>
+      '<div class="action-item" data-pri="'+a.pri+'">'
+      +'<div class="action-title">'+a.title+'</div>'
+      +'<div class="action-why">'+a.why+'</div>'
+      +'<div class="action-idea">'+a.idea+'</div>'
+      +'<div class="action-platform">'+a.platform+'</div>'
+      +'</div>'
+    ).join('');
   }
 }
 
-// ═══════════════════════════════════════════════════════
+// LIVE LISTENING
+function renderListening(filter){
+  const body=id('allMentionsBody'); if(!body) return;
+  const allData=[..._mentions,..._social];
+  let data=allData;
+  if(filter==='positive'||filter==='negative') data=data.filter(m=>m.sentiment===filter);
+  else if(filter!=='all') data=data.filter(m=>normalizePlatform(m.platform)===filter);
+  if(!data.length){
+    body.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--text2);padding:40px">No mentions for this filter.</td></tr>';
+    return;
+  }
+  body.innerHTML=data.map(m=>{
+    const p=normalizePlatform(m.platform);
+    const c=PLAT_COLORS[p]||'#555';
+    const sc=m.sentiment==='positive'?'sent-pos':m.sentiment==='negative'?'sent-neg':'sent-neu';
+    const eng=m.reactions||m.likes||m.upvotes||m.score||m.impressions||0;
+    return '<tr>'
+      +'<td>'+platBadge(p)+'</td>'
+      +'<td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(m.text||m.title||'').substring(0,85)+'</td>'
+      +'<td><span class="sent-badge '+sc+'">'+(m.sentiment||'neutral')+'</span></td>'
+      +'<td style="color:var(--text2)">'+fmtNum(eng)+'</td>'
+      +'<td style="color:var(--text2)">'+fmtDate(m.date||m.posted_at)+'</td>'
+      +'<td><a class="content-link" href="'+(m.url||'#')+'" target="_blank">View</a></td>'
+      +'</tr>';
+  }).join('');
+}
+function filterMentions(filter,btn){
+  document.querySelectorAll('#listeningFilters .filter-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderListening(filter);
+}
+
+// SOCIAL MEDIA TAB
+let _currentSocial='linkedin';
+function switchSocial(platform, btn){
+  _currentSocial=platform;
+  document.querySelectorAll('#socialPlatformTabs .plt-tab').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderSocial(platform);
+}
+function renderSocial(platform){
+  const container=id('socialCardsContainer'); if(!container) return;
+  const data=_social.filter(m=>normalizePlatform(m.platform)===platform);
+  const color=PLAT_COLORS[platform]||'#888';
+  const platLabel={linkedin:'LinkedIn',twitter:'Twitter',instagram:'Instagram',facebook:'Facebook'}[platform]||platform;
+  if(!data.length){
+    container.innerHTML='<div class="empty-state"><div class="empty-state-icon">No data</div><div class="empty-state-title">No '+platLabel+' data</div><div style="font-size:12px;margin-top:6px">Run Apify action to populate.</div></div>';
+    return;
+  }
+  const cards=data.slice(0,60).map(m=>{
+    const author=m.author||m.accountName||m.username||'Unknown';
+    const text=m.text||m.caption||m.content||'';
+    const url=m.url||m.postUrl||m.link||'#';
+    const likes=m.likes||m.reactions||m.likeCount||0;
+    const comms=m.comments||m.numComments||m.commentCount||0;
+    const reposts=m.reposts||m.retweets||m.shares||0;
+    const date=fmtDate(m.date||m.posted_at||m.createdAt);
+    const sent=m.sentiment||'neutral';
+    const sCol=sent==='positive'?'#22c55e':sent==='negative'?'#ef4444':'#9ca3af';
+    return '<div class="social-card">'
+      +'<span class="sc-platform" style="background:'+color+'22;color:'+color+'">'+platLabel+'</span>'
+      +'<div class="sc-author">'+author+'</div>'
+      +'<div class="sc-meta">'+date+'</div>'
+      +'<div class="sc-text">'+text.substring(0,160)+'</div>'
+      +'<div class="sc-stats">'
+      +(likes?'<span>likes:'+fmtNum(likes)+'</span>':'')
+      +(comms?'<span>cmts:'+fmtNum(comms)+'</span>':'')
+      +(reposts?'<span>shares:'+fmtNum(reposts)+'</span>':'')
+      +'</div>'
+      +'<div class="sc-badges"><span style="background:'+sCol+'22;color:'+sCol+';padding:2px 7px;border-radius:4px;font-size:10px;font-weight:600">'+sent+'</span></div>'
+      +'<a href="'+url+'" target="_blank" class="sc-link" style="background:'+color+'cc">View Post</a>'
+      +'</div>';
+  }).join('');
+  container.innerHTML='<div style="font-size:12px;color:var(--text2);margin-bottom:14px">'+data.length+' '+platLabel+' mentions loaded</div><div class="social-cards-grid">'+cards+'</div>';
+}
+
+// MY CONTENT
+let _curContent='reddit';
+function switchContentPlatform(key,btn){
+  _curContent=key;
+  document.querySelectorAll('#contentPlatformTabs .plt-tab').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderContentTab(key);
+}
+async function renderContentTab(key){
+  const head=id('contentTableHead'), body=id('contentTableBody'), meta=id('contentMeta');
+  if(!head||!body) return;
+  const cfg=getSavedConfig();
+  const sheet=(cfg.sheets||{})[key];
+  if(!sheet||!sheet.id){
+    body.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:40px">No Google Sheet connected. Add Sheet ID in Settings.</td></tr>';
+    meta.innerText=''; head.innerHTML=''; return;
+  }
+  body.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:30px">Loading...</td></tr>';
+  try{
+    const url='https://docs.google.com/spreadsheets/d/'+sheet.id+'/gviz/tq?tqx=out:csv&gid='+(sheet.gid||'0');
+    const res=await fetch(url);
+    const csv=await res.text();
+    const rows=parseCSV(csv);
+    if(rows.length<2){ body.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:30px">Sheet empty or not publicly accessible.</td></tr>'; return; }
+    const headers=rows[0];
+    head.innerHTML=headers.map(h=>'<th>'+h+'</th>').join('');
+    body.innerHTML=rows.slice(1).map(row=>
+      '<tr>'+row.map(cell=>{
+        const isLink=/^https?:\/\//.test(cell);
+        return isLink?'<td><a class="content-link" href="'+cell+'" target="_blank">View</a></td>':'<td>'+( cell.length>60?cell.substring(0,60)+'...':cell)+'</td>';
+      }).join('')+'</tr>'
+    ).join('');
+    meta.innerText=(rows.length-1)+' rows from Google Sheet';
+    debugLog('Sheet '+key+': '+(rows.length-1)+' rows');
+  }catch(e){
+    body.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--red);padding:30px">Failed: '+e.message+'</td></tr>';
+  }
+}
+function parseCSV(text){
+  return text.trim().split('\n').map(row=>{
+    const cells=[]; let cur='', inQ=false;
+    for(let i=0;i<row.length;i++){
+      if(row[i]==='"'){ inQ=!inQ; }
+      else if(row[i]===','&&!inQ){ cells.push(cur.trim()); cur=''; }
+      else { cur+=row[i]; }
+    }
+    cells.push(cur.trim()); return cells;
+  });
+}
+
+// LINK INVENTORY
+function switchInventory(type,btn){
+  document.querySelectorAll('#inventoryTabs .plt-tab').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderInventory(type);
+}
+function renderInventory(type){
+  const body=id('inventoryBody'); if(!body) return;
+  const allData=[..._mentions,..._social];
+  let data=allData;
+  if(type==='portals') data=allData.filter(m=>normalizePlatform(m.platform)==='portal');
+  else if(type==='quora') data=allData.filter(m=>normalizePlatform(m.platform)==='quora');
+  else if(type==='reddit') data=allData.filter(m=>normalizePlatform(m.platform)==='reddit');
+  else if(type==='linkedin') data=allData.filter(m=>normalizePlatform(m.platform)==='linkedin');
+  else if(type==='twitter') data=allData.filter(m=>normalizePlatform(m.platform)==='twitter');
+  if(!data.length){ body.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--text2);padding:40px">No links for this category.</td></tr>'; return; }
+  const flags=getFlags();
+  body.innerHTML=data.map((m,i)=>{
+    const urlKey=btoa(m.url||String(i)).substring(0,12);
+    const isFlagged=flags[urlKey];
+    let host=''; try{host=new URL(m.url||'').hostname.replace('www.','')}catch(e){host=type;}
+    const sc=m.sentiment==='positive'?'sent-pos':m.sentiment==='negative'?'sent-neg':'sent-neu';
+    return '<tr>'
+      +'<td style="color:var(--text2)">'+(i+1)+'</td>'
+      +'<td><span class="plat-badge" style="background:rgba(123,31,162,.2);color:#ce93d8">'+host+'</span></td>'
+      +'<td class="url-cell"><a class="content-link" href="'+(m.url||'#')+'" target="_blank">'+(m.text||m.title||m.url||'').substring(0,65)+'</a></td>'
+      +'<td style="color:var(--text2);font-size:11px">'+normalizePlatform(m.platform)+'</td>'
+      +'<td><span class="sent-badge '+sc+'">'+(m.sentiment||'neutral')+'</span></td>'
+      +'<td><button class="flag-btn'+(isFlagged?' flagged':'')+'" onclick="toggleFlag(\''+urlKey+'\',this)">'+(isFlagged?'Flagged':'Flag')+'</button></td>'
+      +'</tr>';
+  }).join('');
+}
+function getFlags(){ try{return JSON.parse(localStorage.getItem('polaris_flags')||'{}')}catch(e){return{}} }
+function toggleFlag(key,btn){
+  const f=getFlags(); f[key]=!f[key];
+  localStorage.setItem('polaris_flags',JSON.stringify(f));
+  btn.className='flag-btn'+(f[key]?' flagged':'');
+  btn.innerText=f[key]?'Flagged':'Flag';
+}
+
+// COMPETITORS
+async function renderCompetitors(){
+  const grid=id('compGrid'), actions=id('compActions'); if(!grid) return;
+  grid.innerHTML='<div style="color:var(--text2);padding:20px">Fetching competitor data...</div>';
+  const cfg=getSavedConfig();
+  const compKw=cfg.kwComp?cfg.kwComp.split(',').map(k=>k.trim()).filter(Boolean):COMPETITORS;
+  const myMentions=_mentions.length+_social.length;
+  const myImpr=_mentions.reduce((s,m)=>s+(m.impressions||0),0);
+  const compResults=[];
+  for(const comp of compKw.slice(0,5)){
+    try{
+      const q=encodeURIComponent(comp);
+      const res=await fetch('https://www.reddit.com/search.json?q='+q+'&limit=10&sort=new',{headers:{'User-Agent':'ORM-Dashboard/1.0'}});
+      const data=await res.json();
+      const posts=data&&data.data&&data.data.children?data.data.children:[];
+      const sentiments=posts.map(p=>{
+        const t=(p.data&&p.data.title?p.data.title:'').toLowerCase();
+        return t.includes('bad')||t.includes('scam')||t.includes('avoid')?'negative':
+               t.includes('good')||t.includes('best')||t.includes('great')?'positive':'neutral';
+      });
+      compResults.push({name:comp,mentions:posts.length,impr:posts.reduce((s,p)=>s+(p.data&&p.data.score?p.data.score:0),0),
+        pos:sentiments.filter(s=>s==='positive').length,neg:sentiments.filter(s=>s==='negative').length});
+      debugLog('Competitor: '+comp+' ('+posts.length+' Reddit posts)');
+    }catch(e){
+      compResults.push({name:comp,mentions:0,impr:0,pos:0,neg:0});
+      debugLog('Competitor fetch failed: '+comp);
+    }
+  }
+  const maxM=Math.max(...compResults.map(c=>c.mentions),myMentions,1);
+  const barColors=['#ff6314','#b92b27','#facc15','#22c55e','#60a5fa'];
+  grid.innerHTML='<div class="comp-card" style="border-color:rgba(255,204,63,.3)">'
+    +'<div class="comp-name" style="color:var(--gold)">Polaris (You)</div>'
+    +'<div class="comp-mentions">'+myMentions+'</div>'
+    +'<div class="comp-sub">Total Mentions - '+myImpr.toLocaleString()+' Impressions</div>'
+    +'<div class="comp-bar"><div class="comp-bar-fill" style="background:var(--gold);width:'+Math.round((myMentions/maxM)*100)+'%"></div></div>'
+    +'</div>'
+    +compResults.map((c,i)=>
+      '<div class="comp-card">'
+      +'<div class="comp-name">'+c.name+'</div>'
+      +'<div class="comp-mentions" style="color:var(--text)">'+c.mentions+'</div>'
+      +'<div class="comp-sub">Reddit mentions - '+c.impr.toLocaleString()+' score</div>'
+      +'<div class="comp-bar"><div class="comp-bar-fill" style="background:'+barColors[i%barColors.length]+';width:'+Math.round((c.mentions/maxM)*100)+'%"></div></div>'
+      +'</div>'
+    ).join('');
+
+  if(_compChart1){_compChart1.destroy();_compChart1=null;}
+  const bc=id('compBarChart');
+  if(bc) _compChart1=new Chart(bc,{type:'bar',data:{labels:['Polaris',...compResults.map(c=>c.name.split(' ')[0])],datasets:[{label:'Mentions',data:[myMentions,...compResults.map(c=>c.mentions)],backgroundColor:['#FFCC3F',...barColors],borderRadius:6}]},options:{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#888'}},y:{ticks:{color:'#888'},grid:{color:'#222'}}}}});
+  if(_compChart2){_compChart2.destroy();_compChart2=null;}
+  const sc=id('compSentChart');
+  if(sc){
+    const myPos=_mentions.filter(m=>m.sentiment==='positive').length;
+    const myNeg=_mentions.filter(m=>m.sentiment==='negative').length;
+    _compChart2=new Chart(sc,{type:'bar',data:{labels:['Polaris',...compResults.map(c=>c.name.split(' ')[0])],datasets:[{label:'Positive',data:[myPos,...compResults.map(c=>c.pos)],backgroundColor:'#22c55e88',borderRadius:6},{label:'Negative',data:[myNeg,...compResults.map(c=>c.neg)],backgroundColor:'#ef444488',borderRadius:6}]},options:{scales:{x:{ticks:{color:'#888'}},y:{ticks:{color:'#888'},grid:{color:'#222'}}},plugins:{legend:{labels:{color:'#ccc'}}}}});
+  }
+  if(actions){
+    const topComp=compResults.sort((a,b)=>b.mentions-a.mentions)[0];
+    actions.innerHTML=(topComp&&topComp.mentions>myMentions?
+      '<div class="action-item" data-pri="HIGH"><div class="action-title">'+topComp.name+' has more Reddit mentions</div><div class="action-why">'+topComp.mentions+' vs your '+myMentions+'</div><div class="action-idea">Post in r/Btechtards, r/Indian_Academia</div><div class="action-platform">Reddit</div></div>':'')
+      +'<div class="action-item" data-pri="MEDIUM"><div class="action-title">Monitor competitor Quora answers</div><div class="action-why">Competitors may be answering queries you are missing</div><div class="action-idea">Search vs Polaris on Quora and answer those threads</div><div class="action-platform">Quora</div></div>'
+      +'<div class="action-item" data-pri="LOW"><div class="action-title">Publish comparison content</div><div class="action-why">Own the Polaris vs Scaler narrative</div><div class="action-idea">Write Why Polaris is different from bootcamps on Medium</div><div class="action-platform">Medium</div></div>';
+  }
+}
+
+// LLM / AEO
+function renderLLM(){
+  const mediumC=_mentions.filter(m=>normalizePlatform(m.platform)==='medium').length;
+  const portalC=_mentions.filter(m=>normalizePlatform(m.platform)==='portal').length;
+  const quoraC =_mentions.filter(m=>normalizePlatform(m.platform)==='quora').length;
+  const llmScore=Math.min(100,Math.round(mediumC*4+portalC*1.5+quoraC*2+10));
+  set('llmScore',llmScore);
+  const lb=id('llmBarFill'); if(lb) lb.style.width=llmScore+'%';
+  const sources=[
+    {name:'Wikipedia',status:false,tip:'Not indexed - high priority for AI citations'},
+    {name:'Crunchbase',status:false,tip:'Not listed - add for company data'},
+    {name:'Medium Articles',status:mediumC>0,tip:mediumC+' articles indexed'},
+    {name:'Portal Listings',status:portalC>0,tip:portalC+' portals listing Polaris'},
+    {name:'Reddit Threads',status:_mentions.filter(m=>normalizePlatform(m.platform)==='reddit').length>0,tip:'Present'},
+    {name:'Quora Answers',status:quoraC>0,tip:'Present - cited by Perplexity/ChatGPT'}
+  ];
+  const ls=id('llmSources');
+  if(ls) ls.innerHTML=sources.map(s=>
+    '<div class="source-item">'
+    +'<div class="source-dot" style="background:'+(s.status?'#22c55e':'#ef4444')+'"></div>'
+    +'<div><div class="source-name">'+s.name+'</div><div style="font-size:11px;color:var(--text2)">'+s.tip+'</div></div>'
+    +'<div class="source-status" style="color:'+(s.status?'#22c55e':'#ef4444')+'">'+(s.status?'OK':'Missing')+'</div>'
+    +'</div>'
+  ).join('');
+  const checklist=[
+    {ok:mediumC>=3,text:'3+ Medium articles indexed',action:'Publish more long-form content on Medium'},
+    {ok:portalC>=10,text:'10+ portal listings',action:'Submit to Shiksha, Collegedunia, Careers360'},
+    {ok:false,text:'Wikipedia page exists',action:'Create or improve Wikipedia entry for Polaris'},
+    {ok:false,text:'Crunchbase profile complete',action:'Add funding, team, description to Crunchbase'},
+    {ok:_mentions.filter(m=>m.sentiment==='positive').length>5,text:'Positive sentiment dominant',action:'Encourage more positive reviews and testimonials'},
+    {ok:quoraC>=5,text:'5+ Quora answers seeded',action:'Target admission, fee, and placement questions on Quora'}
+  ];
+  const cl=id('llmChecklist');
+  if(cl) cl.innerHTML=checklist.map(c=>
+    '<div class="checklist-item">'
+    +'<div class="check-icon">'+(c.ok?'OK':'--')+'</div>'
+    +'<div><div class="check-text">'+c.text+'</div>'+(c.ok?'':'<div class="check-action">'+c.action+'</div>')+'</div>'
+    +'</div>'
+  ).join('');
+  const cfg=getSavedConfig();
+  const ks=id('aiKeyStatus');
+  if(ks) ks.innerText=cfg.claudeKey?'Claude API key saved':'No Claude API key - add in Settings';
+}
+
+async function runClaudeAnalysis(){
+  const btn=id('runAiBtn'), result=id('aiAnalysisResult');
+  const cfg=getSavedConfig();
+  if(!cfg.claudeKey){ result.innerText='Add your Claude API key in Settings.'; return; }
+  btn.disabled=true; btn.innerText='Analysing...';
+  result.innerHTML='<div class="ai-loading">Running Claude analysis on '+(_mentions.length+_social.length)+' mentions...</div>';
+  try{
+    const allData=[..._mentions,..._social];
+    const sample=allData.slice(0,30).map(m=>'['+normalizePlatform(m.platform)+'] '+(m.sentiment||'neutral')+': '+(m.text||m.title||'').substring(0,80)).join('\n');
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':cfg.claudeKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,messages:[{role:'user',content:'You are a brand analyst for Polaris School of Technology (Bangalore BTech college). Analyse these brand mentions and give: 1) Top 5 keywords people associate with Polaris 2) Key sentiment themes 3) Top 3 urgent actions.\n\nMentions:\n'+sample}]})
+    });
+    const data=await res.json();
+    const text=data&&data.content&&data.content[0]?data.content[0].text:'No response';
+    result.innerHTML='<div class="ai-result">'+text.replace(/\n/g,'<br>')+'</div>';
+    const words=['BTech','AI Engineering','Bangalore','Admissions','Placement','Applied AI','Campus','Fees','Reviews','GSoC'];
+    const kw=id('llmKeywords');
+    if(kw) kw.innerHTML=words.map(w=>'<span class="kw-pill">'+w+'</span>').join('');
+  }catch(e){
+    result.innerText='Error: '+e.message;
+    debugLog('Claude API error: '+e.message);
+  }
+  btn.disabled=false; btn.innerText='Run Analysis';
+}
+
 // ORM REPORT TAB
-// ═══════════════════════════════════════════════════════
 function setReportFormat(fmt, btn){
   _reportFormat = fmt;
   document.querySelectorAll('.report-fmt-btn').forEach(b=>b.classList.remove('active'));
@@ -1222,32 +1513,26 @@ function renderReportTab(){
   const allImpr = allData.reduce((s,m)=>s+(m.impressions||m.views||m.score||0),0);
   const pos = allData.filter(m=>m.sentiment==='positive').length;
   const neg = allData.filter(m=>m.sentiment==='negative').length;
-
   const platMap = {};
-  allData.forEach(m=>{
-    const p = normalizePlatform(m.platform);
-    platMap[p] = (platMap[p]||0)+1;
-  });
+  allData.forEach(m=>{ const p=normalizePlatform(m.platform); platMap[p]=(platMap[p]||0)+1; });
   const activePlats = Object.keys(platMap).filter(p=>platMap[p]>0).length;
-
   set('rst-total', total.toLocaleString());
   set('rst-impr', fmtNum(allImpr));
-  set('rst-bps', _currentBPS || '—');
+  set('rst-bps', _currentBPS||'--');
   set('rst-plats', activePlats);
   set('rst-pos', pos);
   set('rst-neg', neg);
-
   const breakdown = id('reportPlatBreakdown');
   if(breakdown){
     const platOrder = ['reddit','quora','medium','news','portal','youtube','linkedin','twitter','instagram','facebook','web'];
-    const icons = {reddit:'🟠',quora:'❓',medium:'📝',news:'📰',portal:'🏛',youtube:'▶',linkedin:'💼',twitter:'𝕏',instagram:'📸',facebook:'👥',web:'🌐'};
     const labels = {reddit:'Reddit',quora:'Quora',medium:'Medium',news:'News/Web',portal:'Portals',youtube:'YouTube',linkedin:'LinkedIn',twitter:'Twitter',instagram:'Instagram',facebook:'Facebook',web:'Web'};
-    breakdown.innerHTML = platOrder.filter(p=>platMap[p]>0).map(p=>`
-      <div class="rpb-item">
-        <div class="rpb-dot" style="background:${PLAT_COLORS[p]||'#555'}"></div>
-        <div class="rpb-name">${icons[p]||''} ${labels[p]||p}</div>
-        <div class="rpb-count">${platMap[p]}</div>
-      </div>`).join('') || '<div style="color:var(--text2);font-size:12px">No data yet — run the crawler first.</div>';
+    breakdown.innerHTML = platOrder.filter(p=>platMap[p]>0).map(p=>
+      '<div class="rpb-item">'
+      +'<div class="rpb-dot" style="background:'+(PLAT_COLORS[p]||'#555')+'"></div>'
+      +'<div class="rpb-name">'+(labels[p]||p)+'</div>'
+      +'<div class="rpb-count">'+platMap[p]+'</div>'
+      +'</div>'
+    ).join('') || '<div style="color:var(--text2);font-size:12px">No data yet - run the crawler first.</div>';
   }
 }
 
@@ -1256,8 +1541,7 @@ async function generateReport(){
   const body = id('reportOutputBody');
   const title = id('reportOutputTitle');
   btn.disabled = true;
-  btn.innerHTML = '<span class="spinner" style="width:16px;height:16px;border-width:2px"></span> Generating…';
-
+  btn.innerText = 'Generating...';
   const allData = [..._mentions, ..._social];
   const total = allData.length;
   const allImpr = allData.reduce((s,m)=>s+(m.impressions||m.views||m.score||0),0);
@@ -1269,514 +1553,70 @@ async function generateReport(){
   const bps = _currentBPS||0;
   const grade = bps>=80?'A+':bps>=65?'A':bps>=50?'B':bps>=35?'C':'D';
   const today = new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
-  const platLines = Object.entries(platMap).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]).map(([p,c])=>`${p}: ${c}`).join(', ');
-
+  const platLines = Object.entries(platMap).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]).map(([p,c])=>p+': '+c).join(', ');
   const formatLabels = {linkedin:'LinkedIn Post',internal:'Internal Update',email:'Email Digest',notion:'Notion / Doc'};
-  title.innerText = `${formatLabels[_reportFormat]||'Report'} — ${today}`;
-
-  body.innerHTML = `<div class="report-loading"><div class="report-loading-ring"></div><div class="report-loading-msg">Claude is writing your report…</div></div>`;
-
+  if(title) title.innerText = (formatLabels[_reportFormat]||'Report')+' - '+today;
+  body.innerHTML = '<div class="report-loading"><div class="report-loading-ring"></div><div class="report-loading-msg">Generating report...</div></div>';
   const cfg = getSavedConfig();
-
-  // Build the prompt based on format and version
-  const versionInstructions = {
-    short: 'Write exactly 3 sentences. Keep it punchy and data-driven.',
-    medium: 'Write one strong paragraph of 5-7 sentences. Include the key stats and one insight.',
-    full: 'Write a full ORM report with these sections: Executive Summary (2 sentences), Platform Breakdown (bullet points per platform with count), Sentiment Analysis (2 sentences on positive/negative ratio), Key Insight (1 actionable observation), Suggested Next Step (1 concrete action).'
-  }[_reportVersion];
-
-  const formatInstructions = {
-    linkedin: 'Format it as a LinkedIn post. Start with a hook line. Use line breaks for readability. No hashtags unless they fit naturally. Professional but human tone.',
-    internal: 'Format it as an internal team update. Start with "ORM Update —" then the date. Use bullet points for platform stats. End with one action item.',
-    email: 'Format it as an email body. Start with "Hi team," and a one-line summary. Then stats. End with "Thanks, Aditya". Subject line at the top: "Subject: ORM Update — [date]".',
-    notion: 'Format it as a Notion document section. Use headers (##), bullet points, and bold for key numbers. Include a "Status" line at the top with the BPS grade.'
-  }[_reportFormat];
-
-  const prompt = `You are writing an ORM (Online Reputation Management) report for Polaris School of Technology — a BTech college in Bangalore offering Applied AI Engineering, Product Management & Engineering, and Cloud & Big Data Engineering.
-
-Here is the current brand data as of ${today}:
-- Total mentions across all platforms: ${total}
-- Estimated impressions: ${allImpr.toLocaleString()}
-- Brand Presence Score (BPS): ${bps}/100 (Grade: ${grade})
-- Sentiment: ${pos} positive, ${neg} negative, ${neu} neutral
-- Platform breakdown: ${platLines}
-- Active platforms: ${Object.keys(platMap).filter(p=>platMap[p]>0).length}
-
-${versionInstructions}
-
-${formatInstructions}
-
-Write only the report text. No preamble, no "here is the report", no explanation. Just the report itself.`;
-
   let reportText = '';
-
   if(cfg.claudeKey){
     try{
-      const res = await fetch('https://api.anthropic.com/v1/messages',{
-        method:'POST',
-        headers:{
-          'Content-Type':'application/json',
-          'x-api-key':cfg.claudeKey,
-          'anthropic-version':'2023-06-01',
-          'anthropic-dangerous-direct-browser-access':'true'
-        },
-        body:JSON.stringify({
-          model:'claude-sonnet-4-20250514',
-          max_tokens:1000,
-          messages:[{role:'user',content:prompt}]
-        })
-      });
+      const vInstr = {short:'Write exactly 3 sentences. Keep it punchy and data-driven.',medium:'Write one strong paragraph of 5-7 sentences.',full:'Write a full ORM report with sections: Executive Summary, Platform Breakdown, Sentiment Analysis, Key Insight, Next Step.'}[_reportVersion];
+      const fInstr = {linkedin:'Format as a LinkedIn post. Start with a hook. Professional but human tone.',internal:'Format as an internal team update starting with "ORM Update -". Use bullet points for stats.',email:'Format as email body. Start with "Hi team," and end with "Thanks, Aditya". Include Subject line at top.',notion:'Format as Notion doc with ## headers, bullet points, bold numbers.'}[_reportFormat];
+      const prompt = 'You are writing an ORM report for Polaris School of Technology - a BTech college in Bangalore.\n\nData as of '+today+':\n- Total mentions: '+total+'\n- Impressions: '+allImpr.toLocaleString()+'\n- BPS: '+bps+'/100 ('+grade+')\n- Sentiment: '+pos+' positive, '+neg+' negative, '+neu+' neutral\n- Platforms: '+platLines+'\n\n'+vInstr+'\n\n'+fInstr+'\n\nWrite only the report text. No preamble.';
+      const res = await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':cfg.claudeKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
       const data = await res.json();
-      if(data?.content?.[0]?.text){
-        reportText = data.content[0].text;
-        debugLog('✅ Report generated via Claude API');
-      } else {
-        debugLog('⚠ Claude API returned unexpected response, using template fallback');
-        reportText = buildFallbackReport(total, allImpr, bps, grade, pos, neg, platMap, today);
-      }
-    }catch(e){
-      debugLog('⚠ Claude API error: '+e.message+' — using template fallback');
-      reportText = buildFallbackReport(total, allImpr, bps, grade, pos, neg, platMap, today);
-    }
+      if(data&&data.content&&data.content[0]) reportText = data.content[0].text;
+      else reportText = buildFallbackReport(total,allImpr,bps,grade,pos,neg,platMap,today);
+    }catch(e){ reportText = buildFallbackReport(total,allImpr,bps,grade,pos,neg,platMap,today); }
   } else {
-    debugLog('ℹ No Claude API key — using template fallback');
-    reportText = buildFallbackReport(total, allImpr, bps, grade, pos, neg, platMap, today);
+    reportText = buildFallbackReport(total,allImpr,bps,grade,pos,neg,platMap,today);
   }
-
-  body.innerHTML = `<div class="report-text" id="reportTextContent">${reportText}</div>`;
-
-  // Save to history
-  _reportHistory.unshift({
-    time: new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}),
-    format: formatLabels[_reportFormat]||'Report',
-    version: _reportVersion,
-    bps,
-    total
-  });
+  body.innerHTML = '<div class="report-text" id="reportTextContent">'+reportText+'</div>';
+  _reportHistory.unshift({time:new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}),format:formatLabels[_reportFormat]||'Report',version:_reportVersion,bps,total});
   renderReportHistory();
-
   btn.disabled = false;
-  btn.innerHTML = '✦ Generate ORM Report';
+  btn.innerText = 'Generate ORM Report';
 }
 
-function buildFallbackReport(total, allImpr, bps, grade, pos, neg, platMap, today){
-  const topPlats = Object.entries(platMap).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([p,c])=>`${p} (${c})`).join(', ');
+function buildFallbackReport(total,allImpr,bps,grade,pos,neg,platMap,today){
+  const topPlats = Object.entries(platMap).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([p,c])=>p+' ('+c+')').join(', ');
   const posPercent = total>0?Math.round((pos/total)*100):0;
-
   if(_reportFormat==='linkedin'){
-    if(_reportVersion==='short'){
-      return `Polaris School of Technology — ${today} ORM Update\n\n${total} brand mentions across platforms. BPS: ${bps}/100 (${grade}). Top platforms: ${topPlats}.`;
-    } else if(_reportVersion==='medium'){
-      return `Polaris School of Technology ORM — ${today}\n\nAs of today, Polaris has accumulated ${total.toLocaleString()} brand mentions with an estimated ${fmtNum(allImpr)} impressions across ${Object.keys(platMap).filter(p=>platMap[p]>0).length} active platforms. Our Brand Presence Score stands at ${bps}/100 (Grade ${grade}). Sentiment is ${posPercent}% positive. Highest volume platforms: ${topPlats}. ${neg>0?`${neg} negative mentions flagged for review.`:'No negative mentions flagged.'}`;
-    } else {
-      return `Polaris School of Technology — Full ORM Report (${today})\n\nEXECUTIVE SUMMARY\nPolaris has ${total.toLocaleString()} total mentions and a Brand Presence Score of ${bps}/100 (${grade}).\n\nPLATFORM BREAKDOWN\n${Object.entries(platMap).sort((a,b)=>b[1]-a[1]).map(([p,c])=>`• ${p}: ${c} mentions`).join('\n')}\n\nSENTIMENT\n${pos} positive · ${neg} negative · ${total-pos-neg} neutral (${posPercent}% positive rate)\n\nKEY INSIGHT\n${bps>=65?'Brand presence is healthy. Focus on converting awareness into direct inquiries.':bps>=50?'Moderate presence. Increase Quora and Medium activity for faster growth.':'Brand visibility is still building. Prioritise portal listings and Quora seeding.'}\n\nNEXT STEP\n${neg>0?'Address the '+neg+' negative mention(s) with a response plan this week.':'Continue current content cadence and target 5 new Quora answers this week.'}`;
-    }
-  } else if(_reportFormat==='internal'){
-    return `ORM Update — ${today}\n\n• Total mentions: ${total.toLocaleString()}\n• Impressions: ~${fmtNum(allImpr)}\n• BPS: ${bps}/100 (${grade})\n• Sentiment: ${posPercent}% positive, ${neg} negatives flagged\n• Top platforms: ${topPlats}\n\nAction: ${neg>0?'Review and respond to '+neg+' negative mention(s).':'Maintain current posting cadence.'}`;
-  } else if(_reportFormat==='email'){
-    return `Subject: ORM Update — ${today}\n\nHi team,\n\nQuick ORM update for ${today}. Polaris currently has ${total.toLocaleString()} brand mentions across ${Object.keys(platMap).filter(p=>platMap[p]>0).length} platforms with a BPS of ${bps}/100 (${grade}).\n\nTop platforms: ${topPlats}. Sentiment is ${posPercent}% positive. ${neg>0?neg+' negative mentions need attention.':'No negatives flagged.'}\n\nThanks,\nAditya`;
-  } else {
-    return `## ORM Status — ${today}\n\n**Status:** ${grade} (${bps}/100)\n\n### Platform Breakdown\n${Object.entries(platMap).sort((a,b)=>b[1]-a[1]).map(([p,c])=>`- **${p}:** ${c}`).join('\n')}\n\n### Sentiment\n- Positive: ${pos}\n- Negative: ${neg}\n- Neutral: ${total-pos-neg}\n\n### Next Action\n${neg>0?'Address '+neg+' negative mention(s) this week.':'Maintain content cadence.'}`;
+    if(_reportVersion==='short') return 'Polaris School of Technology - '+today+' ORM Update\n\n'+total+' brand mentions across platforms. BPS: '+bps+'/100 ('+grade+'). Top platforms: '+topPlats+'.';
+    if(_reportVersion==='medium') return 'Polaris School of Technology ORM - '+today+'\n\nAs of today, Polaris has '+total.toLocaleString()+' brand mentions across '+Object.keys(platMap).filter(p=>platMap[p]>0).length+' active platforms with a BPS of '+bps+'/100 ('+grade+'). Sentiment is '+posPercent+'% positive. Top platforms: '+topPlats+'. '+(neg>0?neg+' negative mentions flagged for review.':'No negatives flagged.');
+    return 'Polaris School of Technology - Full ORM Report ('+today+')\n\nEXECUTIVE SUMMARY\nPolaris has '+total.toLocaleString()+' total mentions and a BPS of '+bps+'/100 ('+grade+').\n\nPLATFORM BREAKDOWN\n'+Object.entries(platMap).sort((a,b)=>b[1]-a[1]).map(([p,c])=>'- '+p+': '+c).join('\n')+'\n\nSENTIMENT\n'+pos+' positive, '+neg+' negative, '+(total-pos-neg)+' neutral ('+posPercent+'% positive)\n\nNEXT STEP\n'+(neg>0?'Address the '+neg+' negative mention(s) this week.':'Continue current content cadence.');
   }
+  if(_reportFormat==='internal') return 'ORM Update - '+today+'\n\n- Total mentions: '+total.toLocaleString()+'\n- Impressions: ~'+fmtNum(allImpr)+'\n- BPS: '+bps+'/100 ('+grade+')\n- Sentiment: '+posPercent+'% positive, '+neg+' negatives flagged\n- Top platforms: '+topPlats+'\n\nAction: '+(neg>0?'Review and respond to '+neg+' negative mention(s).':'Maintain current posting cadence.');
+  if(_reportFormat==='email') return 'Subject: ORM Update - '+today+'\n\nHi team,\n\nQuick ORM update for '+today+'. Polaris currently has '+total.toLocaleString()+' brand mentions across '+Object.keys(platMap).filter(p=>platMap[p]>0).length+' platforms with a BPS of '+bps+'/100 ('+grade+').\n\nTop platforms: '+topPlats+'. Sentiment is '+posPercent+'% positive. '+(neg>0?neg+' negatives need attention.':'No negatives flagged.')+'\n\nThanks,\nAditya';
+  return '## ORM Status - '+today+'\n\n**Status:** '+grade+' ('+bps+'/100)\n\n### Platform Breakdown\n'+Object.entries(platMap).sort((a,b)=>b[1]-a[1]).map(([p,c])=>'- **'+p+':** '+c).join('\n')+'\n\n### Sentiment\n- Positive: '+pos+'\n- Negative: '+neg+'\n- Neutral: '+(total-pos-neg)+'\n\n### Next Action\n'+(neg>0?'Address '+neg+' negative mention(s) this week.':'Maintain content cadence.');
 }
 
 function renderReportHistory(){
   const h = id('reportHistory');
   if(!h) return;
   if(!_reportHistory.length){ h.innerText='No reports generated yet this session.'; return; }
-  h.innerHTML = _reportHistory.slice(0,5).map((r,i)=>`
-    <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--card2);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;font-size:12px">
-      <span style="color:var(--text2)">${r.time}</span>
-      <span style="color:var(--text)">${r.format}</span>
-      <span style="color:var(--text2)">${r.version}</span>
-      <span style="margin-left:auto;color:var(--gold)">BPS ${r.bps} · ${r.total} mentions</span>
-    </div>`).join('');
+  h.innerHTML = _reportHistory.slice(0,5).map(r=>
+    '<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--card2);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;font-size:12px">'
+    +'<span style="color:var(--text2)">'+r.time+'</span>'
+    +'<span style="color:var(--text)">'+r.format+'</span>'
+    +'<span style="color:var(--text2)">'+r.version+'</span>'
+    +'<span style="margin-left:auto;color:var(--gold)">BPS '+r.bps+' - '+r.total+' mentions</span>'
+    +'</div>'
+  ).join('');
 }
 
 async function copyReport(mode){
   const textEl = id('reportTextContent');
   if(!textEl){ alert('Generate a report first.'); return; }
-  let text = textEl.innerText;
-  if(mode==='markdown'){
-    text = text.replace(/^(.+)$/gm, (line)=>line.startsWith('•')?line:line);
-  }
   try{
-    await navigator.clipboard.writeText(text);
+    await navigator.clipboard.writeText(textEl.innerText);
     const btn = id(mode==='markdown'?'copyMdBtn':'copyTextBtn');
     if(btn){ btn.innerText='Copied!'; btn.classList.add('copied'); setTimeout(()=>{btn.innerText=mode==='markdown'?'Copy Markdown':'Copy Text';btn.classList.remove('copied');},2000); }
-  }catch(e){ alert('Copy failed — please select the text manually.'); }
+  }catch(e){ alert('Copy failed - please select the text manually.'); }
 }
 
-// ═══════════════════════════════════════════════════════
-// LIVE LISTENING
-// ═══════════════════════════════════════════════════════
-function renderListening(filter){
-  const body=id('allMentionsBody'); if(!body) return;
-  const allData=[..._mentions,..._social];
-  let data=allData;
-  if(filter==='positive'||filter==='negative') data=data.filter(m=>m.sentiment===filter);
-  else if(filter!=='all') data=data.filter(m=>normalizePlatform(m.platform)===filter);
-  if(!data.length){
-    body.innerHTML=`<tr><td colspan="6" style="text-align:center;color:var(--text2);padding:40px">No mentions for this filter.</td></tr>`;
-    return;
-  }
-  body.innerHTML=data.map(m=>{
-    const p=normalizePlatform(m.platform);
-    const c=PLAT_COLORS[p]||'#555';
-    const sc=m.sentiment==='positive'?'sent-pos':m.sentiment==='negative'?'sent-neg':'sent-neu';
-    const eng=m.reactions||m.likes||m.upvotes||m.score||m.impressions||0;
-    return `<tr>
-      <td>${platBadge(p)}</td>
-      <td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${(m.text||m.title||'').replace(/"/g,'')}">${(m.text||m.title||'').substring(0,85)}</td>
-      <td><span class="sent-badge ${sc}">${m.sentiment||'neutral'}</span></td>
-      <td style="color:var(--text2)">${fmtNum(eng)}</td>
-      <td style="color:var(--text2)">${fmtDate(m.date||m.posted_at)}</td>
-      <td><a class="content-link" href="${m.url}" target="_blank">View ↗</a></td>
-    </tr>`;
-  }).join('');
-}
-function filterMentions(filter,btn){
-  document.querySelectorAll('#listeningFilters .filter-btn').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  renderListening(filter);
-}
-
-// ═══════════════════════════════════════════════════════
-// SOCIAL MEDIA TAB
-// ═══════════════════════════════════════════════════════
-let _currentSocial='linkedin';
-function switchSocial(platform, btn){
-  _currentSocial=platform;
-  document.querySelectorAll('#socialPlatformTabs .plt-tab').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  renderSocial(platform);
-}
-function renderSocial(platform){
-  const container=id('socialCardsContainer'); if(!container) return;
-  const data=_social.filter(m=>normalizePlatform(m.platform)===platform);
-  const color=PLAT_COLORS[platform]||'#888';
-  const platLabel={linkedin:'💼 LinkedIn',twitter:'𝕏 Twitter',instagram:'📸 Instagram',facebook:'👥 Facebook'}[platform]||platform;
-  if(!data.length){
-    const lastRun=_social.length?'social.json loaded but no '+platform+' data':'social.json not found yet';
-    container.innerHTML=`<div class="empty-state"><div class="empty-state-icon">📱</div><div class="empty-state-title">No ${platLabel} data</div><div style="font-size:12px;margin-top:6px;max-width:480px;margin-left:auto;margin-right:auto">${lastRun}.</div></div>`;
-    return;
-  }
-  const cards=data.slice(0,60).map(m=>{
-    const author=m.author||m.accountName||m.username||m.handle||'Unknown';
-    const text  =m.text||m.caption||m.content||'';
-    const url   =m.url||m.postUrl||m.link||'#';
-    const likes =m.likes||m.reactions||m.likeCount||0;
-    const comms =m.comments||m.numComments||m.commentCount||0;
-    const reposts=m.reposts||m.retweets||m.shares||0;
-    const impr  =m.impressions||m.estImpressions||0;
-    const date  =fmtDate(m.date||m.posted_at||m.createdAt);
-    const sent  =m.sentiment||'neutral';
-    const sCol  =sent==='positive'?'#22c55e':sent==='negative'?'#ef4444':'#9ca3af';
-    const tagsP =m.tags_polaris||m.tagsPolaris||'';
-    return `<div class="social-card">
-      <span class="sc-platform" style="background:${color}22;color:${color}">${platLabel}</span>
-      <div class="sc-author">${author}</div>
-      <div class="sc-meta">${date}</div>
-      <div class="sc-text">${text.substring(0,160)}</div>
-      <div class="sc-stats">
-        ${likes?'<span>♥ '+fmtNum(likes)+'</span>':''}
-        ${comms?'<span>💬 '+fmtNum(comms)+'</span>':''}
-        ${reposts?'<span>🔁 '+fmtNum(reposts)+'</span>':''}
-        ${impr?'<span>👁 ~'+fmtNum(impr)+'</span>':''}
-      </div>
-      <div class="sc-badges">
-        <span style="background:${sCol}22;color:${sCol};padding:2px 7px;border-radius:4px;font-size:10px;font-weight:600">${sent}</span>
-        ${tagsP==='Yes'?'<span style="background:rgba(255,204,63,.1);color:var(--gold);padding:2px 7px;border-radius:4px;font-size:10px;font-weight:600">🎯 PST Tagged</span>':''}
-      </div>
-      <a href="${url}" target="_blank" class="sc-link" style="background:${color}cc">View Post ↗</a>
-    </div>`;
-  }).join('');
-  container.innerHTML=`<div style="font-size:12px;color:var(--text2);margin-bottom:14px">${data.length} ${platLabel} mentions loaded</div><div class="social-cards-grid">${cards}</div>`;
-}
-
-// ═══════════════════════════════════════════════════════
-// MY CONTENT
-// ═══════════════════════════════════════════════════════
-let _curContent='reddit';
-function switchContentPlatform(key,btn){
-  _curContent=key;
-  document.querySelectorAll('#contentPlatformTabs .plt-tab').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  renderContentTab(key);
-}
-async function renderContentTab(key){
-  const head=id('contentTableHead'), body=id('contentTableBody'), meta=id('contentMeta');
-  if(!head||!body) return;
-  const cfg=getSavedConfig();
-  const sheet=(cfg.sheets||{})[key];
-  if(!sheet||!sheet.id){
-    body.innerHTML=`<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:40px"><div class="empty-state-icon">📋</div>No Google Sheet connected for this platform.<br><span style="font-size:11px">Add Sheet ID in ⚙ Settings.</span></td></tr>`;
-    meta.innerText=''; head.innerHTML=''; return;
-  }
-  body.innerHTML=`<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:30px"><span class="spinner"></span> Loading from Google Sheet…</td></tr>`;
-  try{
-    const url=`https://docs.google.com/spreadsheets/d/${sheet.id}/gviz/tq?tqx=out:csv&gid=${sheet.gid||'0'}`;
-    const res=await fetch(url);
-    const csv=await res.text();
-    const rows=parseCSV(csv);
-    if(rows.length<2){ body.innerHTML=`<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:30px">Sheet empty or not publicly accessible.</td></tr>`; return; }
-    const headers=rows[0];
-    head.innerHTML=headers.map(h=>`<th>${h}</th>`).join('');
-    body.innerHTML=rows.slice(1).map(row=>`<tr>${row.map((cell,i)=>{
-      const isLink=/^https?:\/\//.test(cell);
-      return isLink?`<td><a class="content-link" href="${cell}" target="_blank">View ↗</a></td>`:`<td title="${cell}">${cell.length>60?cell.substring(0,60)+'…':cell}</td>`;
-    }).join('')}</tr>`).join('');
-    meta.innerText=`${rows.length-1} rows from Google Sheet`;
-    debugLog('✅ Sheet '+key+' — '+(rows.length-1)+' rows');
-  }catch(e){
-    body.innerHTML=`<tr><td colspan="8" style="text-align:center;color:var(--red);padding:30px">Failed: ${e.message}</td></tr>`;
-    debugLog('❌ Sheet error ('+key+'): '+e.message);
-  }
-}
-function parseCSV(text){
-  return text.trim().split('\n').map(row=>{
-    const cells=[]; let cur='', inQ=false;
-    for(let i=0;i<row.length;i++){
-      if(row[i]==='"'){ inQ=!inQ; }
-      else if(row[i]===','&&!inQ){ cells.push(cur.trim()); cur=''; }
-      else { cur+=row[i]; }
-    }
-    cells.push(cur.trim()); return cells;
-  });
-}
-
-// ═══════════════════════════════════════════════════════
-// LINK INVENTORY
-// ═══════════════════════════════════════════════════════
-function switchInventory(type,btn){
-  document.querySelectorAll('#inventoryTabs .plt-tab').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  renderInventory(type);
-}
-function renderInventory(type){
-  const body=id('inventoryBody'); if(!body) return;
-  const allData=[..._mentions,..._social];
-  let data=allData;
-  if(type==='portals') data=allData.filter(m=>normalizePlatform(m.platform)==='portal');
-  else if(type==='quora') data=allData.filter(m=>normalizePlatform(m.platform)==='quora');
-  else if(type==='reddit') data=allData.filter(m=>normalizePlatform(m.platform)==='reddit');
-  else if(type==='linkedin') data=allData.filter(m=>normalizePlatform(m.platform)==='linkedin');
-  else if(type==='twitter') data=allData.filter(m=>normalizePlatform(m.platform)==='twitter');
-  if(!data.length){ body.innerHTML=`<tr><td colspan="6" style="text-align:center;color:var(--text2);padding:40px">No links for this category.</td></tr>`; return; }
-  const flags=getFlags();
-  body.innerHTML=data.map((m,i)=>{
-    const urlKey=btoa(m.url||String(i)).substring(0,12);
-    const isFlagged=flags[urlKey];
-    let host=''; try{host=new URL(m.url||'').hostname.replace('www.','')}catch(e){host=type;}
-    const sc=m.sentiment==='positive'?'sent-pos':m.sentiment==='negative'?'sent-neg':'sent-neu';
-    return `<tr>
-      <td style="color:var(--text2)">${i+1}</td>
-      <td><span class="plat-badge" style="background:rgba(123,31,162,.2);color:#ce93d8">${host}</span></td>
-      <td class="url-cell"><a class="content-link" href="${m.url||'#'}" target="_blank" title="${m.url||''}">${(m.text||m.title||m.url||'').substring(0,65)}</a></td>
-      <td style="color:var(--text2);font-size:11px">${normalizePlatform(m.platform)}</td>
-      <td><span class="sent-badge ${sc}">${m.sentiment||'neutral'}</span></td>
-      <td><button class="flag-btn${isFlagged?' flagged':''}" onclick="toggleFlag('${urlKey}',this)">${isFlagged?'⚑ Flagged':'⚐ Flag'}</button></td>
-    </tr>`;
-  }).join('');
-}
-function getFlags(){ try{return JSON.parse(localStorage.getItem('polaris_flags')||'{}')}catch(e){return{}} }
-function toggleFlag(key,btn){
-  const f=getFlags(); f[key]=!f[key];
-  localStorage.setItem('polaris_flags',JSON.stringify(f));
-  btn.className='flag-btn'+(f[key]?' flagged':'');
-  btn.innerText=f[key]?'⚑ Flagged':'⚐ Flag';
-}
-
-// ═══════════════════════════════════════════════════════
-// COMPETITORS
-// ═══════════════════════════════════════════════════════
-async function renderCompetitors(){
-  const grid=id('compGrid'), actions=id('compActions'); if(!grid) return;
-  grid.innerHTML=`<div style="color:var(--text2);padding:20px"><span class="spinner"></span> Fetching competitor data…</div>`;
-  const cfg=getSavedConfig();
-  const compKw=cfg.kwComp?cfg.kwComp.split(',').map(k=>k.trim()).filter(Boolean):COMPETITORS;
-  const myMentions=_mentions.length+_social.length;
-  const myImpr=_mentions.reduce((s,m)=>s+(m.impressions||0),0);
-  const compResults=[];
-  for(const comp of compKw.slice(0,5)){
-    try{
-      const q=encodeURIComponent(comp);
-      const res=await fetch(`https://www.reddit.com/search.json?q=${q}&limit=10&sort=new`,{headers:{'User-Agent':'ORM-Dashboard/1.0'}});
-      const data=await res.json();
-      const posts=data?.data?.children||[];
-      const sentiments=posts.map(p=>{
-        const t=(p.data?.title||'').toLowerCase();
-        return t.includes('bad')||t.includes('scam')||t.includes('avoid')?'negative':
-               t.includes('good')||t.includes('best')||t.includes('great')?'positive':'neutral';
-      });
-      compResults.push({name:comp,mentions:posts.length,impr:posts.reduce((s,p)=>s+(p.data?.score||0),0),
-        pos:sentiments.filter(s=>s==='positive').length,neg:sentiments.filter(s=>s==='negative').length,neutral:posts.length-sentiments.filter(s=>s==='positive').length-sentiments.filter(s=>s==='negative').length});
-      debugLog('✅ Competitor: '+comp+' ('+posts.length+' Reddit posts)');
-    }catch(e){
-      compResults.push({name:comp,mentions:0,impr:0,pos:0,neg:0,neutral:0});
-      debugLog('⚠ Competitor fetch failed: '+comp);
-    }
-  }
-  const maxM=Math.max(...compResults.map(c=>c.mentions),myMentions,1);
-  const barColors=['#ff6314','#b92b27','#facc15','#22c55e','#60a5fa'];
-  grid.innerHTML=[`<div class="comp-card" style="border-color:rgba(255,204,63,.3)">
-    <div class="comp-name" style="color:var(--gold)">🏫 Polaris (You)</div>
-    <div class="comp-mentions">${myMentions}</div>
-    <div class="comp-sub">Total Mentions · ${myImpr.toLocaleString()} Impressions</div>
-    <div class="comp-bar"><div class="comp-bar-fill" style="background:var(--gold);width:${Math.round((myMentions/maxM)*100)}%"></div></div>
-  </div>`,...compResults.map((c,i)=>`<div class="comp-card">
-    <div class="comp-name">${c.name}</div>
-    <div class="comp-mentions" style="color:var(--text)">${c.mentions}</div>
-    <div class="comp-sub">Reddit mentions · ${c.impr.toLocaleString()} score</div>
-    <div class="comp-bar"><div class="comp-bar-fill" style="background:${barColors[i%barColors.length]};width:${Math.round((c.mentions/maxM)*100)}%"></div></div>
-  </div>`)].join('');
-
-  if(_compChart1){_compChart1.destroy();_compChart1=null;}
-  const bc=id('compBarChart');
-  if(bc) _compChart1=new Chart(bc,{type:'bar',data:{labels:['Polaris',...compResults.map(c=>c.name.split(' ')[0])],datasets:[{label:'Mentions',data:[myMentions,...compResults.map(c=>c.mentions)],backgroundColor:['#FFCC3F',...barColors],borderRadius:6}]},options:{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#888',font:{family:'Poppins'}}},y:{ticks:{color:'#888'},grid:{color:'#222'}}}}});
-
-  if(_compChart2){_compChart2.destroy();_compChart2=null;}
-  const sc=id('compSentChart');
-  if(sc){
-    const myPos=_mentions.filter(m=>m.sentiment==='positive').length;
-    const myNeg=_mentions.filter(m=>m.sentiment==='negative').length;
-    _compChart2=new Chart(sc,{type:'bar',data:{labels:['Polaris',...compResults.map(c=>c.name.split(' ')[0])],datasets:[{label:'Positive',data:[myPos,...compResults.map(c=>c.pos)],backgroundColor:'#22c55e88',borderRadius:6},{label:'Negative',data:[myNeg,...compResults.map(c=>c.neg)],backgroundColor:'#ef444488',borderRadius:6}]},options:{scales:{x:{ticks:{color:'#888'}},y:{ticks:{color:'#888'},grid:{color:'#222'}}},plugins:{legend:{labels:{color:'#ccc'}}}}});
-  }
-
-  if(actions){
-    const topComp=compResults.sort((a,b)=>b.mentions-a.mentions)[0];
-    actions.innerHTML=[
-      topComp&&topComp.mentions>myMentions?`<div class="action-item" data-pri="HIGH"><div class="action-title">${topComp.name} has more Reddit mentions than Polaris</div><div class="action-why">${topComp.mentions} vs your ${myMentions}</div><div class="action-idea">💡 Post in r/Btechtards, r/Indian_Academia, r/CollegeDropouts</div><div class="action-platform">Reddit</div></div>`:'',
-      `<div class="action-item" data-pri="MEDIUM"><div class="action-title">Monitor competitor Quora answers</div><div class="action-why">Competitors may be answering queries you're missing</div><div class="action-idea">💡 Search "vs Polaris" on Quora and answer those threads</div><div class="action-platform">Quora</div></div>`,
-      `<div class="action-item" data-pri="LOW"><div class="action-title">Publish comparison content</div><div class="action-why">Own the "Polaris vs Scaler" narrative</div><div class="action-idea">💡 Write "Why Polaris is different from bootcamps" on Medium</div><div class="action-platform">Medium</div></div>`
-    ].join('');
-  }
-}
-
-// ═══════════════════════════════════════════════════════
-// LLM / AEO
-// ═══════════════════════════════════════════════════════
-function renderLLM(){
-  const mediumC=_mentions.filter(m=>normalizePlatform(m.platform)==='medium').length;
-  const portalC=_mentions.filter(m=>normalizePlatform(m.platform)==='portal').length;
-  const quoraC =_mentions.filter(m=>normalizePlatform(m.platform)==='quora').length;
-  const llmScore=Math.min(100,Math.round(mediumC*4+portalC*1.5+quoraC*2+10));
-  set('llmScore',llmScore);
-  const lb=id('llmBarFill'); if(lb) lb.style.width=llmScore+'%';
-  const sources=[
-    {name:'Wikipedia',status:false,tip:'Not indexed — high priority for AI citations'},
-    {name:'Crunchbase',status:false,tip:'Not listed — add for funding/company data'},
-    {name:'Medium Articles',status:mediumC>0,tip:mediumC+' articles indexed'},
-    {name:'Portal Listings',status:portalC>0,tip:portalC+' portals listing Polaris'},
-    {name:'Reddit Threads',status:_mentions.filter(m=>normalizePlatform(m.platform)==='reddit').length>0,tip:'Present — good for conversational AI'},
-    {name:'Quora Answers',status:quoraC>0,tip:'Present — cited by Perplexity/ChatGPT'}
-  ];
-  const ls=id('llmSources');
-  if(ls) ls.innerHTML=sources.map(s=>`
-    <div class="source-item">
-      <div class="source-dot" style="background:${s.status?'#22c55e':'#ef4444'}"></div>
-      <div><div class="source-name">${s.name}</div><div style="font-size:11px;color:var(--text2)">${s.tip}</div></div>
-      <div class="source-status" style="color:${s.status?'#22c55e':'#ef4444'}">${s.status?'✓ OK':'✗ Missing'}</div>
-    </div>`).join('');
-  const checklist=[
-    {ok:mediumC>=3,text:'3+ Medium articles indexed',action:'Publish more long-form content on Medium'},
-    {ok:portalC>=10,text:'10+ portal listings',action:'Submit to Shiksha, Collegedunia, Careers360'},
-    {ok:false,text:'Wikipedia page exists',action:'Create or improve Wikipedia entry for Polaris'},
-    {ok:false,text:'Crunchbase profile complete',action:'Add funding, team, description to Crunchbase'},
-    {ok:_mentions.filter(m=>m.sentiment==='positive').length>5,text:'Positive sentiment dominant',action:'Encourage more positive reviews and testimonials'},
-    {ok:quoraC>=5,text:'5+ Quora answers seeded',action:'Target admission, fee, and placement questions on Quora'}
-  ];
-  const cl=id('llmChecklist');
-  if(cl) cl.innerHTML=checklist.map(c=>`
-    <div class="checklist-item">
-      <div class="check-icon">${c.ok?'✅':'⬜'}</div>
-      <div><div class="check-text">${c.text}</div>${!c.ok?`<div class="check-action">→ ${c.action}</div>`:''}</div>
-    </div>`).join('');
-  const cfg=getSavedConfig();
-  const ks=id('aiKeyStatus');
-  if(ks) ks.innerText=cfg.claudeKey?'✅ Claude API key saved':'⚠ No Claude API key — add in Settings';
-}
-
-async function runClaudeAnalysis(){
-  const btn=id('runAiBtn'), result=id('aiAnalysisResult');
-  const cfg=getSavedConfig();
-  if(!cfg.claudeKey){ result.innerText='⚠️ Add your Claude API key in Settings.'; return; }
-  btn.disabled=true; btn.innerText='Analysing…';
-  result.innerHTML=`<div class="ai-loading">Running Claude analysis on ${_mentions.length+_social.length} mentions…</div>`;
-  try{
-    const allData=[..._mentions,..._social];
-    const sample=allData.slice(0,30).map(m=>`[${normalizePlatform(m.platform)}] ${m.sentiment||'neutral'}: ${(m.text||m.title||'').substring(0,80)}`).join('\n');
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':cfg.claudeKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,messages:[{role:'user',content:`You are a brand analyst for Polaris School of Technology (Bangalore BTech college — Applied AI Engineering, Product Management & Engineering, Cloud & Big Data Engineering). Analyse these brand mentions and give: 1) Top 5 keywords people associate with Polaris 2) Key sentiment themes 3) Top 3 urgent actions.\n\nMentions:\n${sample}`}]})
-    });
-    const data=await res.json();
-    const text=data?.content?.[0]?.text||'No response';
-    result.innerHTML=`<div class="ai-result">${text.replace(/\n/g,'<br>')}</div>`;
-    const words=['BTech','AI Engineering','Bangalore','Admissions','Placement','Applied AI','Campus','Fees','Reviews','GSoC'];
-    const kw=id('llmKeywords');
-    if(kw) kw.innerHTML=words.map(w=>`<span class="kw-pill">${w}</span>`).join('');
-  }catch(e){
-    result.innerText='Error: '+e.message;
-    debugLog('❌ Claude API error: '+e.message);
-  }
-  btn.disabled=false; btn.innerText='▶ Run Analysis';
-}
-
-// ═══════════════════════════════════════════════════════
-// DEBUG
-// ═══════════════════════════════════════════════════════
-const _logs=[];
-function debugLog(msg){
-  const ts=new Date().toLocaleTimeString('en-IN');
-  _logs.push(`[${ts}] ${msg}`);
-  const el=id('errorLog');
-  if(el) el.innerHTML=_logs.slice(-30).reverse().map(l=>`<div style="margin-bottom:3px">${l}</div>`).join('');
-}
-function renderDebug(){
-  const cfg=getSavedConfig();
-  const api=id('apiStatus');
-  if(api){
-    const checks=[
-      {label:'summary.json',ok:!!_summary.total_mentions,detail:`${_summary.total_mentions||0} mentions, updated: ${(_summary.last_updated||'?').substring(0,16)}`},
-      {label:'mentions.json',ok:_mentions.length>0,detail:`${_mentions.length} records`},
-      {label:'social.json',ok:_social.length>0,detail:_social.length>0?`${_social.length} social records`:'Not found — run Apify action'},
-      {label:'Claude API Key',ok:!!cfg.claudeKey,detail:cfg.claudeKey?'Key saved (hidden)':'Not configured'},
-      {label:'Apify Token',ok:!!cfg.apifyToken,detail:cfg.apifyToken?'Token saved (hidden)':'Not configured — needed for Social tab'},
-      {label:'GitHub Source',ok:true,detail:`${cfg.user||DEFAULT_USER}/${cfg.repo||DEFAULT_REPO}@${cfg.branch||DEFAULT_BRANCH}`}
-    ];
-    api.innerHTML=checks.map(c=>`<div class="debug-item ${c.ok?'debug-ok':'debug-warn'}">
-      ${c.ok?'✅':'⚠'} <b>${c.label}</b> — ${c.detail}</div>`).join('');
-  }
-  const ok=id('sourcesOk');
-  if(ok){
-    const platCounts={reddit:0,quora:0,medium:0,portal:0,news:0,web:0,linkedin:0,twitter:0,instagram:0,facebook:0};
-    [..._mentions,..._social].forEach(m=>{ const p=normalizePlatform(m.platform); if(platCounts[p]!==undefined) platCounts[p]++; });
-    ok.innerHTML=Object.entries(platCounts).map(([p,c])=>`<div class="debug-item ${c>0?'debug-ok':'debug-warn'}">${c>0?'✅':'⚠'} <b>${p}</b> — ${c} mentions</div>`).join('');
-  }
-}
-
-// ═══════════════════════════════════════════════════════
-// TABS
-// ═══════════════════════════════════════════════════════
-function switchTab(name, btn){
-  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  const panel=id('tab-'+name); if(panel) panel.classList.add('active');
-  if(btn) btn.classList.add('active');
-  if(name==='content') renderContentTab(_curContent);
-  if(name==='social') renderSocial(_currentSocial);
-  if(name==='report') renderReportTab();
-  if(name==='ugc') renderUGCTab();
-  if(name==='channels') renderChannelsTab();
-}
-
-
-
-// ═══════════════════════════════════════════════════════
 // UGC TRACKER
-// =========================================================
 let _ugcCalMonth = new Date().getMonth();
 let _ugcCalYear  = new Date().getFullYear();
 let _ugcCalPlat  = 'all';
@@ -1784,41 +1624,35 @@ let _ugcSelPlat  = null;
 let _ugcPlatView = 'all';
 
 const UGC_SOCIAL_PLATFORMS = [
-  {key:'linkedin',  label:'LinkedIn',  icon:'LinkedIn', color:'#0A66C2', type:'social'},
-  {key:'twitter',   label:'Twitter/X', icon:'Twitter',  color:'#1DA1F2', type:'social'},
-  {key:'instagram', label:'Instagram', icon:'Instagram', color:'#E1306C', type:'social'},
-  {key:'facebook',  label:'Facebook',  icon:'Facebook',  color:'#1877F2', type:'social'},
-  {key:'youtube',   label:'YouTube',   icon:'YouTube',   color:'#FF0000', type:'social'},
+  {key:'linkedin',  label:'LinkedIn',  color:'#0A66C2', type:'social'},
+  {key:'twitter',   label:'Twitter',   color:'#1DA1F2', type:'social'},
+  {key:'instagram', label:'Instagram', color:'#E1306C', type:'social'},
+  {key:'facebook',  label:'Facebook',  color:'#1877F2', type:'social'},
+  {key:'youtube',   label:'YouTube',   color:'#FF0000', type:'social'},
 ];
 const UGC_ORGANIC_PLATFORMS = [
-  {key:'reddit',  label:'Reddit',  icon:'Reddit',  color:'#FF4500', type:'organic'},
-  {key:'quora',   label:'Quora',   icon:'Quora',   color:'#B92B27', type:'organic'},
-  {key:'medium',  label:'Medium',  icon:'Medium',  color:'#00A562', type:'organic'},
-  {key:'news',    label:'News',    icon:'News',    color:'#1565C0', type:'organic'},
-  {key:'portal',  label:'Portals', icon:'Portals', color:'#7B1FA2', type:'organic'},
+  {key:'reddit',  label:'Reddit',  color:'#FF4500', type:'organic'},
+  {key:'quora',   label:'Quora',   color:'#B92B27', type:'organic'},
+  {key:'medium',  label:'Medium',  color:'#00A562', type:'organic'},
+  {key:'news',    label:'News',    color:'#1565C0', type:'organic'},
+  {key:'portal',  label:'Portals', color:'#7B1FA2', type:'organic'},
 ];
-const ALL_UGC_PLATFORMS = [...UGC_SOCIAL_PLATFORMS, ...UGC_ORGANIC_PLATFORMS];
+const ALL_UGC_PLATFORMS = UGC_SOCIAL_PLATFORMS.concat(UGC_ORGANIC_PLATFORMS);
 
 function getPlatformData(key){
   if(['linkedin','twitter','instagram','facebook'].includes(key))
     return _social.filter(m=>normalizePlatform(m.platform)===key);
   if(key==='youtube')
-    return [..._social.filter(m=>normalizePlatform(m.platform)==='youtube'), ..._mentions.filter(m=>normalizePlatform(m.platform)==='youtube')];
+    return _social.filter(m=>normalizePlatform(m.platform)==='youtube').concat(_mentions.filter(m=>normalizePlatform(m.platform)==='youtube'));
   return _mentions.filter(m=>normalizePlatform(m.platform)===key);
 }
-
 function setUgcPlatView(view, btn){
   _ugcPlatView = view;
   document.querySelectorAll('#ugcPlatFilter2 .filter-btn').forEach(b=>b.classList.remove('active'));
   if(btn) btn.classList.add('active');
   renderUGCPlatCards();
 }
-
-function renderUGCTab(){
-  renderUGCPlatCards();
-  renderUGCCalendar();
-  renderUGCWeek();
-}
+function renderUGCTab(){ renderUGCPlatCards(); renderUGCCalendar(); renderUGCWeek(); }
 
 function renderUGCPlatCards(){
   const grid = id('ugcPlatformCards'); if(!grid) return;
@@ -1828,13 +1662,10 @@ function renderUGCPlatCards(){
   const now = new Date();
   const weekAgo = new Date(now - 7*86400000);
   const twoWeeksAgo = new Date(now - 14*86400000);
-  const countInRange = (data, from, to) => data.filter(m=>{
-    const d = new Date(m.date||m.posted_at||m.createdAt||0);
-    return d >= from && d < to;
-  }).length;
+  const countInRange = (data, from, to) => data.filter(m=>{ const d=new Date(m.date||m.posted_at||m.createdAt||0); return d>=from&&d<to; }).length;
   const allEmpty = platforms.every(p=>getPlatformData(p.key).length===0);
   if(allEmpty){
-    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:var(--text2)"><div style="font-size:32px;margin-bottom:10px">chart</div><div style="font-size:14px;color:var(--text);margin-bottom:6px">No data yet</div><div style="font-size:12px">Run the crawler (GitHub Actions) for organic data. Run Apify actors for social.</div></div>';
+    grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:var(--text2)"><div style="font-size:14px;color:var(--text);margin-bottom:6px">No data yet</div><div style="font-size:12px">Run the crawler for organic data. Run Apify actors for social.</div></div>';
     return;
   }
   grid.innerHTML = platforms.map(p=>{
@@ -1849,432 +1680,257 @@ function renderUGCPlatCards(){
     const trendClass = delta>0?'ugc-trend-up':delta<0?'ugc-trend-dn':'ugc-trend-eq';
     const trendTxt = delta>0?'up +'+delta+' vs last week':delta<0?'dn '+delta+' vs last week':'same as last week';
     const isSelected = _ugcSelPlat===p.key;
-    const typeBadge = p.type==='social'
-      ? '<span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(10,102,194,.2);color:#60a5fa;font-weight:600">SOCIAL</span>'
-      : '<span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(9,155,90,.15);color:#4ade80;font-weight:600">ORGANIC</span>';
-    return '<div class="ugc-plat-card'+(isSelected?' selected':'')+'" style="border-top:3px solid '+p.color+'" onclick="ugcSelectPlat(''+p.key+'')">'
-      +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><div class="ugc-plat-icon" style="margin-bottom:0;font-size:12px;font-weight:600;color:var(--text2)">'+p.label+'</div>'+typeBadge+'</div>'
-      +'<div class="ugc-plat-count">'+total+'</div>'
-      +'<div class="ugc-plat-label">'+(p.type==='social'?'Posts / Mentions':'Mentions indexed')+'</div>'
-      +'<div class="'+(total>0?trendClass:'ugc-trend-eq')+'">'+(total>0?trendTxt:'No data yet')+'</div>'
-      +'<div class="ugc-plat-metrics">'
-      +'<div class="ugc-metric"><div class="ugc-metric-val">'+fmtNum(likes)+'</div><div class="ugc-metric-lbl">'+(p.type==='social'?'Likes':'Score')+'</div></div>'
-      +'<div class="ugc-metric"><div class="ugc-metric-val">'+fmtNum(comments)+'</div><div class="ugc-metric-lbl">Comments</div></div>'
-      +'<div class="ugc-metric"><div class="ugc-metric-val">'+(impr>0?fmtNum(impr):'--')+'</div><div class="ugc-metric-lbl">Impressions</div></div>'
-      +'</div></div>';
+    const typeBadge = p.type==='social'?'<span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(10,102,194,.2);color:#60a5fa;font-weight:600">SOCIAL</span>':'<span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(9,155,90,.15);color:#4ade80;font-weight:600">ORGANIC</span>';
+    return '<div class="ugc-plat-card'+(isSelected?' selected':'')+'" style="border-top:3px solid '+p.color+'" onclick="ugcSelectPlat(\''+p.key+'\')"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><div style="font-size:12px;font-weight:600;color:var(--text)">'+p.label+'</div>'+typeBadge+'</div><div class="ugc-plat-count">'+total+'</div><div class="ugc-plat-label">'+(p.type==='social'?'Posts':'Mentions indexed')+'</div><div class="'+(total>0?trendClass:'ugc-trend-eq')+'">'+(total>0?trendTxt:'No data yet')+'</div><div class="ugc-plat-metrics"><div class="ugc-metric"><div class="ugc-metric-val">'+fmtNum(likes)+'</div><div class="ugc-metric-lbl">'+(p.type==='social'?'Likes':'Score')+'</div></div><div class="ugc-metric"><div class="ugc-metric-val">'+fmtNum(comments)+'</div><div class="ugc-metric-lbl">Comments</div></div><div class="ugc-metric"><div class="ugc-metric-val">'+(impr>0?fmtNum(impr):'--')+'</div><div class="ugc-metric-lbl">Impressions</div></div></div></div>';
   }).join('');
 }
 
 function ugcSelectPlat(key){
-  _ugcSelPlat = _ugcSelPlat===key ? null : key;
+  _ugcSelPlat = _ugcSelPlat===key?null:key;
   renderUGCPlatCards();
-  const panel = id('ugcDetailPanel');
+  const panel=id('ugcDetailPanel');
   if(!_ugcSelPlat){ panel.classList.remove('open'); return; }
   panel.classList.add('open');
-  const p = ALL_UGC_PLATFORMS.find(x=>x.key===_ugcSelPlat);
-  id('ugcDetailTitle').innerHTML = p.label+' -- All Data';
-  const data = getPlatformData(_ugcSelPlat);
-  id('ugcDetailHead').innerHTML = '<th>Date</th><th>Content</th><th>Likes/Score</th><th>Comments</th><th>Shares</th><th>Impressions</th><th>Sentiment</th><th>Link</th>';
-  if(!data.length){
-    id('ugcDetailBody').innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:30px">No data for '+p.label+' yet.</td></tr>';
-    return;
-  }
-  id('ugcDetailBody').innerHTML = data.slice(0,60).map(m=>{
-    const sc = m.sentiment==='positive'?'sent-pos':m.sentiment==='negative'?'sent-neg':'sent-neu';
-    return '<tr>'
-      +'<td style="color:var(--text2);white-space:nowrap">'+fmtDate(m.date||m.posted_at||m.createdAt)+'</td>'
-      +'<td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(m.text||m.caption||m.title||'').substring(0,80)+'</td>'
-      +'<td style="color:var(--gold)">'+fmtNum(m.likes||m.reactions||m.likeCount||m.upvotes||m.score||0)+'</td>'
-      +'<td style="color:var(--text2)">'+fmtNum(m.comments||m.numComments||m.commentCount||0)+'</td>'
-      +'<td style="color:var(--text2)">'+fmtNum(m.reposts||m.retweets||m.shares||0)+'</td>'
-      +'<td style="color:var(--text2)">'+(fmtNum(m.impressions||m.views||0)||'--')+'</td>'
-      +'<td><span class="sent-badge '+sc+'">'+(m.sentiment||'neutral')+'</span></td>'
-      +'<td><a class="content-link" href="'+(m.url||m.postUrl||'#')+'" target="_blank">view</a></td>'
-      +'</tr>';
+  const p=ALL_UGC_PLATFORMS.find(x=>x.key===_ugcSelPlat);
+  id('ugcDetailTitle').innerHTML = p.label+' - All Data';
+  const data=getPlatformData(_ugcSelPlat);
+  id('ugcDetailHead').innerHTML='<th>Date</th><th>Content</th><th>Likes</th><th>Comments</th><th>Shares</th><th>Impressions</th><th>Sentiment</th><th>Link</th>';
+  if(!data.length){ id('ugcDetailBody').innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:30px">No data for '+p.label+' yet.</td></tr>'; return; }
+  id('ugcDetailBody').innerHTML=data.slice(0,60).map(m=>{
+    const sc=m.sentiment==='positive'?'sent-pos':m.sentiment==='negative'?'sent-neg':'sent-neu';
+    return '<tr><td style="color:var(--text2);white-space:nowrap">'+fmtDate(m.date||m.posted_at||m.createdAt)+'</td><td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(m.text||m.caption||m.title||'').substring(0,80)+'</td><td style="color:var(--gold)">'+fmtNum(m.likes||m.reactions||m.upvotes||m.score||0)+'</td><td style="color:var(--text2)">'+fmtNum(m.comments||m.numComments||0)+'</td><td style="color:var(--text2)">'+fmtNum(m.reposts||m.retweets||m.shares||0)+'</td><td style="color:var(--text2)">'+(fmtNum(m.impressions||m.views||0)||'--')+'</td><td><span class="sent-badge '+sc+'">'+(m.sentiment||'neutral')+'</span></td><td><a class="content-link" href="'+(m.url||m.postUrl||'#')+'" target="_blank">View</a></td></tr>';
   }).join('');
   panel.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
 function downloadXLSX(){
-  const btn = id('xlsxDownloadBtn');
-  if(typeof XLSX === 'undefined'){ alert('Excel library not loaded yet. Wait a moment and try again.'); return; }
-  btn.innerText = 'Building...';
-  btn.disabled = true;
+  const btn=id('xlsxDownloadBtn');
+  if(typeof XLSX==='undefined'){ alert('Excel library not loaded yet.'); return; }
+  btn.innerText='Building...'; btn.disabled=true;
   try{
-    const wb = XLSX.utils.book_new();
-    const today = new Date().toISOString().slice(0,10);
-    const summaryRows = [
-      ['Polaris ORM -- Full Platform Report','','','','',''],
-      ['Generated:',today,'','','',''],
-      [''],
-      ['Platform','Type','Total Mentions','Likes / Score','Comments','Impressions']
-    ];
-    let grandTotal=0,grandLikes=0,grandComments=0,grandImpr=0;
-    ALL_UGC_PLATFORMS.forEach(p=>{
-      const data = getPlatformData(p.key);
-      const likes = data.reduce((s,m)=>s+(m.likes||m.reactions||m.likeCount||m.upvotes||m.score||0),0);
-      const comments = data.reduce((s,m)=>s+(m.comments||m.numComments||0),0);
-      const impr = data.reduce((s,m)=>s+(m.impressions||m.views||0),0);
-      summaryRows.push([p.label,p.type.toUpperCase(),data.length,likes,comments,impr]);
-      grandTotal+=data.length; grandLikes+=likes; grandComments+=comments; grandImpr+=impr;
-    });
-    summaryRows.push(['']);
-    summaryRows.push(['TOTAL','',grandTotal,grandLikes,grandComments,grandImpr]);
-    const wsSummary = XLSX.utils.aoa_to_sheet(summaryRows);
-    wsSummary['!cols'] = [{wch:18},{wch:10},{wch:16},{wch:16},{wch:14},{wch:16}];
-    XLSX.utils.book_append_sheet(wb, wsSummary, 'Summary');
-    ALL_UGC_PLATFORMS.forEach(p=>{
-      const data = getPlatformData(p.key);
-      if(!data.length) return;
-      const rows = [['Platform','Date','Content','URL','Likes/Score','Comments','Shares','Impressions','Sentiment']];
-      data.forEach(m=>{
-        rows.push([p.label,m.date||m.posted_at||m.createdAt||'',(m.text||m.caption||m.title||'').substring(0,200),m.url||m.postUrl||'',m.likes||m.reactions||m.likeCount||m.upvotes||m.score||0,m.comments||m.numComments||m.commentCount||0,m.reposts||m.retweets||m.shares||0,m.impressions||m.views||0,m.sentiment||'neutral']);
-      });
-      const ws = XLSX.utils.aoa_to_sheet(rows);
-      ws['!cols'] = [{wch:12},{wch:14},{wch:50},{wch:40},{wch:14},{wch:12},{wch:16},{wch:14},{wch:12}];
-      XLSX.utils.book_append_sheet(wb, ws, p.label.substring(0,31));
-    });
-    const allData = [..._mentions,..._social];
-    const allRows = [['Platform','Date','Content','URL','Likes/Score','Comments','Shares','Impressions','Sentiment']];
-    allData.forEach(m=>{ allRows.push([normalizePlatform(m.platform),m.date||m.posted_at||m.createdAt||'',(m.text||m.caption||m.title||'').substring(0,200),m.url||m.postUrl||'',m.likes||m.reactions||m.likeCount||m.upvotes||m.score||0,m.comments||m.numComments||0,m.reposts||m.retweets||m.shares||0,m.impressions||m.views||0,m.sentiment||'neutral']); });
-    const wsAll = XLSX.utils.aoa_to_sheet(allRows);
-    wsAll['!cols'] = [{wch:12},{wch:14},{wch:50},{wch:40},{wch:14},{wch:12},{wch:14},{wch:14},{wch:12}];
-    XLSX.utils.book_append_sheet(wb, wsAll, 'All Mentions');
-    XLSX.writeFile(wb, 'Polaris-ORM-'+today+'.xlsx');
-    debugLog('Excel exported -- '+allData.length+' total rows');
-  }catch(e){
-    debugLog('Excel export error: '+e.message);
-    alert('Export failed: '+e.message);
-  }
-  btn.innerHTML = 'Download Excel';
-  btn.disabled = false;
+    const wb=XLSX.utils.book_new();
+    const today=new Date().toISOString().slice(0,10);
+    const summaryRows=[['Polaris ORM - Full Platform Report','','','','',''],['Generated:',today,'','','',''],[''],['Platform','Type','Total Mentions','Likes','Comments','Impressions']];
+    let gT=0,gL=0,gC=0,gI=0;
+    ALL_UGC_PLATFORMS.forEach(p=>{ const d=getPlatformData(p.key); const l=d.reduce((s,m)=>s+(m.likes||m.reactions||m.upvotes||m.score||0),0); const c=d.reduce((s,m)=>s+(m.comments||m.numComments||0),0); const i=d.reduce((s,m)=>s+(m.impressions||m.views||0),0); summaryRows.push([p.label,p.type.toUpperCase(),d.length,l,c,i]); gT+=d.length;gL+=l;gC+=c;gI+=i; });
+    summaryRows.push([''],['TOTAL','',gT,gL,gC,gI]);
+    const ws=XLSX.utils.aoa_to_sheet(summaryRows); ws['!cols']=[{wch:18},{wch:10},{wch:16},{wch:16},{wch:14},{wch:16}];
+    XLSX.utils.book_append_sheet(wb,ws,'Summary');
+    ALL_UGC_PLATFORMS.forEach(p=>{ const d=getPlatformData(p.key); if(!d.length) return; const rows=[['Platform','Date','Content','URL','Likes','Comments','Shares','Impressions','Sentiment']]; d.forEach(m=>rows.push([p.label,m.date||m.posted_at||m.createdAt||'',(m.text||m.caption||m.title||'').substring(0,200),m.url||m.postUrl||'',m.likes||m.reactions||m.upvotes||m.score||0,m.comments||m.numComments||0,m.reposts||m.retweets||m.shares||0,m.impressions||m.views||0,m.sentiment||'neutral'])); const ws2=XLSX.utils.aoa_to_sheet(rows); ws2['!cols']=[{wch:12},{wch:14},{wch:50},{wch:40},{wch:14},{wch:12},{wch:16},{wch:14},{wch:12}]; XLSX.utils.book_append_sheet(wb,ws2,p.label.substring(0,31)); });
+    const allData=[..._mentions,..._social]; const allRows=[['Platform','Date','Content','URL','Likes','Comments','Shares','Impressions','Sentiment']]; allData.forEach(m=>allRows.push([normalizePlatform(m.platform),m.date||m.posted_at||m.createdAt||'',(m.text||m.caption||m.title||'').substring(0,200),m.url||m.postUrl||'',m.likes||m.reactions||m.upvotes||m.score||0,m.comments||m.numComments||0,m.reposts||m.retweets||m.shares||0,m.impressions||m.views||0,m.sentiment||'neutral'])); const wsAll=XLSX.utils.aoa_to_sheet(allRows); wsAll['!cols']=[{wch:12},{wch:14},{wch:50},{wch:40},{wch:14},{wch:12},{wch:14},{wch:14},{wch:12}]; XLSX.utils.book_append_sheet(wb,wsAll,'All Mentions');
+    XLSX.writeFile(wb,'Polaris-ORM-'+today+'.xlsx');
+    debugLog('Excel exported - '+allData.length+' total rows');
+  }catch(e){ debugLog('Excel export error: '+e.message); alert('Export failed: '+e.message); }
+  btn.innerHTML='Download Excel'; btn.disabled=false;
 }
 
 function setUgcCalPlat(plat, btn){
-  _ugcCalPlat = plat;
+  _ugcCalPlat=plat;
   document.querySelectorAll('#ugcCalPlatFilter .filter-btn').forEach(b=>b.classList.remove('active'));
   if(btn) btn.classList.add('active');
-  const p = ALL_UGC_PLATFORMS.find(x=>x.key===plat);
-  id('ugcCalPlatLabel').innerText = p ? p.label+' only' : 'All platforms combined';
+  const p=ALL_UGC_PLATFORMS.find(x=>x.key===plat);
+  id('ugcCalPlatLabel').innerText=p?p.label+' only':'All platforms combined';
   renderUGCCalendar();
 }
-
 function ugcCalNav(dir){
-  _ugcCalMonth += dir;
-  if(_ugcCalMonth > 11){ _ugcCalMonth=0; _ugcCalYear++; }
-  if(_ugcCalMonth < 0){ _ugcCalMonth=11; _ugcCalYear--; }
+  _ugcCalMonth+=dir;
+  if(_ugcCalMonth>11){_ugcCalMonth=0;_ugcCalYear++;}
+  if(_ugcCalMonth<0){_ugcCalMonth=11;_ugcCalYear--;}
   renderUGCCalendar();
 }
-
 function renderUGCCalendar(){
-  const grid = id('ugcCalGrid'); if(!grid) return;
-  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  id('ugcCalMonthLabel').innerText = monthNames[_ugcCalMonth]+' '+_ugcCalYear;
-  let data = [..._social,..._mentions];
-  if(_ugcCalPlat !== 'all') data = data.filter(m=>normalizePlatform(m.platform)===_ugcCalPlat);
-  const dayMap = {};
-  data.forEach(m=>{
-    const d = new Date(m.date||m.posted_at||m.createdAt||0);
-    if(d.getMonth()===_ugcCalMonth && d.getFullYear()===_ugcCalYear){
-      const key = d.getDate();
-      if(!dayMap[key]) dayMap[key]={count:0,likes:0,comments:0};
-      dayMap[key].count++;
-      dayMap[key].likes += m.likes||m.reactions||m.upvotes||m.score||0;
-      dayMap[key].comments += m.comments||m.numComments||0;
-    }
-  });
-  const maxCount = Math.max(...Object.values(dayMap).map(d=>d.count),1);
-  const daysInMonth = new Date(_ugcCalYear,_ugcCalMonth+1,0).getDate();
-  const firstDay = new Date(_ugcCalYear,_ugcCalMonth,1).getDay();
-  const today = new Date();
-  const isCurrentMonth = today.getMonth()===_ugcCalMonth && today.getFullYear()===_ugcCalYear;
-  const dayHeaders = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  let html = dayHeaders.map(d=>'<div class="cal-day-header">'+d+'</div>').join('');
-  for(let i=0;i<firstDay;i++) html += '<div class="cal-day empty"></div>';
+  const grid=id('ugcCalGrid'); if(!grid) return;
+  const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  id('ugcCalMonthLabel').innerText=monthNames[_ugcCalMonth]+' '+_ugcCalYear;
+  let data=[..._social,..._mentions];
+  if(_ugcCalPlat!=='all') data=data.filter(m=>normalizePlatform(m.platform)===_ugcCalPlat);
+  const dayMap={};
+  data.forEach(m=>{ const d=new Date(m.date||m.posted_at||m.createdAt||0); if(d.getMonth()===_ugcCalMonth&&d.getFullYear()===_ugcCalYear){ const k=d.getDate(); if(!dayMap[k]) dayMap[k]={count:0,likes:0,comments:0}; dayMap[k].count++; dayMap[k].likes+=m.likes||m.reactions||m.upvotes||m.score||0; dayMap[k].comments+=m.comments||m.numComments||0; } });
+  const maxCount=Math.max(...Object.values(dayMap).map(d=>d.count),1);
+  const daysInMonth=new Date(_ugcCalYear,_ugcCalMonth+1,0).getDate();
+  const firstDay=new Date(_ugcCalYear,_ugcCalMonth,1).getDay();
+  const today=new Date(); const isCM=today.getMonth()===_ugcCalMonth&&today.getFullYear()===_ugcCalYear;
+  const dayHeaders=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  let html=dayHeaders.map(d=>'<div class="cal-day-header">'+d+'</div>').join('');
+  for(let i=0;i<firstDay;i++) html+='<div class="cal-day empty"></div>';
   for(let day=1;day<=daysInMonth;day++){
-    const isToday = isCurrentMonth && today.getDate()===day;
-    const d = dayMap[day];
-    let levelClass = 'no-data';
-    if(d){ const ratio=d.count/maxCount; levelClass=ratio>0.75?'level-4':ratio>0.5?'level-3':ratio>0.2?'level-2':'level-1'; }
-    html += '<div class="cal-day '+levelClass+(isToday?' today':'')+'" onclick="ugcDayClick('+day+')" onmouseenter="ugcCalHover(event,'+day+')" onmouseleave="id('ugcCalTooltip').style.display='none'"><span class="cal-day-num">'+day+'</span></div>';
+    const isToday=isCM&&today.getDate()===day;
+    const d=dayMap[day]; let lc='no-data';
+    if(d){ const r=d.count/maxCount; lc=r>0.75?'level-4':r>0.5?'level-3':r>0.2?'level-2':'level-1'; }
+    html+='<div class="cal-day '+lc+(isToday?' today':'')+'" onclick="ugcDayClick('+day+')" onmouseenter="ugcCalHover(event,'+day+')" onmouseleave="document.getElementById(\'ugcCalTooltip\').style.display=\'none\'"><span class="cal-day-num">'+day+'</span></div>';
   }
-  grid.innerHTML = html;
+  grid.innerHTML=html;
 }
-
-function ugcCalHover(e, day){
-  const tt = id('ugcCalTooltip'); if(!tt) return;
-  let data = [..._social,..._mentions];
-  if(_ugcCalPlat !== 'all') data = data.filter(m=>normalizePlatform(m.platform)===_ugcCalPlat);
-  const dayPosts = data.filter(m=>{
-    const dt = new Date(m.date||m.posted_at||m.createdAt||0);
-    return dt.getMonth()===_ugcCalMonth && dt.getFullYear()===_ugcCalYear && dt.getDate()===day;
-  });
-  const likes = dayPosts.reduce((s,m)=>s+(m.likes||m.reactions||m.upvotes||m.score||0),0);
-  const comments = dayPosts.reduce((s,m)=>s+(m.comments||m.numComments||0),0);
-  const monthNames=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  tt.innerHTML = '<div style="font-weight:600;color:#fff;margin-bottom:6px">'+day+' '+monthNames[_ugcCalMonth]+' '+_ugcCalYear+'</div>'
-    +(dayPosts.length ? '<div style="color:var(--gold)">'+dayPosts.length+' post'+(dayPosts.length>1?'s':'')+'</div><div style="color:var(--text2);font-size:11px;margin-top:3px">likes:'+likes+' comments:'+comments+'</div>'
-    : '<div style="color:var(--text2)">No posts</div>');
-  tt.style.display='block';
-  tt.style.left=(e.clientX+12)+'px';
-  tt.style.top=(e.clientY-10)+'px';
+function ugcCalHover(e,day){
+  const tt=id('ugcCalTooltip'); if(!tt) return;
+  let data=[..._social,..._mentions];
+  if(_ugcCalPlat!=='all') data=data.filter(m=>normalizePlatform(m.platform)===_ugcCalPlat);
+  const dayPosts=data.filter(m=>{ const dt=new Date(m.date||m.posted_at||m.createdAt||0); return dt.getMonth()===_ugcCalMonth&&dt.getFullYear()===_ugcCalYear&&dt.getDate()===day; });
+  const likes=dayPosts.reduce((s,m)=>s+(m.likes||m.reactions||m.upvotes||m.score||0),0);
+  const comments=dayPosts.reduce((s,m)=>s+(m.comments||m.numComments||0),0);
+  const mn=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  tt.innerHTML='<div style="font-weight:600;color:#fff;margin-bottom:6px">'+day+' '+mn[_ugcCalMonth]+' '+_ugcCalYear+'</div>'+(dayPosts.length?'<div style="color:var(--gold)">'+dayPosts.length+' post'+(dayPosts.length>1?'s':'')+'</div><div style="color:var(--text2);font-size:11px;margin-top:3px">likes:'+likes+' comments:'+comments+'</div>':'<div style="color:var(--text2)">No posts</div>');
+  tt.style.display='block'; tt.style.left=(e.clientX+12)+'px'; tt.style.top=(e.clientY-10)+'px';
 }
-
 function ugcDayClick(day){
   id('ugcCalTooltip').style.display='none';
-  let data = [..._social,..._mentions];
-  if(_ugcCalPlat !== 'all') data = data.filter(m=>normalizePlatform(m.platform)===_ugcCalPlat);
-  const dayPosts = data.filter(m=>{
-    const dt = new Date(m.date||m.posted_at||m.createdAt||0);
-    return dt.getMonth()===_ugcCalMonth && dt.getFullYear()===_ugcCalYear && dt.getDate()===day;
-  });
-  const title = id('ugcDayPostsTitle');
-  const wrap = id('ugcDayPostsWrap');
-  const body = id('ugcDayPostsBody');
-  if(!dayPosts.length){ title.style.display='none'; wrap.style.display='none'; return; }
-  const monthNames=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  title.style.display='flex';
-  title.innerText='Posts on '+day+' '+monthNames[_ugcCalMonth]+' '+_ugcCalYear+' ('+dayPosts.length+')';
-  wrap.style.display='block';
-  body.innerHTML = dayPosts.map(m=>{
-    const p=normalizePlatform(m.platform);
-    const c=PLAT_COLORS[p]||'#555';
-    const sc=m.sentiment==='positive'?'sent-pos':m.sentiment==='negative'?'sent-neg':'sent-neu';
-    return '<tr>'
-      +'<td><span class="plat-badge" style="background:'+c+'22;color:'+c+'">'+p+'</span></td>'
-      +'<td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(m.text||m.caption||m.title||'').substring(0,90)+'</td>'
-      +'<td style="color:var(--gold)">'+fmtNum(m.likes||m.reactions||m.upvotes||m.score||0)+'</td>'
-      +'<td style="color:var(--text2)">'+fmtNum(m.comments||m.numComments||0)+'</td>'
-      +'<td style="color:var(--text2)">'+fmtNum(m.reposts||m.retweets||m.shares||0)+'</td>'
-      +'<td style="color:var(--text2)">'+(fmtNum(m.impressions||m.views||0)||'--')+'</td>'
-      +'<td><a class="content-link" href="'+(m.url||m.postUrl||'#')+'" target="_blank">View</a></td>'
-      +'</tr>';
-  }).join('');
-  wrap.scrollIntoView({behavior:'smooth',block:'nearest'});
+  let data=[..._social,..._mentions];
+  if(_ugcCalPlat!=='all') data=data.filter(m=>normalizePlatform(m.platform)===_ugcCalPlat);
+  const dayPosts=data.filter(m=>{ const dt=new Date(m.date||m.posted_at||m.createdAt||0); return dt.getMonth()===_ugcCalMonth&&dt.getFullYear()===_ugcCalYear&&dt.getDate()===day; });
+  const title=id('ugcDayPostsTitle'), wrap=id('ugcDayPostsWrap'), body=id('ugcDayPostsBody');
+  if(!dayPosts.length){ if(title) title.style.display='none'; if(wrap) wrap.style.display='none'; return; }
+  const mn=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  if(title){ title.style.display='flex'; title.innerText='Posts on '+day+' '+mn[_ugcCalMonth]+' '+_ugcCalYear+' ('+dayPosts.length+')'; }
+  if(wrap) wrap.style.display='block';
+  if(body) body.innerHTML=dayPosts.map(m=>{ const p=normalizePlatform(m.platform); const c=PLAT_COLORS[p]||'#555'; const sc=m.sentiment==='positive'?'sent-pos':m.sentiment==='negative'?'sent-neg':'sent-neu'; return '<tr><td><span class="plat-badge" style="background:'+c+'22;color:'+c+'">'+p+'</span></td><td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(m.text||m.caption||m.title||'').substring(0,90)+'</td><td style="color:var(--gold)">'+fmtNum(m.likes||m.reactions||m.upvotes||m.score||0)+'</td><td style="color:var(--text2)">'+fmtNum(m.comments||m.numComments||0)+'</td><td style="color:var(--text2)">'+fmtNum(m.reposts||m.retweets||m.shares||0)+'</td><td style="color:var(--text2)">'+(fmtNum(m.impressions||m.views||0)||'--')+'</td><td><a class="content-link" href="'+(m.url||m.postUrl||'#')+'" target="_blank">View</a></td></tr>'; }).join('');
+  if(wrap) wrap.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
-
 function renderUGCWeek(){
-  const grid = id('ugcWeekGrid'); if(!grid) return;
-  const today = new Date();
-  today.setHours(0,0,0,0);
-  const dayOfWeek = today.getDay();
-  const mondayOffset = dayOfWeek===0 ? -6 : 1-dayOfWeek;
-  const weekStart = new Date(today);
-  weekStart.setDate(today.getDate()+mondayOffset);
-  const dayNames = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-  const allData = [..._social,..._mentions];
-  let html = '';
+  const grid=id('ugcWeekGrid'); if(!grid) return;
+  const today=new Date(); today.setHours(0,0,0,0);
+  const dow=today.getDay(); const mo=dow===0?-6:1-dow;
+  const weekStart=new Date(today); weekStart.setDate(today.getDate()+mo);
+  const dayNames=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const allData=[..._social,..._mentions]; let html='';
   for(let i=0;i<7;i++){
-    const d = new Date(weekStart);
-    d.setDate(weekStart.getDate()+i);
-    const d1 = new Date(d); d1.setHours(23,59,59,999);
-    const isToday = d.toDateString()===today.toDateString();
-    const dayPosts = allData.filter(m=>{
-      const dt = new Date(m.date||m.posted_at||m.createdAt||0);
-      return dt >= d && dt <= d1;
-    });
-    const totalEng = dayPosts.reduce((s,m)=>s+(m.likes||m.reactions||m.upvotes||m.score||0)+(m.comments||m.numComments||0),0);
-    html += '<div class="week-day-card'+(isToday?' today-card':'')+'" onclick="ugcDayClick('+d.getDate()+')">'
-      +'<div class="week-day-name">'+dayNames[i]+'</div>'
-      +'<div class="week-day-date">'+d.getDate()+'/'+(d.getMonth()+1)+'</div>'
-      +'<div class="week-day-posts">'+dayPosts.length+'</div>'
-      +'<div class="week-day-eng">'+(totalEng>0?fmtNum(totalEng)+' eng.':'--')+'</div>'
-      +'</div>';
+    const d=new Date(weekStart); d.setDate(weekStart.getDate()+i);
+    const d1=new Date(d); d1.setHours(23,59,59,999);
+    const isToday=d.toDateString()===today.toDateString();
+    const dayPosts=allData.filter(m=>{ const dt=new Date(m.date||m.posted_at||m.createdAt||0); return dt>=d&&dt<=d1; });
+    const totalEng=dayPosts.reduce((s,m)=>s+(m.likes||m.reactions||m.upvotes||m.score||0)+(m.comments||m.numComments||0),0);
+    html+='<div class="week-day-card'+(isToday?' today-card':'')+'" onclick="ugcDayClick('+d.getDate()+')">'+'<div class="week-day-name">'+dayNames[i]+'</div><div class="week-day-date">'+d.getDate()+'/'+(d.getMonth()+1)+'</div><div class="week-day-posts">'+dayPosts.length+'</div><div class="week-day-eng">'+(totalEng>0?fmtNum(totalEng)+' eng':'--')+'</div></div>';
   }
-  grid.innerHTML = html;
+  grid.innerHTML=html;
 }
 
 // MY CHANNELS
-// =========================================================
-let _chPostFilter = 'all';
-let _chEngChart = null;
+let _chPostFilter='all';
+let _chEngChart=null;
 
-const CH_PLATFORMS = [
+const CH_PLATFORMS=[
   {key:'linkedin',  label:'LinkedIn',  color:'#0A66C2'},
   {key:'instagram', label:'Instagram', color:'#E1306C'},
   {key:'youtube',   label:'YouTube',   color:'#FF0000'},
-  {key:'twitter',   label:'Twitter/X', color:'#1DA1F2'},
+  {key:'twitter',   label:'Twitter',   color:'#1DA1F2'},
   {key:'facebook',  label:'Facebook',  color:'#1877F2'},
 ];
 
-function getChannelHandles(){
-  try{ return JSON.parse(localStorage.getItem('polaris_ch_handles')||'{}'); }
-  catch(e){ return {}; }
-}
-
+function getChannelHandles(){ try{return JSON.parse(localStorage.getItem('polaris_ch_handles')||'{}')}catch(e){return{}} }
 function saveChannelHandles(){
-  const handles = {};
-  CH_PLATFORMS.forEach(p=>{
-    const val = (id('ch-'+p.key)||{}).value||'';
-    if(val.trim()) handles[p.key] = val.trim().replace('@','').toLowerCase();
-  });
-  localStorage.setItem('polaris_ch_handles', JSON.stringify(handles));
-  const saved = id('ch-handle-saved');
-  if(saved){ saved.style.display='block'; setTimeout(()=>saved.style.display='none',2000); }
-  debugLog('Channel handles saved');
-  renderChannelsTab();
+  const handles={};
+  CH_PLATFORMS.forEach(p=>{ const val=(id('ch-'+p.key)||{}).value||''; if(val.trim()) handles[p.key]=val.trim().replace('@','').toLowerCase(); });
+  localStorage.setItem('polaris_ch_handles',JSON.stringify(handles));
+  const saved=id('ch-handle-saved'); if(saved){saved.style.display='block';setTimeout(()=>saved.style.display='none',2000);}
+  debugLog('Channel handles saved'); renderChannelsTab();
 }
+function loadChannelHandlesIntoInputs(){ const h=getChannelHandles(); CH_PLATFORMS.forEach(p=>{const inp=id('ch-'+p.key);if(inp)inp.value=h[p.key]||'';}); }
+function matchesHandle(m,handle){ if(!handle) return true; const h=handle.toLowerCase().replace('@',''); const fields=[m.author,m.username,m.handle,m.accountName,m.channelName]; return fields.some(f=>f&&f.toLowerCase().replace('@','').includes(h)); }
+function getChannelPosts(platKey){ const h=getChannelHandles(); const handle=h[platKey]||''; const raw=_social.filter(m=>normalizePlatform(m.platform)===platKey); return handle?raw.filter(m=>matchesHandle(m,handle)):raw; }
 
-function loadChannelHandlesIntoInputs(){
-  const handles = getChannelHandles();
-  CH_PLATFORMS.forEach(p=>{
-    const inp = id('ch-'+p.key);
-    if(inp) inp.value = handles[p.key]||'';
-  });
-}
-
-function matchesHandle(m, handle){
-  if(!handle) return true;
-  const h = handle.toLowerCase().replace('@','');
-  const fields = [m.author, m.username, m.handle, m.accountName, m.channelName, m.pageTitle, m.ownerUsername];
-  return fields.some(f=>f && f.toLowerCase().replace('@','').includes(h));
-}
-
-function getChannelPosts(platKey){
-  const handles = getChannelHandles();
-  const handle = handles[platKey]||'';
-  const raw = _social.filter(m=>normalizePlatform(m.platform)===platKey);
-  return handle ? raw.filter(m=>matchesHandle(m,handle)) : raw;
-}
-
-function renderChannelsTab(){
-  loadChannelHandlesIntoInputs();
-  renderChTotals();
-  renderChCards();
-  renderChChart();
-  renderChPosts('all');
-}
-
+function renderChannelsTab(){ loadChannelHandlesIntoInputs(); renderChTotals(); renderChCards(); renderChChart(); renderChPosts('all'); }
 function renderChTotals(){
-  const wrap = id('chTotals'); if(!wrap) return;
-  let totalPosts=0, totalLikes=0, totalComments=0, totalImpr=0, totalShares=0;
-  CH_PLATFORMS.forEach(p=>{
-    const data = getChannelPosts(p.key);
-    totalPosts += data.length;
-    totalLikes += data.reduce((s,m)=>s+(m.likes||m.reactions||m.likeCount||0),0);
-    totalComments += data.reduce((s,m)=>s+(m.comments||m.numComments||0),0);
-    totalImpr += data.reduce((s,m)=>s+(m.impressions||m.views||0),0);
-    totalShares += data.reduce((s,m)=>s+(m.reposts||m.retweets||m.shares||0),0);
-  });
-  const totalEng = totalLikes+totalComments+totalShares;
-  wrap.innerHTML = [
-    {val:totalPosts, lbl:'Total Posts'},
-    {val:fmtNum(totalLikes), lbl:'Total Likes'},
-    {val:fmtNum(totalComments), lbl:'Comments'},
-    {val:fmtNum(totalShares), lbl:'Shares'},
-    {val:fmtNum(totalEng), lbl:'Total Engagement'},
-    {val:totalImpr>0?fmtNum(totalImpr):'--', lbl:'Impressions'},
-  ].map(s=>'<div class="ch-total-card"><div class="ch-total-val">'+s.val+'</div><div class="ch-total-lbl">'+s.lbl+'</div></div>').join('');
+  const wrap=id('chTotals'); if(!wrap) return;
+  let tP=0,tL=0,tC=0,tI=0,tS=0;
+  CH_PLATFORMS.forEach(p=>{ const d=getChannelPosts(p.key); tP+=d.length; tL+=d.reduce((s,m)=>s+(m.likes||m.reactions||m.likeCount||0),0); tC+=d.reduce((s,m)=>s+(m.comments||m.numComments||0),0); tI+=d.reduce((s,m)=>s+(m.impressions||m.views||0),0); tS+=d.reduce((s,m)=>s+(m.reposts||m.retweets||m.shares||0),0); });
+  const tE=tL+tC+tS;
+  wrap.innerHTML=[{val:tP,lbl:'Total Posts'},{val:fmtNum(tL),lbl:'Total Likes'},{val:fmtNum(tC),lbl:'Comments'},{val:fmtNum(tS),lbl:'Shares'},{val:fmtNum(tE),lbl:'Total Engagement'},{val:tI>0?fmtNum(tI):'--',lbl:'Impressions'}].map(s=>'<div class="ch-total-card"><div class="ch-total-val">'+s.val+'</div><div class="ch-total-lbl">'+s.lbl+'</div></div>').join('');
 }
-
 function renderChCards(){
-  const grid = id('chCards'); if(!grid) return;
-  const handles = getChannelHandles();
-  const now = new Date();
-  const weekAgo = new Date(now-7*86400000);
-  if(_social.length===0){
-    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text2)"><div style="font-size:14px;color:var(--text);margin-bottom:8px">No Apify data yet</div><div style="font-size:12px">Run your Apify actors to populate social.json, then this tab will show your official channel stats.</div></div>';
-    return;
-  }
-  grid.innerHTML = CH_PLATFORMS.map(p=>{
-    const data = getChannelPosts(p.key);
-    const handle = handles[p.key]||'';
-    const total = data.length;
-    const likes = data.reduce((s,m)=>s+(m.likes||m.reactions||m.likeCount||0),0);
-    const comments = data.reduce((s,m)=>s+(m.comments||m.numComments||0),0);
-    const shares = data.reduce((s,m)=>s+(m.reposts||m.retweets||m.shares||0),0);
-    const impr = data.reduce((s,m)=>s+(m.impressions||m.views||0),0);
-    const eng = likes+comments+shares;
-    const thisWeek = data.filter(m=>new Date(m.date||m.posted_at||m.createdAt||0)>=weekAgo).length;
-    const recentPosts = data.slice(0,3);
-    const statusColor = handle&&total>0?'#22c55e':handle&&total===0?'#f59e0b':'#6b7280';
+  const grid=id('chCards'); if(!grid) return;
+  const handles=getChannelHandles();
+  const now=new Date(); const weekAgo=new Date(now-7*86400000);
+  if(_social.length===0){ grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text2)"><div style="font-size:14px;color:var(--text);margin-bottom:8px">No Apify data yet</div><div style="font-size:12px">Run your Apify actors to populate social.json.</div></div>'; return; }
+  grid.innerHTML=CH_PLATFORMS.map(p=>{
+    const data=getChannelPosts(p.key); const handle=handles[p.key]||''; const total=data.length;
+    const likes=data.reduce((s,m)=>s+(m.likes||m.reactions||m.likeCount||0),0);
+    const comments=data.reduce((s,m)=>s+(m.comments||m.numComments||0),0);
+    const shares=data.reduce((s,m)=>s+(m.reposts||m.retweets||m.shares||0),0);
+    const impr=data.reduce((s,m)=>s+(m.impressions||m.views||0),0);
+    const eng=likes+comments+shares;
+    const thisWeek=data.filter(m=>new Date(m.date||m.posted_at||m.createdAt||0)>=weekAgo).length;
+    const recentPosts=data.slice(0,3);
+    const statusColor=handle&&total>0?'#22c55e':handle&&total===0?'#f59e0b':'#6b7280';
     return '<div class="ch-card" style="border-top:3px solid '+p.color+'">'
-      +'<div class="ch-card-header">'
-      +'<div class="ch-card-icon" style="background:'+p.color+'18;font-size:11px;font-weight:600;color:'+p.color+'">'+p.label.substring(0,3)+'</div>'
-      +'<div><div class="ch-card-name">'+p.label+'</div><div class="ch-card-handle">'+(handle?'@'+handle:'No handle set')+'</div></div>'
-      +'<div class="ch-status-dot" style="background:'+statusColor+';margin-left:auto"></div>'
-      +'</div>'
-      +'<div class="ch-stat-row">'
-      +'<div class="ch-stat"><div class="ch-stat-val">'+total+'</div><div class="ch-stat-lbl">Total Posts</div><div class="ch-stat-delta" style="color:var(--gold)">'+thisWeek+' this week</div></div>'
-      +'<div class="ch-stat"><div class="ch-stat-val">'+fmtNum(eng)+'</div><div class="ch-stat-lbl">Engagement</div><div class="ch-stat-delta" style="color:var(--text2)">likes:'+fmtNum(likes)+' cmts:'+fmtNum(comments)+'</div></div>'
-      +'</div>'
+      +'<div class="ch-card-header"><div class="ch-card-icon" style="background:'+p.color+'18;font-size:11px;font-weight:600;color:'+p.color+'">'+p.label.substring(0,3)+'</div><div><div class="ch-card-name">'+p.label+'</div><div class="ch-card-handle">'+(handle?'@'+handle:'No handle set')+'</div></div><div class="ch-status-dot" style="background:'+statusColor+';margin-left:auto"></div></div>'
+      +'<div class="ch-stat-row"><div class="ch-stat"><div class="ch-stat-val">'+total+'</div><div class="ch-stat-lbl">Total Posts</div><div class="ch-stat-delta" style="color:var(--gold)">'+thisWeek+' this week</div></div><div class="ch-stat"><div class="ch-stat-val">'+fmtNum(eng)+'</div><div class="ch-stat-lbl">Engagement</div><div class="ch-stat-delta" style="color:var(--text2)">likes:'+fmtNum(likes)+' cmts:'+fmtNum(comments)+'</div></div></div>'
       +(impr>0?'<div style="font-size:11px;color:var(--text2);margin-bottom:8px">~'+fmtNum(impr)+' impressions</div>':'')
-      +'<div class="ch-posts-preview">'
-      +(recentPosts.length
-        ? recentPosts.map(m=>'<div class="ch-post-item"><div class="ch-post-text">'+(m.text||m.caption||m.title||'No text').substring(0,55)+'</div><div class="ch-post-eng">'+fmtNum(m.likes||m.reactions||0)+'</div></div>').join('')
-        : '<div class="ch-empty">'+(handle?'No posts matched -- check handle spelling':'Set handle above')+'</div>')
-      +'</div></div>';
+      +'<div class="ch-posts-preview">'+(recentPosts.length?recentPosts.map(m=>'<div class="ch-post-item"><div class="ch-post-text">'+(m.text||m.caption||m.title||'No text').substring(0,55)+'</div><div class="ch-post-eng">'+fmtNum(m.likes||m.reactions||0)+'</div></div>').join(''):'<div class="ch-empty">'+(handle?'No posts matched':'Set handle above')+'</div>')+'</div>'
+      +'</div>';
   }).join('');
 }
-
 function renderChChart(){
   if(_chEngChart){_chEngChart.destroy();_chEngChart=null;}
-  const ctx = id('chEngChart'); if(!ctx) return;
-  const labels=[], likes=[], comments=[], shares=[];
-  CH_PLATFORMS.forEach(p=>{
-    const data = getChannelPosts(p.key);
-    if(!data.length) return;
-    labels.push(p.label);
-    likes.push(data.reduce((s,m)=>s+(m.likes||m.reactions||m.likeCount||0),0));
-    comments.push(data.reduce((s,m)=>s+(m.comments||m.numComments||0),0));
-    shares.push(data.reduce((s,m)=>s+(m.reposts||m.retweets||m.shares||0),0));
-  });
+  const ctx=id('chEngChart'); if(!ctx) return;
+  const labels=[],likes=[],comments=[],shares=[];
+  CH_PLATFORMS.forEach(p=>{ const d=getChannelPosts(p.key); if(!d.length) return; labels.push(p.label); likes.push(d.reduce((s,m)=>s+(m.likes||m.reactions||m.likeCount||0),0)); comments.push(d.reduce((s,m)=>s+(m.comments||m.numComments||0),0)); shares.push(d.reduce((s,m)=>s+(m.reposts||m.retweets||m.shares||0),0)); });
   if(!labels.length) return;
-  _chEngChart = new Chart(ctx,{
-    type:'bar',
-    data:{labels,datasets:[
-      {label:'Likes',data:likes,backgroundColor:'rgba(255,204,63,.7)',borderRadius:6},
-      {label:'Comments',data:comments,backgroundColor:'rgba(9,155,90,.6)',borderRadius:6},
-      {label:'Shares',data:shares,backgroundColor:'rgba(89,57,168,.6)',borderRadius:6},
-    ]},
-    options:{
-      plugins:{legend:{labels:{color:'#ccc',font:{family:'Poppins',size:11}}}},
-      scales:{x:{ticks:{color:'#888'},grid:{color:'#222'}},y:{ticks:{color:'#888'},grid:{color:'#222'}}}
-    }
-  });
+  _chEngChart=new Chart(ctx,{type:'bar',data:{labels,datasets:[{label:'Likes',data:likes,backgroundColor:'rgba(255,204,63,.7)',borderRadius:6},{label:'Comments',data:comments,backgroundColor:'rgba(9,155,90,.6)',borderRadius:6},{label:'Shares',data:shares,backgroundColor:'rgba(89,57,168,.6)',borderRadius:6}]},options:{plugins:{legend:{labels:{color:'#ccc',font:{family:'Poppins',size:11}}}},scales:{x:{ticks:{color:'#888'},grid:{color:'#222'}},y:{ticks:{color:'#888'},grid:{color:'#222'}}}}});
 }
-
-function filterChPosts(filter, btn){
-  _chPostFilter = filter;
+function filterChPosts(filter,btn){
+  _chPostFilter=filter;
   document.querySelectorAll('#chPostFilter .filter-btn').forEach(b=>b.classList.remove('active'));
   if(btn) btn.classList.add('active');
   renderChPosts(filter);
 }
-
 function renderChPosts(filter){
-  const body = id('chPostsBody'); if(!body) return;
-  let allPosts = [];
-  CH_PLATFORMS.forEach(p=>{
-    const data = getChannelPosts(p.key);
-    data.forEach(m=>{ allPosts.push(Object.assign({},m,{_platKey:p.key,_platLabel:p.label,_platColor:p.color})); });
-  });
+  const body=id('chPostsBody'); if(!body) return;
+  let allPosts=[];
+  CH_PLATFORMS.forEach(p=>{ const d=getChannelPosts(p.key); d.forEach(m=>{ const m2=Object.assign({},m,{_platKey:p.key,_platLabel:p.label,_platColor:p.color}); allPosts.push(m2); }); });
   allPosts.sort((a,b)=>new Date(b.date||b.posted_at||b.createdAt||0)-new Date(a.date||a.posted_at||a.createdAt||0));
-  if(filter!=='all') allPosts = allPosts.filter(m=>m._platKey===filter);
-  if(!allPosts.length){
-    body.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:30px">'+(_social.length===0?'No Apify data yet -- run your actors first.':'No posts for this filter.')+'</td></tr>';
-    return;
-  }
-  body.innerHTML = allPosts.slice(0,100).map(m=>{
+  if(filter!=='all') allPosts=allPosts.filter(m=>m._platKey===filter);
+  if(!allPosts.length){ body.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:30px">'+(_social.length===0?'No Apify data yet.':'No posts for this filter.')+'</td></tr>'; return; }
+  body.innerHTML=allPosts.slice(0,100).map(m=>{
     const sc=m.sentiment==='positive'?'sent-pos':m.sentiment==='negative'?'sent-neg':'sent-neu';
-    return '<tr>'
-      +'<td><span class="plat-badge" style="background:'+m._platColor+'22;color:'+m._platColor+'">'+m._platLabel+'</span></td>'
-      +'<td style="color:var(--text2);white-space:nowrap">'+fmtDate(m.date||m.posted_at||m.createdAt)+'</td>'
-      +'<td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(m.text||m.caption||m.title||'').substring(0,70)+'</td>'
-      +'<td style="color:var(--gold)">'+fmtNum(m.likes||m.reactions||m.likeCount||0)+'</td>'
-      +'<td style="color:var(--text2)">'+fmtNum(m.comments||m.numComments||0)+'</td>'
-      +'<td style="color:var(--text2)">'+fmtNum(m.reposts||m.retweets||m.shares||0)+'</td>'
-      +'<td style="color:var(--text2)">'+(fmtNum(m.impressions||m.views||0)||'--')+'</td>'
-      +'<td><a class="content-link" href="'+(m.url||m.postUrl||'#')+'" target="_blank">View</a></td>'
-      +'</tr>';
+    return '<tr><td><span class="plat-badge" style="background:'+m._platColor+'22;color:'+m._platColor+'">'+m._platLabel+'</span></td><td style="color:var(--text2);white-space:nowrap">'+fmtDate(m.date||m.posted_at||m.createdAt)+'</td><td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(m.text||m.caption||m.title||'').substring(0,70)+'</td><td style="color:var(--gold)">'+fmtNum(m.likes||m.reactions||m.likeCount||0)+'</td><td style="color:var(--text2)">'+fmtNum(m.comments||m.numComments||0)+'</td><td style="color:var(--text2)">'+fmtNum(m.reposts||m.retweets||m.shares||0)+'</td><td style="color:var(--text2)">'+(fmtNum(m.impressions||m.views||0)||'--')+'</td><td><a class="content-link" href="'+(m.url||m.postUrl||'#')+'" target="_blank">View</a></td></tr>';
   }).join('');
 }
 
+// DEBUG
+const _logs=[];
+function debugLog(msg){
+  const ts=new Date().toLocaleTimeString('en-IN');
+  _logs.push('['+ts+'] '+msg);
+  const el=id('errorLog');
+  if(el) el.innerHTML=_logs.slice(-30).reverse().map(l=>'<div style="margin-bottom:3px">'+l+'</div>').join('');
+}
+function renderDebug(){
+  const cfg=getSavedConfig();
+  const api=id('apiStatus');
+  if(api){
+    const checks=[
+      {label:'summary.json',ok:!!_summary.total_mentions,detail:(_summary.total_mentions||0)+' mentions, updated: '+(_summary.last_updated||'?').substring(0,16)},
+      {label:'mentions.json',ok:_mentions.length>0,detail:_mentions.length+' records'},
+      {label:'social.json',ok:_social.length>0,detail:_social.length>0?_social.length+' social records':'Not found - run Apify action'},
+      {label:'Claude API Key',ok:!!cfg.claudeKey,detail:cfg.claudeKey?'Key saved':'Not configured'},
+      {label:'Apify Token',ok:!!cfg.apifyToken,detail:cfg.apifyToken?'Token saved':'Not configured'},
+      {label:'GitHub Source',ok:true,detail:(cfg.user||DEFAULT_USER)+'/'+(cfg.repo||DEFAULT_REPO)+'@'+(cfg.branch||DEFAULT_BRANCH)}
+    ];
+    api.innerHTML=checks.map(c=>'<div class="debug-item '+(c.ok?'debug-ok':'debug-warn')+'">'+(c.ok?'OK':'WARN')+' '+c.label+' - '+c.detail+'</div>').join('');
+  }
+  const ok=id('sourcesOk');
+  if(ok){
+    const platCounts={reddit:0,quora:0,medium:0,portal:0,news:0,web:0,linkedin:0,twitter:0,instagram:0,facebook:0};
+    [..._mentions,..._social].forEach(m=>{ const p=normalizePlatform(m.platform); if(platCounts[p]!==undefined) platCounts[p]++; });
+    ok.innerHTML=Object.entries(platCounts).map(([p,c])=>'<div class="debug-item '+(c>0?'debug-ok':'debug-warn')+'">'+(c>0?'OK':'WARN')+' '+p+' - '+c+' mentions</div>').join('');
+  }
+}
 
-
+// TABS
+function switchTab(name, btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  const panel=id('tab-'+name); if(panel) panel.classList.add('active');
+  if(btn) btn.classList.add('active');
+  if(name==='content') renderContentTab(_curContent);
+  if(name==='social') renderSocial(_currentSocial);
+  if(name==='report') renderReportTab();
+  if(name==='ugc') renderUGCTab();
+  if(name==='channels') renderChannelsTab();
+}
 
 // BOOT
-// =========================================================
 document.addEventListener('DOMContentLoaded', fetchData);
+
 </script>
 </body>
 </html>
