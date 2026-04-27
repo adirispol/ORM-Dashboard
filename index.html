@@ -6,6 +6,7 @@
 <title>Polaris ORM Intelligence Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -224,6 +225,72 @@ input:focus{outline:none;border-color:rgba(255,204,63,.4)}
 .report-tip{background:rgba(89,57,168,.08);border:1px solid rgba(89,57,168,.2);border-radius:8px;padding:12px 16px;font-size:12px;color:#c4b0f0;margin-bottom:20px;display:flex;align-items:flex-start;gap:10px}
 .report-tip::before{content:'💡';flex-shrink:0}
 
+/* ═══ UGC TRACKER TAB STYLES ═══ */
+.ugc-platform-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:24px}
+.ugc-plat-card{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:16px;position:relative;overflow:hidden;cursor:pointer;transition:border-color .2s}
+.ugc-plat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.ugc-plat-card:hover{border-color:rgba(255,204,63,.3)}
+.ugc-plat-card.selected{border-color:rgba(255,204,63,.6);background:rgba(255,204,63,.04)}
+.ugc-plat-icon{font-size:20px;margin-bottom:8px}
+.ugc-plat-name{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px}
+.ugc-plat-count{font-size:28px;font-weight:700;color:#fff;line-height:1}
+.ugc-plat-label{font-size:10px;color:var(--text2);margin-top:2px}
+.ugc-plat-metrics{display:flex;gap:10px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.ugc-metric{text-align:center;flex:1}
+.ugc-metric-val{font-size:13px;font-weight:600;color:var(--gold)}
+.ugc-metric-lbl{font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-top:1px}
+.ugc-trend-up{color:#4ade80;font-size:10px;margin-top:4px}
+.ugc-trend-dn{color:#f87171;font-size:10px;margin-top:4px}
+.ugc-trend-eq{color:var(--text2);font-size:10px;margin-top:4px}
+/* Calendar heatmap */
+.cal-wrap{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:20px;overflow-x:auto}
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.cal-nav{display:flex;align-items:center;gap:10px}
+.cal-nav-btn{background:transparent;border:1px solid var(--border);color:var(--text2);border-radius:6px;padding:4px 10px;cursor:pointer;font-size:12px;font-family:Poppins,sans-serif;transition:all .2s}
+.cal-nav-btn:hover{border-color:var(--gold);color:var(--gold)}
+.cal-month-label{font-size:14px;font-weight:600;color:#fff;min-width:140px;text-align:center}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;min-width:280px}
+.cal-day-header{font-size:10px;color:var(--text2);text-align:center;padding:3px 0;font-weight:600}
+.cal-day{aspect-ratio:1;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;cursor:pointer;transition:all .15s;position:relative;border:1px solid transparent}
+.cal-day.empty{background:transparent;cursor:default}
+.cal-day.no-data{background:#1a1a1a}
+.cal-day.level-1{background:rgba(255,204,63,.15);border-color:rgba(255,204,63,.1)}
+.cal-day.level-2{background:rgba(255,204,63,.3);border-color:rgba(255,204,63,.2)}
+.cal-day.level-3{background:rgba(255,204,63,.55);border-color:rgba(255,204,63,.4)}
+.cal-day.level-4{background:rgba(255,204,63,.85);border-color:var(--gold)}
+.cal-day.today{border-color:var(--gold)!important;box-shadow:0 0 0 1px var(--gold)}
+.cal-day:hover:not(.empty){border-color:var(--gold)!important;z-index:2}
+.cal-day-num{font-size:9px;color:rgba(255,255,255,.5);position:absolute;top:2px;left:3px}
+.cal-day.level-3 .cal-day-num,.cal-day.level-4 .cal-day-num{color:rgba(0,0,0,.6)}
+.cal-tooltip{position:fixed;background:#111;border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--text);z-index:999;pointer-events:none;display:none;min-width:160px}
+.cal-legend{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text2);margin-top:12px}
+.cal-legend-box{width:12px;height:12px;border-radius:2px}
+/* Weekly summary */
+.week-summary-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:24px}
+.week-day-card{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:10px 8px;text-align:center}
+.week-day-name{font-size:10px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.week-day-date{font-size:11px;color:var(--text2);margin:3px 0}
+.week-day-posts{font-size:20px;font-weight:700;color:var(--gold)}
+.week-day-eng{font-size:10px;color:var(--text2);margin-top:3px}
+.week-day-card.today-card{border-color:rgba(255,204,63,.4);background:rgba(255,204,63,.04)}
+/* Platform detail drawer */
+.ugc-detail-panel{background:var(--card2);border:1px solid rgba(255,204,63,.15);border-radius:12px;padding:20px;margin-bottom:20px;display:none}
+.ugc-detail-panel.open{display:block}
+.ugc-detail-title{font-size:14px;font-weight:600;color:#fff;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.ugc-posts-table{width:100%;border-collapse:collapse}
+.ugc-posts-table th{text-align:left;padding:8px 10px;font-size:11px;color:var(--text2);border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:.05em}
+.ugc-posts-table td{padding:8px 10px;font-size:12px;border-bottom:1px solid rgba(42,42,42,.4);vertical-align:middle}
+.ugc-posts-table tr:hover td{background:rgba(255,255,255,.02)}
+/* Apify setup banner */
+.apify-setup-banner{background:rgba(255,204,63,.05);border:1px solid rgba(255,204,63,.2);border-radius:10px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.apify-setup-text{flex:1;font-size:12px;color:var(--text2);min-width:200px}
+.apify-setup-text b{color:var(--text)}
+.apify-actors-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-top:14px}
+.apify-actor-card{background:#111;border:1px solid var(--border);border-radius:8px;padding:12px 14px}
+.apify-actor-name{font-size:12px;font-weight:600;color:#fff;margin-bottom:3px}
+.apify-actor-id{font-size:10px;color:var(--text2);font-family:monospace;margin-bottom:6px}
+.apify-actor-status{font-size:10px;font-weight:600}
+
 @media(max-width:768px){
   .bps-wrap{grid-template-columns:1fr;gap:12px}
   .two-col,.three-col{grid-template-columns:1fr}
@@ -234,6 +301,8 @@ input:focus{outline:none;border-color:rgba(255,204,63,.4)}
   nav{gap:8px;padding:0 14px}
   .logo span{display:none}
   .report-stats-grid{grid-template-columns:repeat(2,1fr)}
+  .ugc-platform-row{grid-template-columns:repeat(2,1fr)}
+  .week-summary-grid{grid-template-columns:repeat(4,1fr)}
 }
 </style>
 </head>
@@ -262,6 +331,7 @@ input:focus{outline:none;border-color:rgba(255,204,63,.4)}
   <button class="tab-btn" onclick="switchTab('competitors',this)">🏆 Competitors</button>
   <button class="tab-btn" onclick="switchTab('llm',this)">🤖 LLM / AEO</button>
   <button class="tab-btn" onclick="switchTab('report',this)">📋 ORM Report</button>
+  <button class="tab-btn" onclick="switchTab('ugc',this)">📈 UGC Tracker</button>
   <button class="tab-btn" onclick="switchTab('debug',this)">🔧 Debug</button>
 </div>
 
@@ -589,6 +659,112 @@ input:focus{outline:none;border-color:rgba(255,204,63,.4)}
   <div id="reportHistory" style="font-size:12px;color:var(--text2)">No reports generated yet this session.</div>
 
 </div>
+
+<!-- ═══════ UGC TRACKER ═══════ -->
+<div class="tab-panel" id="tab-ugc">
+
+  <!-- Apify setup banner -->
+  <div class="apify-setup-banner" id="ugcApifyBanner">
+    <div style="font-size:22px">🤖</div>
+    <div class="apify-setup-text">
+      <b>Apify actors power this tab.</b> Each platform needs its own actor running in your Apify account, outputting to <code style="background:#1a1a1a;padding:1px 5px;border-radius:3px;font-size:10px">data/social.json</code> in this repo via the GitHub Action. Add your Apify token in Settings to enable auto-scraping.
+    </div>
+    <button class="nav-btn" onclick="id('ugcActorInfo').classList.toggle('open')" style="white-space:nowrap">Actor IDs ↓</button>
+  </div>
+  <div id="ugcActorInfo" style="display:none;margin-bottom:20px">
+    <div class="apify-actors-grid">
+      <div class="apify-actor-card"><div class="apify-actor-name">💼 LinkedIn</div><div class="apify-actor-id">apify/linkedin-profile-scraper</div><div class="apify-actor-status" style="color:#0A66C2">Scrapes posts + reactions</div></div>
+      <div class="apify-actor-card"><div class="apify-actor-name">𝕏 Twitter / X</div><div class="apify-actor-id">apify/twitter-scraper</div><div class="apify-actor-status" style="color:#1DA1F2">Scrapes tweets + likes</div></div>
+      <div class="apify-actor-card"><div class="apify-actor-name">📸 Instagram</div><div class="apify-actor-id">apify/instagram-scraper</div><div class="apify-actor-status" style="color:#E1306C">Scrapes posts + likes</div></div>
+      <div class="apify-actor-card"><div class="apify-actor-name">👥 Facebook</div><div class="apify-actor-id">apify/facebook-pages-scraper</div><div class="apify-actor-status" style="color:#1877F2">Scrapes page posts</div></div>
+      <div class="apify-actor-card"><div class="apify-actor-name">▶ YouTube</div><div class="apify-actor-id">apify/youtube-scraper</div><div class="apify-actor-status" style="color:#FF0000">Scrapes videos + views</div></div>
+    </div>
+  </div>
+
+  <!-- Download bar -->
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px">
+    <div>
+      <div style="font-size:14px;font-weight:600;color:#fff">All Platform Performance</div>
+      <div style="font-size:11px;color:var(--text2);margin-top:2px">Social + organic — lifetime data from crawler</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <div style="display:flex;gap:6px;flex-wrap:wrap" id="ugcPlatFilter2">
+        <button class="filter-btn active" onclick="setUgcPlatView('all',this)">All Platforms</button>
+        <button class="filter-btn" onclick="setUgcPlatView('social',this)">📱 Social Only</button>
+        <button class="filter-btn" onclick="setUgcPlatView('organic',this)">🌐 Organic Only</button>
+      </div>
+      <button class="nav-btn" id="xlsxDownloadBtn" onclick="downloadXLSX()" style="background:rgba(9,155,90,.12);border-color:rgba(9,155,90,.4);color:#4ade80;display:flex;align-items:center;gap:6px">
+        ⬇ Download Excel
+      </button>
+    </div>
+  </div>
+
+  <!-- Platform metric cards -->
+  <div class="sec-title">Platform Performance — Lifetime</div>
+  <div class="ugc-platform-row" id="ugcPlatformCards">
+    <div style="color:var(--text2);font-size:12px;padding:20px">Loading social data…</div>
+  </div>
+
+  <!-- Platform detail panel (shows when a card is clicked) -->
+  <div class="ugc-detail-panel" id="ugcDetailPanel">
+    <div class="ugc-detail-title" id="ugcDetailTitle">Platform Posts</div>
+    <div style="overflow-x:auto">
+      <table class="ugc-posts-table">
+        <thead><tr id="ugcDetailHead"></tr></thead>
+        <tbody id="ugcDetailBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Calendar heatmap -->
+  <div class="cal-wrap">
+    <div class="cal-header">
+      <div>
+        <div class="sec-title" style="margin-bottom:4px">Post Activity Calendar</div>
+        <div style="font-size:11px;color:var(--text2)" id="ugcCalPlatLabel">All platforms combined</div>
+      </div>
+      <div class="cal-nav">
+        <button class="cal-nav-btn" onclick="ugcCalNav(-1)">← Prev</button>
+        <div class="cal-month-label" id="ugcCalMonthLabel">—</div>
+        <button class="cal-nav-btn" onclick="ugcCalNav(1)">Next →</button>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap" id="ugcCalPlatFilter">
+        <button class="filter-btn active" onclick="setUgcCalPlat('all',this)">All</button>
+        <button class="filter-btn" onclick="setUgcCalPlat('linkedin',this)">💼</button>
+        <button class="filter-btn" onclick="setUgcCalPlat('twitter',this)">𝕏</button>
+        <button class="filter-btn" onclick="setUgcCalPlat('instagram',this)">📸</button>
+        <button class="filter-btn" onclick="setUgcCalPlat('facebook',this)">👥</button>
+        <button class="filter-btn" onclick="setUgcCalPlat('youtube',this)">▶</button>
+      </div>
+    </div>
+    <div class="cal-grid" id="ugcCalGrid"></div>
+    <div class="cal-legend">
+      <span>Less</span>
+      <div class="cal-legend-box" style="background:#1a1a1a"></div>
+      <div class="cal-legend-box" style="background:rgba(255,204,63,.15)"></div>
+      <div class="cal-legend-box" style="background:rgba(255,204,63,.35)"></div>
+      <div class="cal-legend-box" style="background:rgba(255,204,63,.6)"></div>
+      <div class="cal-legend-box" style="background:rgba(255,204,63,.85)"></div>
+      <span>More</span>
+    </div>
+  </div>
+
+  <!-- Weekly summary -->
+  <div class="sec-title">This Week — Daily Breakdown</div>
+  <div class="week-summary-grid" id="ugcWeekGrid"></div>
+
+  <!-- All posts table for selected week day -->
+  <div class="sec-title" id="ugcDayPostsTitle" style="display:none">Posts on selected day</div>
+  <div class="card" id="ugcDayPostsWrap" style="display:none">
+    <table class="ugc-posts-table">
+      <thead><tr><th>Platform</th><th>Content</th><th>Likes</th><th>Comments</th><th>Shares</th><th>Impressions</th><th>Link</th></tr></thead>
+      <tbody id="ugcDayPostsBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Tooltip -->
+<div class="cal-tooltip" id="ugcCalTooltip"></div>
 
 <!-- ═══════ DEBUG ═══════ -->
 <div class="tab-panel" id="tab-debug">
@@ -1486,10 +1662,359 @@ function switchTab(name, btn){
   if(name==='content') renderContentTab(_curContent);
   if(name==='social') renderSocial(_currentSocial);
   if(name==='report') renderReportTab();
+  if(name==='ugc') renderUGCTab();
 }
+
+
+
+// ═══════════════════════════════════════════════════════
+// UGC TRACKER
+// ═══════════════════════════════════════════════════════
+let _ugcCalMonth = new Date().getMonth();
+let _ugcCalYear  = new Date().getFullYear();
+let _ugcCalPlat  = 'all';
+let _ugcSelPlat  = null;
+let _ugcPlatView = 'all';
+
+const UGC_SOCIAL_PLATFORMS = [
+  {key:'linkedin',  label:'LinkedIn',  icon:'💼', color:'#0A66C2', type:'social'},
+  {key:'twitter',   label:'Twitter/X', icon:'𝕏',  color:'#1DA1F2', type:'social'},
+  {key:'instagram', label:'Instagram', icon:'📸', color:'#E1306C', type:'social'},
+  {key:'facebook',  label:'Facebook',  icon:'👥', color:'#1877F2', type:'social'},
+  {key:'youtube',   label:'YouTube',   icon:'▶',  color:'#FF0000', type:'social'},
+];
+const UGC_ORGANIC_PLATFORMS = [
+  {key:'reddit',  label:'Reddit',  icon:'🟠', color:'#FF4500', type:'organic'},
+  {key:'quora',   label:'Quora',   icon:'❓', color:'#B92B27', type:'organic'},
+  {key:'medium',  label:'Medium',  icon:'📝', color:'#00A562', type:'organic'},
+  {key:'news',    label:'News',    icon:'📰', color:'#1565C0', type:'organic'},
+  {key:'portal',  label:'Portals', icon:'🏛', color:'#7B1FA2', type:'organic'},
+];
+const ALL_UGC_PLATFORMS = [...UGC_SOCIAL_PLATFORMS, ...UGC_ORGANIC_PLATFORMS];
+
+function getPlatformData(key){
+  if(['linkedin','twitter','instagram','facebook'].includes(key))
+    return _social.filter(m=>normalizePlatform(m.platform)===key);
+  if(key==='youtube')
+    return [..._social.filter(m=>normalizePlatform(m.platform)==='youtube'), ..._mentions.filter(m=>normalizePlatform(m.platform)==='youtube')];
+  return _mentions.filter(m=>normalizePlatform(m.platform)===key);
+}
+
+function setUgcPlatView(view, btn){
+  _ugcPlatView = view;
+  document.querySelectorAll('#ugcPlatFilter2 .filter-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderUGCPlatCards();
+}
+
+function renderUGCTab(){
+  renderUGCPlatCards();
+  renderUGCCalendar();
+  renderUGCWeek();
+}
+
+function renderUGCPlatCards(){
+  const grid = id('ugcPlatformCards'); if(!grid) return;
+  let platforms = ALL_UGC_PLATFORMS;
+  if(_ugcPlatView==='social') platforms = UGC_SOCIAL_PLATFORMS;
+  if(_ugcPlatView==='organic') platforms = UGC_ORGANIC_PLATFORMS;
+
+  const now = new Date();
+  const weekAgo = new Date(now - 7*86400000);
+  const twoWeeksAgo = new Date(now - 14*86400000);
+  const countInRange = (data, from, to) => data.filter(m=>{
+    const d = new Date(m.date||m.posted_at||m.createdAt||0);
+    return d >= from && d < to;
+  }).length;
+
+  const allEmpty = platforms.every(p=>getPlatformData(p.key).length===0);
+  if(allEmpty){
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:var(--text2)"><div style="font-size:32px;margin-bottom:10px">📊</div><div style="font-size:14px;color:var(--text);margin-bottom:6px">No data yet</div><div style="font-size:12px">Run the crawler (GitHub Actions) for organic data. Run Apify actors for social.</div></div>';
+    return;
+  }
+
+  grid.innerHTML = platforms.map(p=>{
+    const data = getPlatformData(p.key);
+    const total = data.length;
+    const likes = data.reduce((s,m)=>s+(m.likes||m.reactions||m.likeCount||m.upvotes||m.score||0),0);
+    const comments = data.reduce((s,m)=>s+(m.comments||m.numComments||m.commentCount||0),0);
+    const impr = data.reduce((s,m)=>s+(m.impressions||m.views||m.estImpressions||0),0);
+    const thisWeek = countInRange(data, weekAgo, now);
+    const lastWeek = countInRange(data, twoWeeksAgo, weekAgo);
+    const delta = thisWeek - lastWeek;
+    const trendClass = delta>0?'ugc-trend-up':delta<0?'ugc-trend-dn':'ugc-trend-eq';
+    const trendTxt = delta>0?'↑ +'+delta+' vs last week':delta<0?'↓ '+delta+' vs last week':'→ Same as last week';
+    const isSelected = _ugcSelPlat===p.key;
+    const typeBadge = p.type==='social'
+      ? '<span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(10,102,194,.2);color:#60a5fa;font-weight:600">SOCIAL</span>'
+      : '<span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(9,155,90,.15);color:#4ade80;font-weight:600">ORGANIC</span>';
+    return '<div class="ugc-plat-card'+(isSelected?' selected':'')+'" style="border-top:3px solid '+p.color+'" onclick="ugcSelectPlat(\''+p.key+'\')">'
+      +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><div class="ugc-plat-icon" style="margin-bottom:0">'+p.icon+'</div>'+typeBadge+'</div>'
+      +'<div class="ugc-plat-name">'+p.label+'</div>'
+      +'<div class="ugc-plat-count">'+total+'</div>'
+      +'<div class="ugc-plat-label">'+(p.type==='social'?'Posts / Mentions':'Mentions indexed')+'</div>'
+      +'<div class="'+trendClass+'">'+(total>0?trendTxt:'No data yet')+'</div>'
+      +'<div class="ugc-plat-metrics">'
+      +'<div class="ugc-metric"><div class="ugc-metric-val">'+fmtNum(likes)+'</div><div class="ugc-metric-lbl">'+(p.type==='social'?'Likes':'Score')+'</div></div>'
+      +'<div class="ugc-metric"><div class="ugc-metric-val">'+fmtNum(comments)+'</div><div class="ugc-metric-lbl">Comments</div></div>'
+      +'<div class="ugc-metric"><div class="ugc-metric-val">'+(impr>0?fmtNum(impr):'—')+'</div><div class="ugc-metric-lbl">Impressions</div></div>'
+      +'</div></div>';
+  }).join('');
+}
+
+function ugcSelectPlat(key){
+  _ugcSelPlat = _ugcSelPlat===key ? null : key;
+  renderUGCPlatCards();
+  const panel = id('ugcDetailPanel');
+  if(!_ugcSelPlat){ panel.classList.remove('open'); return; }
+  panel.classList.add('open');
+  const p = ALL_UGC_PLATFORMS.find(x=>x.key===_ugcSelPlat);
+  id('ugcDetailTitle').innerHTML = p.icon+' '+p.label+' — All Data';
+  const data = getPlatformData(_ugcSelPlat);
+  id('ugcDetailHead').innerHTML = '<th>Date</th><th>Content</th><th>Likes/Score</th><th>Comments</th><th>Shares</th><th>Impressions</th><th>Sentiment</th><th>Link</th>';
+  if(!data.length){
+    id('ugcDetailBody').innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:30px">No data for '+p.label+' yet.</td></tr>';
+    return;
+  }
+  id('ugcDetailBody').innerHTML = data.slice(0,60).map(m=>{
+    const sc = m.sentiment==='positive'?'sent-pos':m.sentiment==='negative'?'sent-neg':'sent-neu';
+    return '<tr>'
+      +'<td style="color:var(--text2);white-space:nowrap">'+fmtDate(m.date||m.posted_at||m.createdAt)+'</td>'
+      +'<td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(m.text||m.caption||m.title||'').substring(0,80)+'</td>'
+      +'<td style="color:var(--gold)">'+fmtNum(m.likes||m.reactions||m.likeCount||m.upvotes||m.score||0)+'</td>'
+      +'<td style="color:var(--text2)">'+fmtNum(m.comments||m.numComments||m.commentCount||0)+'</td>'
+      +'<td style="color:var(--text2)">'+fmtNum(m.reposts||m.retweets||m.shares||0)+'</td>'
+      +'<td style="color:var(--text2)">'+(fmtNum(m.impressions||m.views||0)||'—')+'</td>'
+      +'<td><span class="sent-badge '+sc+'">'+(m.sentiment||'neutral')+'</span></td>'
+      +'<td><a class="content-link" href="'+(m.url||m.postUrl||'#')+'" target="_blank">↗</a></td>'
+      +'</tr>';
+  }).join('');
+  panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// ═══ EXCEL DOWNLOAD ═══
+function downloadXLSX(){
+  const btn = id('xlsxDownloadBtn');
+  if(typeof XLSX === 'undefined'){ alert('Excel library not loaded yet. Wait a moment and try again.'); return; }
+  btn.innerText = '⏳ Building…';
+  btn.disabled = true;
+  try{
+    const wb = XLSX.utils.book_new();
+    const today = new Date().toISOString().slice(0,10);
+
+    // Summary sheet
+    const summaryRows = [
+      ['Polaris ORM — Full Platform Report','','','','',''],
+      ['Generated:',today,'','','',''],
+      [''],
+      ['Platform','Type','Total Mentions','Likes / Score','Comments','Impressions']
+    ];
+    let grandTotal=0,grandLikes=0,grandComments=0,grandImpr=0;
+    ALL_UGC_PLATFORMS.forEach(p=>{
+      const data = getPlatformData(p.key);
+      const likes = data.reduce((s,m)=>s+(m.likes||m.reactions||m.likeCount||m.upvotes||m.score||0),0);
+      const comments = data.reduce((s,m)=>s+(m.comments||m.numComments||0),0);
+      const impr = data.reduce((s,m)=>s+(m.impressions||m.views||0),0);
+      summaryRows.push([p.label,p.type.toUpperCase(),data.length,likes,comments,impr]);
+      grandTotal+=data.length; grandLikes+=likes; grandComments+=comments; grandImpr+=impr;
+    });
+    summaryRows.push(['']);
+    summaryRows.push(['TOTAL','',grandTotal,grandLikes,grandComments,grandImpr]);
+    const wsSummary = XLSX.utils.aoa_to_sheet(summaryRows);
+    wsSummary['!cols'] = [{wch:18},{wch:10},{wch:16},{wch:16},{wch:14},{wch:16}];
+    XLSX.utils.book_append_sheet(wb, wsSummary, 'Summary');
+
+    // Per-platform sheets
+    ALL_UGC_PLATFORMS.forEach(p=>{
+      const data = getPlatformData(p.key);
+      if(!data.length) return;
+      const rows = [['Platform','Date','Content','URL','Likes/Score','Comments','Shares','Impressions','Sentiment']];
+      data.forEach(m=>{
+        rows.push([
+          p.label,
+          m.date||m.posted_at||m.createdAt||'',
+          (m.text||m.caption||m.title||'').substring(0,200),
+          m.url||m.postUrl||'',
+          m.likes||m.reactions||m.likeCount||m.upvotes||m.score||0,
+          m.comments||m.numComments||m.commentCount||0,
+          m.reposts||m.retweets||m.shares||0,
+          m.impressions||m.views||0,
+          m.sentiment||'neutral'
+        ]);
+      });
+      const ws = XLSX.utils.aoa_to_sheet(rows);
+      ws['!cols'] = [{wch:12},{wch:14},{wch:50},{wch:40},{wch:14},{wch:12},{wch:16},{wch:14},{wch:12}];
+      XLSX.utils.book_append_sheet(wb, ws, p.label.substring(0,31));
+    });
+
+    // All mentions combined
+    const allData = [..._mentions,..._social];
+    const allRows = [['Platform','Date','Content','URL','Likes/Score','Comments','Shares','Impressions','Sentiment']];
+    allData.forEach(m=>{
+      allRows.push([
+        normalizePlatform(m.platform),
+        m.date||m.posted_at||m.createdAt||'',
+        (m.text||m.caption||m.title||'').substring(0,200),
+        m.url||m.postUrl||'',
+        m.likes||m.reactions||m.likeCount||m.upvotes||m.score||0,
+        m.comments||m.numComments||0,
+        m.reposts||m.retweets||m.shares||0,
+        m.impressions||m.views||0,
+        m.sentiment||'neutral'
+      ]);
+    });
+    const wsAll = XLSX.utils.aoa_to_sheet(allRows);
+    wsAll['!cols'] = [{wch:12},{wch:14},{wch:50},{wch:40},{wch:14},{wch:12},{wch:14},{wch:14},{wch:12}];
+    XLSX.utils.book_append_sheet(wb, wsAll, 'All Mentions');
+
+    XLSX.writeFile(wb, 'Polaris-ORM-'+today+'.xlsx');
+    debugLog('✅ Excel exported — '+allData.length+' total rows');
+  }catch(e){
+    debugLog('❌ Excel export error: '+e.message);
+    alert('Export failed: '+e.message);
+  }
+  btn.innerHTML = '⬇ Download Excel';
+  btn.disabled = false;
+}
+
+function setUgcCalPlat(plat, btn){
+  _ugcCalPlat = plat;
+  document.querySelectorAll('#ugcCalPlatFilter .filter-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  const p = ALL_UGC_PLATFORMS.find(x=>x.key===plat);
+  id('ugcCalPlatLabel').innerText = p ? p.label+' only' : 'All platforms combined';
+  renderUGCCalendar();
+}
+
+function ugcCalNav(dir){
+  _ugcCalMonth += dir;
+  if(_ugcCalMonth > 11){ _ugcCalMonth=0; _ugcCalYear++; }
+  if(_ugcCalMonth < 0){ _ugcCalMonth=11; _ugcCalYear--; }
+  renderUGCCalendar();
+}
+
+function renderUGCCalendar(){
+  const grid = id('ugcCalGrid'); if(!grid) return;
+  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  id('ugcCalMonthLabel').innerText = monthNames[_ugcCalMonth]+' '+_ugcCalYear;
+  let data = [..._social,..._mentions];
+  if(_ugcCalPlat !== 'all') data = data.filter(m=>normalizePlatform(m.platform)===_ugcCalPlat);
+  const dayMap = {};
+  data.forEach(m=>{
+    const d = new Date(m.date||m.posted_at||m.createdAt||0);
+    if(d.getMonth()===_ugcCalMonth && d.getFullYear()===_ugcCalYear){
+      const key = d.getDate();
+      if(!dayMap[key]) dayMap[key]={count:0,likes:0,comments:0};
+      dayMap[key].count++;
+      dayMap[key].likes += m.likes||m.reactions||m.upvotes||m.score||0;
+      dayMap[key].comments += m.comments||m.numComments||0;
+    }
+  });
+  const maxCount = Math.max(...Object.values(dayMap).map(d=>d.count),1);
+  const daysInMonth = new Date(_ugcCalYear,_ugcCalMonth+1,0).getDate();
+  const firstDay = new Date(_ugcCalYear,_ugcCalMonth,1).getDay();
+  const today = new Date();
+  const isCurrentMonth = today.getMonth()===_ugcCalMonth && today.getFullYear()===_ugcCalYear;
+  const dayHeaders = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  let html = dayHeaders.map(d=>'<div class="cal-day-header">'+d+'</div>').join('');
+  for(let i=0;i<firstDay;i++) html += '<div class="cal-day empty"></div>';
+  for(let day=1;day<=daysInMonth;day++){
+    const isToday = isCurrentMonth && today.getDate()===day;
+    const d = dayMap[day];
+    let levelClass = 'no-data';
+    if(d){ const ratio=d.count/maxCount; levelClass=ratio>0.75?'level-4':ratio>0.5?'level-3':ratio>0.2?'level-2':'level-1'; }
+    html += '<div class="cal-day '+levelClass+(isToday?' today':'')+'" onclick="ugcDayClick('+day+')" onmouseenter="ugcCalHover(event,'+day+')" onmouseleave="id(\'ugcCalTooltip\').style.display=\'none\'"><span class="cal-day-num">'+day+'</span></div>';
+  }
+  grid.innerHTML = html;
+}
+
+function ugcCalHover(e, day){
+  const tt = id('ugcCalTooltip'); if(!tt) return;
+  let data = [..._social,..._mentions];
+  if(_ugcCalPlat !== 'all') data = data.filter(m=>normalizePlatform(m.platform)===_ugcCalPlat);
+  const dayPosts = data.filter(m=>{
+    const dt = new Date(m.date||m.posted_at||m.createdAt||0);
+    return dt.getMonth()===_ugcCalMonth && dt.getFullYear()===_ugcCalYear && dt.getDate()===day;
+  });
+  const likes = dayPosts.reduce((s,m)=>s+(m.likes||m.reactions||m.upvotes||m.score||0),0);
+  const comments = dayPosts.reduce((s,m)=>s+(m.comments||m.numComments||0),0);
+  const monthNames=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  tt.innerHTML = '<div style="font-weight:600;color:#fff;margin-bottom:6px">'+day+' '+monthNames[_ugcCalMonth]+' '+_ugcCalYear+'</div>'
+    +(dayPosts.length ? '<div style="color:var(--gold)">'+dayPosts.length+' post'+(dayPosts.length>1?'s':'')+'</div><div style="color:var(--text2);font-size:11px;margin-top:3px">♥ '+likes+' · 💬 '+comments+'</div>'
+    : '<div style="color:var(--text2)">No posts</div>');
+  tt.style.display='block';
+  tt.style.left=(e.clientX+12)+'px';
+  tt.style.top=(e.clientY-10)+'px';
+}
+
+function ugcDayClick(day){
+  id('ugcCalTooltip').style.display='none';
+  let data = [..._social,..._mentions];
+  if(_ugcCalPlat !== 'all') data = data.filter(m=>normalizePlatform(m.platform)===_ugcCalPlat);
+  const dayPosts = data.filter(m=>{
+    const dt = new Date(m.date||m.posted_at||m.createdAt||0);
+    return dt.getMonth()===_ugcCalMonth && dt.getFullYear()===_ugcCalYear && dt.getDate()===day;
+  });
+  const title = id('ugcDayPostsTitle');
+  const wrap = id('ugcDayPostsWrap');
+  const body = id('ugcDayPostsBody');
+  if(!dayPosts.length){ title.style.display='none'; wrap.style.display='none'; return; }
+  const monthNames=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  title.style.display='flex';
+  title.innerText='Posts on '+day+' '+monthNames[_ugcCalMonth]+' '+_ugcCalYear+' ('+dayPosts.length+')';
+  wrap.style.display='block';
+  body.innerHTML = dayPosts.map(m=>{
+    const p=normalizePlatform(m.platform);
+    const c=PLAT_COLORS[p]||'#555';
+    const sc=m.sentiment==='positive'?'sent-pos':m.sentiment==='negative'?'sent-neg':'sent-neu';
+    return '<tr>'
+      +'<td><span class="plat-badge" style="background:'+c+'22;color:'+c+'">'+p+'</span></td>'
+      +'<td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(m.text||m.caption||m.title||'').substring(0,90)+'</td>'
+      +'<td style="color:var(--gold)">'+fmtNum(m.likes||m.reactions||m.upvotes||m.score||0)+'</td>'
+      +'<td style="color:var(--text2)">'+fmtNum(m.comments||m.numComments||0)+'</td>'
+      +'<td style="color:var(--text2)">'+fmtNum(m.reposts||m.retweets||m.shares||0)+'</td>'
+      +'<td style="color:var(--text2)">'+(fmtNum(m.impressions||m.views||0)||'—')+'</td>'
+      +'<td><a class="content-link" href="'+(m.url||m.postUrl||'#')+'" target="_blank">View ↗</a></td>'
+      +'</tr>';
+  }).join('');
+  wrap.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function renderUGCWeek(){
+  const grid = id('ugcWeekGrid'); if(!grid) return;
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const dayOfWeek = today.getDay();
+  const mondayOffset = dayOfWeek===0 ? -6 : 1-dayOfWeek;
+  const weekStart = new Date(today);
+  weekStart.setDate(today.getDate()+mondayOffset);
+  const dayNames = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const allData = [..._social,..._mentions];
+  let html = '';
+  for(let i=0;i<7;i++){
+    const d = new Date(weekStart);
+    d.setDate(weekStart.getDate()+i);
+    const d1 = new Date(d); d1.setHours(23,59,59,999);
+    const isToday = d.toDateString()===today.toDateString();
+    const dayPosts = allData.filter(m=>{
+      const dt = new Date(m.date||m.posted_at||m.createdAt||0);
+      return dt >= d && dt <= d1;
+    });
+    const totalEng = dayPosts.reduce((s,m)=>s+(m.likes||m.reactions||m.upvotes||m.score||0)+(m.comments||m.numComments||0),0);
+    html += '<div class="week-day-card'+(isToday?' today-card':'')+'" onclick="ugcDayClick('+d.getDate()+')">'
+      +'<div class="week-day-name">'+dayNames[i]+'</div>'
+      +'<div class="week-day-date">'+d.getDate()+'/'+(d.getMonth()+1)+'</div>'
+      +'<div class="week-day-posts">'+dayPosts.length+'</div>'
+      +'<div class="week-day-eng">'+(totalEng>0?fmtNum(totalEng)+' eng.':'—')+'</div>'
+      +'</div>';
+  }
+  grid.innerHTML = html;
+}
+
 
 // ═══════════════════════════════════════════════════════
 // BOOT
+
 // ═══════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', fetchData);
 </script>
