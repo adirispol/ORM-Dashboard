@@ -1776,7 +1776,7 @@ function switchTab(name, btn){
 
 // ═══════════════════════════════════════════════════════
 // UGC TRACKER
-// ═══════════════════════════════════════════════════════
+// =========================================================
 let _ugcCalMonth = new Date().getMonth();
 let _ugcCalYear  = new Date().getFullYear();
 let _ugcCalPlat  = 'all';
@@ -1784,18 +1784,18 @@ let _ugcSelPlat  = null;
 let _ugcPlatView = 'all';
 
 const UGC_SOCIAL_PLATFORMS = [
-  {key:'linkedin',  label:'LinkedIn',  icon:'💼', color:'#0A66C2', type:'social'},
-  {key:'twitter',   label:'Twitter/X', icon:'𝕏',  color:'#1DA1F2', type:'social'},
-  {key:'instagram', label:'Instagram', icon:'📸', color:'#E1306C', type:'social'},
-  {key:'facebook',  label:'Facebook',  icon:'👥', color:'#1877F2', type:'social'},
-  {key:'youtube',   label:'YouTube',   icon:'▶',  color:'#FF0000', type:'social'},
+  {key:'linkedin',  label:'LinkedIn',  icon:'LinkedIn', color:'#0A66C2', type:'social'},
+  {key:'twitter',   label:'Twitter/X', icon:'Twitter',  color:'#1DA1F2', type:'social'},
+  {key:'instagram', label:'Instagram', icon:'Instagram', color:'#E1306C', type:'social'},
+  {key:'facebook',  label:'Facebook',  icon:'Facebook',  color:'#1877F2', type:'social'},
+  {key:'youtube',   label:'YouTube',   icon:'YouTube',   color:'#FF0000', type:'social'},
 ];
 const UGC_ORGANIC_PLATFORMS = [
-  {key:'reddit',  label:'Reddit',  icon:'🟠', color:'#FF4500', type:'organic'},
-  {key:'quora',   label:'Quora',   icon:'❓', color:'#B92B27', type:'organic'},
-  {key:'medium',  label:'Medium',  icon:'📝', color:'#00A562', type:'organic'},
-  {key:'news',    label:'News',    icon:'📰', color:'#1565C0', type:'organic'},
-  {key:'portal',  label:'Portals', icon:'🏛', color:'#7B1FA2', type:'organic'},
+  {key:'reddit',  label:'Reddit',  icon:'Reddit',  color:'#FF4500', type:'organic'},
+  {key:'quora',   label:'Quora',   icon:'Quora',   color:'#B92B27', type:'organic'},
+  {key:'medium',  label:'Medium',  icon:'Medium',  color:'#00A562', type:'organic'},
+  {key:'news',    label:'News',    icon:'News',    color:'#1565C0', type:'organic'},
+  {key:'portal',  label:'Portals', icon:'Portals', color:'#7B1FA2', type:'organic'},
 ];
 const ALL_UGC_PLATFORMS = [...UGC_SOCIAL_PLATFORMS, ...UGC_ORGANIC_PLATFORMS];
 
@@ -1825,7 +1825,6 @@ function renderUGCPlatCards(){
   let platforms = ALL_UGC_PLATFORMS;
   if(_ugcPlatView==='social') platforms = UGC_SOCIAL_PLATFORMS;
   if(_ugcPlatView==='organic') platforms = UGC_ORGANIC_PLATFORMS;
-
   const now = new Date();
   const weekAgo = new Date(now - 7*86400000);
   const twoWeeksAgo = new Date(now - 14*86400000);
@@ -1833,13 +1832,11 @@ function renderUGCPlatCards(){
     const d = new Date(m.date||m.posted_at||m.createdAt||0);
     return d >= from && d < to;
   }).length;
-
   const allEmpty = platforms.every(p=>getPlatformData(p.key).length===0);
   if(allEmpty){
-    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:var(--text2)"><div style="font-size:32px;margin-bottom:10px">📊</div><div style="font-size:14px;color:var(--text);margin-bottom:6px">No data yet</div><div style="font-size:12px">Run the crawler (GitHub Actions) for organic data. Run Apify actors for social.</div></div>';
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:var(--text2)"><div style="font-size:32px;margin-bottom:10px">chart</div><div style="font-size:14px;color:var(--text);margin-bottom:6px">No data yet</div><div style="font-size:12px">Run the crawler (GitHub Actions) for organic data. Run Apify actors for social.</div></div>';
     return;
   }
-
   grid.innerHTML = platforms.map(p=>{
     const data = getPlatformData(p.key);
     const total = data.length;
@@ -1850,21 +1847,20 @@ function renderUGCPlatCards(){
     const lastWeek = countInRange(data, twoWeeksAgo, weekAgo);
     const delta = thisWeek - lastWeek;
     const trendClass = delta>0?'ugc-trend-up':delta<0?'ugc-trend-dn':'ugc-trend-eq';
-    const trendTxt = delta>0?'↑ +'+delta+' vs last week':delta<0?'↓ '+delta+' vs last week':'→ Same as last week';
+    const trendTxt = delta>0?'up +'+delta+' vs last week':delta<0?'dn '+delta+' vs last week':'same as last week';
     const isSelected = _ugcSelPlat===p.key;
     const typeBadge = p.type==='social'
       ? '<span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(10,102,194,.2);color:#60a5fa;font-weight:600">SOCIAL</span>'
       : '<span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(9,155,90,.15);color:#4ade80;font-weight:600">ORGANIC</span>';
-    return '<div class="ugc-plat-card'+(isSelected?' selected':'')+'" style="border-top:3px solid '+p.color+'" onclick="ugcSelectPlat(\''+p.key+'\')">'
-      +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><div class="ugc-plat-icon" style="margin-bottom:0">'+p.icon+'</div>'+typeBadge+'</div>'
-      +'<div class="ugc-plat-name">'+p.label+'</div>'
+    return '<div class="ugc-plat-card'+(isSelected?' selected':'')+'" style="border-top:3px solid '+p.color+'" onclick="ugcSelectPlat(''+p.key+'')">'
+      +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><div class="ugc-plat-icon" style="margin-bottom:0;font-size:12px;font-weight:600;color:var(--text2)">'+p.label+'</div>'+typeBadge+'</div>'
       +'<div class="ugc-plat-count">'+total+'</div>'
       +'<div class="ugc-plat-label">'+(p.type==='social'?'Posts / Mentions':'Mentions indexed')+'</div>'
-      +'<div class="'+trendClass+'">'+(total>0?trendTxt:'No data yet')+'</div>'
+      +'<div class="'+(total>0?trendClass:'ugc-trend-eq')+'">'+(total>0?trendTxt:'No data yet')+'</div>'
       +'<div class="ugc-plat-metrics">'
       +'<div class="ugc-metric"><div class="ugc-metric-val">'+fmtNum(likes)+'</div><div class="ugc-metric-lbl">'+(p.type==='social'?'Likes':'Score')+'</div></div>'
       +'<div class="ugc-metric"><div class="ugc-metric-val">'+fmtNum(comments)+'</div><div class="ugc-metric-lbl">Comments</div></div>'
-      +'<div class="ugc-metric"><div class="ugc-metric-val">'+(impr>0?fmtNum(impr):'—')+'</div><div class="ugc-metric-lbl">Impressions</div></div>'
+      +'<div class="ugc-metric"><div class="ugc-metric-val">'+(impr>0?fmtNum(impr):'--')+'</div><div class="ugc-metric-lbl">Impressions</div></div>'
       +'</div></div>';
   }).join('');
 }
@@ -1876,7 +1872,7 @@ function ugcSelectPlat(key){
   if(!_ugcSelPlat){ panel.classList.remove('open'); return; }
   panel.classList.add('open');
   const p = ALL_UGC_PLATFORMS.find(x=>x.key===_ugcSelPlat);
-  id('ugcDetailTitle').innerHTML = p.icon+' '+p.label+' — All Data';
+  id('ugcDetailTitle').innerHTML = p.label+' -- All Data';
   const data = getPlatformData(_ugcSelPlat);
   id('ugcDetailHead').innerHTML = '<th>Date</th><th>Content</th><th>Likes/Score</th><th>Comments</th><th>Shares</th><th>Impressions</th><th>Sentiment</th><th>Link</th>';
   if(!data.length){
@@ -1891,27 +1887,24 @@ function ugcSelectPlat(key){
       +'<td style="color:var(--gold)">'+fmtNum(m.likes||m.reactions||m.likeCount||m.upvotes||m.score||0)+'</td>'
       +'<td style="color:var(--text2)">'+fmtNum(m.comments||m.numComments||m.commentCount||0)+'</td>'
       +'<td style="color:var(--text2)">'+fmtNum(m.reposts||m.retweets||m.shares||0)+'</td>'
-      +'<td style="color:var(--text2)">'+(fmtNum(m.impressions||m.views||0)||'—')+'</td>'
+      +'<td style="color:var(--text2)">'+(fmtNum(m.impressions||m.views||0)||'--')+'</td>'
       +'<td><span class="sent-badge '+sc+'">'+(m.sentiment||'neutral')+'</span></td>'
-      +'<td><a class="content-link" href="'+(m.url||m.postUrl||'#')+'" target="_blank">↗</a></td>'
+      +'<td><a class="content-link" href="'+(m.url||m.postUrl||'#')+'" target="_blank">view</a></td>'
       +'</tr>';
   }).join('');
   panel.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
-// ═══ EXCEL DOWNLOAD ═══
 function downloadXLSX(){
   const btn = id('xlsxDownloadBtn');
   if(typeof XLSX === 'undefined'){ alert('Excel library not loaded yet. Wait a moment and try again.'); return; }
-  btn.innerText = '⏳ Building…';
+  btn.innerText = 'Building...';
   btn.disabled = true;
   try{
     const wb = XLSX.utils.book_new();
     const today = new Date().toISOString().slice(0,10);
-
-    // Summary sheet
     const summaryRows = [
-      ['Polaris ORM — Full Platform Report','','','','',''],
+      ['Polaris ORM -- Full Platform Report','','','','',''],
       ['Generated:',today,'','','',''],
       [''],
       ['Platform','Type','Total Mentions','Likes / Score','Comments','Impressions']
@@ -1930,57 +1923,30 @@ function downloadXLSX(){
     const wsSummary = XLSX.utils.aoa_to_sheet(summaryRows);
     wsSummary['!cols'] = [{wch:18},{wch:10},{wch:16},{wch:16},{wch:14},{wch:16}];
     XLSX.utils.book_append_sheet(wb, wsSummary, 'Summary');
-
-    // Per-platform sheets
     ALL_UGC_PLATFORMS.forEach(p=>{
       const data = getPlatformData(p.key);
       if(!data.length) return;
       const rows = [['Platform','Date','Content','URL','Likes/Score','Comments','Shares','Impressions','Sentiment']];
       data.forEach(m=>{
-        rows.push([
-          p.label,
-          m.date||m.posted_at||m.createdAt||'',
-          (m.text||m.caption||m.title||'').substring(0,200),
-          m.url||m.postUrl||'',
-          m.likes||m.reactions||m.likeCount||m.upvotes||m.score||0,
-          m.comments||m.numComments||m.commentCount||0,
-          m.reposts||m.retweets||m.shares||0,
-          m.impressions||m.views||0,
-          m.sentiment||'neutral'
-        ]);
+        rows.push([p.label,m.date||m.posted_at||m.createdAt||'',(m.text||m.caption||m.title||'').substring(0,200),m.url||m.postUrl||'',m.likes||m.reactions||m.likeCount||m.upvotes||m.score||0,m.comments||m.numComments||m.commentCount||0,m.reposts||m.retweets||m.shares||0,m.impressions||m.views||0,m.sentiment||'neutral']);
       });
       const ws = XLSX.utils.aoa_to_sheet(rows);
       ws['!cols'] = [{wch:12},{wch:14},{wch:50},{wch:40},{wch:14},{wch:12},{wch:16},{wch:14},{wch:12}];
       XLSX.utils.book_append_sheet(wb, ws, p.label.substring(0,31));
     });
-
-    // All mentions combined
     const allData = [..._mentions,..._social];
     const allRows = [['Platform','Date','Content','URL','Likes/Score','Comments','Shares','Impressions','Sentiment']];
-    allData.forEach(m=>{
-      allRows.push([
-        normalizePlatform(m.platform),
-        m.date||m.posted_at||m.createdAt||'',
-        (m.text||m.caption||m.title||'').substring(0,200),
-        m.url||m.postUrl||'',
-        m.likes||m.reactions||m.likeCount||m.upvotes||m.score||0,
-        m.comments||m.numComments||0,
-        m.reposts||m.retweets||m.shares||0,
-        m.impressions||m.views||0,
-        m.sentiment||'neutral'
-      ]);
-    });
+    allData.forEach(m=>{ allRows.push([normalizePlatform(m.platform),m.date||m.posted_at||m.createdAt||'',(m.text||m.caption||m.title||'').substring(0,200),m.url||m.postUrl||'',m.likes||m.reactions||m.likeCount||m.upvotes||m.score||0,m.comments||m.numComments||0,m.reposts||m.retweets||m.shares||0,m.impressions||m.views||0,m.sentiment||'neutral']); });
     const wsAll = XLSX.utils.aoa_to_sheet(allRows);
     wsAll['!cols'] = [{wch:12},{wch:14},{wch:50},{wch:40},{wch:14},{wch:12},{wch:14},{wch:14},{wch:12}];
     XLSX.utils.book_append_sheet(wb, wsAll, 'All Mentions');
-
     XLSX.writeFile(wb, 'Polaris-ORM-'+today+'.xlsx');
-    debugLog('✅ Excel exported — '+allData.length+' total rows');
+    debugLog('Excel exported -- '+allData.length+' total rows');
   }catch(e){
-    debugLog('❌ Excel export error: '+e.message);
+    debugLog('Excel export error: '+e.message);
     alert('Export failed: '+e.message);
   }
-  btn.innerHTML = '⬇ Download Excel';
+  btn.innerHTML = 'Download Excel';
   btn.disabled = false;
 }
 
@@ -2030,7 +1996,7 @@ function renderUGCCalendar(){
     const d = dayMap[day];
     let levelClass = 'no-data';
     if(d){ const ratio=d.count/maxCount; levelClass=ratio>0.75?'level-4':ratio>0.5?'level-3':ratio>0.2?'level-2':'level-1'; }
-    html += '<div class="cal-day '+levelClass+(isToday?' today':'')+'" onclick="ugcDayClick('+day+')" onmouseenter="ugcCalHover(event,'+day+')" onmouseleave="id(\'ugcCalTooltip\').style.display=\'none\'"><span class="cal-day-num">'+day+'</span></div>';
+    html += '<div class="cal-day '+levelClass+(isToday?' today':'')+'" onclick="ugcDayClick('+day+')" onmouseenter="ugcCalHover(event,'+day+')" onmouseleave="id('ugcCalTooltip').style.display='none'"><span class="cal-day-num">'+day+'</span></div>';
   }
   grid.innerHTML = html;
 }
@@ -2047,7 +2013,7 @@ function ugcCalHover(e, day){
   const comments = dayPosts.reduce((s,m)=>s+(m.comments||m.numComments||0),0);
   const monthNames=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   tt.innerHTML = '<div style="font-weight:600;color:#fff;margin-bottom:6px">'+day+' '+monthNames[_ugcCalMonth]+' '+_ugcCalYear+'</div>'
-    +(dayPosts.length ? '<div style="color:var(--gold)">'+dayPosts.length+' post'+(dayPosts.length>1?'s':'')+'</div><div style="color:var(--text2);font-size:11px;margin-top:3px">♥ '+likes+' · 💬 '+comments+'</div>'
+    +(dayPosts.length ? '<div style="color:var(--gold)">'+dayPosts.length+' post'+(dayPosts.length>1?'s':'')+'</div><div style="color:var(--text2);font-size:11px;margin-top:3px">likes:'+likes+' comments:'+comments+'</div>'
     : '<div style="color:var(--text2)">No posts</div>');
   tt.style.display='block';
   tt.style.left=(e.clientX+12)+'px';
@@ -2080,8 +2046,8 @@ function ugcDayClick(day){
       +'<td style="color:var(--gold)">'+fmtNum(m.likes||m.reactions||m.upvotes||m.score||0)+'</td>'
       +'<td style="color:var(--text2)">'+fmtNum(m.comments||m.numComments||0)+'</td>'
       +'<td style="color:var(--text2)">'+fmtNum(m.reposts||m.retweets||m.shares||0)+'</td>'
-      +'<td style="color:var(--text2)">'+(fmtNum(m.impressions||m.views||0)||'—')+'</td>'
-      +'<td><a class="content-link" href="'+(m.url||m.postUrl||'#')+'" target="_blank">View ↗</a></td>'
+      +'<td style="color:var(--text2)">'+(fmtNum(m.impressions||m.views||0)||'--')+'</td>'
+      +'<td><a class="content-link" href="'+(m.url||m.postUrl||'#')+'" target="_blank">View</a></td>'
       +'</tr>';
   }).join('');
   wrap.scrollIntoView({behavior:'smooth',block:'nearest'});
@@ -2112,28 +2078,23 @@ function renderUGCWeek(){
       +'<div class="week-day-name">'+dayNames[i]+'</div>'
       +'<div class="week-day-date">'+d.getDate()+'/'+(d.getMonth()+1)+'</div>'
       +'<div class="week-day-posts">'+dayPosts.length+'</div>'
-      +'<div class="week-day-eng">'+(totalEng>0?fmtNum(totalEng)+' eng.':'—')+'</div>'
+      +'<div class="week-day-eng">'+(totalEng>0?fmtNum(totalEng)+' eng.':'--')+'</div>'
       +'</div>';
   }
   grid.innerHTML = html;
 }
 
-
-}
-
-
-// ═══════════════════════════════════════════════════════
 // MY CHANNELS
-// ═══════════════════════════════════════════════════════
+// =========================================================
 let _chPostFilter = 'all';
 let _chEngChart = null;
 
 const CH_PLATFORMS = [
-  {key:'linkedin',  label:'LinkedIn',  icon:'💼', color:'#0A66C2'},
-  {key:'instagram', label:'Instagram', icon:'📸', color:'#E1306C'},
-  {key:'youtube',   label:'YouTube',   icon:'▶',  color:'#FF0000'},
-  {key:'twitter',   label:'Twitter/X', icon:'𝕏',  color:'#1DA1F2'},
-  {key:'facebook',  label:'Facebook',  icon:'👥', color:'#1877F2'},
+  {key:'linkedin',  label:'LinkedIn',  color:'#0A66C2'},
+  {key:'instagram', label:'Instagram', color:'#E1306C'},
+  {key:'youtube',   label:'YouTube',   color:'#FF0000'},
+  {key:'twitter',   label:'Twitter/X', color:'#1DA1F2'},
+  {key:'facebook',  label:'Facebook',  color:'#1877F2'},
 ];
 
 function getChannelHandles(){
@@ -2150,7 +2111,7 @@ function saveChannelHandles(){
   localStorage.setItem('polaris_ch_handles', JSON.stringify(handles));
   const saved = id('ch-handle-saved');
   if(saved){ saved.style.display='block'; setTimeout(()=>saved.style.display='none',2000); }
-  debugLog('✅ Channel handles saved');
+  debugLog('Channel handles saved');
   renderChannelsTab();
 }
 
@@ -2162,9 +2123,8 @@ function loadChannelHandlesIntoInputs(){
   });
 }
 
-// Match a social post to a handle — checks author/username/accountName fields
 function matchesHandle(m, handle){
-  if(!handle) return true; // no handle set = show all from that platform
+  if(!handle) return true;
   const h = handle.toLowerCase().replace('@','');
   const fields = [m.author, m.username, m.handle, m.accountName, m.channelName, m.pageTitle, m.ownerUsername];
   return fields.some(f=>f && f.toLowerCase().replace('@','').includes(h));
@@ -2174,7 +2134,6 @@ function getChannelPosts(platKey){
   const handles = getChannelHandles();
   const handle = handles[platKey]||'';
   const raw = _social.filter(m=>normalizePlatform(m.platform)===platKey);
-  // If handle is set, filter to matching posts. If no handle set, show all from that platform
   return handle ? raw.filter(m=>matchesHandle(m,handle)) : raw;
 }
 
@@ -2204,8 +2163,8 @@ function renderChTotals(){
     {val:fmtNum(totalComments), lbl:'Comments'},
     {val:fmtNum(totalShares), lbl:'Shares'},
     {val:fmtNum(totalEng), lbl:'Total Engagement'},
-    {val:totalImpr>0?fmtNum(totalImpr):'—', lbl:'Impressions'},
-  ].map(s=>`<div class="ch-total-card"><div class="ch-total-val">${s.val}</div><div class="ch-total-lbl">${s.lbl}</div></div>`).join('');
+    {val:totalImpr>0?fmtNum(totalImpr):'--', lbl:'Impressions'},
+  ].map(s=>'<div class="ch-total-card"><div class="ch-total-val">'+s.val+'</div><div class="ch-total-lbl">'+s.lbl+'</div></div>').join('');
 }
 
 function renderChCards(){
@@ -2213,16 +2172,10 @@ function renderChCards(){
   const handles = getChannelHandles();
   const now = new Date();
   const weekAgo = new Date(now-7*86400000);
-
   if(_social.length===0){
-    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text2)">
-      <div style="font-size:32px;margin-bottom:10px">🏢</div>
-      <div style="font-size:14px;color:var(--text);margin-bottom:8px">No Apify data yet</div>
-      <div style="font-size:12px">Run your Apify actors to populate social.json, then this tab will show your official channel stats.</div>
-    </div>`;
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text2)"><div style="font-size:14px;color:var(--text);margin-bottom:8px">No Apify data yet</div><div style="font-size:12px">Run your Apify actors to populate social.json, then this tab will show your official channel stats.</div></div>';
     return;
   }
-
   grid.innerHTML = CH_PLATFORMS.map(p=>{
     const data = getChannelPosts(p.key);
     const handle = handles[p.key]||'';
@@ -2234,34 +2187,23 @@ function renderChCards(){
     const eng = likes+comments+shares;
     const thisWeek = data.filter(m=>new Date(m.date||m.posted_at||m.createdAt||0)>=weekAgo).length;
     const recentPosts = data.slice(0,3);
-    const hasHandle = !!handle;
-    const statusColor = hasHandle&&total>0?'#22c55e':hasHandle&&total===0?'#f59e0b':'#6b7280';
-    const statusTip = hasHandle&&total>0?'Matched':'Handle set, no matches yet';
-
-    return `<div class="ch-card" style="border-top-color:${p.color}">
-      <div class="ch-card-header">
-        <div class="ch-card-icon" style="background:${p.color}18">${p.icon}</div>
-        <div>
-          <div class="ch-card-name">${p.label}</div>
-          <div class="ch-card-handle">${handle?'@'+handle:'No handle set'}</div>
-        </div>
-        <div class="ch-status-dot" style="background:${statusColor};margin-left:auto" title="${statusTip}"></div>
-      </div>
-      <div class="ch-stat-row">
-        <div class="ch-stat"><div class="ch-stat-val">${total}</div><div class="ch-stat-lbl">Total Posts</div><div class="ch-stat-delta" style="color:var(--gold)">${thisWeek} this week</div></div>
-        <div class="ch-stat"><div class="ch-stat-val">${fmtNum(eng)}</div><div class="ch-stat-lbl">Total Engagement</div><div class="ch-stat-delta" style="color:var(--text2)">♥${fmtNum(likes)} 💬${fmtNum(comments)}</div></div>
-      </div>
-      ${impr>0?`<div style="font-size:11px;color:var(--text2);margin-bottom:8px">👁 ~${fmtNum(impr)} impressions</div>`:''}
-      <div class="ch-posts-preview">
-        ${recentPosts.length
-          ? recentPosts.map(m=>`<div class="ch-post-item">
-              <div class="ch-post-text" title="${(m.text||m.caption||'').replace(/"/g,'')}">${(m.text||m.caption||m.title||'No text').substring(0,55)}</div>
-              <div class="ch-post-eng">♥${fmtNum(m.likes||m.reactions||0)}</div>
-            </div>`).join('')
-          : `<div class="ch-empty"><div class="ch-empty-icon">📭</div>${handle?'No posts matched — check handle spelling':'Set handle above to filter posts'}</div>`
-        }
-      </div>
-    </div>`;
+    const statusColor = handle&&total>0?'#22c55e':handle&&total===0?'#f59e0b':'#6b7280';
+    return '<div class="ch-card" style="border-top:3px solid '+p.color+'">'
+      +'<div class="ch-card-header">'
+      +'<div class="ch-card-icon" style="background:'+p.color+'18;font-size:11px;font-weight:600;color:'+p.color+'">'+p.label.substring(0,3)+'</div>'
+      +'<div><div class="ch-card-name">'+p.label+'</div><div class="ch-card-handle">'+(handle?'@'+handle:'No handle set')+'</div></div>'
+      +'<div class="ch-status-dot" style="background:'+statusColor+';margin-left:auto"></div>'
+      +'</div>'
+      +'<div class="ch-stat-row">'
+      +'<div class="ch-stat"><div class="ch-stat-val">'+total+'</div><div class="ch-stat-lbl">Total Posts</div><div class="ch-stat-delta" style="color:var(--gold)">'+thisWeek+' this week</div></div>'
+      +'<div class="ch-stat"><div class="ch-stat-val">'+fmtNum(eng)+'</div><div class="ch-stat-lbl">Engagement</div><div class="ch-stat-delta" style="color:var(--text2)">likes:'+fmtNum(likes)+' cmts:'+fmtNum(comments)+'</div></div>'
+      +'</div>'
+      +(impr>0?'<div style="font-size:11px;color:var(--text2);margin-bottom:8px">~'+fmtNum(impr)+' impressions</div>':'')
+      +'<div class="ch-posts-preview">'
+      +(recentPosts.length
+        ? recentPosts.map(m=>'<div class="ch-post-item"><div class="ch-post-text">'+(m.text||m.caption||m.title||'No text').substring(0,55)+'</div><div class="ch-post-eng">'+fmtNum(m.likes||m.reactions||0)+'</div></div>').join('')
+        : '<div class="ch-empty">'+(handle?'No posts matched -- check handle spelling':'Set handle above')+'</div>')
+      +'</div></div>';
   }).join('');
 }
 
@@ -2280,20 +2222,14 @@ function renderChChart(){
   if(!labels.length) return;
   _chEngChart = new Chart(ctx,{
     type:'bar',
-    data:{
-      labels,
-      datasets:[
-        {label:'Likes',data:likes,backgroundColor:'rgba(255,204,63,.7)',borderRadius:6},
-        {label:'Comments',data:comments,backgroundColor:'rgba(9,155,90,.6)',borderRadius:6},
-        {label:'Shares',data:shares,backgroundColor:'rgba(89,57,168,.6)',borderRadius:6},
-      ]
-    },
+    data:{labels,datasets:[
+      {label:'Likes',data:likes,backgroundColor:'rgba(255,204,63,.7)',borderRadius:6},
+      {label:'Comments',data:comments,backgroundColor:'rgba(9,155,90,.6)',borderRadius:6},
+      {label:'Shares',data:shares,backgroundColor:'rgba(89,57,168,.6)',borderRadius:6},
+    ]},
     options:{
       plugins:{legend:{labels:{color:'#ccc',font:{family:'Poppins',size:11}}}},
-      scales:{
-        x:{ticks:{color:'#888',font:{family:'Poppins'}},grid:{color:'#222'}},
-        y:{ticks:{color:'#888',font:{family:'Poppins'}},grid:{color:'#222'}}
-      }
+      scales:{x:{ticks:{color:'#888'},grid:{color:'#222'}},y:{ticks:{color:'#888'},grid:{color:'#222'}}}
     }
   });
 }
@@ -2310,34 +2246,34 @@ function renderChPosts(filter){
   let allPosts = [];
   CH_PLATFORMS.forEach(p=>{
     const data = getChannelPosts(p.key);
-    data.forEach(m=>{ allPosts.push({...m, _platKey:p.key, _platIcon:p.icon, _platColor:p.color, _platLabel:p.label}); });
+    data.forEach(m=>{ allPosts.push(Object.assign({},m,{_platKey:p.key,_platLabel:p.label,_platColor:p.color})); });
   });
-  // Sort by date desc
   allPosts.sort((a,b)=>new Date(b.date||b.posted_at||b.createdAt||0)-new Date(a.date||a.posted_at||a.createdAt||0));
   if(filter!=='all') allPosts = allPosts.filter(m=>m._platKey===filter);
   if(!allPosts.length){
-    body.innerHTML = `<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:30px">${_social.length===0?'No Apify data yet — run your actors first.':'No posts for this filter.'}</td></tr>`;
+    body.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:30px">'+(_social.length===0?'No Apify data yet -- run your actors first.':'No posts for this filter.')+'</td></tr>';
     return;
   }
   body.innerHTML = allPosts.slice(0,100).map(m=>{
     const sc=m.sentiment==='positive'?'sent-pos':m.sentiment==='negative'?'sent-neg':'sent-neu';
-    return `<tr>
-      <td><span class="plat-badge" style="background:${m._platColor}22;color:${m._platColor}">${m._platIcon} ${m._platLabel}</span></td>
-      <td style="color:var(--text2);white-space:nowrap">${fmtDate(m.date||m.posted_at||m.createdAt)}</td>
-      <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${(m.text||m.caption||'').replace(/"/g,'')}">${(m.text||m.caption||m.title||'').substring(0,70)}</td>
-      <td style="color:var(--gold)">${fmtNum(m.likes||m.reactions||m.likeCount||0)}</td>
-      <td style="color:var(--text2)">${fmtNum(m.comments||m.numComments||0)}</td>
-      <td style="color:var(--text2)">${fmtNum(m.reposts||m.retweets||m.shares||0)}</td>
-      <td style="color:var(--text2)">${fmtNum(m.impressions||m.views||0)||'—'}</td>
-      <td><a class="content-link" href="${m.url||m.postUrl||'#'}" target="_blank">↗</a></td>
-    </tr>`;
+    return '<tr>'
+      +'<td><span class="plat-badge" style="background:'+m._platColor+'22;color:'+m._platColor+'">'+m._platLabel+'</span></td>'
+      +'<td style="color:var(--text2);white-space:nowrap">'+fmtDate(m.date||m.posted_at||m.createdAt)+'</td>'
+      +'<td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(m.text||m.caption||m.title||'').substring(0,70)+'</td>'
+      +'<td style="color:var(--gold)">'+fmtNum(m.likes||m.reactions||m.likeCount||0)+'</td>'
+      +'<td style="color:var(--text2)">'+fmtNum(m.comments||m.numComments||0)+'</td>'
+      +'<td style="color:var(--text2)">'+fmtNum(m.reposts||m.retweets||m.shares||0)+'</td>'
+      +'<td style="color:var(--text2)">'+(fmtNum(m.impressions||m.views||0)||'--')+'</td>'
+      +'<td><a class="content-link" href="'+(m.url||m.postUrl||'#')+'" target="_blank">View</a></td>'
+      +'</tr>';
   }).join('');
 }
 
-// ═══════════════════════════════════════════════════════
-// BOOT
 
-// ═══════════════════════════════════════════════════════
+
+
+// BOOT
+// =========================================================
 document.addEventListener('DOMContentLoaded', fetchData);
 </script>
 </body>
