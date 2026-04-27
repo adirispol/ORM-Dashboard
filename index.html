@@ -185,6 +185,45 @@ input:focus{outline:none;border-color:rgba(255,204,63,.4)}
 ::-webkit-scrollbar-track{background:#111}
 ::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
 ::-webkit-scrollbar-thumb:hover{background:#555}
+
+/* ═══ ORM REPORT TAB STYLES ═══ */
+.report-hero{background:linear-gradient(135deg,rgba(255,204,63,.08) 0%,rgba(89,57,168,.08) 100%);border:1px solid rgba(255,204,63,.2);border-radius:16px;padding:28px;margin-bottom:24px;text-align:center}
+.report-hero-title{font-family:'Playfair Display',serif;font-size:22px;color:#fff;margin-bottom:6px}
+.report-hero-sub{font-size:13px;color:var(--text2);margin-bottom:20px}
+.report-generate-btn{background:var(--gold);color:#000;border:none;border-radius:10px;padding:12px 32px;font-size:14px;font-weight:700;cursor:pointer;font-family:Poppins,sans-serif;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+.report-generate-btn:hover{opacity:.9;transform:translateY(-1px)}
+.report-generate-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.report-format-row{display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.report-fmt-btn{padding:5px 14px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:12px;cursor:pointer;font-family:Poppins,sans-serif;transition:all .2s}
+.report-fmt-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(255,204,63,.08)}
+.report-stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:24px}
+.rstat{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center}
+.rstat-val{font-size:28px;font-weight:700;color:var(--gold)}
+.rstat-label{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.07em;margin-top:4px}
+.rstat-delta{font-size:10px;margin-top:3px}
+.report-output-wrap{background:var(--card2);border:1px solid rgba(255,204,63,.2);border-radius:12px;padding:0;margin-bottom:24px;overflow:hidden}
+.report-output-header{background:rgba(255,204,63,.06);border-bottom:1px solid rgba(255,204,63,.15);padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+.report-output-title{font-size:13px;font-weight:600;color:var(--gold)}
+.report-copy-btns{display:flex;gap:8px}
+.copy-btn{padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:11px;cursor:pointer;font-family:Poppins,sans-serif;transition:all .2s}
+.copy-btn:hover{border-color:var(--gold);color:var(--gold)}
+.copy-btn.copied{border-color:var(--green);color:var(--green)}
+.report-output-body{padding:20px;min-height:200px}
+.report-text{font-size:13px;line-height:1.8;color:var(--text);white-space:pre-wrap;font-family:Poppins,sans-serif}
+.report-loading{display:flex;flex-direction:column;align-items:center;gap:14px;padding:40px;color:var(--text2)}
+.report-loading-ring{width:36px;height:36px;border:3px solid rgba(255,204,63,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
+.report-loading-msg{font-size:13px;color:var(--text2)}
+.report-platform-breakdown{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:24px}
+.rpb-item{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:12px 14px;display:flex;align-items:center;gap:10px}
+.rpb-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.rpb-name{font-size:12px;color:var(--text);flex:1}
+.rpb-count{font-size:14px;font-weight:700;color:#fff}
+.report-versions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.version-pill{padding:4px 12px;border-radius:20px;border:1px solid var(--border);background:rgba(255,255,255,.02);font-size:11px;color:var(--text2);cursor:pointer;transition:all .2s}
+.version-pill.active{background:rgba(255,204,63,.1);border-color:rgba(255,204,63,.4);color:var(--gold)}
+.report-tip{background:rgba(89,57,168,.08);border:1px solid rgba(89,57,168,.2);border-radius:8px;padding:12px 16px;font-size:12px;color:#c4b0f0;margin-bottom:20px;display:flex;align-items:flex-start;gap:10px}
+.report-tip::before{content:'💡';flex-shrink:0}
+
 @media(max-width:768px){
   .bps-wrap{grid-template-columns:1fr;gap:12px}
   .two-col,.three-col{grid-template-columns:1fr}
@@ -194,6 +233,7 @@ input:focus{outline:none;border-color:rgba(255,204,63,.4)}
   .social-cards-grid{grid-template-columns:1fr}
   nav{gap:8px;padding:0 14px}
   .logo span{display:none}
+  .report-stats-grid{grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head>
@@ -221,6 +261,7 @@ input:focus{outline:none;border-color:rgba(255,204,63,.4)}
   <button class="tab-btn" onclick="switchTab('inventory',this)">🗂 Link Inventory</button>
   <button class="tab-btn" onclick="switchTab('competitors',this)">🏆 Competitors</button>
   <button class="tab-btn" onclick="switchTab('llm',this)">🤖 LLM / AEO</button>
+  <button class="tab-btn" onclick="switchTab('report',this)">📋 ORM Report</button>
   <button class="tab-btn" onclick="switchTab('debug',this)">🔧 Debug</button>
 </div>
 
@@ -247,7 +288,6 @@ input:focus{outline:none;border-color:rgba(255,204,63,.4)}
     </div>
   </div>
 
-  <!-- KPI cards — Organic (Serper) -->
   <div class="sec-title">Organic Platforms (Serper Crawler)</div>
   <div class="card-grid">
     <div class="kpi-card reddit">
@@ -290,7 +330,6 @@ input:focus{outline:none;border-color:rgba(255,204,63,.4)}
     </div>
   </div>
 
-  <!-- Social KPIs (Apify) -->
   <div class="sec-title">Social Platforms (Apify Data)</div>
   <div class="card-grid" id="socialKpiGrid">
     <div class="kpi-card linkedin">
@@ -369,7 +408,7 @@ input:focus{outline:none;border-color:rgba(255,204,63,.4)}
   </div>
 </div>
 
-<!-- ═══════ SOCIAL MEDIA (Apify) ═══════ -->
+<!-- ═══════ SOCIAL MEDIA ═══════ -->
 <div class="tab-panel" id="tab-social">
   <div class="platform-tabs" id="socialPlatformTabs">
     <button class="plt-tab active" onclick="switchSocial('linkedin',this)">💼 LinkedIn</button>
@@ -377,12 +416,10 @@ input:focus{outline:none;border-color:rgba(255,204,63,.4)}
     <button class="plt-tab" onclick="switchSocial('instagram',this)">📸 Instagram</button>
     <button class="plt-tab" onclick="switchSocial('facebook',this)">👥 Facebook</button>
   </div>
-
   <div class="apify-status" id="apifyStatusBar">
     <span id="apifyStatusText">ℹ️ Social data loads from <b>data/social.json</b> — generated by your Apify GitHub Action.</span>
     <span id="apifyLastRun" style="font-size:11px;color:var(--text2);margin-left:8px"></span>
   </div>
-
   <div id="socialCardsContainer">
     <div class="empty-state">
       <div class="empty-state-icon">📱</div>
@@ -484,6 +521,75 @@ input:focus{outline:none;border-color:rgba(255,204,63,.4)}
   </div>
 </div>
 
+<!-- ═══════ ORM REPORT ═══════ -->
+<div class="tab-panel" id="tab-report">
+
+  <!-- Hero -->
+  <div class="report-hero">
+    <div class="report-hero-title">Polaris ORM Report Generator</div>
+    <div class="report-hero-sub">One-click report — lifetime brand stats, AI-written summary, ready to copy-paste anywhere</div>
+    <button class="report-generate-btn" id="reportGenBtn" onclick="generateReport()">
+      ✦ Generate ORM Report
+    </button>
+    <div class="report-format-row">
+      <button class="report-fmt-btn active" onclick="setReportFormat('linkedin',this)">LinkedIn Post</button>
+      <button class="report-fmt-btn" onclick="setReportFormat('internal',this)">Internal Update</button>
+      <button class="report-fmt-btn" onclick="setReportFormat('email',this)">Email Digest</button>
+      <button class="report-fmt-btn" onclick="setReportFormat('notion',this)">Notion / Doc</button>
+    </div>
+  </div>
+
+  <!-- Live stats summary (always visible) -->
+  <div class="sec-title">Lifetime Brand Stats</div>
+  <div class="report-stats-grid" id="reportStatsGrid">
+    <div class="rstat"><div class="rstat-val" id="rst-total">—</div><div class="rstat-label">Total Mentions</div></div>
+    <div class="rstat"><div class="rstat-val" id="rst-impr">—</div><div class="rstat-label">Est. Impressions</div></div>
+    <div class="rstat"><div class="rstat-val" id="rst-bps">—</div><div class="rstat-label">BPS Score</div></div>
+    <div class="rstat"><div class="rstat-val" id="rst-plats">—</div><div class="rstat-label">Platforms Active</div></div>
+    <div class="rstat"><div class="rstat-val" id="rst-pos" style="color:#4ade80">—</div><div class="rstat-label">Positive</div></div>
+    <div class="rstat"><div class="rstat-val" id="rst-neg" style="color:#f87171">—</div><div class="rstat-label">Negative</div></div>
+  </div>
+
+  <!-- Platform breakdown -->
+  <div class="sec-title">Platform Breakdown</div>
+  <div class="report-platform-breakdown" id="reportPlatBreakdown">
+    <div style="color:var(--text2);font-size:12px">Loading data…</div>
+  </div>
+
+  <!-- Report versions -->
+  <div class="sec-title">Report Version</div>
+  <div class="report-versions" id="reportVersions">
+    <div class="version-pill active" onclick="selectVersion('short',this)">Short (3 lines)</div>
+    <div class="version-pill" onclick="selectVersion('medium',this)">Medium (1 para)</div>
+    <div class="version-pill" onclick="selectVersion('full',this)">Full Report</div>
+  </div>
+
+  <div class="report-tip">
+    No Claude API key needed for the data snapshot. Claude API is used to write the AI narrative — add your key in Settings if you haven't already.
+  </div>
+
+  <!-- Output box -->
+  <div class="report-output-wrap" id="reportOutputWrap">
+    <div class="report-output-header">
+      <div class="report-output-title" id="reportOutputTitle">Report Output</div>
+      <div class="report-copy-btns">
+        <button class="copy-btn" id="copyTextBtn" onclick="copyReport('text')">Copy Text</button>
+        <button class="copy-btn" id="copyMdBtn" onclick="copyReport('markdown')">Copy Markdown</button>
+      </div>
+    </div>
+    <div class="report-output-body" id="reportOutputBody">
+      <div style="color:var(--text2);font-size:13px;text-align:center;padding:30px">
+        Click "Generate ORM Report" above to create your shareable summary.
+      </div>
+    </div>
+  </div>
+
+  <!-- History -->
+  <div class="sec-title">Report History</div>
+  <div id="reportHistory" style="font-size:12px;color:var(--text2)">No reports generated yet this session.</div>
+
+</div>
+
 <!-- ═══════ DEBUG ═══════ -->
 <div class="tab-panel" id="tab-debug">
   <div class="two-col">
@@ -507,7 +613,6 @@ input:focus{outline:none;border-color:rgba(255,204,63,.4)}
       ⚙ Dashboard Settings
       <button class="close-btn" onclick="closeSettings()">✕</button>
     </div>
-
     <div class="settings-section">
       <div class="settings-section-title">GitHub Repo (Data Source)</div>
       <div class="form-grid">
@@ -516,26 +621,22 @@ input:focus{outline:none;border-color:rgba(255,204,63,.4)}
         <div class="form-group"><label>Branch</label><input type="text" id="cfgBranch" placeholder="main"></div>
       </div>
     </div>
-
     <div class="settings-section">
       <div class="settings-section-title">API Keys (stored in browser only)</div>
       <div class="form-grid">
-        <div class="form-group"><label>Claude API Key (for AI Analysis)</label><input type="password" id="cfgClaudeKey" placeholder="sk-ant-…"></div>
+        <div class="form-group"><label>Claude API Key (for AI Analysis + Reports)</label><input type="password" id="cfgClaudeKey" placeholder="sk-ant-…"></div>
         <div class="form-group"><label>Apify Token (for Social scraping)</label><input type="password" id="cfgApifyToken" placeholder="apify_api_…"></div>
       </div>
     </div>
-
     <div class="settings-section">
       <div class="settings-section-title">Competitor Keywords (comma-separated)</div>
       <div class="form-group"><input type="text" id="cfgKwComp" placeholder="Scaler, Newton School of Technology, upGrad, Great Learning"></div>
     </div>
-
     <div class="settings-section">
       <div class="settings-section-title">Google Sheets — My Content Tab</div>
       <p style="font-size:11px;color:var(--text2);margin-bottom:12px">Paste your Google Sheet ID for each platform. Sheet must be published: File → Share → Publish to web → CSV.</p>
       <div id="sheetInputs"></div>
     </div>
-
     <button class="save-btn" onclick="saveSettings()">Save Settings</button>
     <div class="saved-msg" id="savedMsg">✅ Saved!</div>
   </div>
@@ -564,6 +665,10 @@ const PLAT_COLORS = {
 };
 
 let _summary={}, _mentions=[], _social=[], _sentChart=null, _compChart1=null, _compChart2=null;
+let _reportFormat = 'linkedin';
+let _reportVersion = 'short';
+let _reportHistory = [];
+let _currentBPS = 0;
 
 // ═══════════════════════════════════════════════════════
 // CONFIG HELPERS
@@ -599,7 +704,6 @@ function openSettings(){
   id('cfgClaudeKey').value  = cfg.claudeKey  || '';
   id('cfgApifyToken').value = cfg.apifyToken || '';
   id('cfgKwComp').value     = cfg.kwComp     || COMPETITORS.join(', ');
-  // Sheet inputs
   const si = id('sheetInputs');
   si.innerHTML = SHEET_PLATFORMS.map(p=>`
     <div style="display:grid;grid-template-columns:120px 1fr 80px;gap:8px;align-items:center;margin-bottom:8px;padding:10px;background:rgba(255,255,255,.02);border-radius:8px;border:1px solid var(--border)">
@@ -659,8 +763,6 @@ async function fetchData(){
     debugLog('❌ Core data error: '+e.message);
     id('bpsInterpretation').innerText='Error loading data. Check Debug tab.';
   }
-
-  // Load social.json (Apify data — may not exist yet)
   try{
     const soc=await fetch(base+'/data/social.json');
     if(soc.ok){ _social=await soc.json(); debugLog('✅ social.json — '+_social.length+' social records'); }
@@ -673,6 +775,7 @@ async function fetchData(){
   renderInventory('portals');
   renderCompetitors();
   renderLLM();
+  renderReportTab();
   renderDebug();
   updateLastCrawl();
 }
@@ -706,7 +809,6 @@ function renderOverview(){
   const sumImpr = arr=>arr.reduce((s,m)=>s+(m.impressions||m.views||m.score||0),0);
   const allImpr = sumImpr([..._mentions,..._social]);
 
-  // KPIs — organic
   set('totalMentions', (_mentions.length+_social.length).toLocaleString());
   set('totalImpressions', allImpr.toLocaleString());
   set('negAlerts', _mentions.filter(m=>m.sentiment==='negative').length);
@@ -724,7 +826,6 @@ function renderOverview(){
   set('kpiPortals',     portal.length);
   set('kpiPortalNames', pn||'—');
 
-  // Social KPIs (Apify)
   set('kpiLinkedIn',    socLI.length||'—');
   set('kpiLinkedInSub', socLI.length?fmtNum(socLI.reduce((s,m)=>s+(m.reactions||m.likes||0),0))+' reactions':'Run scraper to populate');
   set('kpiTwitter',     socTW.length||'—');
@@ -734,22 +835,20 @@ function renderOverview(){
   set('kpiFacebook',    socFB.length||'—');
   set('kpiFacebookSub', socFB.length?fmtNum(socFB.reduce((s,m)=>s+(m.likes||0),0))+' reactions':'Run scraper to populate');
 
-  // BPS
   const activePlats=[reddit,quora,medium,portal,[...news,...web]].filter(a=>a.length>0).length;
   const socialActive=[socLI,socTW,socIG,socFB].filter(a=>a.length>0).length;
   const posRatio=reddit.filter(m=>m.sentiment==='positive').length/Math.max(reddit.length,1);
-  const bps=Math.min(100,Math.round((activePlats/5)*50+posRatio*15+Math.min(10,quora.length*1.2)+(portal.length>10?8:portal.length*.8)+(socialActive*5)));
-  const grade=bps>=80?'A+':bps>=65?'A':bps>=50?'B':bps>=35?'C':'D';
-  set('bpsScore',bps); set('bpsScoreBig',bps); set('bpsGrade',grade);
+  _currentBPS=Math.min(100,Math.round((activePlats/5)*50+posRatio*15+Math.min(10,quora.length*1.2)+(portal.length>10?8:portal.length*.8)+(socialActive*5)));
+  const grade=_currentBPS>=80?'A+':_currentBPS>=65?'A':_currentBPS>=50?'B':_currentBPS>=35?'C':'D';
+  set('bpsScore',_currentBPS); set('bpsScoreBig',_currentBPS); set('bpsGrade',grade);
   set('bpsCoverage',(activePlats+socialActive)+' platforms');
-  id('bpsBarFill').style.width=bps+'%';
+  id('bpsBarFill').style.width=_currentBPS+'%';
   set('bpsInterpretation',
-    bps>=80?'Strong brand presence across all major platforms.':
-    bps>=65?'Good presence. Expand content on weaker platforms.':
-    bps>=50?'Moderate presence. More consistent posting needed.':
-            'Low presence. Prioritise content seeding across platforms.');
+    _currentBPS>=80?'Strong brand presence across all major platforms.':
+    _currentBPS>=65?'Good presence. Expand content on weaker platforms.':
+    _currentBPS>=50?'Moderate presence. More consistent posting needed.':
+                    'Low presence. Prioritise content seeding across platforms.');
 
-  // Sentiment doughnut
   if(_sentChart){_sentChart.destroy();_sentChart=null;}
   const sCtx=id('sentChart');
   if(sCtx){
@@ -769,7 +868,6 @@ function renderOverview(){
       <span style="background:#ef444422;color:#ef4444;padding:3px 10px;border-radius:20px;font-size:11px">⚠ Negative ${neg}</span>`;
   }
 
-  // Platform bars
   const platData=[
     {name:'Reddit',count:reddit.length,color:'#ff6314'},
     {name:'Quora',count:quora.length,color:'#b92b27'},
@@ -793,7 +891,6 @@ function renderOverview(){
       </div>
     </div>`).join('');
 
-  // Negative feed
   const nf=id('negFeed');
   if(nf){
     const negs=_mentions.filter(m=>m.sentiment==='negative').slice(0,5);
@@ -804,7 +901,6 @@ function renderOverview(){
       </div>`).join(''):`<div class="empty-state"><div class="empty-state-icon">✅</div><div>No negative mentions.</div></div>`;
   }
 
-  // Actionables
   const al=id('actionList');
   if(al){
     const neg=_mentions.filter(m=>m.sentiment==='negative').length;
@@ -822,6 +918,211 @@ function renderOverview(){
         <div class="action-platform">${a.platform}</div>
       </div>`).join('');
   }
+}
+
+// ═══════════════════════════════════════════════════════
+// ORM REPORT TAB
+// ═══════════════════════════════════════════════════════
+function setReportFormat(fmt, btn){
+  _reportFormat = fmt;
+  document.querySelectorAll('.report-fmt-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+}
+function selectVersion(v, el){
+  _reportVersion = v;
+  document.querySelectorAll('.version-pill').forEach(p=>p.classList.remove('active'));
+  if(el) el.classList.add('active');
+}
+
+function renderReportTab(){
+  const allData = [..._mentions, ..._social];
+  const total = allData.length;
+  const allImpr = allData.reduce((s,m)=>s+(m.impressions||m.views||m.score||0),0);
+  const pos = allData.filter(m=>m.sentiment==='positive').length;
+  const neg = allData.filter(m=>m.sentiment==='negative').length;
+
+  const platMap = {};
+  allData.forEach(m=>{
+    const p = normalizePlatform(m.platform);
+    platMap[p] = (platMap[p]||0)+1;
+  });
+  const activePlats = Object.keys(platMap).filter(p=>platMap[p]>0).length;
+
+  set('rst-total', total.toLocaleString());
+  set('rst-impr', fmtNum(allImpr));
+  set('rst-bps', _currentBPS || '—');
+  set('rst-plats', activePlats);
+  set('rst-pos', pos);
+  set('rst-neg', neg);
+
+  const breakdown = id('reportPlatBreakdown');
+  if(breakdown){
+    const platOrder = ['reddit','quora','medium','news','portal','youtube','linkedin','twitter','instagram','facebook','web'];
+    const icons = {reddit:'🟠',quora:'❓',medium:'📝',news:'📰',portal:'🏛',youtube:'▶',linkedin:'💼',twitter:'𝕏',instagram:'📸',facebook:'👥',web:'🌐'};
+    const labels = {reddit:'Reddit',quora:'Quora',medium:'Medium',news:'News/Web',portal:'Portals',youtube:'YouTube',linkedin:'LinkedIn',twitter:'Twitter',instagram:'Instagram',facebook:'Facebook',web:'Web'};
+    breakdown.innerHTML = platOrder.filter(p=>platMap[p]>0).map(p=>`
+      <div class="rpb-item">
+        <div class="rpb-dot" style="background:${PLAT_COLORS[p]||'#555'}"></div>
+        <div class="rpb-name">${icons[p]||''} ${labels[p]||p}</div>
+        <div class="rpb-count">${platMap[p]}</div>
+      </div>`).join('') || '<div style="color:var(--text2);font-size:12px">No data yet — run the crawler first.</div>';
+  }
+}
+
+async function generateReport(){
+  const btn = id('reportGenBtn');
+  const body = id('reportOutputBody');
+  const title = id('reportOutputTitle');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner" style="width:16px;height:16px;border-width:2px"></span> Generating…';
+
+  const allData = [..._mentions, ..._social];
+  const total = allData.length;
+  const allImpr = allData.reduce((s,m)=>s+(m.impressions||m.views||m.score||0),0);
+  const pos = allData.filter(m=>m.sentiment==='positive').length;
+  const neg = allData.filter(m=>m.sentiment==='negative').length;
+  const neu = total - pos - neg;
+  const platMap = {};
+  allData.forEach(m=>{ const p=normalizePlatform(m.platform); platMap[p]=(platMap[p]||0)+1; });
+  const bps = _currentBPS||0;
+  const grade = bps>=80?'A+':bps>=65?'A':bps>=50?'B':bps>=35?'C':'D';
+  const today = new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
+  const platLines = Object.entries(platMap).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]).map(([p,c])=>`${p}: ${c}`).join(', ');
+
+  const formatLabels = {linkedin:'LinkedIn Post',internal:'Internal Update',email:'Email Digest',notion:'Notion / Doc'};
+  title.innerText = `${formatLabels[_reportFormat]||'Report'} — ${today}`;
+
+  body.innerHTML = `<div class="report-loading"><div class="report-loading-ring"></div><div class="report-loading-msg">Claude is writing your report…</div></div>`;
+
+  const cfg = getSavedConfig();
+
+  // Build the prompt based on format and version
+  const versionInstructions = {
+    short: 'Write exactly 3 sentences. Keep it punchy and data-driven.',
+    medium: 'Write one strong paragraph of 5-7 sentences. Include the key stats and one insight.',
+    full: 'Write a full ORM report with these sections: Executive Summary (2 sentences), Platform Breakdown (bullet points per platform with count), Sentiment Analysis (2 sentences on positive/negative ratio), Key Insight (1 actionable observation), Suggested Next Step (1 concrete action).'
+  }[_reportVersion];
+
+  const formatInstructions = {
+    linkedin: 'Format it as a LinkedIn post. Start with a hook line. Use line breaks for readability. No hashtags unless they fit naturally. Professional but human tone.',
+    internal: 'Format it as an internal team update. Start with "ORM Update —" then the date. Use bullet points for platform stats. End with one action item.',
+    email: 'Format it as an email body. Start with "Hi team," and a one-line summary. Then stats. End with "Thanks, Aditya". Subject line at the top: "Subject: ORM Update — [date]".',
+    notion: 'Format it as a Notion document section. Use headers (##), bullet points, and bold for key numbers. Include a "Status" line at the top with the BPS grade.'
+  }[_reportFormat];
+
+  const prompt = `You are writing an ORM (Online Reputation Management) report for Polaris School of Technology — a BTech college in Bangalore offering Applied AI Engineering, Product Management & Engineering, and Cloud & Big Data Engineering.
+
+Here is the current brand data as of ${today}:
+- Total mentions across all platforms: ${total}
+- Estimated impressions: ${allImpr.toLocaleString()}
+- Brand Presence Score (BPS): ${bps}/100 (Grade: ${grade})
+- Sentiment: ${pos} positive, ${neg} negative, ${neu} neutral
+- Platform breakdown: ${platLines}
+- Active platforms: ${Object.keys(platMap).filter(p=>platMap[p]>0).length}
+
+${versionInstructions}
+
+${formatInstructions}
+
+Write only the report text. No preamble, no "here is the report", no explanation. Just the report itself.`;
+
+  let reportText = '';
+
+  if(cfg.claudeKey){
+    try{
+      const res = await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json',
+          'x-api-key':cfg.claudeKey,
+          'anthropic-version':'2023-06-01',
+          'anthropic-dangerous-direct-browser-access':'true'
+        },
+        body:JSON.stringify({
+          model:'claude-sonnet-4-20250514',
+          max_tokens:1000,
+          messages:[{role:'user',content:prompt}]
+        })
+      });
+      const data = await res.json();
+      if(data?.content?.[0]?.text){
+        reportText = data.content[0].text;
+        debugLog('✅ Report generated via Claude API');
+      } else {
+        debugLog('⚠ Claude API returned unexpected response, using template fallback');
+        reportText = buildFallbackReport(total, allImpr, bps, grade, pos, neg, platMap, today);
+      }
+    }catch(e){
+      debugLog('⚠ Claude API error: '+e.message+' — using template fallback');
+      reportText = buildFallbackReport(total, allImpr, bps, grade, pos, neg, platMap, today);
+    }
+  } else {
+    debugLog('ℹ No Claude API key — using template fallback');
+    reportText = buildFallbackReport(total, allImpr, bps, grade, pos, neg, platMap, today);
+  }
+
+  body.innerHTML = `<div class="report-text" id="reportTextContent">${reportText}</div>`;
+
+  // Save to history
+  _reportHistory.unshift({
+    time: new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}),
+    format: formatLabels[_reportFormat]||'Report',
+    version: _reportVersion,
+    bps,
+    total
+  });
+  renderReportHistory();
+
+  btn.disabled = false;
+  btn.innerHTML = '✦ Generate ORM Report';
+}
+
+function buildFallbackReport(total, allImpr, bps, grade, pos, neg, platMap, today){
+  const topPlats = Object.entries(platMap).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([p,c])=>`${p} (${c})`).join(', ');
+  const posPercent = total>0?Math.round((pos/total)*100):0;
+
+  if(_reportFormat==='linkedin'){
+    if(_reportVersion==='short'){
+      return `Polaris School of Technology — ${today} ORM Update\n\n${total} brand mentions across platforms. BPS: ${bps}/100 (${grade}). Top platforms: ${topPlats}.`;
+    } else if(_reportVersion==='medium'){
+      return `Polaris School of Technology ORM — ${today}\n\nAs of today, Polaris has accumulated ${total.toLocaleString()} brand mentions with an estimated ${fmtNum(allImpr)} impressions across ${Object.keys(platMap).filter(p=>platMap[p]>0).length} active platforms. Our Brand Presence Score stands at ${bps}/100 (Grade ${grade}). Sentiment is ${posPercent}% positive. Highest volume platforms: ${topPlats}. ${neg>0?`${neg} negative mentions flagged for review.`:'No negative mentions flagged.'}`;
+    } else {
+      return `Polaris School of Technology — Full ORM Report (${today})\n\nEXECUTIVE SUMMARY\nPolaris has ${total.toLocaleString()} total mentions and a Brand Presence Score of ${bps}/100 (${grade}).\n\nPLATFORM BREAKDOWN\n${Object.entries(platMap).sort((a,b)=>b[1]-a[1]).map(([p,c])=>`• ${p}: ${c} mentions`).join('\n')}\n\nSENTIMENT\n${pos} positive · ${neg} negative · ${total-pos-neg} neutral (${posPercent}% positive rate)\n\nKEY INSIGHT\n${bps>=65?'Brand presence is healthy. Focus on converting awareness into direct inquiries.':bps>=50?'Moderate presence. Increase Quora and Medium activity for faster growth.':'Brand visibility is still building. Prioritise portal listings and Quora seeding.'}\n\nNEXT STEP\n${neg>0?'Address the '+neg+' negative mention(s) with a response plan this week.':'Continue current content cadence and target 5 new Quora answers this week.'}`;
+    }
+  } else if(_reportFormat==='internal'){
+    return `ORM Update — ${today}\n\n• Total mentions: ${total.toLocaleString()}\n• Impressions: ~${fmtNum(allImpr)}\n• BPS: ${bps}/100 (${grade})\n• Sentiment: ${posPercent}% positive, ${neg} negatives flagged\n• Top platforms: ${topPlats}\n\nAction: ${neg>0?'Review and respond to '+neg+' negative mention(s).':'Maintain current posting cadence.'}`;
+  } else if(_reportFormat==='email'){
+    return `Subject: ORM Update — ${today}\n\nHi team,\n\nQuick ORM update for ${today}. Polaris currently has ${total.toLocaleString()} brand mentions across ${Object.keys(platMap).filter(p=>platMap[p]>0).length} platforms with a BPS of ${bps}/100 (${grade}).\n\nTop platforms: ${topPlats}. Sentiment is ${posPercent}% positive. ${neg>0?neg+' negative mentions need attention.':'No negatives flagged.'}\n\nThanks,\nAditya`;
+  } else {
+    return `## ORM Status — ${today}\n\n**Status:** ${grade} (${bps}/100)\n\n### Platform Breakdown\n${Object.entries(platMap).sort((a,b)=>b[1]-a[1]).map(([p,c])=>`- **${p}:** ${c}`).join('\n')}\n\n### Sentiment\n- Positive: ${pos}\n- Negative: ${neg}\n- Neutral: ${total-pos-neg}\n\n### Next Action\n${neg>0?'Address '+neg+' negative mention(s) this week.':'Maintain content cadence.'}`;
+  }
+}
+
+function renderReportHistory(){
+  const h = id('reportHistory');
+  if(!h) return;
+  if(!_reportHistory.length){ h.innerText='No reports generated yet this session.'; return; }
+  h.innerHTML = _reportHistory.slice(0,5).map((r,i)=>`
+    <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--card2);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;font-size:12px">
+      <span style="color:var(--text2)">${r.time}</span>
+      <span style="color:var(--text)">${r.format}</span>
+      <span style="color:var(--text2)">${r.version}</span>
+      <span style="margin-left:auto;color:var(--gold)">BPS ${r.bps} · ${r.total} mentions</span>
+    </div>`).join('');
+}
+
+async function copyReport(mode){
+  const textEl = id('reportTextContent');
+  if(!textEl){ alert('Generate a report first.'); return; }
+  let text = textEl.innerText;
+  if(mode==='markdown'){
+    text = text.replace(/^(.+)$/gm, (line)=>line.startsWith('•')?line:line);
+  }
+  try{
+    await navigator.clipboard.writeText(text);
+    const btn = id(mode==='markdown'?'copyMdBtn':'copyTextBtn');
+    if(btn){ btn.innerText='Copied!'; btn.classList.add('copied'); setTimeout(()=>{btn.innerText=mode==='markdown'?'Copy Markdown':'Copy Text';btn.classList.remove('copied');},2000); }
+  }catch(e){ alert('Copy failed — please select the text manually.'); }
 }
 
 // ═══════════════════════════════════════════════════════
@@ -859,7 +1160,7 @@ function filterMentions(filter,btn){
 }
 
 // ═══════════════════════════════════════════════════════
-// SOCIAL MEDIA TAB (Apify data from social.json)
+// SOCIAL MEDIA TAB
 // ═══════════════════════════════════════════════════════
 let _currentSocial='linkedin';
 function switchSocial(platform, btn){
@@ -873,20 +1174,11 @@ function renderSocial(platform){
   const data=_social.filter(m=>normalizePlatform(m.platform)===platform);
   const color=PLAT_COLORS[platform]||'#888';
   const platLabel={linkedin:'💼 LinkedIn',twitter:'𝕏 Twitter',instagram:'📸 Instagram',facebook:'👥 Facebook'}[platform]||platform;
-
   if(!data.length){
     const lastRun=_social.length?'social.json loaded but no '+platform+' data':'social.json not found yet';
-    container.innerHTML=`
-      <div class="empty-state">
-        <div class="empty-state-icon">📱</div>
-        <div class="empty-state-title">No ${platLabel} data</div>
-        <div style="font-size:12px;margin-top:6px;max-width:480px;margin-left:auto;margin-right:auto">
-          ${lastRun}. <br>See the <b>Debug tab</b> for status and the repo README for GitHub Actions setup.
-        </div>
-      </div>`;
+    container.innerHTML=`<div class="empty-state"><div class="empty-state-icon">📱</div><div class="empty-state-title">No ${platLabel} data</div><div style="font-size:12px;margin-top:6px;max-width:480px;margin-left:auto;margin-right:auto">${lastRun}.</div></div>`;
     return;
   }
-
   const cards=data.slice(0,60).map(m=>{
     const author=m.author||m.accountName||m.username||m.handle||'Unknown';
     const text  =m.text||m.caption||m.content||'';
@@ -899,33 +1191,29 @@ function renderSocial(platform){
     const sent  =m.sentiment||'neutral';
     const sCol  =sent==='positive'?'#22c55e':sent==='negative'?'#ef4444':'#9ca3af';
     const tagsP =m.tags_polaris||m.tagsPolaris||'';
-    return `
-      <div class="social-card">
-        <span class="sc-platform" style="background:${color}22;color:${color}">${platLabel}</span>
-        <div class="sc-author">${author}</div>
-        <div class="sc-meta">${date}</div>
-        <div class="sc-text">${text.substring(0,160)}</div>
-        <div class="sc-stats">
-          ${likes?'<span>♥ '+fmtNum(likes)+'</span>':''}
-          ${comms?'<span>💬 '+fmtNum(comms)+'</span>':''}
-          ${reposts?'<span>🔁 '+fmtNum(reposts)+'</span>':''}
-          ${impr?'<span>👁 ~'+fmtNum(impr)+'</span>':''}
-        </div>
-        <div class="sc-badges">
-          <span style="background:${sCol}22;color:${sCol};padding:2px 7px;border-radius:4px;font-size:10px;font-weight:600">${sent}</span>
-          ${tagsP==='Yes'?'<span style="background:rgba(255,204,63,.1);color:var(--gold);padding:2px 7px;border-radius:4px;font-size:10px;font-weight:600">🎯 PST Tagged</span>':''}
-        </div>
-        <a href="${url}" target="_blank" class="sc-link" style="background:${color}cc">View Post ↗</a>
-      </div>`;
+    return `<div class="social-card">
+      <span class="sc-platform" style="background:${color}22;color:${color}">${platLabel}</span>
+      <div class="sc-author">${author}</div>
+      <div class="sc-meta">${date}</div>
+      <div class="sc-text">${text.substring(0,160)}</div>
+      <div class="sc-stats">
+        ${likes?'<span>♥ '+fmtNum(likes)+'</span>':''}
+        ${comms?'<span>💬 '+fmtNum(comms)+'</span>':''}
+        ${reposts?'<span>🔁 '+fmtNum(reposts)+'</span>':''}
+        ${impr?'<span>👁 ~'+fmtNum(impr)+'</span>':''}
+      </div>
+      <div class="sc-badges">
+        <span style="background:${sCol}22;color:${sCol};padding:2px 7px;border-radius:4px;font-size:10px;font-weight:600">${sent}</span>
+        ${tagsP==='Yes'?'<span style="background:rgba(255,204,63,.1);color:var(--gold);padding:2px 7px;border-radius:4px;font-size:10px;font-weight:600">🎯 PST Tagged</span>':''}
+      </div>
+      <a href="${url}" target="_blank" class="sc-link" style="background:${color}cc">View Post ↗</a>
+    </div>`;
   }).join('');
-
-  container.innerHTML=`
-    <div style="font-size:12px;color:var(--text2);margin-bottom:14px">${data.length} ${platLabel} mentions loaded</div>
-    <div class="social-cards-grid">${cards}</div>`;
+  container.innerHTML=`<div style="font-size:12px;color:var(--text2);margin-bottom:14px">${data.length} ${platLabel} mentions loaded</div><div class="social-cards-grid">${cards}</div>`;
 }
 
 // ═══════════════════════════════════════════════════════
-// MY CONTENT (Google Sheets)
+// MY CONTENT
 // ═══════════════════════════════════════════════════════
 let _curContent='reddit';
 function switchContentPlatform(key,btn){
@@ -940,9 +1228,7 @@ async function renderContentTab(key){
   const cfg=getSavedConfig();
   const sheet=(cfg.sheets||{})[key];
   if(!sheet||!sheet.id){
-    body.innerHTML=`<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:40px">
-      <div class="empty-state-icon">📋</div>No Google Sheet connected for this platform.<br>
-      <span style="font-size:11px">Add Sheet ID in ⚙ Settings.</span></td></tr>`;
+    body.innerHTML=`<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:40px"><div class="empty-state-icon">📋</div>No Google Sheet connected for this platform.<br><span style="font-size:11px">Add Sheet ID in ⚙ Settings.</span></td></tr>`;
     meta.innerText=''; head.innerHTML=''; return;
   }
   body.innerHTML=`<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:30px"><span class="spinner"></span> Loading from Google Sheet…</td></tr>`;
@@ -1199,6 +1485,7 @@ function switchTab(name, btn){
   if(btn) btn.classList.add('active');
   if(name==='content') renderContentTab(_curContent);
   if(name==='social') renderSocial(_currentSocial);
+  if(name==='report') renderReportTab();
 }
 
 // ═══════════════════════════════════════════════════════
