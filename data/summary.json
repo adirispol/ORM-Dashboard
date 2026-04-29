@@ -1,13 +1,34 @@
 {
   "total_mentions": 0,
-  "platforms": {},
-  "campaigns": {},
-  "sentiment": {
-    "positive": 0,
-    "neutral": 0,
-    "negative": 0
+  "total_social": 395,
+  "total_combined": 395,
+  "platforms": {
+    "twitter": 361,
+    "instagram": 33,
+    "facebook": 1
   },
-  "impressions": 0,
-  "impressions_note": "Mixed: Reddit=engagement_estimate, YouTube=real_views, others=search_position_estimate",
-  "last_updated": "2026-04-29T08:44:05.091873+00:00"
+  "campaigns": {
+    "General": 142,
+    "VibeCon": 233,
+    "Lyzr/Agentathon": 6,
+    "GSoC 2025": 11,
+    "Admissions 2026": 3
+  },
+  "sentiment": {
+    "positive": 260,
+    "neutral": 123,
+    "negative": 12
+  },
+  "impressions": 953390,
+  "impression_formulas": {
+    "linkedin": "reactions × 80  [Polaris formula: LinkedIn hides real impressions]",
+    "twitter": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "instagram": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
+    "reddit": "upvotes × 12 + comments × 25  [engagement-anchored estimate]",
+    "quora": "upvotes × 40  [Quora question votes are strong engagement signal]",
+    "youtube": "viewCount from YouTube Data API (REAL)",
+    "news": "domain tier: major=8000, regional=3000, blog=800  [estimate]",
+    "web": "Google search position × 600 + 400  [visibility estimate]"
+  },
+  "last_updated": "2026-04-29T12:28:39.495028+00:00"
 }

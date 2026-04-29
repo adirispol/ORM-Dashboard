@@ -1,0 +1,243 @@
+{
+  "crawl_time": "2026-04-29T12:28:39.518154+00:00",
+  "total_social": 395,
+  "total_mentions": 0,
+  "impression_formulas": {
+    "linkedin": "reactions × 80  [Polaris formula: LinkedIn hides real impressions]",
+    "twitter": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "instagram": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
+    "reddit": "upvotes × 12 + comments × 25  [engagement-anchored estimate]",
+    "quora": "upvotes × 40  [Quora question votes are strong engagement signal]",
+    "youtube": "viewCount from YouTube Data API (REAL)",
+    "news": "domain tier: major=8000, regional=3000, blog=800  [estimate]",
+    "web": "Google search position × 600 + 400  [visibility estimate]"
+  },
+  "campaign_keywords": {
+    "VibeCon": [
+      "vibecon",
+      "vibe con",
+      "#vibecon",
+      "vibecon2025",
+      "vibecon2026"
+    ],
+    "Lyzr/Agentathon": [
+      "lyzr",
+      "agentathon",
+      "#lyzrai",
+      "lyzr architect"
+    ],
+    "GSoC 2025": [
+      "gsoc",
+      "google summer of code",
+      "gsoc2025",
+      "gsoc polaris"
+    ],
+    "Admissions 2026": [
+      "admission",
+      "scholarship",
+      "pat exam",
+      "jee polaris",
+      "fee structure",
+      "join polaris",
+      "apply polaris"
+    ],
+    "vs Competitors": [
+      "scaler vs polaris",
+      "newton vs polaris",
+      "polaris vs scaler",
+      "polaris vs newton",
+      "nxtwave vs",
+      "which is better polaris"
+    ],
+    "Campus Life": [
+      "life at polaris",
+      "campus polaris",
+      "hostel polaris",
+      "whitefield",
+      "electronic city polaris"
+    ]
+  },
+  "actor_runs": [
+    {
+      "actor": "2SyF0bVxmgGr8IVCZ",
+      "label": "LinkedIn:Polaris School of Technol",
+      "status": "FAILED_TO_START",
+      "items": 0
+    },
+    {
+      "actor": "2SyF0bVxmgGr8IVCZ",
+      "label": "LinkedIn:#polariscampus",
+      "status": "FAILED_TO_START",
+      "items": 0
+    },
+    {
+      "actor": "2SyF0bVxmgGr8IVCZ",
+      "label": "LinkedIn:#VibeCon",
+      "status": "FAILED_TO_START",
+      "items": 0
+    },
+    {
+      "actor": "2SyF0bVxmgGr8IVCZ",
+      "label": "LinkedIn:#VibeCon2025",
+      "status": "FAILED_TO_START",
+      "items": 0
+    },
+    {
+      "actor": "2SyF0bVxmgGr8IVCZ",
+      "label": "LinkedIn:#VibeCon2026",
+      "status": "FAILED_TO_START",
+      "items": 0
+    },
+    {
+      "actor": "2SyF0bVxmgGr8IVCZ",
+      "label": "LinkedIn:VibeCon Polaris",
+      "status": "FAILED_TO_START",
+      "items": 0
+    },
+    {
+      "actor": "2SyF0bVxmgGr8IVCZ",
+      "label": "LinkedIn:Lyzr Polaris",
+      "status": "FAILED_TO_START",
+      "items": 0
+    },
+    {
+      "actor": "2SyF0bVxmgGr8IVCZ",
+      "label": "LinkedIn:Agentathon Polaris",
+      "status": "FAILED_TO_START",
+      "items": 0
+    },
+    {
+      "actor": "2SyF0bVxmgGr8IVCZ",
+      "label": "LinkedIn:GSoC Polaris",
+      "status": "FAILED_TO_START",
+      "items": 0
+    },
+    {
+      "actor": "2SyF0bVxmgGr8IVCZ",
+      "label": "LinkedIn:#polarisschooloftechnolog",
+      "status": "FAILED_TO_START",
+      "items": 0
+    },
+    {
+      "actor": "apidojo~tweet-scraper",
+      "label": "Twitter:\"Polaris School of Techno",
+      "status": "SUCCEEDED",
+      "run_id": "7q9rUWd3RPfTGx5PW",
+      "items_raw": 69,
+      "run_url": "https://console.apify.com/actors/runs/7q9rUWd3RPfTGx5PW"
+    },
+    {
+      "actor": "apidojo~tweet-scraper",
+      "label": "Twitter:#polariscampus OR @polari",
+      "status": "SUCCEEDED",
+      "run_id": "hLBwpVYy7mELT5uh7",
+      "items_raw": 172,
+      "run_url": "https://console.apify.com/actors/runs/hLBwpVYy7mELT5uh7"
+    },
+    {
+      "actor": "apidojo~tweet-scraper",
+      "label": "Twitter:#VibeCon OR #VibeCon2025 ",
+      "status": "SUCCEEDED",
+      "run_id": "fp5L56gfnBWvipLJX",
+      "items_raw": 205,
+      "run_url": "https://console.apify.com/actors/runs/fp5L56gfnBWvipLJX"
+    },
+    {
+      "actor": "apidojo~tweet-scraper",
+      "label": "Twitter:Agentathon Polaris OR Lyz",
+      "status": "FAILED_TO_START",
+      "items": 0
+    },
+    {
+      "actor": "apidojo~tweet-scraper",
+      "label": "Twitter:GSoC 2025 Polaris",
+      "status": "SUCCEEDED",
+      "run_id": "brHbmyPeGgJ6866Wh",
+      "items_raw": 2,
+      "run_url": "https://console.apify.com/actors/runs/brHbmyPeGgJ6866Wh"
+    },
+    {
+      "actor": "apify~instagram-scraper",
+      "label": "Instagram",
+      "status": "SUCCEEDED",
+      "run_id": "pqorBaxs9f5ZjE9J6",
+      "items_raw": 33,
+      "run_url": "https://console.apify.com/actors/runs/pqorBaxs9f5ZjE9J6"
+    },
+    {
+      "actor": "apify~facebook-pages-scraper",
+      "label": "Facebook",
+      "status": "SUCCEEDED",
+      "run_id": "IC47NjXATKvdspUBh",
+      "items_raw": 1,
+      "run_url": "https://console.apify.com/actors/runs/IC47NjXATKvdspUBh"
+    },
+    {
+      "actor": "trudax~reddit-scraper",
+      "label": "Reddit:Polaris School of Technol",
+      "status": "FAILED_TO_START",
+      "items": 0
+    },
+    {
+      "actor": "trudax~reddit-scraper",
+      "label": "Reddit:PST Bangalore Polaris",
+      "status": "FAILED_TO_START",
+      "items": 0
+    },
+    {
+      "actor": "trudax~reddit-scraper",
+      "label": "Reddit:VibeCon Polaris",
+      "status": "FAILED_TO_START",
+      "items": 0
+    },
+    {
+      "actor": "apify~quora-scraper",
+      "label": "Quora",
+      "status": "FAILED_TO_START",
+      "items": 0
+    },
+    {
+      "actor": "bernardo_breder~youtube-video-detail-scraper",
+      "label": "YouTube",
+      "status": "FAILED_TO_START",
+      "items": 0
+    },
+    {
+      "actor": "apify~google-search-scraper",
+      "label": "Web:\"Polaris School of Techno",
+      "status": "FAILED_TO_START",
+      "items": 0
+    },
+    {
+      "actor": "apify~google-search-scraper",
+      "label": "Web:\"Polaris School of Techno",
+      "status": "FAILED_TO_START",
+      "items": 0
+    },
+    {
+      "actor": "apify~google-search-scraper",
+      "label": "Web:\"Polaris School of Techno",
+      "status": "FAILED_TO_START",
+      "items": 0
+    },
+    {
+      "actor": "apify~google-search-scraper",
+      "label": "Web:\"Polaris School of Techno",
+      "status": "FAILED_TO_START",
+      "items": 0
+    },
+    {
+      "actor": "apify~google-search-scraper",
+      "label": "Web:\"VibeCon\" Polaris",
+      "status": "FAILED_TO_START",
+      "items": 0
+    },
+    {
+      "actor": "apify~google-search-scraper",
+      "label": "Web:\"Polaris School of Techno",
+      "status": "FAILED_TO_START",
+      "items": 0
+    }
+  ],
+  "how_to_verify": "Each actor_run has a run_url — open it in Apify console to see the exact raw data returned. item counts here match what Apify stored in its dataset for that run."
+}
