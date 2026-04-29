@@ -1,9 +1,12 @@
 """
-Polaris ORM — Apify Social Crawler
-Writes: data/social.json
-Platforms: LinkedIn, Twitter/X, Instagram, Facebook
-Run: python scripts/apify_social.py
-Triggered by: .github/workflows/apify-social-crawler.yml
+Polaris ORM — Apify Social Crawler v2
+Fixes:
+  - LinkedIn: switched to working actor ID + hashtag/keyword queries
+  - Instagram: scrapes #polariscampus + @polariscampus
+  - History: appends every run to data/history.json (never overwrites)
+  - Impressions: labelled as estimated, real engagement used where available
+  - VibeCon / Lyzr / GSoC hashtags now included in all platform queries
+Writes: data/social.json, data/history.json
 """
 
 import os, json, time, urllib.request, urllib.parse
@@ -12,105 +15,137 @@ from datetime import datetime, timezone
 APIFY_TOKEN = os.getenv("APIFY_TOKEN", "")
 APIFY_BASE  = "https://api.apify.com/v2"
 
+# ── Brand identifiers ──────────────────────────────────────────────────────
 BRAND_KEYWORD = "Polaris School of Technology"
-BRAND_TERMS   = ["polaris", "polariscampus", "polaris school of technology", "pst bengaluru", "polaris btech"]
-COMPETITORS   = ["scaler school of technology", "newton school", "upgrad", "great learning"]
+BRAND_TERMS   = [
+    "polaris school of technology", "polariscampus", "polaris btech",
+    "pst bengaluru", "polaris bangalore", "@polaris_code",
+]
 
-# -------------------------------------------------------
-# ACTOR IDs — verified working as of April 2025
-# -------------------------------------------------------
+# ── Event / Campaign hashtags (add new events here) ───────────────────────
+EVENT_HASHTAGS = [
+    "#VibeCon", "#VibeCon2025", "#VibeCon2026", "VibeCon",
+    "#LyzrAI", "Lyzr Agentathon", "Agentathon",
+    "#GSoC2025", "GSoC Polaris",
+    "#PolarisSchoolOfTechnology", "#polariscampus",
+]
+
+COMPETITORS = [
+    "scaler school of technology", "newton school of technology",
+    "upgrad", "great learning",
+]
+
+# ── Actor IDs (verified April 2025) ───────────────────────────────────────
+# LinkedIn: using 2SyF0bVxmgGr8IVCZ (Linkedin Post Searcher) — more reliable
+# than curious_coder actor which requires cookies
 ACTORS = {
-    "linkedin":  "curious_coder~linkedin-post-search-scraper",
-    "twitter":   "apidojo~tweet-scraper",
-    "instagram": "apify~instagram-scraper",
-    "facebook":  "apify~facebook-pages-scraper",
+    "linkedin":   "2SyF0bVxmgGr8IVCZ",
+    "twitter":    "apidojo~tweet-scraper",
+    "instagram":  "apify~instagram-scraper",
+    "facebook":   "apify~facebook-pages-scraper",
 }
 
 MAX_ITEMS = {
-    "linkedin":  25,
-    "twitter":   50,
-    "instagram": 20,
-    "facebook":  20,
+    "linkedin":   50,   # upped from 25 — VibeCon had 200+ posts
+    "twitter":    80,
+    "instagram":  30,
+    "facebook":   20,
 }
 
-# -------------------------------------------------------
-# HELPERS
-# -------------------------------------------------------
-def now():
+# ── Helpers ────────────────────────────────────────────────────────────────
+def now_iso():
     return datetime.now(timezone.utc).isoformat()
 
 def log(msg):
-    print(f"[{datetime.now().strftime('%H:%M:%S')}]   {msg}", flush=True)
+    print(f"[{datetime.now().strftime('%H:%M:%S')}]  {msg}", flush=True)
 
 def sentiment(text):
-    t = text.lower()
-    neg = ["scam","fake","bad","worst","fraud","cheating","avoid","terrible","useless",
-           "disappointed","overrated","waste","horrible","pathetic"]
-    pos = ["good","great","best","awesome","excellent","top","recommended","proud",
-           "brilliant","selected","placement","placed","got into","joined","accepted",
-           "offer","gsoc","lxf","c4gt","amazing","love","happy","congrats"]
-    if any(w in t for w in neg): return "negative"
-    if any(w in t for w in pos): return "positive"
+    t = (text or "").lower()
+    neg_words = ["scam","fake","bad","worst","fraud","cheating","avoid",
+                 "terrible","useless","disappointed","overrated","waste",
+                 "horrible","pathetic","misleading","wrong","lied"]
+    pos_words = ["good","great","best","awesome","excellent","top",
+                 "recommended","proud","brilliant","selected","placement",
+                 "placed","got into","joined","accepted","offer","gsoc",
+                 "amazing","love","incredible","fantastic","congrats",
+                 "winner","built","shipped","demo","hackathon win",
+                 "vibecon","lyzr","agentathon","impressed","productive"]
+    if any(w in t for w in neg_words): return "negative"
+    if any(w in t for w in pos_words): return "positive"
     return "neutral"
 
-def tags_polaris(text):
-    return "Yes" if any(k in text.lower() for k in BRAND_TERMS) else "No"
+def is_polaris(text):
+    t = (text or "").lower()
+    return any(term in t for term in BRAND_TERMS + [ht.lower().lstrip("#") for ht in EVENT_HASHTAGS])
+
+def detect_campaign(text):
+    t = (text or "").lower()
+    if any(k in t for k in ["vibecon","vibe con"]): return "VibeCon"
+    if any(k in t for k in ["lyzr","agentathon"]): return "Lyzr/Agentathon"
+    if "gsoc" in t or "google summer of code" in t: return "GSoC 2025"
+    if any(k in t for k in ["admission","fee","scholarship","join","pat exam","jee"]): return "Admissions"
+    if any(k in t for k in ["scaler","newton","nxtwave","intellipaat","upgrad"]): return "vs Competitors"
+    return None
 
 def check_competitor(text):
-    found = [c.title() for c in COMPETITORS if c in text.lower()]
-    return ", ".join(found) if found else "None"
+    t = (text or "").lower()
+    for c in COMPETITORS:
+        if c in t: return c.title()
+    return "None"
 
+# ── Apify API wrapper ──────────────────────────────────────────────────────
 def apify_request(method, path, body=None):
     url = f"{APIFY_BASE}{path}?token={APIFY_TOKEN}"
     data = json.dumps(body).encode() if body else None
-    headers = {"Content-Type": "application/json"} if body else {}
+    headers = {"Content-Type": "application/json"}
     req = urllib.request.Request(url, data=data, headers=headers, method=method)
     try:
-        with urllib.request.urlopen(req, timeout=60) as r:
-            return json.loads(r.read().decode())
-    except urllib.error.HTTPError as e:
-        body_text = e.read().decode()
-        raise Exception(f"HTTP Error {e.code}: {e.reason} | {body_text[:300]}")
+        with urllib.request.urlopen(req, timeout=30) as r:
+            return json.loads(r.read())
+    except Exception as e:
+        log(f"  API error {method} {path}: {e}")
+        return {}
 
 def run_actor(actor_id, payload, label=""):
-    log(f"Starting {label} actor: {actor_id}")
+    log(f"Starting [{label}] actor: {actor_id}")
     res = apify_request("POST", f"/acts/{actor_id}/runs", payload)
+    if not res or "data" not in res:
+        log(f"  [{label}] failed to start — no data in response")
+        return []
     run_id = res["data"]["id"]
-    log(f"  Run ID: {run_id}")
+    log(f"  [{label}] Run ID: {run_id}")
 
-    # Poll for completion — max 5 minutes
-    for i in range(75):
+    # Poll for completion — max 6 minutes
+    status = "RUNNING"
+    for i in range(90):
         time.sleep(4)
         try:
-            status_data = apify_request("GET", f"/actor-runs/{run_id}")
-            status = status_data["data"]["status"]
+            sd = apify_request("GET", f"/actor-runs/{run_id}")
+            status = (sd.get("data") or {}).get("status", "UNKNOWN")
             if i % 5 == 0:
-                log(f"  {label} status: {status} ({i*4}s elapsed)")
+                log(f"  [{label}] status: {status} ({i*4}s)")
             if status in ("SUCCEEDED", "FAILED", "ABORTED", "TIMED-OUT"):
                 break
         except Exception as e:
-            log(f"  Status check error: {e}")
-            continue
+            log(f"  [{label}] poll error: {e}")
 
     if status != "SUCCEEDED":
-        log(f"  {label} ended with: {status}")
+        log(f"  [{label}] ended with status: {status} — returning []")
         return []
 
     try:
         items = apify_request("GET", f"/actor-runs/{run_id}/dataset/items")
         count = len(items) if isinstance(items, list) else 0
-        log(f"  {label}: {count} raw items retrieved")
+        log(f"  [{label}] fetched {count} items")
         return items if isinstance(items, list) else []
     except Exception as e:
-        log(f"  Failed to fetch dataset: {e}")
+        log(f"  [{label}] dataset fetch error: {e}")
         return []
 
-# -------------------------------------------------------
-# DATE PARSER
-# -------------------------------------------------------
+# ── Date parser ────────────────────────────────────────────────────────────
 def parse_dt(item):
     for key in ("posted_at","createdAt","created_at","postedAtISO","publishedAt",
-                "date","timestamp","time","created_time","updatedAt"):
+                "date","timestamp","time","created_time","updatedAt","taken_at_timestamp"):
         val = item.get(key)
         if not val:
             continue
@@ -121,8 +156,7 @@ def parse_dt(item):
                     t = int(ts)
                     if t > 1e12: t //= 1000
                     return datetime.fromtimestamp(t, tz=timezone.utc).isoformat()
-                except:
-                    pass
+                except: pass
             continue
         s = str(val).strip()
         if s.isdigit():
@@ -130,273 +164,345 @@ def parse_dt(item):
                 t = int(s)
                 if t > 1e12: t //= 1000
                 return datetime.fromtimestamp(t, tz=timezone.utc).isoformat()
-            except:
-                pass
-        # Try ISO parse
+            except: pass
         try:
             return datetime.fromisoformat(s.replace("Z","+00:00")).isoformat()
-        except:
-            return s
-    return now()
+        except: pass
+    return now_iso()
 
-# -------------------------------------------------------
-# INGEST — LinkedIn
-# Input schema for curious_coder~linkedin-post-search-scraper:
-#   searchUrl: LinkedIn search URL
-#   count: number of posts
-# -------------------------------------------------------
+# ── Ingest: LinkedIn ───────────────────────────────────────────────────────
 def ingest_linkedin(raw):
     posts = []
     for item in raw:
         if not isinstance(item, dict):
             continue
-        # Author info
+        # Author
         af = item.get("author", {}) or {}
-        if not isinstance(af, dict):
-            af = {}
-        first = af.get("firstName","")
-        last  = af.get("lastName","")
-        name  = af.get("name","") or f"{first} {last}".strip() or item.get("authorName","Unknown")
+        if not isinstance(af, dict): af = {}
+        name = (af.get("name") or
+                f"{af.get('firstName','')} {af.get('lastName','')}".strip() or
+                item.get("authorName","Unknown"))
+        # Text
+        text = (item.get("text") or item.get("content") or
+                item.get("commentary") or item.get("description") or "")
+        if not text: continue
+        # Stats — LinkedIn Post Searcher uses different field names
+        stats   = item.get("stats", {}) or item.get("socialActivityCountsInsight", {}) or {}
+        likes   = int(item.get("numLikes") or item.get("likes") or
+                      stats.get("numLikes") or stats.get("likeCount") or
+                      item.get("reactionCount") or 0)
+        comments= int(item.get("numComments") or item.get("comments") or
+                      stats.get("numComments") or stats.get("commentCount") or 0)
+        reposts = int(item.get("numShares") or item.get("shares") or
+                      stats.get("numShares") or stats.get("repostCount") or 0)
+        # Impressions: LinkedIn doesn't expose them via Apify
+        # Use engagement proxy: (likes + comments*3 + reposts*5) * 50 as estimate
+        engagement = likes + comments * 3 + reposts * 5
+        impressions_est = max(engagement * 50, likes * 10, 100)
 
-        # Stats
-        stats   = item.get("stats", {}) or {}
-        likes   = int(stats.get("numLikes", item.get("numLikes", item.get("likes", 0))) or 0)
-        comments= int(stats.get("numComments", item.get("numComments", 0)) or 0)
-        reposts = int(stats.get("numShares", item.get("numShares", item.get("shares", 0))) or 0)
+        post_url = (item.get("url") or item.get("postUrl") or
+                    item.get("shareUrl") or item.get("link") or "")
 
-        # URL
-        act_id = str(item.get("activity_id","") or item.get("activityId",""))
-        url    = str(item.get("post_url","") or item.get("url","") or item.get("postUrl",""))
-        if not url and act_id.isdigit():
-            url = f"https://www.linkedin.com/feed/update/urn:li:activity:{act_id}/"
-        if not url:
-            continue
-
-        text = str(item.get("text","") or item.get("commentary",""))
         posts.append({
-            "platform":    "linkedin",
-            "author":      name,
-            "text":        text[:400],
-            "url":         url,
-            "date":        parse_dt(item),
-            "likes":       likes,
-            "comments":    comments,
-            "reposts":     reposts,
-            "impressions": likes * 80,
-            "sentiment":   sentiment(text),
-            "tags_polaris":tags_polaris(text),
-            "competitor":  check_competitor(text),
-            "scraped_at":  now(),
+            "platform":       "linkedin",
+            "author":         name,
+            "author_url":     af.get("profileUrl", af.get("url", "")),
+            "text":           text.strip()[:1000],
+            "url":            post_url,
+            "date":           parse_dt(item),
+            "likes":          likes,
+            "comments":       comments,
+            "reposts":        reposts,
+            "impressions":    impressions_est,
+            "impressions_type": "estimated",
+            "sentiment":      sentiment(text),
+            "campaign":       detect_campaign(text),
+            "tags_polaris":   "Yes" if is_polaris(text) else "No",
+            "competitor":     check_competitor(text),
+            "scraped_at":     now_iso(),
         })
-    # Deduplicate by URL
-    return list({p["url"]: p for p in posts}.values())
+    log(f"  LinkedIn: ingested {len(posts)} posts")
+    return posts
 
-# -------------------------------------------------------
-# INGEST — Twitter/X
-# Input schema for apidojo~tweet-scraper:
-#   searchTerms: list of query strings
-#   maxItems: number
-#   queryType: "Latest" or "Top"
-# -------------------------------------------------------
+# ── Ingest: Twitter ────────────────────────────────────────────────────────
 def ingest_twitter(raw):
     posts = []
     for item in raw:
-        if not isinstance(item, dict):
-            continue
-        ai     = item.get("author", item.get("user", {})) or {}
-        if not isinstance(ai, dict): ai = {}
-        author = ai.get("name","") or item.get("authorName","Unknown")
-        handle = ai.get("userName","") or ai.get("username","") or ai.get("screen_name","")
-        if handle and not handle.startswith("@"):
-            handle = f"@{handle}"
+        if not isinstance(item, dict): continue
+        text = (item.get("full_text") or item.get("text") or
+                item.get("rawContent") or item.get("content") or "")
+        if not text: continue
+        author = (item.get("user", {}) or {}).get("name") or item.get("author","")
+        likes   = int(item.get("likeCount") or item.get("favorite_count") or
+                      item.get("likes") or 0)
+        reposts = int(item.get("retweetCount") or item.get("retweet_count") or
+                      item.get("retweets") or 0)
+        comments= int(item.get("replyCount") or item.get("reply_count") or 0)
+        # Twitter impressions: real field if available, else estimate
+        impr_raw = item.get("viewCount") or item.get("impressionCount") or 0
+        impressions = int(impr_raw) if impr_raw else max((likes+reposts+comments)*30, 10)
+        impr_type   = "real" if impr_raw else "estimated"
 
-        likes    = int(item.get("likeCount", item.get("likes", item.get("favorite_count", 0))) or 0)
-        replies  = int(item.get("replyCount", item.get("replies", item.get("reply_count", 0))) or 0)
-        retweets = int(item.get("retweetCount", item.get("retweets", item.get("retweet_count", 0))) or 0)
-        views    = int(item.get("viewCount", item.get("views", 0)) or 0)
-        url      = item.get("url","") or item.get("tweetUrl","")
-        text     = str(item.get("text","") or item.get("full_text",""))
-
-        if not url:
-            continue
         posts.append({
-            "platform":    "twitter",
-            "author":      f"{author} {handle}".strip(),
-            "text":        text[:400],
-            "url":         url,
-            "date":        parse_dt(item),
-            "likes":       likes,
-            "comments":    replies,
-            "reposts":     retweets,
-            "impressions": views or (likes * 35),
-            "sentiment":   sentiment(text),
-            "tags_polaris":tags_polaris(text),
-            "competitor":  check_competitor(text),
-            "scraped_at":  now(),
+            "platform":         "twitter",
+            "author":           author,
+            "text":             text.strip()[:1000],
+            "url":              item.get("url") or item.get("twitterUrl") or "",
+            "date":             parse_dt(item),
+            "likes":            likes,
+            "comments":         comments,
+            "reposts":          reposts,
+            "impressions":      impressions,
+            "impressions_type": impr_type,
+            "sentiment":        sentiment(text),
+            "campaign":         detect_campaign(text),
+            "tags_polaris":     "Yes" if is_polaris(text) else "No",
+            "competitor":       check_competitor(text),
+            "scraped_at":       now_iso(),
         })
-    return list({p["url"]: p for p in posts if p["url"]}.values())
+    log(f"  Twitter: ingested {len(posts)} posts")
+    return posts
 
-# -------------------------------------------------------
-# INGEST — Instagram
-# Input schema for apify~instagram-scraper:
-#   directUrls: list of hashtag/profile URLs
-#   resultsLimit: number
-# -------------------------------------------------------
+# ── Ingest: Instagram ──────────────────────────────────────────────────────
 def ingest_instagram(raw):
     posts = []
     for item in raw:
-        if not isinstance(item, dict):
-            continue
-        username = item.get("ownerUsername","") or item.get("username","") or "unknown"
-        caption  = str(item.get("caption","") or item.get("text",""))
-        url      = item.get("url","") or ""
-        sc       = item.get("shortCode","") or item.get("id","")
-        if not url and sc:
-            url = f"https://www.instagram.com/p/{sc}/"
-        likes = int(item.get("likesCount","0") or item.get("likes", 0) or 0)
-        comms = int(item.get("commentsCount","0") or item.get("comments", 0) or 0)
+        if not isinstance(item, dict): continue
+        caption = (item.get("caption") or item.get("alt") or
+                   item.get("accessibility_caption") or "")
+        likes   = int(item.get("likesCount") or item.get("likes_count") or
+                      item.get("edge_media_preview_like",{}).get("count",0) or 0)
+        comments= int(item.get("commentsCount") or item.get("comments_count") or 0)
+        impr    = int(item.get("videoViewCount") or item.get("videoPlayCount") or 0)
+        impressions = impr if impr else max((likes + comments*5) * 20, 50)
 
         posts.append({
-            "platform":    "instagram",
-            "author":      f"@{username}",
-            "text":        caption[:400],
-            "url":         url,
-            "date":        parse_dt(item),
-            "likes":       likes,
-            "comments":    comms,
-            "reposts":     0,
-            "impressions": likes * 10,
-            "sentiment":   sentiment(caption),
-            "tags_polaris":tags_polaris(caption),
-            "competitor":  check_competitor(caption),
-            "scraped_at":  now(),
+            "platform":         "instagram",
+            "author":           item.get("ownerUsername") or item.get("username") or "",
+            "text":             caption.strip()[:1000],
+            "url":              item.get("url") or item.get("link") or "",
+            "date":             parse_dt(item),
+            "likes":            likes,
+            "comments":         comments,
+            "reposts":          0,
+            "impressions":      impressions,
+            "impressions_type": "real" if impr else "estimated",
+            "sentiment":        sentiment(caption),
+            "campaign":         detect_campaign(caption),
+            "tags_polaris":     "Yes" if is_polaris(caption) else "No",
+            "competitor":       check_competitor(caption),
+            "scraped_at":       now_iso(),
         })
+    log(f"  Instagram: ingested {len(posts)} posts")
     return posts
 
-# -------------------------------------------------------
-# INGEST — Facebook
-# Input schema for apify~facebook-pages-scraper:
-#   startUrls: list of page URLs
-#   maxPosts: number
-# -------------------------------------------------------
+# ── Ingest: Facebook ───────────────────────────────────────────────────────
 def ingest_facebook(raw):
     posts = []
     for item in raw:
-        if not isinstance(item, dict):
-            continue
-        user   = item.get("user",{}) or {}
-        author = (user.get("name","") if isinstance(user,dict) else str(user)) or item.get("pageName","Unknown")
-        text   = str(item.get("text","") or item.get("message","") or item.get("story",""))
-        url    = item.get("url","") or item.get("link","")
-        likes  = int(item.get("likes","0") or item.get("reactions",0) or 0)
-        shares = int(item.get("shares","0") or 0)
-        comms  = int(item.get("comments","0") or 0)
+        if not isinstance(item, dict): continue
+        text = (item.get("text") or item.get("story") or
+                item.get("message") or "")
+        likes   = int(item.get("likes") or item.get("likesCount") or 0)
+        comments= int(item.get("comments") or item.get("commentsCount") or 0)
+        shares  = int(item.get("shares") or item.get("sharesCount") or 0)
+        impressions = max((likes + comments*3 + shares*5) * 40, 50)
 
         posts.append({
-            "platform":    "facebook",
-            "author":      author,
-            "text":        text[:400],
-            "url":         url or "",
-            "date":        parse_dt(item),
-            "likes":       likes,
-            "comments":    comms,
-            "reposts":     shares,
-            "impressions": likes * 20,
-            "sentiment":   sentiment(text),
-            "tags_polaris":tags_polaris(text),
-            "competitor":  check_competitor(text),
-            "scraped_at":  now(),
+            "platform":         "facebook",
+            "author":           item.get("pageName") or item.get("authorName") or "",
+            "text":             text.strip()[:1000],
+            "url":              item.get("url") or item.get("postUrl") or "",
+            "date":             parse_dt(item),
+            "likes":            likes,
+            "comments":         comments,
+            "reposts":          shares,
+            "impressions":      impressions,
+            "impressions_type": "estimated",
+            "sentiment":        sentiment(text),
+            "campaign":         detect_campaign(text),
+            "tags_polaris":     "Yes" if is_polaris(text) else "No",
+            "competitor":       check_competitor(text),
+            "scraped_at":       now_iso(),
         })
+    log(f"  Facebook: ingested {len(posts)} posts")
     return posts
 
-# -------------------------------------------------------
-# MAIN
-# -------------------------------------------------------
+# ── History: append to data/history.json ──────────────────────────────────
+def append_history(all_posts, path="data/history.json"):
+    """
+    Adds a dated snapshot to history.json so we never lose past data.
+    Each entry: { date, total, by_platform, by_campaign, impressions, posts }
+    """
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
+    # Load existing history
+    existing = []
+    if os.path.exists(path):
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                existing = json.load(f)
+        except Exception as e:
+            log(f"  History read error: {e} — starting fresh")
+            existing = []
+
+    # Remove today's entry if it already exists (idempotent re-runs)
+    existing = [e for e in existing if e.get("date") != today]
+
+    # Build today's snapshot
+    by_platform = {}
+    by_campaign  = {}
+    total_impr   = 0
+    total_likes  = 0
+    for post in all_posts:
+        p = post.get("platform","unknown")
+        by_platform[p] = by_platform.get(p, 0) + 1
+        c = post.get("campaign") or "General"
+        by_campaign[c] = by_campaign.get(c, 0) + 1
+        total_impr  += post.get("impressions", 0)
+        total_likes += post.get("likes", 0)
+
+    snapshot = {
+        "date":        today,
+        "total_posts": len(all_posts),
+        "by_platform": by_platform,
+        "by_campaign": by_campaign,
+        "impressions": total_impr,
+        "likes":       total_likes,
+        "scraped_at":  now_iso(),
+        # Store last 30 posts per day for drill-down (keep file manageable)
+        "posts_sample": all_posts[:30],
+    }
+    existing.append(snapshot)
+
+    # Keep max 365 days
+    existing = sorted(existing, key=lambda x: x["date"])[-365:]
+
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(existing, f, ensure_ascii=False, indent=2)
+    log(f"  History updated: {len(existing)} days recorded, today: {len(all_posts)} posts")
+
+# ── Main ───────────────────────────────────────────────────────────────────
 def main():
     if not APIFY_TOKEN:
-        log("APIFY_TOKEN not set — exiting")
+        log("ERROR: APIFY_TOKEN not set — check GitHub Secrets")
         return
 
-    log(f"Starting Polaris social crawl — brand: '{BRAND_KEYWORD}'")
-    all_social = []
+    all_posts = []
 
-    # LinkedIn
-    # curious_coder~linkedin-post-search-scraper needs a LinkedIn search URL
-    # We search for posts mentioning Polaris School of Technology
-    li_search_url = "https://www.linkedin.com/search/results/content/?keywords=Polaris%20School%20of%20Technology&sortBy=%22date_posted%22"
-    try:
+    # ── LinkedIn ──────────────────────────────────────────────────────────
+    # Actor 2SyF0bVxmgGr8IVCZ = LinkedIn Post Searcher
+    # Queries: brand name + all event hashtags
+    log("=== LinkedIn ===")
+    li_queries = [
+        BRAND_KEYWORD,
+        "#PolarisSchoolOfTechnology",
+        "#polariscampus",
+        "#VibeCon",
+        "#VibeCon2025",
+        "#VibeCon2026",
+        "VibeCon Polaris",
+        "#LyzrAI Polaris",
+        "Agentathon Polaris",
+        "GSoC Polaris",
+    ]
+    for q in li_queries:
         raw = run_actor(ACTORS["linkedin"], {
-            "searchUrl": li_search_url,
-            "count":     MAX_ITEMS["linkedin"],
-        }, "LinkedIn")
-        posts = ingest_linkedin(raw)
-        log(f"  LinkedIn: {len(posts)} posts ingested")
-        all_social.extend(posts)
-    except Exception as e:
-        log(f"  LinkedIn error: {e}")
-    time.sleep(5)
+            "searchQuery":     q,
+            "maxResults":      MAX_ITEMS["linkedin"],
+            "onlyWithLinkedIn": False,
+        }, label=f"LinkedIn:{q[:30]}")
+        all_posts.extend(ingest_linkedin(raw))
+        time.sleep(2)
 
-    # Twitter/X — apidojo~tweet-scraper
-    try:
+    li_count_before = len(all_posts)
+    # Deduplicate LinkedIn by URL
+    seen_urls = set()
+    deduped = []
+    for p in all_posts:
+        key = p.get("url") or p.get("text","")[:80]
+        if key not in seen_urls:
+            seen_urls.add(key)
+            deduped.append(p)
+    all_posts = deduped
+    log(f"  LinkedIn after dedup: {len(all_posts)} (was {li_count_before})")
+
+    # ── Twitter / X ───────────────────────────────────────────────────────
+    log("=== Twitter / X ===")
+    tw_queries = [
+        f'"{BRAND_KEYWORD}"',
+        "#polariscampus",
+        "#VibeCon",
+        "#VibeCon2025 polaris",
+        "Agentathon polaris",
+        "@polaris_code",
+    ]
+    for q in tw_queries:
         raw = run_actor(ACTORS["twitter"], {
-            "searchTerms": [
-                BRAND_KEYWORD,
-                "#polariscampus",
-                "Polaris BTech Bangalore",
-                "PST Bengaluru",
-            ],
-            "maxItems":  MAX_ITEMS["twitter"],
-            "queryType": "Latest",
-        }, "Twitter")
-        posts = ingest_twitter(raw)
-        log(f"  Twitter: {len(posts)} tweets ingested")
-        all_social.extend(posts)
-    except Exception as e:
-        log(f"  Twitter error: {e}")
-    time.sleep(5)
+            "searchTerms":       [q],
+            "maxTweets":         MAX_ITEMS["twitter"],
+            "addUserInfo":       True,
+            "scrapeTweetReplies": False,
+        }, label=f"Twitter:{q[:25]}")
+        all_posts.extend(ingest_twitter(raw))
+        time.sleep(2)
 
-    # Instagram — apify~instagram-scraper
-    # Uses hashtag URLs or profile URLs
-    try:
-        raw = run_actor(ACTORS["instagram"], {
-            "directUrls": [
-                "https://www.instagram.com/explore/tags/polariscampus/",
-                "https://www.instagram.com/explore/tags/polarisschooloftechnology/",
-            ],
-            "resultsLimit": MAX_ITEMS["instagram"],
-        }, "Instagram")
-        posts = ingest_instagram(raw)
-        log(f"  Instagram: {len(posts)} posts ingested")
-        all_social.extend(posts)
-    except Exception as e:
-        log(f"  Instagram error: {e}")
-    time.sleep(5)
+    # ── Instagram ─────────────────────────────────────────────────────────
+    log("=== Instagram ===")
+    raw = run_actor(ACTORS["instagram"], {
+        "directUrls": [
+            "https://www.instagram.com/explore/tags/polariscampus/",
+            "https://www.instagram.com/explore/tags/polarisschooloftechnology/",
+            "https://www.instagram.com/explore/tags/vibecon/",
+            "https://www.instagram.com/polariscampus/",
+        ],
+        "resultsType": "posts",
+        "resultsLimit": MAX_ITEMS["instagram"],
+    }, label="Instagram")
+    all_posts.extend(ingest_instagram(raw))
+    time.sleep(2)
 
-    # Facebook — apify~facebook-pages-scraper
-    # Needs the Polaris Facebook page URL — update this if you have the real URL
-    POLARIS_FB_PAGE = os.getenv("POLARIS_FB_PAGE", "https://www.facebook.com/polariscampus")
-    try:
-        raw = run_actor(ACTORS["facebook"], {
-            "startUrls": [{"url": POLARIS_FB_PAGE}],
-            "maxPosts":  MAX_ITEMS["facebook"],
-        }, "Facebook")
-        posts = ingest_facebook(raw)
-        log(f"  Facebook: {len(posts)} posts ingested")
-        all_social.extend(posts)
-    except Exception as e:
-        log(f"  Facebook error: {e}")
+    # ── Facebook ──────────────────────────────────────────────────────────
+    log("=== Facebook ===")
+    raw = run_actor(ACTORS["facebook"], {
+        "startUrls": [
+            {"url": "https://www.facebook.com/polariscampus/"},
+        ],
+        "maxPosts": MAX_ITEMS["facebook"],
+    }, label="Facebook")
+    all_posts.extend(ingest_facebook(raw))
 
-    # Write output
+    # ── Final deduplication (all platforms) ───────────────────────────────
+    seen = set()
+    final = []
+    for p in all_posts:
+        key = (p.get("url") or "")[:100] or (p.get("text","")[:60] + p.get("platform",""))
+        if key not in seen:
+            seen.add(key)
+            final.append(p)
+
+    # Sort newest first
+    final.sort(key=lambda x: x.get("date",""), reverse=True)
+
+    log(f"\n=== DONE: {len(final)} total unique posts ===")
+    log(f"  By platform: " + ", ".join(
+        f"{p}: {sum(1 for x in final if x['platform']==p)}"
+        for p in ["linkedin","twitter","instagram","facebook"]
+    ))
+    campaigns = {}
+    for p in final:
+        c = p.get("campaign") or "General"
+        campaigns[c] = campaigns.get(c,0)+1
+    log(f"  By campaign: " + ", ".join(f"{k}: {v}" for k,v in campaigns.items()))
+
+    # ── Write social.json ─────────────────────────────────────────────────
     os.makedirs("data", exist_ok=True)
-    out_path = "data/social.json"
-    with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(all_social, f, indent=2, ensure_ascii=False)
+    with open("data/social.json", "w", encoding="utf-8") as f:
+        json.dump(final, f, ensure_ascii=False, indent=2)
+    log("  data/social.json written")
 
-    log(f"social.json written — {len(all_social)} total records")
-    log(f"  LinkedIn:  {sum(1 for p in all_social if p['platform']=='linkedin')}")
-    log(f"  Twitter:   {sum(1 for p in all_social if p['platform']=='twitter')}")
-    log(f"  Instagram: {sum(1 for p in all_social if p['platform']=='instagram')}")
-    log(f"  Facebook:  {sum(1 for p in all_social if p['platform']=='facebook')}")
+    # ── Append to history.json ────────────────────────────────────────────
+    append_history(final, "data/history.json")
 
 if __name__ == "__main__":
     main()
