@@ -1,17 +1,13 @@
 {
-  "total_mentions": 101,
-  "platforms": {
-    "reddit": 19,
-    "quora": 20,
-    "medium": 10,
-    "portal": 29,
-    "web": 23
-  },
+  "total_mentions": 0,
+  "platforms": {},
+  "campaigns": {},
   "sentiment": {
-    "neutral": 93,
-    "positive": 7,
-    "negative": 1
+    "positive": 0,
+    "neutral": 0,
+    "negative": 0
   },
-  "impressions": 244100,
-  "last_updated": "2026-04-21T10:56:14.820493+00:00"
+  "impressions": 0,
+  "impressions_note": "Mixed: Reddit=engagement_estimate, YouTube=real_views, others=search_position_estimate",
+  "last_updated": "2026-04-29T08:44:05.091873+00:00"
 }

@@ -1,0 +1,15 @@
+[
+  {
+    "date": "2026-04-29",
+    "total": 0,
+    "by_platform": {},
+    "by_campaign": {},
+    "impressions": 0,
+    "sentiment": {
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0
+    },
+    "scraped_at": "2026-04-29T08:44:05.092473+00:00"
+  }
+]
