@@ -1,19 +1,22 @@
-name: Polaris ORM Full Crawler
+name: Polaris ORM — Full Crawl (Apify + Claude)
 
 on:
   schedule:
-    # Every day at 6:30 AM IST (01:00 UTC)
-    - cron: "0 1 * * *"
+    # Every day at 7:00 AM IST (01:30 UTC)
+    # Best time: after overnight LinkedIn/Twitter activity, before work day
+    - cron: "30 1 * * *"
   workflow_dispatch:
-    # Manual trigger from GitHub Actions tab
+    # Manual trigger from GitHub Actions tab anytime
 
 permissions:
   contents: write
 
 jobs:
-  crawl-mentions:
-    name: Crawl mentions (Reddit, Quora, Medium, News, Portal, YouTube)
+  full-crawl:
+    name: Crawl all platforms via Apify
     runs-on: ubuntu-latest
+    timeout-minutes: 120
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -23,49 +26,18 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
-        run: pip install requests
-
-      - name: Run mentions crawler
-        env:
-          SERPER_KEY:   ${{ secrets.SERPER_KEY }}
-          YOUTUBE_KEY:  ${{ secrets.YOUTUBE_KEY }}
-          NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
-        run: python scripts/crawler.py
-
-      - name: Commit mentions + history
-        run: |
-          git config --global user.name "polaris-orm-bot"
-          git config --global user.email "orm-bot@polariscampus.com"
-          git add data/mentions.json data/summary.json data/history.json
-          git diff --cached --quiet || git commit -m "chore: crawl mentions $(date -u +%Y-%m-%d) [skip ci]"
-          git push
-
-  crawl-social:
-    name: Crawl social (LinkedIn, Twitter, Instagram, Facebook)
-    runs-on: ubuntu-latest
-    needs: crawl-mentions
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-        with:
-          # Pull latest after crawl-mentions commit
-          ref: main
-
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: Run Apify social crawler
+      - name: Run unified Apify crawler
         env:
           APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+          CLAUDE_KEY:  ${{ secrets.CLAUDE_KEY }}
         run: python scripts/apify_social.py
 
-      - name: Commit social + history
+      - name: Commit all data files
         run: |
-          git config --global user.name "polaris-orm-bot"
+          git config --global user.name  "polaris-orm-bot"
           git config --global user.email "orm-bot@polariscampus.com"
-          git add data/social.json data/history.json
-          git diff --cached --quiet || git commit -m "chore: crawl social $(date -u +%Y-%m-%d) [skip ci]"
+          git add data/social.json data/mentions.json data/summary.json \
+                  data/history.json data/trust_log.json
+          git diff --cached --quiet || \
+            git commit -m "crawl: $(date -u +%Y-%m-%d) — Apify+Claude [skip ci]"
           git push
