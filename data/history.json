@@ -48,5 +48,30 @@
     },
     "impressions": 964445,
     "scraped_at": "2026-04-30T04:59:58.130774+00:00"
+  },
+  {
+    "date": "2026-05-01",
+    "social_posts": 644,
+    "mentions": 0,
+    "total": 644,
+    "by_platform": {
+      "twitter": 610,
+      "instagram": 33,
+      "facebook": 1
+    },
+    "by_campaign": {
+      "VibeCon": 476,
+      "General": 143,
+      "Lyzr/Agentathon": 10,
+      "GSoC 2025": 12,
+      "Admissions 2026": 3
+    },
+    "sentiment": {
+      "positive": 502,
+      "neutral": 127,
+      "negative": 15
+    },
+    "impressions": 1174484,
+    "scraped_at": "2026-05-01T05:11:54.652113+00:00"
   }
 ]
