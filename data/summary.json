@@ -1,25 +1,25 @@
 {
   "total_mentions": 0,
-  "total_social": 847,
-  "total_combined": 847,
+  "total_social": 852,
+  "total_combined": 852,
   "platforms": {
-    "twitter": 813,
     "instagram": 33,
+    "twitter": 818,
     "facebook": 1
   },
   "campaigns": {
-    "VibeCon": 618,
     "General": 204,
+    "VibeCon": 623,
     "Lyzr/Agentathon": 10,
     "GSoC 2025": 12,
     "Admissions 2026": 3
   },
   "sentiment": {
-    "positive": 680,
-    "neutral": 149,
+    "positive": 686,
+    "neutral": 148,
     "negative": 18
   },
-  "impressions": 1418341,
+  "impressions": 1426288,
   "impression_formulas": {
     "linkedin": "reactions × 80  [Polaris formula: LinkedIn hides real impressions]",
     "twitter": "viewCount from Twitter API (REAL when available), else likes × 30",
@@ -30,5 +30,5 @@
     "news": "domain tier: major=8000, regional=3000, blog=800  [estimate]",
     "web": "Google search position × 600 + 400  [visibility estimate]"
   },
-  "last_updated": "2026-05-02T04:45:58.240127+00:00"
+  "last_updated": "2026-05-03T05:04:43.453014+00:00"
 }
