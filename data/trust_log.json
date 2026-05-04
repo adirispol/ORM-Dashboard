@@ -1,6 +1,6 @@
 {
-  "crawl_time": "2026-05-04T05:04:13.926076+00:00",
-  "total_social": 854,
+  "crawl_time": "2026-05-04T14:55:36.446584+00:00",
+  "total_social": 763,
   "total_mentions": 0,
   "impression_formulas": {
     "linkedin": "reactions × 80  [Polaris formula: LinkedIn hides real impressions]",
@@ -122,57 +122,57 @@
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:\"Polaris School of Techno",
       "status": "SUCCEEDED",
-      "run_id": "bn0hIHOQB1hXfRkJf",
-      "items_raw": 107,
-      "run_url": "https://console.apify.com/actors/runs/bn0hIHOQB1hXfRkJf"
+      "run_id": "s4gaLvyQZ54gEYWUK",
+      "items_raw": 40,
+      "run_url": "https://console.apify.com/actors/runs/s4gaLvyQZ54gEYWUK"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:#polariscampus OR @polari",
       "status": "SUCCEEDED",
-      "run_id": "uwhf3XPmd6Rpb8ryn",
-      "items_raw": 206,
-      "run_url": "https://console.apify.com/actors/runs/uwhf3XPmd6Rpb8ryn"
+      "run_id": "4dtl0WWjVqhldYHDv",
+      "items_raw": 210,
+      "run_url": "https://console.apify.com/actors/runs/4dtl0WWjVqhldYHDv"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:#VibeCon OR #VibeCon2025 ",
       "status": "SUCCEEDED",
-      "run_id": "vedXVei0MxdD09WAY",
-      "items_raw": 600,
-      "run_url": "https://console.apify.com/actors/runs/vedXVei0MxdD09WAY"
+      "run_id": "u19ZjKcT3C7lCj2Y4",
+      "items_raw": 540,
+      "run_url": "https://console.apify.com/actors/runs/u19ZjKcT3C7lCj2Y4"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:Agentathon Polaris OR Lyz",
       "status": "SUCCEEDED",
-      "run_id": "tQuZEwgWF1nTpdZbW",
+      "run_id": "259hedeYzNMNKECnb",
       "items_raw": 10,
-      "run_url": "https://console.apify.com/actors/runs/tQuZEwgWF1nTpdZbW"
+      "run_url": "https://console.apify.com/actors/runs/259hedeYzNMNKECnb"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:GSoC 2025 Polaris",
       "status": "SUCCEEDED",
-      "run_id": "3M9RBmPwf2vsFLd1D",
+      "run_id": "VYc8YMTkJdY68rCT0",
       "items_raw": 2,
-      "run_url": "https://console.apify.com/actors/runs/3M9RBmPwf2vsFLd1D"
+      "run_url": "https://console.apify.com/actors/runs/VYc8YMTkJdY68rCT0"
     },
     {
       "actor": "apify~instagram-scraper",
       "label": "Instagram",
       "status": "SUCCEEDED",
-      "run_id": "WeXCvCNAtIO8W2Y2L",
+      "run_id": "jFOsi5Yw7gw7rZ4Ck",
       "items_raw": 33,
-      "run_url": "https://console.apify.com/actors/runs/WeXCvCNAtIO8W2Y2L"
+      "run_url": "https://console.apify.com/actors/runs/jFOsi5Yw7gw7rZ4Ck"
     },
     {
       "actor": "apify~facebook-pages-scraper",
       "label": "Facebook",
       "status": "SUCCEEDED",
-      "run_id": "DXVZh2P8w2eMSpLah",
+      "run_id": "Yt8pZItKzhNDje1hx",
       "items_raw": 1,
-      "run_url": "https://console.apify.com/actors/runs/DXVZh2P8w2eMSpLah"
+      "run_url": "https://console.apify.com/actors/runs/Yt8pZItKzhNDje1hx"
     },
     {
       "actor": "trudax~reddit-scraper",
