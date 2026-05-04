@@ -8,32 +8,21 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
 :root{
-  --gold:#FFCC3F;--orange:#FF9A3F;--amber:#D88100;
-  --bg:#0A0A0A;--card:#141414;--card2:#1C1C1C;--border:#252525;--border2:#303030;
-  --text:#E8E8E8;--text2:#888;--text3:#555;
-  --red:#E05050;--green:#2BB56A;--blue:#5B9CF6;--purple:#8B71E0;
+--gold:#FFCC3F;--orange:#FF9A3F;--amber:#D88100;
+--bg:#0A0A0A;--card:#141414;--card2:#1C1C1C;--border:#252525;--border2:#303030;
+--text:#E8E8E8;--text2:#888;--text3:#555;
+--red:#E05050;--green:#2BB56A;--blue:#5B9CF6;--purple:#8B71E0;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;font-size:14px;line-height:1.5}
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:#2a2a2a;border-radius:3px}
-
-/* ── TOP BAR ── */
-.topbar{
-  position:fixed;top:0;left:0;right:0;height:56px;z-index:200;
-  background:rgba(10,10,10,0.95);backdrop-filter:blur(10px);
-  border-bottom:1px solid var(--border);
-  display:flex;align-items:center;padding:0 20px;gap:16px;
-}
+.topbar{position:fixed;top:0;left:0;right:0;height:56px;z-index:200;background:rgba(10,10,10,0.97);backdrop-filter:blur(10px);border-bottom:2px solid var(--gold);display:flex;align-items:center;padding:0 20px;gap:16px}
 .logo{font-size:13px;font-weight:700;letter-spacing:0.08em;color:#fff;white-space:nowrap}
 .logo span{display:block;font-size:9px;font-weight:500;color:var(--gold);letter-spacing:0.14em;margin-top:1px}
 .topbar-center{flex:1;display:flex;justify-content:center}
-.global-search{
-  width:320px;background:var(--card);border:1px solid var(--border);
-  border-radius:8px;padding:0 12px;height:34px;color:var(--text);
-  font-family:'Poppins',sans-serif;font-size:12px;outline:none;transition:border 0.15s;
-}
+.global-search{width:320px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0 12px;height:34px;color:var(--text);font-family:'Poppins',sans-serif;font-size:12px;outline:none;transition:border 0.15s}
 .global-search:focus{border-color:var(--gold)}
 .global-search::placeholder{color:var(--text3)}
 .topbar-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
@@ -46,37 +35,22 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Poppin
 .btn-sm:hover{border-color:var(--gold);color:var(--gold)}
 .btn-gold{background:var(--gold);color:#000;border-color:var(--gold)}
 .btn-gold:hover{opacity:0.85;color:#000}
-
-/* ── SIDEBAR ── */
-.sidebar{
-  position:fixed;top:56px;left:0;bottom:0;width:200px;z-index:100;
-  background:var(--bg);border-right:1px solid var(--border);
-  display:flex;flex-direction:column;padding:16px 0;overflow-y:auto;
-}
+.sidebar{position:fixed;top:56px;left:0;bottom:0;width:200px;z-index:100;background:var(--bg);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:16px 0;overflow-y:auto}
 .nav-section-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text3);padding:0 16px;margin:12px 0 4px}
-.nav-item{
-  display:flex;align-items:center;gap:10px;padding:8px 16px;
-  font-size:12px;font-weight:500;color:var(--text2);cursor:pointer;
-  transition:all 0.12s;border-radius:0;position:relative;white-space:nowrap;
-}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 16px;font-size:12px;font-weight:500;color:var(--text2);cursor:pointer;transition:all 0.12s;position:relative;white-space:nowrap}
 .nav-item:hover{background:var(--card);color:var(--text)}
 .nav-item.active{color:var(--gold);background:rgba(255,204,63,0.07)}
 .nav-item.active::before{content:'';position:absolute;left:0;top:4px;bottom:4px;width:3px;background:var(--gold);border-radius:0 2px 2px 0}
 .nav-icon{font-size:14px;width:18px;text-align:center;flex-shrink:0}
 .nav-badge{margin-left:auto;background:var(--red);color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:8px}
 .nav-bottom{margin-top:auto;padding:12px 0 0;border-top:1px solid var(--border)}
-
-/* ── MAIN ── */
 .main{margin-left:200px;margin-top:56px;min-height:calc(100vh - 56px);padding:20px}
 .tab-panel{display:none}
 .tab-panel.active{display:block}
-
-/* ── CARDS & LAYOUT ── */
 .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px}
 .card2{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
-.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 .kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:16px}
 .kpi{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;position:relative;overflow:hidden}
 .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
@@ -94,16 +68,10 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Poppin
 .kpi.c-purple .kpi-num{color:var(--purple)}
 .kpi-lbl{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text3);margin-top:4px}
 .kpi-sub{font-size:10px;color:var(--text3);margin-top:2px}
-.kpi-delta{font-size:10px;margin-top:3px}
-.kpi-delta.up{color:var(--green)}
-.kpi-delta.dn{color:var(--red)}
-
 .section-hd{display:flex;align-items:center;gap:8px;margin-bottom:14px}
 .section-hd h2{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text3)}
 .section-hd .line{flex:1;height:1px;background:var(--border)}
 .panel-title{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text3);margin-bottom:12px}
-
-/* ── TABLES ── */
 .tbl-wrap{overflow-x:auto;border-radius:8px}
 table{width:100%;border-collapse:collapse;font-size:12px}
 th{background:var(--card2);padding:8px 10px;text-align:left;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--text3);border-bottom:1px solid var(--border);position:sticky;top:0}
@@ -111,52 +79,37 @@ td{padding:9px 10px;border-bottom:1px solid rgba(255,255,255,0.04);vertical-alig
 tr:last-child td{border-bottom:none}
 tr:hover td{background:rgba(255,255,255,0.02)}
 .scroll-table{max-height:360px;overflow-y:auto}
-
-/* ── BADGES ── */
 .badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:10px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em}
 .badge-reddit{background:rgba(255,69,0,0.15);color:#FF6030}
 .badge-quora{background:rgba(185,43,39,0.15);color:#E05555}
 .badge-medium{background:rgba(43,181,106,0.15);color:#2BC87A}
 .badge-web{background:rgba(91,156,246,0.15);color:#5B9CF6}
 .badge-portal{background:rgba(139,113,224,0.15);color:#8B71E0}
+.badge-youtube{background:rgba(255,0,0,0.15);color:#FF4040}
+.badge-linkedin{background:rgba(0,119,181,0.15);color:#4A9FD4}
 .badge-twitter{background:rgba(91,156,246,0.15);color:#5B9CF6}
-.badge-facebook{background:rgba(66,103,178,0.15);color:#6B8FE8}
+.badge-news{background:rgba(216,129,0,0.15);color:#D88100}
 .badge-pos{background:rgba(43,181,106,0.15);color:#2BB56A}
 .badge-neu{background:rgba(100,100,100,0.15);color:#888}
 .badge-neg{background:rgba(224,80,80,0.15);color:#E05050}
+.badge-mixed{background:rgba(255,154,63,0.15);color:#FF9A3F}
 .badge-campaign{background:rgba(255,204,63,0.15);color:#FFCC3F}
-
-/* ── PLATFORM FILTER PILLS ── */
 .pill-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
 .pill{padding:4px 12px;border-radius:14px;border:1px solid var(--border);background:var(--card2);color:var(--text2);font-size:10px;font-weight:600;cursor:pointer;transition:all 0.12s;text-transform:uppercase;letter-spacing:0.05em}
 .pill:hover{border-color:var(--text2);color:var(--text)}
 .pill.active{background:var(--gold);color:#000;border-color:var(--gold)}
-
-/* ── SEARCH INPUT ── */
 .search-box{width:100%;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-size:12px;font-family:'Poppins',sans-serif;outline:none;margin-bottom:12px;transition:border 0.15s}
 .search-box:focus{border-color:var(--gold)}
 .search-box::placeholder{color:var(--text3)}
-
-/* ── SENTIMENT BAR ── */
 .sent-bar{height:6px;border-radius:3px;overflow:hidden;background:var(--border);margin:4px 0}
 .sent-fill{height:100%;transition:width 0.3s}
-
-/* ── LINK BTN ── */
 .link-btn{display:inline-block;padding:3px 9px;background:rgba(255,204,63,0.08);border:1px solid rgba(255,204,63,0.2);border-radius:5px;color:var(--gold);font-size:10px;text-decoration:none;transition:all 0.15s}
 .link-btn:hover{background:rgba(255,204,63,0.15);border-color:var(--gold)}
-
-/* ── CHARTS ── */
 .chart-box{position:relative;width:100%}
-
-/* ── SETTINGS PANEL ── */
 .settings-overlay{position:fixed;inset:0;z-index:500;display:none}
 .settings-overlay.open{display:block}
 .settings-bg{position:absolute;inset:0;background:rgba(0,0,0,0.6)}
-.settings-panel{
-  position:absolute;right:0;top:0;bottom:0;width:420px;
-  background:#0f0f0f;border-left:1px solid var(--border);
-  overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:16px;
-}
+.settings-panel{position:absolute;right:0;top:0;bottom:0;width:420px;background:#0f0f0f;border-left:2px solid var(--gold);overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:16px}
 .settings-panel h2{font-size:14px;font-weight:700;color:var(--gold)}
 .settings-section{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px}
 .settings-section h3{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text3);margin-bottom:10px}
@@ -167,8 +120,6 @@ tr:hover td{background:rgba(255,255,255,0.02)}
 .field-row textarea{height:64px;resize:vertical}
 .save-msg{font-size:11px;color:var(--green);display:none;margin-top:4px}
 .save-msg.show{display:block}
-
-/* ── CAMPAIGN CONFIG ── */
 .campaign-item{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px;display:flex;align-items:flex-start;gap:10px}
 .campaign-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px}
 .campaign-info{flex:1}
@@ -179,42 +130,47 @@ tr:hover td{background:rgba(255,255,255,0.02)}
 .campaign-form{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin-top:10px;align-items:end}
 .campaign-form input{background:var(--card2);border:1px solid var(--border);border-radius:7px;padding:7px 10px;color:var(--text);font-size:11px;font-family:'Poppins',sans-serif;outline:none}
 .campaign-form input:focus{border-color:var(--gold)}
-
-/* ── ALERT BANNER ── */
 .alert-banner{background:rgba(224,80,80,0.1);border:1px solid rgba(224,80,80,0.3);border-radius:8px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;font-size:12px}
 .alert-icon{color:var(--red);font-size:16px;flex-shrink:0}
-
-/* ── EMPTY STATE ── */
-.empty-state{text-align:center;padding:40px 20px;color:var(--text3);font-size:12px}
+.empty-state{text-align:center;padding:40px 20px;color:var(--text3);font-size:12px;border-radius:8px}
 .empty-state .icon{font-size:32px;margin-bottom:10px;opacity:0.4}
 .empty-state p{margin-top:4px}
-
-/* ── HISTORY STORAGE ── */
 .snapshot-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:12px}
 .snapshot-row:last-child{border-bottom:none}
-.snapshot-date{color:var(--text2);width:120px;flex-shrink:0}
+.snapshot-date{color:var(--text2);width:140px;flex-shrink:0}
 .snapshot-mentions{color:var(--gold);font-weight:600;width:60px}
 .snapshot-score{color:var(--text2)}
 .snapshot-actions{margin-left:auto;display:flex;gap:6px}
-
-/* ── PROGRESS BAR ── */
 .prog-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-top:6px}
 .prog-fill{height:100%;border-radius:2px;transition:width 0.3s}
-
-/* ── RESPONSIVE ── */
+.checklist-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:12px}
+.checklist-item:last-child{border-bottom:none}
+.check-icon{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px}
+.check-done{background:rgba(43,181,106,0.2);color:var(--green)}
+.check-todo{background:rgba(100,100,100,0.15);color:var(--text3)}
+.source-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px}
+.source-row:last-child{border-bottom:none}
+.source-bar{width:100px;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.source-fill{height:100%;border-radius:2px}
+.data-status-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.data-card{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px}
+.data-card .status-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px}
+.status-ok{background:var(--green)}
+.status-warn{background:var(--orange)}
+.status-err{background:var(--red)}
+.status-unk{background:var(--text3)}
 @media(max-width:900px){
-  .sidebar{width:56px}
-  .nav-item span.nav-label{display:none}
-  .main{margin-left:56px}
-  .topbar-center{display:none}
-  .kpi-grid{grid-template-columns:repeat(3,1fr)}
-  .grid4{grid-template-columns:repeat(2,1fr)}
+.sidebar{width:56px}
+.nav-item .nav-label{display:none}
+.main{margin-left:56px}
+.topbar-center{display:none}
+.kpi-grid{grid-template-columns:repeat(3,1fr)}
+.grid2{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 
-<!-- TOP BAR -->
 <header class="topbar">
   <div class="logo">POLARIS <span>SCHOOL OF TECHNOLOGY</span></div>
   <div class="topbar-center">
@@ -226,73 +182,48 @@ tr:hover td{background:rgba(255,255,255,0.02)}
       <div class="num" id="topBPS">—</div>
       <div class="lbl">Brand Score</div>
     </div>
-    <button class="btn-sm" onclick="refreshData()">↺ Refresh</button>
+    <button class="btn-sm" onclick="refreshData()" id="refreshBtn">↺ Refresh</button>
     <button class="btn-sm" onclick="openSettings()">⚙ Settings</button>
   </div>
 </header>
 
-<!-- SIDEBAR -->
 <nav class="sidebar">
   <div class="nav-section-label">Analytics</div>
-  <div class="nav-item active" onclick="switchTab('overview')" data-tab="overview">
-    <span class="nav-icon">◈</span><span class="nav-label">Overview</span>
-  </div>
-  <div class="nav-item" onclick="switchTab('listening')" data-tab="listening">
-    <span class="nav-icon">⦿</span><span class="nav-label">Live Listening</span>
-  </div>
-  <div class="nav-item" onclick="switchTab('social')" data-tab="social">
-    <span class="nav-icon">◉</span><span class="nav-label">Social Media</span>
-  </div>
-  <div class="nav-item" onclick="switchTab('content')" data-tab="content">
-    <span class="nav-icon">◫</span><span class="nav-label">My Content</span>
-  </div>
-  <div class="nav-item" onclick="switchTab('inventory')" data-tab="inventory">
-    <span class="nav-icon">◧</span><span class="nav-label">Link Inventory</span>
-  </div>
+  <div class="nav-item active" onclick="switchTab('overview')" data-tab="overview"><span class="nav-icon">◈</span><span class="nav-label">Overview</span></div>
+  <div class="nav-item" onclick="switchTab('listening')" data-tab="listening"><span class="nav-icon">⦿</span><span class="nav-label">Live Listening</span></div>
+  <div class="nav-item" onclick="switchTab('social')" data-tab="social"><span class="nav-icon">◉</span><span class="nav-label">Social Media</span></div>
+  <div class="nav-item" onclick="switchTab('content')" data-tab="content"><span class="nav-icon">◫</span><span class="nav-label">My Content</span></div>
+  <div class="nav-item" onclick="switchTab('inventory')" data-tab="inventory"><span class="nav-icon">◧</span><span class="nav-label">Link Inventory</span></div>
   <div class="nav-section-label">Intelligence</div>
-  <div class="nav-item" onclick="switchTab('campaigns')" data-tab="campaigns">
-    <span class="nav-icon">◈</span><span class="nav-label">Campaigns</span>
-  </div>
-  <div class="nav-item" onclick="switchTab('competitors')" data-tab="competitors">
-    <span class="nav-icon">◑</span><span class="nav-label">Competitors</span>
-  </div>
-  <div class="nav-item" onclick="switchTab('llm')" data-tab="llm">
-    <span class="nav-icon">◐</span><span class="nav-label">LLM / AEO</span>
-  </div>
-  <div class="nav-item" onclick="switchTab('report')" data-tab="report">
-    <span class="nav-icon">◻</span><span class="nav-label">ORM Report</span>
-  </div>
+  <div class="nav-item" onclick="switchTab('campaigns')" data-tab="campaigns"><span class="nav-icon">◈</span><span class="nav-label">Campaigns</span></div>
+  <div class="nav-item" onclick="switchTab('competitors')" data-tab="competitors"><span class="nav-icon">◑</span><span class="nav-label">Competitors</span></div>
+  <div class="nav-item" onclick="switchTab('llm')" data-tab="llm"><span class="nav-icon">◐</span><span class="nav-label">LLM / AEO</span></div>
+  <div class="nav-item" onclick="switchTab('report')" data-tab="report"><span class="nav-icon">◻</span><span class="nav-label">ORM Report</span></div>
   <div class="nav-section-label">Data</div>
-  <div class="nav-item" onclick="switchTab('history')" data-tab="history">
-    <span class="nav-icon">◷</span><span class="nav-label">History Store</span>
-  </div>
+  <div class="nav-item" onclick="switchTab('history')" data-tab="history"><span class="nav-icon">◷</span><span class="nav-label">History Store</span></div>
+  <div class="nav-item" onclick="switchTab('datastatus')" data-tab="datastatus"><span class="nav-icon">⚡</span><span class="nav-label">Data Status</span></div>
   <div class="nav-bottom">
-    <div class="nav-item" onclick="openSettings()">
-      <span class="nav-icon">⚙</span><span class="nav-label">Settings</span>
-    </div>
+    <div class="nav-item" onclick="openSettings()"><span class="nav-icon">⚙</span><span class="nav-label">Settings</span></div>
   </div>
 </nav>
 
-<!-- MAIN CONTENT -->
 <main class="main">
 
-<!-- ══ OVERVIEW ══ -->
+<!-- OVERVIEW -->
 <div id="tab-overview" class="tab-panel active">
   <div id="negAlert" class="alert-banner" style="display:none">
     <span class="alert-icon">⚠</span>
     <span id="negAlertText">Negative mentions detected</span>
     <button class="btn-sm" onclick="switchTab('listening')" style="margin-left:auto">View</button>
   </div>
-
   <div class="kpi-grid">
-    <div class="kpi c-gold"><div class="kpi-num" id="ov-mentions">—</div><div class="kpi-lbl">Total Mentions</div><div class="kpi-delta up" id="ov-mentions-d"></div></div>
+    <div class="kpi c-gold"><div class="kpi-num" id="ov-mentions">—</div><div class="kpi-lbl">Total Mentions</div><div class="kpi-sub" id="ov-mentions-d"></div></div>
     <div class="kpi c-orange"><div class="kpi-num" id="ov-impressions">—</div><div class="kpi-lbl">Est. Impressions</div><div class="kpi-sub">all platforms</div></div>
     <div class="kpi c-green"><div class="kpi-num" id="ov-positive">—</div><div class="kpi-lbl">Positive</div><div class="kpi-sub" id="ov-pos-pct"></div></div>
     <div class="kpi c-red"><div class="kpi-num" id="ov-negative">—</div><div class="kpi-lbl">Negative</div><div class="kpi-sub" id="ov-neg-pct"></div></div>
     <div class="kpi c-blue"><div class="kpi-num" id="ov-platforms">—</div><div class="kpi-lbl">Platforms</div><div class="kpi-sub">active</div></div>
     <div class="kpi c-purple"><div class="kpi-num" id="ov-bps">—</div><div class="kpi-lbl">Brand Score</div><div class="kpi-sub">/100</div></div>
   </div>
-
   <div class="grid2" style="margin-bottom:14px">
     <div class="card">
       <div class="panel-title">Platform distribution</div>
@@ -307,7 +238,6 @@ tr:hover td{background:rgba(255,255,255,0.02)}
       </div>
     </div>
   </div>
-
   <div class="grid2">
     <div class="card">
       <div class="panel-title">Recent mentions</div>
@@ -320,7 +250,7 @@ tr:hover td{background:rgba(255,255,255,0.02)}
   </div>
 </div>
 
-<!-- ══ LIVE LISTENING ══ -->
+<!-- LIVE LISTENING -->
 <div id="tab-listening" class="tab-panel">
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
     <input class="search-box" id="listenSearch" placeholder="Search mentions…" oninput="filterListening()" style="margin:0;flex:1">
@@ -338,7 +268,7 @@ tr:hover td{background:rgba(255,255,255,0.02)}
   </div>
 </div>
 
-<!-- ══ SOCIAL MEDIA ══ -->
+<!-- SOCIAL MEDIA — fixed nested author parsing -->
 <div id="tab-social" class="tab-panel">
   <div class="pill-row" id="socialPills"></div>
   <div class="kpi-grid" id="socialKPIs" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px"></div>
@@ -351,8 +281,13 @@ tr:hover td{background:rgba(255,255,255,0.02)}
   </div>
 </div>
 
-<!-- ══ MY CONTENT ══ -->
+<!-- MY CONTENT -->
 <div id="tab-content" class="tab-panel">
+  <div id="content-no-sheet" style="display:none" class="alert-banner" style="margin-bottom:14px">
+    <span class="alert-icon">ℹ</span>
+    <span>Connect your Google Sheet in ⚙ Settings → Sheet ID to load content data.</span>
+    <button class="btn-sm" onclick="openSettings()" style="margin-left:auto">Open Settings</button>
+  </div>
   <div class="pill-row" id="contentPills"></div>
   <div class="card">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
@@ -363,7 +298,7 @@ tr:hover td{background:rgba(255,255,255,0.02)}
   </div>
 </div>
 
-<!-- ══ LINK INVENTORY ══ -->
+<!-- LINK INVENTORY -->
 <div id="tab-inventory" class="tab-panel">
   <div class="pill-row" id="invPills"></div>
   <div class="card">
@@ -372,7 +307,7 @@ tr:hover td{background:rgba(255,255,255,0.02)}
   </div>
 </div>
 
-<!-- ══ CAMPAIGNS ══ -->
+<!-- CAMPAIGNS -->
 <div id="tab-campaigns" class="tab-panel">
   <div class="grid2" style="margin-bottom:14px">
     <div class="card">
@@ -387,7 +322,7 @@ tr:hover td{background:rgba(255,255,255,0.02)}
           </div>
           <div>
             <div style="font-size:9px;color:var(--text3);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.06em">Keywords (comma-separated)</div>
-            <input id="campKws" placeholder="vibecon, hackathon, april">
+            <input id="campKws" placeholder="vibecon, hackathon">
           </div>
           <button class="btn-sm btn-gold" onclick="addCampaign()" style="height:34px;margin-top:auto">+ Add</button>
         </div>
@@ -405,7 +340,7 @@ tr:hover td{background:rgba(255,255,255,0.02)}
   </div>
 </div>
 
-<!-- ══ COMPETITORS ══ -->
+<!-- COMPETITORS — fixed chart instance management -->
 <div id="tab-competitors" class="tab-panel">
   <div class="kpi-grid" id="compKPIs" style="grid-template-columns:repeat(4,1fr)"></div>
   <div class="grid2" style="margin-bottom:14px">
@@ -424,14 +359,15 @@ tr:hover td{background:rgba(255,255,255,0.02)}
   </div>
 </div>
 
-<!-- ══ LLM / AEO ══ -->
+<!-- LLM / AEO — fixed with actual checklist content -->
 <div id="tab-llm" class="tab-panel">
   <div class="grid3" style="margin-bottom:14px">
     <div class="card">
       <div class="panel-title">LLM citability score</div>
       <div style="font-size:48px;font-weight:700;color:var(--gold);line-height:1;margin:8px 0" id="llm-score">—</div>
       <div style="font-size:11px;color:var(--text3)">out of 100</div>
-      <div class="prog-bar" style="margin-top:10px"><div class="prog-fill" id="llm-prog" style="background:var(--gold)"></div></div>
+      <div class="prog-bar" style="margin-top:10px"><div class="prog-fill" id="llm-prog" style="background:var(--gold);width:0%"></div></div>
+      <div style="margin-top:10px;font-size:10px;color:var(--text3)" id="llm-grade">Configure settings to load score</div>
     </div>
     <div class="card" style="grid-column:span 2">
       <div class="panel-title">AEO Checklist</div>
@@ -446,14 +382,15 @@ tr:hover td{background:rgba(255,255,255,0.02)}
     <div class="card">
       <div class="panel-title">Claude AI brand analysis</div>
       <div id="llm-analysis" style="font-size:12px;color:var(--text2);line-height:1.7">
-        <p style="color:var(--text3);margin-bottom:12px">Add your Claude API key in Settings to enable AI-powered brand analysis.</p>
+        <p style="color:var(--text3);margin-bottom:12px">Add your Claude API key in ⚙ Settings to enable AI-powered brand analysis.</p>
         <button class="btn-sm" onclick="runLLMAnalysis()">▶ Run Analysis</button>
+        <div id="llm-analysis-output" style="margin-top:12px;font-size:12px;line-height:1.7;color:var(--text2)"></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══ ORM REPORT ══ -->
+<!-- ORM REPORT -->
 <div id="tab-report" class="tab-panel">
   <div class="grid2" style="margin-bottom:14px">
     <div class="card">
@@ -469,7 +406,6 @@ tr:hover td{background:rgba(255,255,255,0.02)}
       <div style="display:flex;gap:8px">
         <button class="btn-sm" onclick="copyReport('text')" style="flex:1">Copy Text</button>
         <button class="btn-sm" onclick="copyReport('md')" style="flex:1">Copy Markdown</button>
-        <button class="btn-sm" onclick="exportReportPDF()" style="flex:1">↓ PDF</button>
       </div>
     </div>
     <div class="card">
@@ -482,12 +418,12 @@ tr:hover td{background:rgba(255,255,255,0.02)}
     <textarea id="reportOutput" style="width:100%;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:12px;color:var(--text);font-size:12px;font-family:'Poppins',sans-serif;height:180px;resize:vertical;outline:none" readonly placeholder="Click Generate Report above…"></textarea>
   </div>
   <div class="card">
-    <div class="panel-title">Report history — saved across sessions</div>
+    <div class="panel-title">Report history</div>
     <div id="report-history"></div>
   </div>
 </div>
 
-<!-- ══ HISTORY STORE ══ -->
+<!-- HISTORY STORE -->
 <div id="tab-history" class="tab-panel">
   <div class="card" style="margin-bottom:14px">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
@@ -511,6 +447,28 @@ tr:hover td{background:rgba(255,255,255,0.02)}
   </div>
 </div>
 
+<!-- DATA STATUS — new diagnostic tab -->
+<div id="tab-datastatus" class="tab-panel">
+  <div class="card" style="margin-bottom:14px">
+    <div class="panel-title">Data pipeline health</div>
+    <div class="data-status-grid" id="ds-files"></div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <div class="panel-title">Raw data preview — mentions.json</div>
+      <div id="ds-mentions-preview" style="font-size:11px;color:var(--text2);font-family:monospace;background:var(--card2);padding:12px;border-radius:8px;max-height:300px;overflow:auto;white-space:pre-wrap;word-break:break-all"></div>
+    </div>
+    <div class="card">
+      <div class="panel-title">Raw data preview — summary.json</div>
+      <div id="ds-summary-preview" style="font-size:11px;color:var(--text2);font-family:monospace;background:var(--card2);padding:12px;border-radius:8px;max-height:300px;overflow:auto;white-space:pre-wrap;word-break:break-all"></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <div class="panel-title">Field mapping — mentions.json first record</div>
+    <div id="ds-field-map" style="font-size:11px;color:var(--text2)"></div>
+  </div>
+</div>
+
 </main>
 
 <!-- SETTINGS PANEL -->
@@ -530,7 +488,14 @@ tr:hover td{background:rgba(255,255,255,0.02)}
     <div class="settings-section">
       <h3>API Keys</h3>
       <div class="field-row"><label>Claude API Key (for AI reports)</label><input id="cfg-claude" type="password" placeholder="sk-ant-…"></div>
-      <div class="field-row"><label>Apify Token (for social scraping)</label><input id="cfg-apify" type="password" placeholder="apify_…"></div>
+    </div>
+    <div class="settings-section">
+      <h3>Google Sheet (My Content tab)</h3>
+      <div class="field-row">
+        <label>Sheet ID</label>
+        <input id="cfg-sheet" placeholder="From URL: docs.google.com/spreadsheets/d/[SHEET_ID]">
+        <div style="font-size:10px;color:var(--text3);margin-top:4px">Sheet must be published to web as CSV (File → Share → Publish to web)</div>
+      </div>
     </div>
     <div class="settings-section">
       <h3>Brand Keywords</h3>
@@ -548,14 +513,12 @@ tr:hover td{background:rgba(255,255,255,0.02)}
 </div>
 
 <script>
-// ══════════════════════════════════════════
-// CORE STATE
-// ══════════════════════════════════════════
-const DB_NAME = 'PolarisORM_v10';
-const DB_VERSION = 1;
-let db = null;
+// ═══════════════════════════════════════
+// STATE & CONFIG
+// ═══════════════════════════════════════
 let STATE = {
   mentions: [], social: [], competitors: {}, summary: {},
+  sheetContent: [],
   campaigns: [], activeTab: 'overview',
   listenFilter: 'all', listenSearch: '', listenSent: 'all',
   socialFilter: 'all', socialSearch: '',
@@ -563,181 +526,286 @@ let STATE = {
   invFilter: 'all', invSearch: '',
   campFilter: 'all',
   reportFmt: 'linkedin',
-  cfg: {}
+  cfg: {},
+  dataStatus: {}
 };
+
+// Track Chart.js instances to destroy before recreating — fixes "canvas already in use" bug
+const CHARTS = {};
 
 const CAMPAIGN_COLORS = ['#FFCC3F','#5B9CF6','#2BB56A','#FF9A3F','#8B71E0','#E05050','#4ECDC4','#FF6B9D'];
 
-// ══════════════════════════════════════════
-// INDEXEDDB — PERSISTENT STORAGE
-// ══════════════════════════════════════════
-function initDB() {
-  return new Promise((resolve, reject) => {
-    const req = indexedDB.open(DB_NAME, DB_VERSION);
+function el(id){ return document.getElementById(id); }
+const fmtNum = n => {
+  n = Number(n) || 0;
+  if(n>=1000000) return (n/1000000).toFixed(1)+'M';
+  if(n>=1000) return (n/1000).toFixed(1)+'k';
+  return String(Math.round(n));
+};
+const fmtDate = s => {
+  try{ return new Date(s).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}); }
+  catch(e){ return s||'—'; }
+};
+
+// FIX: safely extract author string from both string and nested object formats
+function extractAuthor(item){
+  if(!item) return '—';
+  if(item.author){
+    if(typeof item.author === 'string') return item.author;
+    if(typeof item.author === 'object'){
+      return item.author.name || item.author.username || item.author.display_name || '—';
+    }
+  }
+  return item.username || item.user || '—';
+}
+
+// FIX: safely extract text from both string and nested object formats
+function extractText(item){
+  if(!item) return '';
+  if(typeof item.text === 'string') return item.text;
+  if(typeof item.content === 'string') return item.content;
+  if(typeof item.title === 'string') return item.title;
+  if(typeof item.body === 'string') return item.body;
+  return '';
+}
+
+const platBadge = p => {
+  const key = (p||'').toLowerCase().replace(/[^a-z]/g,'');
+  return `<span class="badge badge-${key}">${p||''}</span>`;
+};
+const sentBadge = s => {
+  const map = {positive:'pos',negative:'neg',neutral:'neu',mixed:'mixed'};
+  const cls = map[s] || 'neu';
+  return `<span class="badge badge-${cls}">${s||'neutral'}</span>`;
+};
+const campBadge = id => {
+  const c = getCampaign(id);
+  return `<span class="badge" style="background:${c.color}22;color:${c.color}">${c.name}</span>`;
+};
+
+// ═══════════════════════════════════════
+// INDEXEDDB
+// ═══════════════════════════════════════
+const DB_NAME = 'PolarisORM_v12';
+let db = null;
+
+function initDB(){
+  return new Promise((resolve,reject) => {
+    const req = indexedDB.open(DB_NAME,1);
     req.onupgradeneeded = e => {
-      const db = e.target.result;
-      if (!db.objectStoreNames.contains('snapshots')) {
-        const s = db.createObjectStore('snapshots', {keyPath: 'id', autoIncrement: true});
-        s.createIndex('date', 'date', {unique: false});
-      }
-      if (!db.objectStoreNames.contains('reports')) {
-        db.createObjectStore('reports', {keyPath: 'id', autoIncrement: true});
-      }
-      if (!db.objectStoreNames.contains('config')) {
-        db.createObjectStore('config', {keyPath: 'key'});
-      }
+      const d = e.target.result;
+      if(!d.objectStoreNames.contains('snapshots')) d.createObjectStore('snapshots',{keyPath:'id',autoIncrement:true});
+      if(!d.objectStoreNames.contains('reports')) d.createObjectStore('reports',{keyPath:'id',autoIncrement:true});
     };
     req.onsuccess = e => { db = e.target.result; resolve(db); };
     req.onerror = e => reject(e.target.error);
   });
 }
+function dbPut(store,data){ return new Promise((res,rej) => { const tx=db.transaction(store,'readwrite'); const r=tx.objectStore(store).put(data); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }); }
+function dbGetAll(store){ return new Promise((res,rej) => { const tx=db.transaction(store,'readonly'); const r=tx.objectStore(store).getAll(); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }); }
+function dbDelete(store,key){ return new Promise((res,rej) => { const tx=db.transaction(store,'readwrite'); const r=tx.objectStore(store).delete(key); r.onsuccess=()=>res(); r.onerror=()=>rej(r.error); }); }
 
-function dbPut(store, data) {
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(store, 'readwrite');
-    const req = tx.objectStore(store).put(data);
-    req.onsuccess = () => resolve(req.result);
-    req.onerror = () => reject(req.error);
-  });
-}
-
-function dbGetAll(store) {
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(store, 'readonly');
-    const req = tx.objectStore(store).getAll();
-    req.onsuccess = () => resolve(req.result);
-    req.onerror = () => reject(req.error);
-  });
-}
-
-function dbDelete(store, key) {
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(store, 'readwrite');
-    const req = tx.objectStore(store).delete(key);
-    req.onsuccess = () => resolve();
-    req.onerror = () => reject(req.error);
-  });
-}
-
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════
 // CONFIG
-// ══════════════════════════════════════════
-function loadConfig() {
-  const saved = localStorage.getItem('polaris_orm_v10');
+// ═══════════════════════════════════════
+function loadConfig(){
+  const saved = localStorage.getItem('polaris_orm_v12');
   STATE.cfg = saved ? JSON.parse(saved) : {
-    user: 'adirispol', repo: 'ORM-Dashboard', branch: 'main',
-    claude: '', apify: '', kwPst: 'Polaris School of Technology, PST, Polaris Campus, Polaris Bangalore',
-    kwComp: 'Scaler, Newton School of Technology, upGrad'
+    user:'adirispol', repo:'ORM-Dashboard', branch:'main',
+    claude:'', sheet:'',
+    kwPst:'Polaris School of Technology, PST, Polaris Campus, Polaris Bangalore, Mukul Rustagi',
+    kwComp:'Scaler, Newton School of Technology, upGrad, RVCE, PES University'
   };
-  const campSaved = localStorage.getItem('polaris_campaigns_v10');
+  const campSaved = localStorage.getItem('polaris_campaigns_v12');
   STATE.campaigns = campSaved ? JSON.parse(campSaved) : [
-    {id:'vibecon', name:'VibeCon', color:'#FFCC3F', keywords:['vibecon','vibe con','hackathon','april 2025']},
-    {id:'lyzr', name:'Lyzr AI', color:'#5B9CF6', keywords:['lyzr','lyzr ai','lyzr event']},
-    {id:'gsoc', name:'GSoC 2025', color:'#2BB56A', keywords:['gsoc','google summer of code','open source']},
-    {id:'admissions', name:'Admissions', color:'#FF9A3F', keywords:['admission','fee','scholarship','2026','pat','entrance','jee']},
-    {id:'comparison', name:'vs Competitors', color:'#8B71E0', keywords:['vs','scaler','newton','nxtwave','intellipaat','comparison']},
+    {id:'vibecon',name:'VibeCon',color:'#FFCC3F',keywords:['vibecon','vibe con','hackathon']},
+    {id:'gsoc',name:'GSoC 2025',color:'#2BB56A',keywords:['gsoc','google summer of code','open source']},
+    {id:'admissions',name:'Admissions',color:'#FF9A3F',keywords:['admission','fee','scholarship','2026','pat','entrance']},
+    {id:'comparison',name:'vs Competitors',color:'#8B71E0',keywords:['vs','scaler','newton','comparison']},
+    {id:'mukul',name:'Mukul Rustagi',color:'#5B9CF6',keywords:['mukul','rustagi','classplus','founder']},
   ];
 }
 
-function saveSettings() {
+function saveSettings(){
   STATE.cfg = {
     user: el('cfg-user').value.trim() || 'adirispol',
     repo: el('cfg-repo').value.trim() || 'ORM-Dashboard',
     branch: el('cfg-branch').value.trim() || 'main',
     claude: el('cfg-claude').value.trim(),
-    apify: el('cfg-apify').value.trim(),
+    sheet: el('cfg-sheet').value.trim(),
     kwPst: el('cfg-kw-pst').value.trim(),
     kwComp: el('cfg-kw-comp').value.trim()
   };
-  localStorage.setItem('polaris_orm_v10', JSON.stringify(STATE.cfg));
+  localStorage.setItem('polaris_orm_v12', JSON.stringify(STATE.cfg));
   saveCampaigns();
   const msg = el('saveMsg');
   msg.classList.add('show');
-  setTimeout(() => msg.classList.remove('show'), 2500);
+  setTimeout(()=>msg.classList.remove('show'),2500);
+  refreshData();
 }
 
-function openSettings() {
-  el('cfg-user').value = STATE.cfg.user || '';
-  el('cfg-repo').value = STATE.cfg.repo || '';
-  el('cfg-branch').value = STATE.cfg.branch || '';
-  el('cfg-claude').value = STATE.cfg.claude || '';
-  el('cfg-apify').value = STATE.cfg.apify || '';
-  el('cfg-kw-pst').value = STATE.cfg.kwPst || '';
-  el('cfg-kw-comp').value = STATE.cfg.kwComp || '';
+function openSettings(){
+  el('cfg-user').value = STATE.cfg.user||'';
+  el('cfg-repo').value = STATE.cfg.repo||'';
+  el('cfg-branch').value = STATE.cfg.branch||'';
+  el('cfg-claude').value = STATE.cfg.claude||'';
+  el('cfg-sheet').value = STATE.cfg.sheet||'';
+  el('cfg-kw-pst').value = STATE.cfg.kwPst||'';
+  el('cfg-kw-comp').value = STATE.cfg.kwComp||'';
   renderSettingsCampList();
   el('settingsOverlay').classList.add('open');
 }
-function closeSettings() { el('settingsOverlay').classList.remove('open'); }
+function closeSettings(){ el('settingsOverlay').classList.remove('open'); }
 
-// ══════════════════════════════════════════
-// DATA FETCH
-// ══════════════════════════════════════════
-function baseUrl() {
-  const {user, repo, branch} = STATE.cfg;
+// ═══════════════════════════════════════
+// DATA FETCH — with normalization fixes
+// ═══════════════════════════════════════
+function baseUrl(){
+  const {user,repo,branch} = STATE.cfg;
   return `https://raw.githubusercontent.com/${user}/${repo}/${branch}`;
 }
 
-async function fetchData(path) {
-  try {
-    const r = await fetch(baseUrl() + '/' + path);
-    if (!r.ok) throw new Error(r.status);
-    return await r.json();
-  } catch(e) {
-    console.warn('fetchData failed:', path, e.message);
+async function fetchJSON(path){
+  try{
+    const r = await fetch(baseUrl()+'/'+path+'?v='+Date.now());
+    if(!r.ok) throw new Error(r.status+' '+r.statusText);
+    const data = await r.json();
+    STATE.dataStatus[path] = {ok:true, ts:Date.now()};
+    return data;
+  }catch(e){
+    console.warn('fetchJSON failed:',path,e.message);
+    STATE.dataStatus[path] = {ok:false, error:e.message, ts:Date.now()};
     return null;
   }
 }
 
-async function refreshData() {
+// FIX: normalize mentions — handle both array and object with mentions key
+function normalizeMentions(raw){
+  if(!raw) return [];
+  let arr = Array.isArray(raw) ? raw : (raw.mentions || raw.data || []);
+  return arr.map(m => ({
+    platform: m.platform || m.source || 'web',
+    text: extractText(m),
+    url: m.url || m.link || '',
+    sentiment: m.sentiment || 'neutral',
+    impressions: Number(m.impressions || m.score || m.upvotes || m.views || 0),
+    date: m.date || m.created_at || m.published_at || '',
+    author: extractAuthor(m),
+    title: m.title || '',
+  }));
+}
+
+// FIX: normalize social — merge from mentions.json if social.json missing
+function normalizeSocial(raw, mentions){
+  let arr = [];
+  if(raw){
+    arr = Array.isArray(raw) ? raw : (raw.items || raw.data || raw.posts || []);
+  }
+  // If social.json is empty/missing, pull social platforms from mentions
+  if(arr.length === 0 && mentions && mentions.length > 0){
+    const socialPlatforms = ['linkedin','twitter','facebook','instagram','youtube'];
+    arr = mentions.filter(m => socialPlatforms.includes((m.platform||'').toLowerCase()));
+  }
+  return arr.map(s => ({
+    platform: s.platform || s.source || 'social',
+    author: extractAuthor(s),
+    text: extractText(s),
+    url: s.url || s.link || '',
+    sentiment: s.sentiment || 'neutral',
+    likes: Number(s.likes || s.reactions || s.upvotes || 0),
+    impressions: Number(s.impressions || s.views || s.reach || 0),
+    date: s.date || s.created_at || s.published_at || '',
+    comments: Number(s.comments || 0),
+  }));
+}
+
+async function refreshData(){
+  const btn = el('refreshBtn');
+  btn.textContent = '↺ Loading…';
+  btn.disabled = true;
   el('lastCrawlTime').textContent = 'Loading…';
-  const [mentions, social, competitors, summary] = await Promise.all([
-    fetchData('data/mentions.json'),
-    fetchData('data/social.json'),
-    fetchData('data/competitors.json'),
-    fetchData('data/summary.json'),
+
+  const [mentionsRaw, socialRaw, competitorsRaw, summaryRaw] = await Promise.all([
+    fetchJSON('data/mentions.json'),
+    fetchJSON('data/social.json'),
+    fetchJSON('data/competitors.json'),
+    fetchJSON('data/summary.json'),
   ]);
-  if (mentions) STATE.mentions = mentions;
-  if (social) STATE.social = Array.isArray(social) ? social : [];
-  if (competitors) STATE.competitors = competitors;
-  if (summary) STATE.summary = summary;
-  const lu = STATE.summary.last_updated;
-  if (lu) {
-    const ago = Math.round((Date.now() - new Date(lu)) / 3600000);
-    el('lastCrawlTime').textContent = ago + 'h ago';
+
+  STATE.mentions = normalizeMentions(mentionsRaw);
+  STATE.social = normalizeSocial(socialRaw, STATE.mentions);
+  STATE.competitors = competitorsRaw || {};
+  STATE.summary = summaryRaw || {};
+
+  const lu = STATE.summary.last_updated || STATE.summary.crawled_at;
+  if(lu){
+    const ago = Math.round((Date.now()-new Date(lu))/3600000);
+    el('lastCrawlTime').textContent = ago === 0 ? 'just now' : ago+'h ago';
   } else {
     el('lastCrawlTime').textContent = 'Unknown';
   }
+
+  // Load Google Sheet content if configured
+  if(STATE.cfg.sheet) await loadSheetContent();
+
   renderAll();
+  btn.textContent = '↺ Refresh';
+  btn.disabled = false;
 }
 
-// ══════════════════════════════════════════
-// CAMPAIGN LOGIC
-// ══════════════════════════════════════════
-function classifyMention(text) {
-  const t = (text || '').toLowerCase();
-  for (const c of STATE.campaigns) {
-    if ((c.keywords || []).some(kw => t.includes(kw.toLowerCase()))) return c.id;
+// ═══════════════════════════════════════
+// GOOGLE SHEETS LOADER
+// ═══════════════════════════════════════
+async function loadSheetContent(){
+  const tabs = ['Reddit','Quora QA','Quora Comments','YouTube Comments','Newspaper','Medium'];
+  STATE.sheetContent = [];
+  for(const tab of tabs){
+    try{
+      const url = `https://docs.google.com/spreadsheets/d/${STATE.cfg.sheet}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tab)}`;
+      const r = await fetch(url);
+      if(!r.ok) continue;
+      const text = await r.text();
+      if(!text.trim() || text.includes('<!DOCTYPE')) continue;
+      const rows = parseCSV(text);
+      rows.forEach(row => { row._tab = tab; STATE.sheetContent.push(row); });
+    }catch(e){ console.warn('Sheet tab failed:',tab,e.message); }
+  }
+}
+
+function parseCSV(text){
+  const lines = text.trim().split('\n');
+  if(lines.length < 2) return [];
+  const headers = lines[0].split(',').map(h=>h.replace(/^"|"$/g,'').trim());
+  return lines.slice(1).map(line => {
+    const vals = line.match(/(".*?"|[^,]+)/g) || [];
+    const obj = {};
+    headers.forEach((h,i)=>{ obj[h]=(vals[i]||'').replace(/^"|"$/g,'').trim(); });
+    return obj;
+  }).filter(r=>Object.values(r).some(v=>v));
+}
+
+// ═══════════════════════════════════════
+// CAMPAIGNS
+// ═══════════════════════════════════════
+function classifyMention(text){
+  const t = (text||'').toLowerCase();
+  for(const c of STATE.campaigns){
+    if((c.keywords||[]).some(kw=>t.includes(kw.toLowerCase()))) return c.id;
   }
   return 'general';
 }
+function getCampaign(id){ return STATE.campaigns.find(c=>c.id===id)||{id:'general',name:'General',color:'#555'}; }
+function saveCampaigns(){ localStorage.setItem('polaris_campaigns_v12',JSON.stringify(STATE.campaigns)); }
 
-function getCampaign(id) {
-  return STATE.campaigns.find(c => c.id === id) || {id:'general', name:'General', color:'#555'};
-}
-
-function saveCampaigns() {
-  localStorage.setItem('polaris_campaigns_v10', JSON.stringify(STATE.campaigns));
-}
-
-function addCampaign() {
+function addCampaign(){
   const name = el('campName').value.trim();
   const kws = el('campKws').value.trim();
-  if (!name || !kws) return;
-  const idx = STATE.campaigns.length % CAMPAIGN_COLORS.length;
+  if(!name||!kws) return;
   STATE.campaigns.push({
-    id: 'camp_' + Date.now(),
-    name, color: CAMPAIGN_COLORS[idx],
-    keywords: kws.split(',').map(k => k.trim().toLowerCase())
+    id:'camp_'+Date.now(),
+    name,
+    color: CAMPAIGN_COLORS[STATE.campaigns.length % CAMPAIGN_COLORS.length],
+    keywords: kws.split(',').map(k=>k.trim().toLowerCase())
   });
   saveCampaigns();
   el('campName').value = '';
@@ -745,46 +813,58 @@ function addCampaign() {
   renderCampaigns();
   renderSettingsCampList();
 }
-
-function removeCampaign(id) {
-  STATE.campaigns = STATE.campaigns.filter(c => c.id !== id);
+function removeCampaign(id){
+  STATE.campaigns = STATE.campaigns.filter(c=>c.id!==id);
   saveCampaigns();
   renderCampaigns();
   renderSettingsCampList();
 }
+function renderSettingsCampList(){
+  el('settings-camp-list').innerHTML = STATE.campaigns.map(c=>`
+    <div class="campaign-item">
+      <div class="campaign-dot" style="background:${c.color}"></div>
+      <div class="campaign-info">
+        <div class="campaign-name">${c.name}</div>
+        <div class="campaign-kws">${(c.keywords||[]).join(', ')}</div>
+      </div>
+      <span class="campaign-remove" onclick="removeCampaign('${c.id}')">×</span>
+    </div>`).join('');
+}
 
-// ══════════════════════════════════════════
-// HELPERS
-// ══════════════════════════════════════════
-const el = id => document.getElementById(id);
-const fmtNum = n => n >= 1000000 ? (n/1000000).toFixed(1)+'M' : n >= 1000 ? (n/1000).toFixed(1)+'k' : String(Math.round(n));
-const fmtDate = s => { try { return new Date(s).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}); } catch(e){ return s||'—'; } };
-const platBadge = p => `<span class="badge badge-${(p||'').toLowerCase()}">${p||''}</span>`;
-const sentBadge = s => `<span class="badge badge-${s==='positive'?'pos':s==='negative'?'neg':'neu'}">${s||'neutral'}</span>`;
-const campBadge = (id) => { const c = getCampaign(id); return `<span class="badge" style="background:${c.color}22;color:${c.color}">${c.name}</span>`; };
-
-function switchTab(tab) {
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  const panel = el('tab-' + tab);
-  if (panel) panel.classList.add('active');
+// ═══════════════════════════════════════
+// TAB SWITCHING
+// ═══════════════════════════════════════
+function switchTab(tab){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const panel = el('tab-'+tab);
+  if(panel) panel.classList.add('active');
   const navItem = document.querySelector(`[data-tab="${tab}"]`);
-  if (navItem) navItem.classList.add('active');
+  if(navItem) navItem.classList.add('active');
   STATE.activeTab = tab;
 }
 
-function globalSearchFn(q) {
-  if (!q.trim()) return;
+function globalSearchFn(q){
+  if(!q.trim()) return;
   STATE.listenSearch = q;
   switchTab('listening');
   el('listenSearch').value = q;
   filterListening();
 }
 
-// ══════════════════════════════════════════
+// FIX: safe chart creation — destroys old instance before creating new
+function createChart(id, config){
+  if(CHARTS[id]){ CHARTS[id].destroy(); delete CHARTS[id]; }
+  const canvas = el(id);
+  if(!canvas) return;
+  CHARTS[id] = new Chart(canvas, config);
+  return CHARTS[id];
+}
+
+// ═══════════════════════════════════════
 // RENDER ALL
-// ══════════════════════════════════════════
-function renderAll() {
+// ═══════════════════════════════════════
+function renderAll(){
   renderOverview();
   renderListening();
   renderSocial();
@@ -795,90 +875,122 @@ function renderAll() {
   renderLLM();
   renderReport();
   renderHistory();
+  renderDataStatus();
 }
 
-// ══════════════════════════════════════════
-// OVERVIEW
-// ══════════════════════════════════════════
-function renderOverview() {
+// ═══════════════════════════════════════
+// BPS CALCULATION
+// ═══════════════════════════════════════
+function calcBPS(){
   const m = STATE.mentions;
   const s = STATE.summary;
   const total = m.length || s.total_mentions || 0;
-  const impr = m.reduce((a,x) => a + (x.impressions||0), 0) || s.impressions || 0;
-  const pos = m.filter(x => x.sentiment==='positive').length || (s.sentiment||{}).positive || 0;
-  const neg = m.filter(x => x.sentiment==='negative').length || (s.sentiment||{}).negative || 0;
-  const plats = Object.keys(s.platforms||{}).filter(p => (s.platforms[p]||0) > 0).length || 0;
+  if(!total) return 0;
+  const pos = m.filter(x=>x.sentiment==='positive').length || (s.sentiment||{}).positive || 0;
+  const neg = m.filter(x=>x.sentiment==='negative').length || (s.sentiment||{}).negative || 0;
+  const platCount = [...new Set(m.map(x=>x.platform))].length || Object.keys(s.platforms||{}).length;
+  let score = 35;
+  score += Math.min(25, total * 0.3);
+  score += pos * 1.5;
+  score -= neg * 4;
+  score += platCount * 3;
+  return Math.min(100, Math.max(0, Math.round(score)));
+}
+
+// ═══════════════════════════════════════
+// OVERVIEW
+// ═══════════════════════════════════════
+function renderOverview(){
+  const m = STATE.mentions;
+  const s = STATE.summary;
+  const total = m.length || s.total_mentions || 0;
+  const impr = m.reduce((a,x)=>a+(x.impressions||0),0) || s.impressions || s.total_impressions || 0;
+  const pos = m.filter(x=>x.sentiment==='positive').length || (s.sentiment||{}).positive || 0;
+  const neg = m.filter(x=>x.sentiment==='negative').length || (s.sentiment||{}).negative || 0;
+  const neu = m.filter(x=>x.sentiment==='neutral').length || (s.sentiment||{}).neutral || 0;
+
+  // Get platforms from actual data, fall back to summary
+  const platMap = {};
+  m.forEach(x=>{ platMap[x.platform] = (platMap[x.platform]||0)+1; });
+  const platData = Object.keys(platMap).length ? platMap : (s.platforms||{});
+  const platCount = Object.keys(platData).filter(p=>(platData[p]||0)>0).length;
   const bps = calcBPS();
 
   el('ov-mentions').textContent = fmtNum(total);
   el('ov-impressions').textContent = fmtNum(impr);
   el('ov-positive').textContent = pos;
-  el('ov-pos-pct').textContent = total ? Math.round(pos/total*100) + '% of mentions' : '';
+  el('ov-pos-pct').textContent = total ? Math.round(pos/total*100)+'% of mentions' : '';
   el('ov-negative').textContent = neg;
-  el('ov-neg-pct').textContent = total ? Math.round(neg/total*100) + '% of mentions' : '';
-  el('ov-platforms').textContent = plats;
+  el('ov-neg-pct').textContent = total ? Math.round(neg/total*100)+'% of mentions' : '';
+  el('ov-platforms').textContent = platCount;
   el('ov-bps').textContent = bps;
   el('topBPS').textContent = bps;
 
-  if (neg > 0) {
-    el('negAlert').style.display = 'flex';
-    el('negAlertText').textContent = neg + ' negative mention' + (neg>1?'s':'') + ' detected across platforms.';
+  if(neg>0){
+    el('negAlert').style.display='flex';
+    el('negAlertText').textContent = neg+' negative mention'+(neg>1?'s':'')+' detected.';
   } else {
-    el('negAlert').style.display = 'none';
+    el('negAlert').style.display='none';
   }
 
   // Platform bars
-  const platsData = s.platforms || {};
-  const platHtml = Object.entries(platsData).sort((a,b)=>b[1]-a[1]).map(([p,c]) => {
+  const platColors = {reddit:'#FF4500',quora:'#B92B27',medium:'#2BB56A',web:'#5B9CF6',portal:'#8B71E0',youtube:'#FF0000',linkedin:'#0077B5',twitter:'#5B9CF6',news:'#D88100'};
+  const sorted = Object.entries(platData).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);
+  el('ov-platform-bars').innerHTML = sorted.length ? sorted.map(([p,c])=>{
     const pct = total ? Math.round(c/total*100) : 0;
-    const colors = {reddit:'#FF4500',quora:'#B92B27',medium:'#2BB56A',web:'#5B9CF6',portal:'#8B71E0'};
+    const color = platColors[p.toLowerCase()] || '#888';
     return `<div style="margin-bottom:10px">
       <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px">
         <span style="text-transform:capitalize;color:var(--text2)">${p}</span>
-        <span style="color:var(--gold);font-weight:600">${c}</span>
+        <span style="color:var(--gold);font-weight:600">${c} (${pct}%)</span>
       </div>
-      <div class="prog-bar"><div class="prog-fill" style="width:${pct}%;background:${colors[p]||'#888'}"></div></div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${pct}%;background:${color}"></div></div>
     </div>`;
-  }).join('');
-  el('ov-platform-bars').innerHTML = platHtml || '<div class="empty-state"><p>No platform data</p></div>';
+  }).join('') : '<div class="empty-state"><p>No platform data yet. Run the crawler.</p></div>';
 
   // Sentiment
-  const neu = m.filter(x=>x.sentiment==='neutral').length || (s.sentiment||{}).neutral || 0;
   el('ov-sentiment').innerHTML = `
     <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
-      <span class="badge badge-pos">Positive ${pos}</span>
-      <span class="badge badge-neu">Neutral ${neu}</span>
-      <span class="badge badge-neg">Negative ${neg}</span>
+      ${sentBadge('positive')} <span style="color:var(--text2);font-size:11px">${pos}</span>
+      ${sentBadge('neutral')} <span style="color:var(--text2);font-size:11px">${neu}</span>
+      ${sentBadge('negative')} <span style="color:var(--text2);font-size:11px">${neg}</span>
     </div>
-    <div class="sent-bar"><div class="sent-fill" style="width:${total?pos/total*100:0}%;background:var(--green)"></div></div>
-    <div class="sent-bar"><div class="sent-fill" style="width:${total?neu/total*100:0}%;background:var(--text3)"></div></div>
-    <div class="sent-bar"><div class="sent-fill" style="width:${total?neg/total*100:0}%;background:var(--red)"></div></div>
-  `;
+    ${total ? `
+    <div class="sent-bar"><div class="sent-fill" style="width:${pos/total*100}%;background:var(--green)"></div></div>
+    <div class="sent-bar"><div class="sent-fill" style="width:${neu/total*100}%;background:var(--text3)"></div></div>
+    <div class="sent-bar"><div class="sent-fill" style="width:${neg/total*100}%;background:var(--red)"></div></div>
+    ` : '<p style="font-size:11px;color:var(--text3)">No data loaded.</p>'}`;
 
   // Actions
   const actions = [];
-  if (neg > 0) actions.push({priority:'HIGH', text:`Respond to ${neg} negative mention${neg>1?'s':''}`, tab:'listening'});
-  actions.push({priority:'MED', text:'Schedule next crawl — data is stale', tab:'history'});
-  el('ov-actions').innerHTML = actions.map(a =>
-    `<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);cursor:pointer" onclick="switchTab('${a.tab}')">
-      <span class="badge ${a.priority==='HIGH'?'badge-neg':'badge-neu'}">${a.priority}</span>
+  if(!STATE.cfg.user||STATE.cfg.user==='adirispol'&&total===0) actions.push({priority:'HIGH',text:'No data loaded — click Refresh or check Settings',tab:'datastatus'});
+  if(neg>0) actions.push({priority:'HIGH',text:`Respond to ${neg} negative mention${neg>1?'s':''}`,tab:'listening'});
+  if(!STATE.cfg.sheet) actions.push({priority:'MED',text:'Connect Google Sheet for content tracking',tab:'content'});
+  actions.push({priority:'LOW',text:'Check Data Status tab for pipeline health',tab:'datastatus'});
+  el('ov-actions').innerHTML = actions.map(a=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);cursor:pointer" onclick="switchTab('${a.tab}')">
+      <span class="badge ${a.priority==='HIGH'?'badge-neg':a.priority==='MED'?'badge-mixed':'badge-neu'}">${a.priority}</span>
       <span style="font-size:12px;color:var(--text2);flex:1">${a.text}</span>
       <span style="color:var(--text3)">→</span>
-    </div>`
-  ).join('') || '<div style="font-size:12px;color:var(--text3);padding:8px 0">No urgent actions</div>';
+    </div>`).join('') || '<div style="font-size:12px;color:var(--text3);padding:8px 0">No urgent actions</div>';
 
   // Recent mentions
-  const recent = m.slice(0, 8);
-  el('ov-recent').innerHTML = recent.length ? `<table><thead><tr><th>Platform</th><th>Content</th><th>Sentiment</th></tr></thead><tbody>` +
-    recent.map(r => `<tr><td>${platBadge(r.platform)}</td><td style="max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.text||''}</td><td>${sentBadge(r.sentiment)}</td></tr>`).join('') +
-    `</tbody></table>` : '<div class="empty-state"><p>No mentions loaded</p></div>';
+  const recent = m.slice(0,8);
+  el('ov-recent').innerHTML = recent.length ? `<table><thead><tr><th>Platform</th><th>Content</th><th>Sentiment</th><th>Impressions</th></tr></thead><tbody>`+
+    recent.map(r=>`<tr>
+      <td>${platBadge(r.platform)}</td>
+      <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text2)">${r.text||r.title||''}</td>
+      <td>${sentBadge(r.sentiment)}</td>
+      <td style="text-align:right;color:var(--text3)">${fmtNum(r.impressions)}</td>
+    </tr>`).join('')+`</tbody></table>` :
+    '<div class="empty-state"><div class="icon">◎</div><p>No mentions loaded.</p><p>Click ↺ Refresh to load data from GitHub.</p></div>';
 
   // Campaign snapshot
   const campCounts = {};
-  STATE.campaigns.forEach(c => { campCounts[c.id] = 0; });
-  m.forEach(x => { const cid = classifyMention(x.text); campCounts[cid] = (campCounts[cid]||0) + 1; });
-  el('ov-campaigns').innerHTML = STATE.campaigns.map(c => {
-    const cnt = campCounts[c.id] || 0;
+  STATE.campaigns.forEach(c=>{ campCounts[c.id]=0; });
+  m.forEach(x=>{ const cid=classifyMention(x.text); campCounts[cid]=(campCounts[cid]||0)+1; });
+  el('ov-campaigns').innerHTML = STATE.campaigns.map(c=>{
+    const cnt = campCounts[c.id]||0;
     const pct = m.length ? Math.round(cnt/m.length*100) : 0;
     return `<div style="margin-bottom:10px">
       <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px">
@@ -887,671 +999,610 @@ function renderOverview() {
       </div>
       <div class="prog-bar"><div class="prog-fill" style="width:${pct}%;background:${c.color}"></div></div>
     </div>`;
-  }).join('') || '<div class="empty-state"><p>No campaigns. Add them in the Campaigns tab.</p></div>';
+  }).join('');
 }
 
-function calcBPS() {
-  const m = STATE.mentions;
-  const s = STATE.summary;
-  if (!m.length && !s.total_mentions) return 0;
-  const total = m.length || s.total_mentions;
-  const pos = m.filter(x=>x.sentiment==='positive').length || (s.sentiment||{}).positive || 0;
-  const neg = m.filter(x=>x.sentiment==='negative').length || (s.sentiment||{}).negative || 0;
-  const platCount = Object.keys(s.platforms||{}).length;
-  let score = 40;
-  score += Math.min(20, total * 0.2);
-  score += pos * 2;
-  score -= neg * 5;
-  score += platCount * 3;
-  return Math.min(100, Math.max(0, Math.round(score)));
-}
-
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════
 // LIVE LISTENING
-// ══════════════════════════════════════════
-function renderListening() {
-  const platforms = ['all', ...new Set(STATE.mentions.map(m => m.platform).filter(Boolean))];
-  el('listenPills').innerHTML = platforms.map(p =>
+// ═══════════════════════════════════════
+function renderListening(){
+  const platforms = ['all',...new Set(STATE.mentions.map(m=>m.platform).filter(Boolean))];
+  el('listenPills').innerHTML = platforms.map(p=>
     `<div class="pill ${STATE.listenFilter===p?'active':''}" onclick="setListenFilter('${p}')">${p==='all'?'All':p.charAt(0).toUpperCase()+p.slice(1)}</div>`
   ).join('');
   filterListening();
 }
-
-function setListenFilter(p) {
+function setListenFilter(p){
   STATE.listenFilter = p;
-  document.querySelectorAll('#listenPills .pill').forEach(pill => {
-    pill.classList.toggle('active', pill.textContent.toLowerCase() === p || (p==='all' && pill.textContent==='All'));
+  document.querySelectorAll('#listenPills .pill').forEach(pill=>{
+    pill.classList.toggle('active', pill.textContent.toLowerCase()===p||(p==='all'&&pill.textContent==='All'));
   });
   filterListening();
 }
-
-function filterListening() {
+function filterListening(){
   const q = (el('listenSearch')||{value:''}).value.toLowerCase();
   const sent = (el('listenSent')||{value:'all'}).value;
   let data = STATE.mentions;
-  if (STATE.listenFilter !== 'all') data = data.filter(m => m.platform === STATE.listenFilter);
-  if (q) data = data.filter(m => (m.text||'').toLowerCase().includes(q) || (m.url||'').toLowerCase().includes(q));
-  if (sent !== 'all') data = data.filter(m => m.sentiment === sent);
-
+  if(STATE.listenFilter!=='all') data = data.filter(m=>m.platform===STATE.listenFilter);
+  if(q) data = data.filter(m=>(m.text||'').toLowerCase().includes(q)||(m.url||'').toLowerCase().includes(q)||(m.title||'').toLowerCase().includes(q));
+  if(sent!=='all') data = data.filter(m=>m.sentiment===sent);
   el('listenTable').innerHTML = data.length ? `
-    <table><thead><tr><th>Platform</th><th>Content</th><th>Campaign</th><th>Sentiment</th><th>Impressions</th><th>Date</th><th>Link</th></tr></thead><tbody>` +
-    data.map(m => {
+    <table><thead><tr><th>Platform</th><th>Content</th><th>Campaign</th><th>Sentiment</th><th>Impressions</th><th>Date</th><th>Link</th></tr></thead><tbody>`+
+    data.map(m=>{
       const cid = classifyMention(m.text);
       return `<tr>
         <td>${platBadge(m.platform)}</td>
-        <td style="max-width:260px"><div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text2)">${m.text||''}</div></td>
+        <td style="max-width:240px"><div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text2)" title="${(m.text||'').replace(/"/g,'')}">${m.text||m.title||''}</div></td>
         <td>${cid!=='general'?campBadge(cid):'<span style="color:var(--text3);font-size:11px">—</span>'}</td>
         <td>${sentBadge(m.sentiment)}</td>
         <td style="text-align:right;color:var(--text2)">${fmtNum(m.impressions||0)}</td>
-        <td style="color:var(--text3);font-size:11px">${fmtDate(m.date)}</td>
+        <td style="color:var(--text3);font-size:11px;white-space:nowrap">${fmtDate(m.date)}</td>
         <td>${m.url?`<a href="${m.url}" target="_blank" class="link-btn">View ↗</a>`:'—'}</td>
       </tr>`;
-    }).join('') + `</tbody></table>` :
-    `<div class="empty-state"><div class="icon">◎</div><p>No mentions match this filter</p></div>`;
+    }).join('')+`</tbody></table>` :
+    `<div class="empty-state"><div class="icon">◎</div><p>No mentions match this filter.</p></div>`;
 }
 
-// ══════════════════════════════════════════
-// SOCIAL MEDIA — FIXED (was showing "No data" despite 49 records)
-// ══════════════════════════════════════════
-function renderSocial() {
+// ═══════════════════════════════════════
+// SOCIAL MEDIA — fixed author parsing
+// ═══════════════════════════════════════
+function renderSocial(){
   const data = STATE.social;
-  const platforms = ['all', ...new Set(data.map(s => s.platform).filter(Boolean))];
-  el('socialPills').innerHTML = platforms.map(p =>
-    `<div class="pill ${STATE.socialFilter===p?'active':''}" onclick="setSocialFilter('${p}')">${p==='all'?'All ('+data.length+')':p.charAt(0).toUpperCase()+p.slice(1)+' ('+data.filter(s=>s.platform===p).length+')'}</div>`
+  const platforms = ['all',...new Set(data.map(s=>s.platform).filter(Boolean))];
+  el('socialPills').innerHTML = platforms.map(p=>
+    `<div class="pill ${STATE.socialFilter===p?'active':''}" onclick="setSocialFilter('${p}')">${p==='all'?'All ('+data.length+')':p+' ('+data.filter(s=>s.platform===p).length+')'}</div>`
   ).join('');
-
-  // KPIs
-  const total = data.length;
   const totalLikes = data.reduce((a,x)=>a+(x.likes||0),0);
   const totalImpr = data.reduce((a,x)=>a+(x.impressions||0),0);
   const posCount = data.filter(x=>x.sentiment==='positive').length;
   el('socialKPIs').innerHTML = [
-    {label:'Total Posts', val:total, cls:'c-gold'},
-    {label:'Total Likes', val:fmtNum(totalLikes), cls:'c-orange'},
-    {label:'Est. Impressions', val:fmtNum(totalImpr), cls:'c-blue'},
-    {label:'Positive Posts', val:posCount, cls:'c-green'},
+    {label:'Total Posts',val:data.length,cls:'c-gold'},
+    {label:'Total Likes',val:fmtNum(totalLikes),cls:'c-orange'},
+    {label:'Est. Impressions',val:fmtNum(totalImpr),cls:'c-blue'},
+    {label:'Positive Posts',val:posCount,cls:'c-green'},
   ].map(k=>`<div class="kpi ${k.cls}"><div class="kpi-num">${k.val}</div><div class="kpi-lbl">${k.label}</div></div>`).join('');
-
   filterSocial();
 }
-
-function setSocialFilter(p) {
+function setSocialFilter(p){
   STATE.socialFilter = p;
-  document.querySelectorAll('#socialPills .pill').forEach(pill => {
-    const match = p==='all' ? pill.textContent.startsWith('All') : pill.textContent.toLowerCase().startsWith(p);
-    pill.classList.toggle('active', match);
+  document.querySelectorAll('#socialPills .pill').forEach(pill=>{
+    const match = p==='all' ? pill.textContent.startsWith('All') : pill.textContent.toLowerCase().startsWith(p.toLowerCase());
+    pill.classList.toggle('active',match);
   });
   filterSocial();
 }
-
-function filterSocial() {
+function filterSocial(){
   const q = (el('socialSearch')||{value:''}).value.toLowerCase();
   let data = STATE.social;
-  if (STATE.socialFilter !== 'all') data = data.filter(s => s.platform === STATE.socialFilter);
-  if (q) data = data.filter(s => (s.text||'').toLowerCase().includes(q) || (s.author||'').toLowerCase().includes(q));
-
+  if(STATE.socialFilter!=='all') data = data.filter(s=>s.platform===STATE.socialFilter);
+  if(q) data = data.filter(s=>(s.text||'').toLowerCase().includes(q)||(s.author||'').toLowerCase().includes(q));
   el('socialTable').innerHTML = data.length ? `
-    <table><thead><tr><th>Platform</th><th>Author</th><th>Content</th><th>Sentiment</th><th>Likes</th><th>Impressions</th><th>Date</th><th>Link</th></tr></thead><tbody>` +
-    data.map(s => `<tr>
+    <table><thead><tr><th>Platform</th><th>Author</th><th>Content</th><th>Sentiment</th><th>Likes</th><th>Impressions</th><th>Date</th><th>Link</th></tr></thead><tbody>`+
+    data.map(s=>`<tr>
       <td>${platBadge(s.platform)}</td>
       <td style="color:var(--text2);font-size:11px;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${s.author||'—'}</td>
-      <td style="max-width:240px"><div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text2)">${s.text||''}</div></td>
+      <td style="max-width:220px"><div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text2)">${s.text||''}</div></td>
       <td>${sentBadge(s.sentiment)}</td>
       <td style="text-align:right;color:var(--text2)">${s.likes||0}</td>
       <td style="text-align:right;color:var(--text2)">${fmtNum(s.impressions||0)}</td>
-      <td style="color:var(--text3);font-size:11px">${fmtDate(s.date)}</td>
+      <td style="color:var(--text3);font-size:11px;white-space:nowrap">${fmtDate(s.date)}</td>
       <td>${s.url?`<a href="${s.url}" target="_blank" class="link-btn">View ↗</a>`:'—'}</td>
-    </tr>`).join('') + `</tbody></table>` :
-    `<div class="empty-state"><div class="icon">◎</div><p>${STATE.social.length===0?'No social data loaded yet':'No posts match this filter'}</p></div>`;
+    </tr>`).join('')+`</tbody></table>` :
+    `<div class="empty-state"><div class="icon">◉</div><p>No social media data.</p><p>Social posts from LinkedIn/YouTube appear here when crawled.</p></div>`;
 }
 
-// ══════════════════════════════════════════
-// MY CONTENT — FIXED (was empty)
-// ══════════════════════════════════════════
-function renderContent() {
-  const m = STATE.mentions;
-  const platGroups = {};
-  m.forEach(item => {
-    const p = item.platform || 'web';
-    if (!platGroups[p]) platGroups[p] = [];
-    platGroups[p].push(item);
-  });
-  const platforms = ['all', ...Object.keys(platGroups)];
-  el('contentPills').innerHTML = platforms.map(p =>
-    `<div class="pill ${STATE.contentFilter===p?'active':''}" onclick="setContentFilter('${p}')">${p==='all'?'All ('+m.length+')':p+' ('+(platGroups[p]||[]).length+')'}</div>`
+// ═══════════════════════════════════════
+// MY CONTENT — Google Sheets
+// ═══════════════════════════════════════
+function renderContent(){
+  const data = STATE.sheetContent;
+  if(!STATE.cfg.sheet){
+    el('content-no-sheet').style.display='flex';
+  } else {
+    el('content-no-sheet').style.display='none';
+  }
+  const tabs = ['all',...new Set(data.map(r=>r._tab).filter(Boolean))];
+  el('contentPills').innerHTML = tabs.map(t=>
+    `<div class="pill ${STATE.contentFilter===t?'active':''}" onclick="setContentFilter('${t}')">${t==='all'?'All ('+data.length+')':t+' ('+data.filter(r=>r._tab===t).length+')'}</div>`
   ).join('');
   filterContent();
 }
-
-function setContentFilter(p) {
-  STATE.contentFilter = p;
-  document.querySelectorAll('#contentPills .pill').forEach(pill => {
-    const match = p==='all' ? pill.textContent.startsWith('All') : pill.textContent.startsWith(p);
-    pill.classList.toggle('active', match);
-  });
-  filterContent();
+function setContentFilter(t){ STATE.contentFilter=t; document.querySelectorAll('#contentPills .pill').forEach(p=>p.classList.toggle('active',p.textContent.startsWith(t==='all'?'All':t))); filterContent(); }
+function filterContent(){
+  const q=(el('contentSearch')||{value:''}).value.toLowerCase();
+  let data=STATE.sheetContent;
+  if(STATE.contentFilter!=='all') data=data.filter(r=>r._tab===STATE.contentFilter);
+  if(q) data=data.filter(r=>Object.values(r).some(v=>v.toLowerCase().includes(q)));
+  if(!data.length){
+    el('contentTable').innerHTML=STATE.cfg.sheet?'<div class="empty-state"><p>No content data found. Check sheet tab names match: Reddit, Quora QA, Quora Comments, YouTube Comments, Newspaper, Medium.</p></div>':'<div class="empty-state"><div class="icon">◫</div><p>Connect your Google Sheet in ⚙ Settings.</p></div>';
+    return;
+  }
+  const cols = Object.keys(data[0]).filter(k=>k!=='_tab');
+  el('contentTable').innerHTML=`<table><thead><tr><th>Tab</th>${cols.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>`+
+    data.map(r=>`<tr><td><span class="badge badge-medium">${r._tab}</span></td>${cols.map(c=>{
+      const v=r[c]||'';
+      if(v.startsWith('http')) return `<td><a href="${v}" target="_blank" class="link-btn">Open ↗</a></td>`;
+      return `<td style="color:var(--text2);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${v}</td>`;
+    }).join('')}</tr>`).join('')+`</tbody></table>`;
 }
 
-function filterContent() {
-  const q = (el('contentSearch')||{value:''}).value.toLowerCase();
-  let data = STATE.mentions;
-  if (STATE.contentFilter !== 'all') data = data.filter(m => m.platform === STATE.contentFilter);
-  if (q) data = data.filter(m => (m.text||'').toLowerCase().includes(q));
-  el('contentTable').innerHTML = data.length ? `
-    <table><thead><tr><th>Platform</th><th>Content</th><th>Campaign</th><th>Sentiment</th><th>Impressions</th><th>Date</th><th>Link</th></tr></thead><tbody>` +
-    data.map(m => {
-      const cid = classifyMention(m.text);
-      return `<tr>
-        <td>${platBadge(m.platform)}</td>
-        <td style="max-width:280px"><div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text2)">${m.text||''}</div></td>
-        <td>${cid!=='general'?campBadge(cid):'<span style="color:var(--text3);font-size:11px">—</span>'}</td>
-        <td>${sentBadge(m.sentiment)}</td>
-        <td style="text-align:right;color:var(--text2)">${fmtNum(m.impressions||0)}</td>
-        <td style="color:var(--text3);font-size:11px">${fmtDate(m.date)}</td>
-        <td>${m.url?`<a href="${m.url}" target="_blank" class="link-btn">View ↗</a>`:'—'}</td>
-      </tr>`;
-    }).join('') + `</tbody></table>` :
-    `<div class="empty-state"><div class="icon">◫</div><p>No content data loaded</p></div>`;
-}
-
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════
 // LINK INVENTORY
-// ══════════════════════════════════════════
-function renderInventory() {
-  const m = STATE.mentions.filter(x => x.url);
-  const platforms = ['all', ...new Set(m.map(x=>x.platform).filter(Boolean))];
-  el('invPills').innerHTML = platforms.map(p =>
-    `<div class="pill ${STATE.invFilter===p?'active':''}" onclick="setInvFilter('${p}')">${p==='all'?'All ('+m.length+')':p+' ('+ m.filter(x=>x.platform===p).length+')'}</div>`
+// ═══════════════════════════════════════
+function renderInventory(){
+  const data = STATE.mentions.filter(m=>m.url);
+  const platforms = ['all',...new Set(data.map(m=>m.platform).filter(Boolean))];
+  el('invPills').innerHTML = platforms.map(p=>
+    `<div class="pill ${STATE.invFilter===p?'active':''}" onclick="setInvFilter('${p}')">${p==='all'?'All ('+data.length+')':p+' ('+data.filter(m=>m.platform===p).length+')'}</div>`
   ).join('');
   filterInventory();
 }
-
-function setInvFilter(p) {
-  STATE.invFilter = p;
-  document.querySelectorAll('#invPills .pill').forEach(pill => {
-    const match = p==='all'?pill.textContent.startsWith('All'):pill.textContent.startsWith(p);
-    pill.classList.toggle('active', match);
-  });
-  filterInventory();
-}
-
-function filterInventory() {
-  const q = (el('invSearch')||{value:''}).value.toLowerCase();
-  let data = STATE.mentions.filter(x=>x.url);
-  if (STATE.invFilter !== 'all') data = data.filter(m=>m.platform===STATE.invFilter);
-  if (q) data = data.filter(m=>(m.text||'').toLowerCase().includes(q)||(m.url||'').toLowerCase().includes(q));
-  el('invTable').innerHTML = data.length ? `
-    <table><thead><tr><th>#</th><th>Platform</th><th>Content</th><th>Sentiment</th><th>Impressions</th><th>Link</th></tr></thead><tbody>` +
-    data.map((m,i) => `<tr>
-      <td style="color:var(--text3)">${i+1}</td>
+function setInvFilter(p){ STATE.invFilter=p; document.querySelectorAll('#invPills .pill').forEach(pill=>pill.classList.toggle('active',p==='all'?pill.textContent.startsWith('All'):pill.textContent.toLowerCase().startsWith(p.toLowerCase()))); filterInventory(); }
+function filterInventory(){
+  const q=(el('invSearch')||{value:''}).value.toLowerCase();
+  let data=STATE.mentions.filter(m=>m.url);
+  if(STATE.invFilter!=='all') data=data.filter(m=>m.platform===STATE.invFilter);
+  if(q) data=data.filter(m=>(m.url||'').toLowerCase().includes(q)||(m.text||'').toLowerCase().includes(q));
+  el('invTable').innerHTML=data.length?`<table><thead><tr><th>Platform</th><th>Title / Content</th><th>Sentiment</th><th>Impressions</th><th>Date</th><th>Link</th></tr></thead><tbody>`+
+    data.map(m=>`<tr>
       <td>${platBadge(m.platform)}</td>
-      <td style="max-width:260px"><div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text2)">${m.text||''}</div></td>
+      <td style="max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text2)">${m.title||m.text||''}</td>
       <td>${sentBadge(m.sentiment)}</td>
       <td style="text-align:right;color:var(--text2)">${fmtNum(m.impressions||0)}</td>
+      <td style="color:var(--text3);font-size:11px;white-space:nowrap">${fmtDate(m.date)}</td>
       <td><a href="${m.url}" target="_blank" class="link-btn">Open ↗</a></td>
-    </tr>`).join('') + `</tbody></table>` :
-    `<div class="empty-state"><div class="icon">◧</div><p>No links available</p></div>`;
+    </tr>`).join('')+`</tbody></table>`:
+    `<div class="empty-state"><div class="icon">◧</div><p>No links found in mention data.</p></div>`;
 }
 
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════
 // CAMPAIGNS
-// ══════════════════════════════════════════
-function renderCampaigns() {
-  const m = STATE.mentions;
-  const campCounts = {};
-  STATE.campaigns.forEach(c => { campCounts[c.id] = 0; });
-  m.forEach(x => { const cid = classifyMention(x.text); campCounts[cid] = (campCounts[cid]||0)+1; });
-
-  // Campaign list
-  el('camp-list').innerHTML = STATE.campaigns.length ? STATE.campaigns.map(c => `
+// ═══════════════════════════════════════
+function renderCampaigns(){
+  el('camp-list').innerHTML = STATE.campaigns.map(c=>`
     <div class="campaign-item">
       <div class="campaign-dot" style="background:${c.color}"></div>
       <div class="campaign-info">
-        <div class="campaign-name">${c.name} <span style="color:${c.color};font-weight:700;margin-left:6px">${campCounts[c.id]||0}</span></div>
+        <div class="campaign-name">${c.name}</div>
         <div class="campaign-kws">${(c.keywords||[]).join(', ')}</div>
       </div>
       <span class="campaign-remove" onclick="removeCampaign('${c.id}')">×</span>
-    </div>
-  `).join('') : '<div class="empty-state"><p>No campaigns. Add one below.</p></div>';
+    </div>`).join('');
 
-  // Distribution
-  el('camp-dist').innerHTML = STATE.campaigns.map(c => {
+  const campCounts = {};
+  STATE.campaigns.forEach(c=>{ campCounts[c.id]=0; });
+  STATE.mentions.forEach(x=>{ const cid=classifyMention(x.text); campCounts[cid]=(campCounts[cid]||0)+1; });
+  const total = STATE.mentions.length;
+
+  el('camp-dist').innerHTML = STATE.campaigns.map(c=>{
     const cnt = campCounts[c.id]||0;
-    const pct = m.length ? Math.round(cnt/m.length*100) : 0;
+    const pct = total ? Math.round(cnt/total*100) : 0;
     return `<div style="margin-bottom:10px">
-      <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px">
+      <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px">
         <span style="color:var(--text2)"><span style="width:8px;height:8px;border-radius:50%;background:${c.color};display:inline-block;margin-right:6px"></span>${c.name}</span>
-        <span style="color:${c.color};font-weight:700">${cnt} <span style="color:var(--text3);font-weight:400">(${pct}%)</span></span>
+        <span style="color:${c.color};font-weight:600">${cnt} (${pct}%)</span>
       </div>
       <div class="prog-bar"><div class="prog-fill" style="width:${pct}%;background:${c.color}"></div></div>
     </div>`;
   }).join('');
 
-  // Pills for filter
-  const allCamps = [{id:'all',name:'All Mentions',color:'#888'}, ...STATE.campaigns, {id:'general',name:'Untagged',color:'#444'}];
-  el('campPills').innerHTML = allCamps.map(c =>
-    `<div class="pill ${STATE.campFilter===c.id?'active':''}" onclick="setCampFilter('${c.id}',this)" style="${STATE.campFilter===c.id?`background:${c.color};border-color:${c.color};color:${c.id==='all'?'#000':'#000'}`:''}">
-      ${c.name} ${c.id!=='all'?(campCounts[c.id]||0):'('+m.length+')'}
-    </div>`
-  ).join('');
+  const campPills = ['all',...STATE.campaigns.map(c=>c.id)];
+  el('campPills').innerHTML = campPills.map(id=>{
+    const c = getCampaign(id);
+    const cnt = campCounts[id]||0;
+    return `<div class="pill ${STATE.campFilter===id?'active':''}" onclick="setCampFilter('${id}')" style="${STATE.campFilter===id?`background:${c.color};border-color:${c.color};color:#000`:''}">${id==='all'?'All':c.name+' '+cnt}</div>`;
+  }).join('');
 
-  filterCampaignTable();
+  filterCampTable();
 }
-
-function setCampFilter(id, el_) {
-  STATE.campFilter = id;
-  renderCampaigns();
-}
-
-function filterCampaignTable() {
-  let data = STATE.mentions;
-  if (STATE.campFilter !== 'all') {
-    data = data.filter(m => classifyMention(m.text) === STATE.campFilter);
-  }
-  el('campTable').innerHTML = data.length ? `
-    <table><thead><tr><th>Platform</th><th>Campaign</th><th>Content</th><th>Sentiment</th><th>Impressions</th><th>Date</th></tr></thead><tbody>` +
-    data.map(m => {
-      const cid = classifyMention(m.text);
+function setCampFilter(id){ STATE.campFilter=id; renderCampaigns(); }
+function filterCampTable(){
+  let data = STATE.campFilter==='all' ? STATE.mentions : STATE.mentions.filter(m=>classifyMention(m.text)===STATE.campFilter);
+  el('campTable').innerHTML = data.length ? `<table><thead><tr><th>Campaign</th><th>Platform</th><th>Content</th><th>Sentiment</th><th>Impressions</th><th>Link</th></tr></thead><tbody>`+
+    data.map(m=>{
+      const cid=classifyMention(m.text);
       return `<tr>
+        <td>${cid!=='general'?campBadge(cid):'—'}</td>
         <td>${platBadge(m.platform)}</td>
-        <td>${campBadge(cid)}</td>
-        <td style="max-width:280px"><div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text2)">${m.text||''}</div></td>
+        <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text2)">${m.text||m.title||''}</td>
         <td>${sentBadge(m.sentiment)}</td>
         <td style="text-align:right;color:var(--text2)">${fmtNum(m.impressions||0)}</td>
-        <td style="color:var(--text3);font-size:11px">${fmtDate(m.date)}</td>
+        <td>${m.url?`<a href="${m.url}" target="_blank" class="link-btn">View ↗</a>`:'—'}</td>
       </tr>`;
-    }).join('') + `</tbody></table>` :
-    `<div class="empty-state"><p>No mentions in this campaign</p></div>`;
+    }).join('')+`</tbody></table>` :
+    `<div class="empty-state"><p>No mentions for this campaign filter.</p></div>`;
 }
 
-function renderSettingsCampList() {
-  const el_ = el('settings-camp-list');
-  if (!el_) return;
-  el_.innerHTML = STATE.campaigns.map(c => `
-    <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);font-size:11px">
-      <span style="width:8px;height:8px;border-radius:50%;background:${c.color};flex-shrink:0"></span>
-      <span style="font-weight:600;color:var(--text);flex:0 0 80px">${c.name}</span>
-      <span style="color:var(--text3);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${(c.keywords||[]).join(', ')}</span>
-      <span style="color:var(--text3);cursor:pointer;padding:0 4px" onclick="removeCampaign('${c.id}')">×</span>
-    </div>`).join('') || '<p style="font-size:11px;color:var(--text3)">No campaigns configured</p>';
-}
+// ═══════════════════════════════════════
+// COMPETITORS — fixed chart instances
+// ═══════════════════════════════════════
+function renderCompetitors(){
+  const comp = STATE.competitors;
+  const compNames = Object.keys(comp).filter(k=>k!=='polaris'&&k!=='summary'&&k!=='metadata');
 
-// ══════════════════════════════════════════
-// COMPETITORS — FIXED (broken 0×0 charts)
-// ══════════════════════════════════════════
-let compVolChart = null, compSentChart = null;
+  if(!compNames.length){
+    el('compKPIs').innerHTML = '<div class="empty-state" style="grid-column:1/-1"><p>No competitor data loaded. Run the crawler or check data/competitors.json exists.</p></div>';
+    el('compDetail').innerHTML = '';
+    return;
+  }
 
-function renderCompetitors() {
-  const raw = STATE.competitors;
-  const comps = raw.competitors || {};
-  const polaris = {name:'Polaris (You)', total_mentions: STATE.mentions.length, sentiment_score: calcBPS()/10};
+  // KPI cards for top 4 competitors
+  const top4 = compNames.slice(0,4);
+  el('compKPIs').innerHTML = top4.map((name,i)=>{
+    const c = comp[name] || {};
+    const cnt = c.total || c.mentions || c.count || 0;
+    const colors = ['c-gold','c-orange','c-blue','c-purple'];
+    return `<div class="kpi ${colors[i]}"><div class="kpi-num">${cnt}</div><div class="kpi-lbl" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${name}</div><div class="kpi-sub">mentions</div></div>`;
+  }).join('');
 
-  const all = [{key:'polaris', ...polaris}, ...Object.entries(comps).map(([k,v])=>({key:k,...v}))];
-
-  // KPIs
-  el('compKPIs').innerHTML = all.slice(0,4).map(c => `
-    <div class="kpi ${c.key==='polaris'?'c-gold':'c-blue'}">
-      <div class="kpi-num">${c.total_mentions||0}</div>
-      <div class="kpi-lbl">${c.name}</div>
-      <div class="kpi-sub">mentions</div>
-    </div>`).join('');
-
-  // Volume chart
-  const labels = all.map(c => c.name.replace('School of Technology','SoT').replace('University','Univ'));
-  const counts = all.map(c => c.total_mentions||0);
-  const volCtx = el('compVolumeChart');
-  if (compVolChart) { compVolChart.destroy(); compVolChart = null; }
-  compVolChart = new Chart(volCtx, {
-    type:'bar',
-    data:{
-      labels,
-      datasets:[{
-        label:'Mentions',
-        data:counts,
-        backgroundColor: all.map((c,i) => i===0?'#FFCC3FCC':'#5B9CF666'),
-        borderColor: all.map((c,i) => i===0?'#FFCC3F':'#5B9CF6'),
-        borderWidth:1, borderRadius:6,
-      }]
-    },
-    options:{
-      responsive:true, maintainAspectRatio:false, indexAxis:'y',
-      plugins:{legend:{display:false}, tooltip:{backgroundColor:'#1A1A1A',borderColor:'#FFCC3F',borderWidth:1,titleColor:'#FFCC3F',bodyColor:'#CCC',padding:10,cornerRadius:8}},
-      scales:{x:{grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:'#555',font:{size:10}}},y:{grid:{display:false},ticks:{color:'#888',font:{size:10}}}}
-    }
+  const labels = ['Polaris', ...compNames.map(n=>n.replace(' School of Technology','').replace(' University',''))];
+  const polarisData = comp.polaris || {};
+  const allEntries = [{name:'Polaris',data:polarisData}, ...compNames.map(n=>({name:n,data:comp[n]||{}}))];
+  const volumes = allEntries.map(e=>e.data.total||e.data.mentions||e.data.count||0);
+  const posData = allEntries.map(e=>e.data.positive||e.data.sentiment_positive||0);
+  const negData = allEntries.map(e=>e.data.negative||e.data.sentiment_negative||0);
+  const neuData = allEntries.map(e=>{
+    const t=e.data.total||e.data.mentions||0;
+    const p=e.data.positive||0;
+    const n=e.data.negative||0;
+    return Math.max(0,t-p-n);
   });
 
-  // Sentiment chart — use pos/neg from data
-  const sentCtx = el('compSentChart2');
-  if (compSentChart) { compSentChart.destroy(); compSentChart = null; }
-  const posData = all.map(c => (c.by_sentiment||{}).positive||0);
-  const negData = all.map(c => (c.by_sentiment||{}).negative||0);
-  const neuData = all.map(c => (c.by_sentiment||{}).neutral||0);
-  compSentChart = new Chart(sentCtx, {
+  const shortLabels = labels.map(l=>l.replace(' School of Technology','').replace(' University','').replace(' Bangalore',''));
+
+  createChart('compVolumeChart',{
     type:'bar',
-    data:{
-      labels,
-      datasets:[
-        {label:'Positive', data:posData, backgroundColor:'#2BB56A88', borderRadius:4},
-        {label:'Neutral', data:neuData, backgroundColor:'#55555588', borderRadius:4},
-        {label:'Negative', data:negData, backgroundColor:'#E0505088', borderRadius:4},
-      ]
-    },
-    options:{
-      responsive:true, maintainAspectRatio:false,
-      plugins:{legend:{labels:{color:'#777',font:{size:10},boxWidth:10}},tooltip:{backgroundColor:'#1A1A1A',borderColor:'#FFCC3F',borderWidth:1,titleColor:'#FFCC3F',bodyColor:'#CCC',padding:10,cornerRadius:8}},
-      scales:{x:{stacked:true,grid:{display:false},ticks:{color:'#666',font:{size:9}}},y:{stacked:true,grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:'#555',font:{size:10}}}}
-    }
+    data:{labels:shortLabels,datasets:[{label:'Mentions',data:volumes,backgroundColor:['#FFCC3F','#5B9CF6','#FF9A3F','#2BB56A','#8B71E0','#E05050','#4ECDC4','#FF6B9D','#D88100'],borderRadius:6}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1A1A1A',borderColor:'#FFCC3F',borderWidth:1,titleColor:'#FFCC3F',bodyColor:'#CCC',padding:10,cornerRadius:6}},scales:{x:{ticks:{color:'#666',font:{size:10}},grid:{display:false}},y:{ticks:{color:'#666'},grid:{color:'rgba(255,255,255,0.04)'}}}}
+  });
+
+  createChart('compSentChart2',{
+    type:'bar',
+    data:{labels:shortLabels,datasets:[
+      {label:'Positive',data:posData,backgroundColor:'rgba(43,181,106,0.7)',borderRadius:4},
+      {label:'Neutral',data:neuData,backgroundColor:'rgba(100,100,100,0.4)',borderRadius:4},
+      {label:'Negative',data:negData,backgroundColor:'rgba(224,80,80,0.7)',borderRadius:4},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true,ticks:{color:'#666',font:{size:10}},grid:{display:false}},y:{stacked:true,ticks:{color:'#666'},grid:{color:'rgba(255,255,255,0.04)'}}},plugins:{legend:{labels:{color:'#888',usePointStyle:true}},tooltip:{backgroundColor:'#1A1A1A',borderColor:'#FFCC3F',borderWidth:1}}}
   });
 
   // Detail table
-  el('compDetail').innerHTML = `<div class="tbl-wrap"><table><thead><tr><th>Competitor</th><th>Mentions</th><th>Positive</th><th>Negative</th><th>Neutral</th><th>Score</th><th>Status</th></tr></thead><tbody>` +
-    all.map(c => {
-      const isUs = c.key==='polaris';
-      const s = c.by_sentiment||{};
+  el('compDetail').innerHTML = `<table><thead><tr><th>Competitor</th><th>Mentions</th><th>Positive</th><th>Negative</th><th>Platforms</th></tr></thead><tbody>`+
+    allEntries.map(e=>{
+      const d=e.data;
+      const total=d.total||d.mentions||d.count||0;
+      const pos=d.positive||d.sentiment_positive||0;
+      const neg=d.negative||d.sentiment_negative||0;
+      const plats=(d.platforms||[]).join(', ')||(d.platform_count?d.platform_count+' platforms':'—');
       return `<tr>
-        <td><strong style="color:${isUs?'var(--gold)':'var(--text)'}">${c.name}</strong>${isUs?'<span style="font-size:9px;color:var(--gold);margin-left:6px">(You)</span>':''}</td>
-        <td style="color:var(--gold);font-weight:600">${c.total_mentions||0}</td>
-        <td style="color:var(--green)">${s.positive||0}</td>
-        <td style="color:var(--red)">${s.negative||0}</td>
-        <td style="color:var(--text3)">${s.neutral||0}</td>
-        <td style="color:var(--orange)">${Math.round((c.sentiment_score||0)*10)||'—'}</td>
-        <td>${isUs?'<span class="badge badge-pos">Leading</span>':'<span class="badge badge-neu">Tracking</span>'}</td>
+        <td style="font-weight:600;color:${e.name==='Polaris'?'var(--gold)':'var(--text)'}">${e.name}</td>
+        <td style="color:var(--gold);font-weight:600">${total}</td>
+        <td style="color:var(--green)">${pos}</td>
+        <td style="color:var(--red)">${neg}</td>
+        <td style="color:var(--text3);font-size:11px">${plats}</td>
       </tr>`;
-    }).join('') + `</tbody></table></div>`;
+    }).join('')+`</tbody></table>`;
 }
 
-// ══════════════════════════════════════════
-// LLM / AEO
-// ══════════════════════════════════════════
-function renderLLM() {
+// ═══════════════════════════════════════
+// LLM / AEO — fully rendered checklist
+// ═══════════════════════════════════════
+function renderLLM(){
   const m = STATE.mentions;
-  const mediumCount = m.filter(x=>x.platform==='medium').length;
-  const portalCount = m.filter(x=>x.platform==='portal').length;
-  const webCount = m.filter(x=>x.platform==='web').length;
+  const platforms = new Set(m.map(x=>x.platform.toLowerCase()));
+  const s = STATE.summary;
 
+  // Score based on actual data
   let score = 0;
   const checks = [
-    {label:'3+ Medium articles indexed', ok: mediumCount >= 3, pts:15},
-    {label:'10+ portal listings', ok: portalCount >= 10, pts:15},
-    {label:'Wikipedia page', ok: false, pts:20},
-    {label:'Wikidata entity', ok: false, pts:10},
-    {label:'Crunchbase profile', ok: false, pts:10},
-    {label:'News mentions', ok: webCount >= 5, pts:15},
-    {label:'Structured data on website', ok: false, pts:10},
-    {label:'llms.txt file configured', ok: false, pts:5},
+    {label:'Quora Q&A presence (LLMs cite Quora heavily)',done:platforms.has('quora'),points:15},
+    {label:'Reddit mentions (training data source)',done:platforms.has('reddit'),points:12},
+    {label:'Medium articles indexed',done:platforms.has('medium'),points:12},
+    {label:'YouTube videos with descriptions',done:platforms.has('youtube'),points:8},
+    {label:'News/PR coverage',done:platforms.has('news')||platforms.has('newsapi')||m.some(x=>x.platform.toLowerCase().includes('news')),points:15},
+    {label:'Wikipedia or notable reference sites',done:false,points:10},
+    {label:'llms.txt file at polariscampus.com/llms.txt',done:false,points:8},
+    {label:'FAQ schema markup on website',done:false,points:8},
+    {label:'GSoC 2025 data cited in tech communities',done:m.some(x=>(x.text||'').toLowerCase().includes('gsoc')),points:7},
+    {label:'Founder mentions (Mukul Rustagi, Classplus)',done:m.some(x=>(x.text||'').toLowerCase().includes('mukul')||x.text?.toLowerCase().includes('classplus')),points:5},
   ];
-  checks.forEach(c => { if (c.ok) score += c.pts; });
+  checks.forEach(c=>{ if(c.done) score+=c.points; });
+  score = Math.min(100, score);
 
   el('llm-score').textContent = score;
-  el('llm-prog').style.width = score + '%';
+  el('llm-prog').style.width = score+'%';
+  const grade = score>=80?'A+ Excellent':score>=65?'A Strong':score>=50?'B Decent':score>=35?'C Growing':'D Needs work';
+  el('llm-grade').textContent = grade;
 
-  el('llm-checklist').innerHTML = checks.map(c =>
-    `<div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border)">
-      <span style="font-size:14px;width:18px;flex-shrink:0">${c.ok?'✓':'—'}</span>
-      <span style="flex:1;font-size:12px;color:${c.ok?'var(--text2)':'var(--text3)'}">${c.label}</span>
-      <span style="font-size:10px;color:${c.ok?'var(--green)':'var(--red)'}">+${c.pts}pts</span>
+  el('llm-checklist').innerHTML = checks.map(c=>`
+    <div class="checklist-item">
+      <div class="check-icon ${c.done?'check-done':'check-todo'}">${c.done?'✓':'○'}</div>
+      <div style="flex:1">
+        <div style="font-size:12px;color:${c.done?'var(--text)':'var(--text2)'}">${c.label}</div>
+        <div style="font-size:10px;color:var(--text3);margin-top:2px">+${c.points} points</div>
+      </div>
+      <span class="badge ${c.done?'badge-pos':'badge-neu'}">${c.done?'Done':'Todo'}</span>
     </div>`).join('');
 
+  // Data source presence
   const sources = [
-    {name:'Medium', count:mediumCount, icon:'📝'},
-    {name:'Portals', count:portalCount, icon:'🏛'},
-    {name:'Web', count:webCount, icon:'🌐'},
-    {name:'Reddit', count:m.filter(x=>x.platform==='reddit').length, icon:'🟠'},
-    {name:'Quora', count:m.filter(x=>x.platform==='quora').length, icon:'❓'},
+    {name:'Quora',present:platforms.has('quora'),color:'#B92B27'},
+    {name:'Reddit',present:platforms.has('reddit'),color:'#FF4500'},
+    {name:'Medium',present:platforms.has('medium'),color:'#2BB56A'},
+    {name:'YouTube',present:platforms.has('youtube'),color:'#FF0000'},
+    {name:'News/PR',present:platforms.has('news')||m.some(x=>x.platform.toLowerCase().includes('news')),color:'#D88100'},
+    {name:'Web/Portal',present:platforms.has('web')||platforms.has('portal'),color:'#5B9CF6'},
+    {name:'LinkedIn',present:platforms.has('linkedin'),color:'#0077B5'},
+    {name:'Twitter/X',present:platforms.has('twitter')||platforms.has('x'),color:'#5B9CF6'},
   ];
-  el('llm-sources').innerHTML = sources.map(s => {
-    const pct = m.length ? Math.round(s.count/m.length*100) : 0;
-    return `<div style="margin-bottom:10px">
-      <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px">
-        <span style="color:var(--text2)">${s.icon} ${s.name}</span>
-        <span style="color:var(--gold);font-weight:600">${s.count}</span>
+  el('llm-sources').innerHTML = sources.map(src=>{
+    const cnt = m.filter(x=>x.platform.toLowerCase().includes(src.name.toLowerCase().split('/')[0])).length;
+    return `<div class="source-row">
+      <span style="color:var(--text2);font-size:12px">${src.name}</span>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="source-bar"><div class="source-fill" style="width:${src.present?Math.min(100,cnt*5):0}%;background:${src.color}"></div></div>
+        <span class="badge ${src.present?'badge-pos':'badge-neu'}">${src.present?cnt+' mentions':'0'}</span>
       </div>
-      <div class="prog-bar"><div class="prog-fill" style="width:${pct}%;background:var(--gold)"></div></div>
     </div>`;
   }).join('');
 }
 
-async function runLLMAnalysis() {
-  if (!STATE.cfg.claude) { alert('Add your Claude API key in Settings first.'); return; }
-  el('llm-analysis').innerHTML = '<p style="font-size:12px;color:var(--text3)">Running analysis…</p>';
-  try {
-    const prompt = `Analyze this brand data for Polaris School of Technology (BTech AI/PM/Cloud, Bangalore):
-- Total mentions: ${STATE.mentions.length}
-- Sentiment: ${JSON.stringify(STATE.summary.sentiment||{})}
-- Platforms: ${JSON.stringify(STATE.summary.platforms||{})}
-- Top mentions: ${STATE.mentions.slice(0,5).map(m=>m.text).join('; ')}
+// ═══════════════════════════════════════
+// LLM ANALYSIS via Claude API
+// ═══════════════════════════════════════
+async function runLLMAnalysis(){
+  if(!STATE.cfg.claude){
+    el('llm-analysis-output').textContent = 'Add Claude API key in ⚙ Settings first.';
+    return;
+  }
+  el('llm-analysis-output').textContent = 'Analyzing brand data…';
+  const m = STATE.mentions;
+  const pos = m.filter(x=>x.sentiment==='positive').length;
+  const neg = m.filter(x=>x.sentiment==='negative').length;
+  const platforms = [...new Set(m.map(x=>x.platform))].join(', ');
+  const topTexts = m.slice(0,5).map(x=>x.text||x.title||'').join('\n');
 
-Give a 3-sentence brand health analysis. Then list 3 specific actions to improve LLM citability and AI search visibility.`;
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+  try{
+    const resp = await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':STATE.cfg.claude,'anthropic-version':'2023-06-01'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:500,messages:[{role:'user',content:prompt}]})
+      body:JSON.stringify({
+        model:'claude-haiku-4-5-20251001',
+        max_tokens:500,
+        messages:[{role:'user',content:`You are an ORM analyst for Polaris School of Technology, a BTech college in Bangalore founded by Mukul Rustagi (founder of Classplus). Analyze this brand mention data and give a 3-bullet actionable insight:\n\nTotal mentions: ${m.length}\nPlatforms: ${platforms}\nPositive: ${pos}, Negative: ${neg}\nSample mentions:\n${topTexts}\n\nGive exactly 3 bullet points with specific, actionable advice for improving online reputation and LLM citability.`}]
+      })
     });
-    const data = await res.json();
-    const text = data.content?.[0]?.text || 'Analysis failed.';
-    el('llm-analysis').innerHTML = `<p style="font-size:12px;color:var(--text2);line-height:1.7;white-space:pre-wrap">${text}</p>`;
-  } catch(e) {
-    el('llm-analysis').innerHTML = `<p style="font-size:12px;color:var(--red)">Error: ${e.message}</p>`;
+    const data = await resp.json();
+    const text = data.content?.[0]?.text || 'No response from Claude.';
+    el('llm-analysis-output').innerHTML = text.replace(/\n/g,'<br>');
+  }catch(e){
+    el('llm-analysis-output').textContent = 'Error: '+e.message;
   }
 }
 
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════
 // ORM REPORT
-// ══════════════════════════════════════════
-function setReportFmt(fmt, el_) {
-  STATE.reportFmt = fmt;
-  document.querySelectorAll('#reportFormatPills .pill').forEach(p => p.classList.remove('active'));
-  el_.classList.add('active');
+// ═══════════════════════════════════════
+let reportFmt = 'linkedin';
+function setReportFmt(fmt,btn){
+  reportFmt = fmt;
+  document.querySelectorAll('#reportFormatPills .pill').forEach(p=>p.classList.remove('active'));
+  if(btn) btn.classList.add('active');
 }
-
-function renderReport() {
-  const m = STATE.mentions;
-  const s = STATE.summary;
-  const bps = calcBPS();
-  el('report-stats').innerHTML = [
-    {l:'Total Mentions', v: m.length || s.total_mentions || 0},
-    {l:'Est. Impressions', v: fmtNum(m.reduce((a,x)=>a+(x.impressions||0),0)||s.impressions||0)},
-    {l:'Brand Score', v: bps+'/100'},
-    {l:'Positive', v: m.filter(x=>x.sentiment==='positive').length},
-    {l:'Negative', v: m.filter(x=>x.sentiment==='negative').length},
-    {l:'Platforms', v: Object.keys(s.platforms||{}).length},
-  ].map(x=>`<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px">
-    <span style="color:var(--text3)">${x.l}</span><span style="color:var(--gold);font-weight:600">${x.v}</span>
-  </div>`).join('');
-  renderReportHistory();
-}
-
-function generateReport() {
+function generateReport(){
   const m = STATE.mentions;
   const bps = calcBPS();
   const pos = m.filter(x=>x.sentiment==='positive').length;
   const neg = m.filter(x=>x.sentiment==='negative').length;
-  const topPlatform = Object.entries(STATE.summary.platforms||{}).sort((a,b)=>b[1]-a[1])[0];
-  const impr = fmtNum(m.reduce((a,x)=>a+(x.impressions||0),0)||STATE.summary.impressions||0);
+  const total = m.length;
+  const platforms = [...new Set(m.map(x=>x.platform))];
   const date = new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
-  const campBreakdown = STATE.campaigns.map(c => {
-    const cnt = m.filter(x=>classifyMention(x.text)===c.id).length;
-    return cnt>0 ? `${c.name}: ${cnt}` : null;
-  }).filter(Boolean).join(' | ');
 
-  let text = '';
-  if (STATE.reportFmt==='linkedin') {
-    text = `🎓 Polaris School of Technology — Brand Health Update (${date})\n\n📊 ${m.length} mentions tracked across ${Object.keys(STATE.summary.platforms||{}).length} platforms\n✅ ${pos} positive conversations | ⚠️ ${neg} negative flags\n📡 ${impr} estimated impressions\n🏆 Brand Presence Score: ${bps}/100${campBreakdown?'\n\n🎯 Campaign breakdown: '+campBreakdown:''}\n\n#PolarisSchoolOfTechnology #BTech #AIEngineering #BrandHealth`;
-  } else if (STATE.reportFmt==='internal') {
-    text = `POLARIS ORM WEEKLY — ${date}\n\nBrand Score: ${bps}/100\nTotal Mentions: ${m.length}\nEstimated Impressions: ${impr}\nSentiment: ${pos} positive / ${neg} negative\nTop Platform: ${topPlatform?topPlatform[0]+' ('+topPlatform[1]+ ' mentions)':'—'}${campBreakdown?'\nCampaign Activity: '+campBreakdown:''}`;
-  } else if (STATE.reportFmt==='email') {
-    text = `Subject: Polaris Brand Health Report — ${date}\n\nHi team,\n\nHere's your weekly ORM snapshot for Polaris School of Technology.\n\nWe tracked ${m.length} mentions this period with an estimated ${impr} impressions. The Brand Presence Score stands at ${bps}/100. Sentiment shows ${pos} positive and ${neg} negative mentions.\n${campBreakdown?'\nCampaign highlights: '+campBreakdown+'\n':''}\nFull dashboard: https://adirispol.github.io/ORM-Dashboard/\n\nBest,\nPolaris Brand Team`;
-  } else {
-    text = `POLARIS SCHOOL OF TECHNOLOGY — FULL ORM REPORT\nGenerated: ${date}\n\n━━━━━━━━━━━━━━━━━━━━━━━━\nBRAND PRESENCE SCORE: ${bps}/100\n━━━━━━━━━━━━━━━━━━━━━━━━\n\nMETRICS OVERVIEW\n• Total Mentions: ${m.length}\n• Estimated Impressions: ${impr}\n• Positive Sentiment: ${pos} (${m.length?Math.round(pos/m.length*100):0}%)\n• Negative Sentiment: ${neg} (${m.length?Math.round(neg/m.length*100):0}%)\n\nPLATFORM BREAKDOWN\n${Object.entries(STATE.summary.platforms||{}).map(([p,c])=>`• ${p}: ${c} mentions`).join('\n')}\n${campBreakdown?'\nCAMPAIGN BREAKDOWN\n'+STATE.campaigns.map(c=>{const cnt=m.filter(x=>classifyMention(x.text)===c.id).length;return cnt>0?`• ${c.name}: ${cnt} mentions`:null}).filter(Boolean).join('\n'):''}`;
+  const reports = {
+    linkedin:`🎓 Polaris School of Technology — Brand Health Update (${date})\n\n📊 Brand Presence Score: ${bps}/100\n📌 Total Mentions: ${total} across ${platforms.length} platforms\n✅ Positive: ${pos} | ⚠️ Negative: ${neg}\n\nPlatforms: ${platforms.join(', ')}\n\nPolaris continues to build its digital reputation as Bangalore's top Applied AI BTech program. 11 GSoC 2025 selections speak louder than any ad.\n\n#PolarisSchool #BTech #Bangalore #AIEngineering #GSoC2025`,
+    internal:`POLARIS ORM WEEKLY BRIEF — ${date}\n\nBrand Presence Score: ${bps}/100\nTotal Mentions: ${total}\nPlatforms Active: ${platforms.join(', ')}\nSentiment: +${pos} positive / ${neg} negative\n\nKey observations:\n- ${neg > 0 ? neg+' negative mentions need response' : 'No negative mentions this period'}\n- ${platforms.length} platforms actively mentioning Polaris\n- BPS trend: ${bps >= 50 ? 'On track' : 'Needs improvement'}\n\nNext actions:\n1. ${neg > 0 ? 'Address negative mentions on '+m.filter(x=>x.sentiment==='negative').map(x=>x.platform).join(', ') : 'Maintain positive momentum'}\n2. Increase Quora Q&A output\n3. Seed Reddit r/Indian_Academia with GSoC success stories`,
+    email:`Subject: Polaris ORM Report — ${date}\n\nHi team,\n\nHere's this week's Online Reputation Management summary for Polaris School of Technology.\n\nBrand Score: ${bps}/100\nTotal Mentions: ${total} | Positive: ${pos} | Negative: ${neg}\nActive platforms: ${platforms.join(', ')}\n\n${neg > 0 ? '⚠️ ACTION NEEDED: '+neg+' negative mention(s) require response. Check the dashboard for details.' : '✅ No negative mentions this period.'}\n\nFull dashboard: https://adirispol.github.io/ORM-Dashboard/\n\nBest,\nAditya\nBrand Strategist, Polaris School of Technology`,
+    full:`# POLARIS ORM INTELLIGENCE REPORT\n**Date:** ${date}\n**Prepared by:** Aditya, Brand Strategist\n\n## Brand Presence Score: ${bps}/100\n${bps>=80?'A+ Excellent':bps>=65?'A Strong':bps>=50?'B Decent':bps>=35?'C Growing':'D Needs Work'}\n\n## Key Metrics\n- Total Mentions: ${total}\n- Positive: ${pos} (${total?Math.round(pos/total*100):0}%)\n- Negative: ${neg} (${total?Math.round(neg/total*100):0}%)\n- Platforms: ${platforms.join(', ')}\n\n## Analysis\n${neg > 0 ? '### ⚠️ Negative Mentions\n'+neg+' negative mentions detected. Immediate response recommended.\n\n':''}\n### Platform Presence\n${platforms.map(p=>{ const cnt=m.filter(x=>x.platform===p).length; return `- ${p}: ${cnt} mentions`; }).join('\n')}\n\n## Recommendations\n1. ${neg > 0 ? 'Respond to negative mentions within 24 hours' : 'Maintain current positive engagement cadence'}\n2. Increase Quora answer volume to 10+ per week\n3. Seed GSoC success stories across Reddit and Medium\n4. Build llms.txt at polariscampus.com for LLM citability`
+  };
+  el('reportOutput').value = reports[reportFmt] || reports.linkedin;
+  // Save to history
+  if(db){
+    dbPut('reports',{date:Date.now(),format:reportFmt,bps,total,content:el('reportOutput').value}).then(()=>renderHistory());
   }
-  el('reportOutput').value = text;
-  saveReportToHistory(text);
+}
+function copyReport(mode){
+  const text = el('reportOutput').value;
+  if(!text) return;
+  const copy = mode==='md' ? text : text.replace(/[#*_]/g,'');
+  navigator.clipboard.writeText(copy).then(()=>alert('Copied to clipboard!')).catch(()=>{
+    el('reportOutput').select();
+    document.execCommand('copy');
+    alert('Copied!');
+  });
 }
 
-async function saveReportToHistory(text) {
-  if (!db) return;
-  await dbPut('reports', {date: new Date().toISOString(), format: STATE.reportFmt, text, mentions: STATE.mentions.length, bps: calcBPS()});
-  renderReportHistory();
+// Report lifetime stats
+function renderReportStats(){
+  const m = STATE.mentions;
+  const bps = calcBPS();
+  el('report-stats').innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:10px">
+      ${[
+        {label:'Current BPS',val:bps+'/100',color:'var(--gold)'},
+        {label:'Total Mentions Ever',val:m.length,color:'var(--text)'},
+        {label:'Platforms Active',val:[...new Set(m.map(x=>x.platform))].length,color:'var(--blue)'},
+        {label:'Positive Rate',val:m.length?Math.round(m.filter(x=>x.sentiment==='positive').length/m.length*100)+'%':'—',color:'var(--green)'},
+        {label:'Total Impressions',val:fmtNum(m.reduce((a,x)=>a+(x.impressions||0),0)),color:'var(--orange)'},
+      ].map(s=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border)">
+        <span style="font-size:12px;color:var(--text3)">${s.label}</span>
+        <span style="font-size:12px;font-weight:600;color:${s.color}">${s.val}</span>
+      </div>`).join('')}
+    </div>`;
 }
+function renderReport(){ renderReportStats(); renderReportHistory(); }
 
-async function renderReportHistory() {
-  if (!db) { el('report-history').innerHTML = '<div class="empty-state"><p>IndexedDB initializing…</p></div>'; return; }
+async function renderReportHistory(){
+  if(!db){ el('report-history').innerHTML='<div class="empty-state"><p>Loading…</p></div>'; return; }
   const reports = await dbGetAll('reports');
-  if (!reports.length) { el('report-history').innerHTML = '<div class="empty-state"><p>No reports generated yet</p></div>'; return; }
-  el('report-history').innerHTML = reports.reverse().slice(0,10).map(r =>
-    `<div class="snapshot-row">
-      <span class="snapshot-date">${fmtDate(r.date)}</span>
-      <span class="snapshot-mentions">${r.mentions} mentions</span>
-      <span class="snapshot-score">BPS ${r.bps}</span>
-      <span style="color:var(--text3);font-size:10px;text-transform:uppercase">${r.format}</span>
+  if(!reports.length){ el('report-history').innerHTML='<div class="empty-state"><p>No reports generated yet. Click Generate Report to create one.</p></div>'; return; }
+  el('report-history').innerHTML = reports.reverse().slice(0,10).map(r=>`
+    <div class="snapshot-row">
+      <span class="snapshot-date">${new Date(r.date).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}</span>
+      <span class="snapshot-mentions">${r.format||'full'}</span>
+      <span class="snapshot-score">BPS ${r.bps||'—'} · ${r.total||0} mentions</span>
       <div class="snapshot-actions">
-        <button class="btn-sm" onclick="el('reportOutput').value=\`${r.text.replace(/`/g,"'").replace(/\n/g,'\\n')}\`">Load</button>
-        <button class="btn-sm" onclick="dbDelete('reports',${r.id}).then(renderReportHistory)">×</button>
+        <button class="btn-sm" onclick="loadReport(${r.id})">Load</button>
+        <button class="btn-sm" style="color:var(--red)" onclick="deleteReport(${r.id})">Delete</button>
       </div>
-    </div>`
-  ).join('');
+    </div>`).join('');
 }
-
-function copyReport(mode) {
-  const text = el('reportOutput').value;
-  if (!text) return;
-  navigator.clipboard.writeText(mode==='md'?'```\n'+text+'\n```':text).then(()=>alert('Copied!'));
+async function loadReport(id){
+  const reports = await dbGetAll('reports');
+  const r = reports.find(x=>x.id===id);
+  if(r){ el('reportOutput').value=r.content; switchTab('report'); }
 }
+async function deleteReport(id){ await dbDelete('reports',id); renderReportHistory(); }
 
-function exportReportPDF() {
-  const text = el('reportOutput').value;
-  if (!text) { alert('Generate a report first.'); return; }
-  const w = window.open('','_blank');
-  w.document.write(`<html><head><title>Polaris ORM Report</title><style>body{font-family:Arial,sans-serif;padding:40px;max-width:800px;margin:auto;color:#111}pre{white-space:pre-wrap;font-family:inherit;line-height:1.7}</style></head><body><pre>${text}</pre></body></html>`);
-  w.document.close();
-  w.print();
-}
-
-// ══════════════════════════════════════════
-// HISTORY STORE — IndexedDB
-// ══════════════════════════════════════════
-let histChart = null, histScoreChart = null;
-
-async function saveSnapshot() {
-  if (!db) return;
-  const snap = {
+// ═══════════════════════════════════════
+// HISTORY STORE
+// ═══════════════════════════════════════
+async function saveSnapshot(){
+  if(!STATE.mentions.length){ alert('No data loaded. Click Refresh first.'); return; }
+  await dbPut('snapshots',{
     date: new Date().toISOString(),
-    total_mentions: STATE.mentions.length,
-    bps: calcBPS(),
+    mentions: STATE.mentions.length,
     impressions: STATE.mentions.reduce((a,x)=>a+(x.impressions||0),0),
+    bps: calcBPS(),
     positive: STATE.mentions.filter(x=>x.sentiment==='positive').length,
     negative: STATE.mentions.filter(x=>x.sentiment==='negative').length,
-    platforms: STATE.summary.platforms || {},
-    mentions_snapshot: STATE.mentions.slice(0,50)
-  };
-  await dbPut('snapshots', snap);
+  });
   renderHistory();
 }
 
-async function renderHistory() {
-  if (!db) { el('historyList').innerHTML = '<div class="empty-state"><p>Setting up persistent storage…</p></div>'; return; }
+async function renderHistory(){
+  if(!db){ el('historyList').innerHTML='<div class="empty-state"><p>Database loading…</p></div>'; return; }
   const snaps = await dbGetAll('snapshots');
-  if (!snaps.length) {
-    el('historyList').innerHTML = `<div class="empty-state"><div class="icon">◷</div><p>No snapshots yet. Click "Save Current" to save today's data permanently.</p></div>`;
+  if(!snaps.length){
+    el('historyList').innerHTML = '<div class="empty-state"><div class="icon">◷</div><p>No snapshots saved yet.</p><p>Click "+ Save Current" to record today\'s data.</p></div>';
+    el('historyChart').closest('.chart-box').innerHTML = '<div class="empty-state"><p>Save snapshots to see trend chart.</p></div>';
+    el('historyScoreChart').closest('.chart-box').innerHTML = '<div class="empty-state"><p>Save snapshots to see score trend.</p></div>';
     return;
   }
-  el('historyList').innerHTML = snaps.reverse().map(s =>
-    `<div class="snapshot-row">
+  el('historyList').innerHTML = snaps.reverse().map(s=>`
+    <div class="snapshot-row">
       <span class="snapshot-date">${fmtDate(s.date)}</span>
-      <span class="snapshot-mentions">${s.total_mentions} mentions</span>
-      <span class="snapshot-score">BPS ${s.bps}</span>
-      <span style="color:var(--green);font-size:11px">${s.positive}↑</span>
-      <span style="color:var(--red);font-size:11px">${s.negative}↓</span>
-      <span style="color:var(--text3);font-size:11px">${fmtNum(s.impressions||0)} impr</span>
+      <span class="snapshot-mentions">${s.mentions} mentions</span>
+      <span class="snapshot-score">BPS ${s.bps||'—'} · ${fmtNum(s.impressions||0)} impressions · +${s.positive||0} / -${s.negative||0}</span>
       <div class="snapshot-actions">
-        <button class="btn-sm" onclick="dbDelete('snapshots',${s.id}).then(renderHistory)" style="color:var(--red);border-color:var(--red)">×</button>
+        <button class="btn-sm" style="color:var(--red)" onclick="deleteSnap(${s.id})">Delete</button>
       </div>
-    </div>`
-  ).join('');
-  renderHistoryCharts(snaps);
+    </div>`).join('');
+
+  const sorted = [...snaps].reverse();
+  const labels = sorted.map(s=>fmtDate(s.date));
+  const mData = sorted.map(s=>s.mentions||0);
+  const bpsData = sorted.map(s=>s.bps||0);
+
+  // Recreate chart containers in case they were replaced
+  const hcParent = el('historyChart') ? el('historyChart').parentElement : null;
+  const hscParent = el('historyScoreChart') ? el('historyScoreChart').parentElement : null;
+  if(!el('historyChart') && hcParent) hcParent.innerHTML = '<canvas id="historyChart" role="img" aria-label="Mention trend">Mention trend.</canvas>';
+  if(!el('historyScoreChart') && hscParent) hscParent.innerHTML = '<canvas id="historyScoreChart" role="img" aria-label="Score trend">Score trend.</canvas>';
+
+  createChart('historyChart',{type:'line',data:{labels,datasets:[{label:'Mentions',data:mData,borderColor:'#FFCC3F',backgroundColor:'rgba(255,204,63,0.1)',tension:0.4,fill:true,pointRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1A1A1A',borderColor:'#FFCC3F',borderWidth:1}},scales:{x:{ticks:{color:'#666',font:{size:10}}},y:{ticks:{color:'#666'},grid:{color:'rgba(255,255,255,0.04)'}}}}});
+  createChart('historyScoreChart',{type:'line',data:{labels,datasets:[{label:'BPS Score',data:bpsData,borderColor:'#FF9A3F',backgroundColor:'rgba(255,154,63,0.1)',tension:0.4,fill:true,pointRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1A1A1A',borderColor:'#FF9A3F',borderWidth:1}},scales:{x:{ticks:{color:'#666',font:{size:10}}},y:{min:0,max:100,ticks:{color:'#666'},grid:{color:'rgba(255,255,255,0.04)'}}}}});
 }
 
-function renderHistoryCharts(snaps) {
-  const sorted = [...snaps].sort((a,b)=>new Date(a.date)-new Date(b.date));
-  const labels = sorted.map(s => fmtDate(s.date));
-  const mentionData = sorted.map(s => s.total_mentions);
-  const scoreData = sorted.map(s => s.bps);
+async function deleteSnap(id){ await dbDelete('snapshots',id); renderHistory(); }
 
-  const hCtx = el('historyChart');
-  if (histChart) { histChart.destroy(); histChart = null; }
-  histChart = new Chart(hCtx, {
-    type:'line',
-    data:{labels, datasets:[{label:'Mentions', data:mentionData, borderColor:'#FFCC3F', backgroundColor:'rgba(255,204,63,0.08)', tension:0.4, pointRadius:4, pointHoverRadius:7, fill:true, borderWidth:2}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1A1A1A',borderColor:'#FFCC3F',borderWidth:1,titleColor:'#FFCC3F',bodyColor:'#CCC',padding:10,cornerRadius:8}},scales:{x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#555',font:{size:10}}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#555',font:{size:10}}}}}
-  });
-
-  const sCtx = el('historyScoreChart');
-  if (histScoreChart) { histScoreChart.destroy(); histScoreChart = null; }
-  histScoreChart = new Chart(sCtx, {
-    type:'line',
-    data:{labels, datasets:[{label:'BPS', data:scoreData, borderColor:'#5B9CF6', backgroundColor:'rgba(91,156,246,0.08)', tension:0.4, pointRadius:4, pointHoverRadius:7, fill:true, borderWidth:2}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1A1A1A',borderColor:'#5B9CF6',borderWidth:1,titleColor:'#5B9CF6',bodyColor:'#CCC',padding:10,cornerRadius:8}},scales:{x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#555',font:{size:10}}},y:{min:0,max:100,grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#555',font:{size:10}}}}}
-  });
-}
-
-async function exportHistoryCSV() {
-  if (!db) return;
+async function exportHistoryCSV(){
+  if(!db) return;
   const snaps = await dbGetAll('snapshots');
-  if (!snaps.length) { alert('No snapshots to export.'); return; }
-  const rows = [['Date','Total Mentions','BPS','Impressions','Positive','Negative']];
-  snaps.forEach(s => rows.push([s.date, s.total_mentions, s.bps, s.impressions||0, s.positive||0, s.negative||0]));
-  const csv = rows.map(r => r.join(',')).join('\n');
+  if(!snaps.length){ alert('No snapshots to export.'); return; }
+  const csv = ['Date,Mentions,Impressions,BPS,Positive,Negative',...snaps.map(s=>`${s.date},${s.mentions},${s.impressions||0},${s.bps||0},${s.positive||0},${s.negative||0}`)].join('\n');
+  const blob = new Blob([csv],{type:'text/csv'});
   const a = document.createElement('a');
-  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
-  a.download = 'polaris-orm-history.csv';
+  a.href = URL.createObjectURL(blob);
+  a.download = 'polaris_orm_history.csv';
   a.click();
 }
 
-// ══════════════════════════════════════════
-// CSV EXPORT
-// ══════════════════════════════════════════
-function exportCSV(tab) {
-  let data = [], headers = [];
-  if (tab==='listening' || tab==='content') {
-    data = STATE.mentions;
-    headers = ['platform','text','url','date','sentiment','impressions','campaign'];
-    data = data.map(m => ({...m, campaign: getCampaign(classifyMention(m.text)).name}));
-  } else if (tab==='social') {
-    data = STATE.social;
-    headers = ['platform','author','text','url','date','likes','comments','impressions','sentiment'];
+// ═══════════════════════════════════════
+// DATA STATUS — diagnostic tab
+// ═══════════════════════════════════════
+function renderDataStatus(){
+  const files = [
+    {path:'data/mentions.json',label:'mentions.json',count:STATE.mentions.length,required:true},
+    {path:'data/summary.json',label:'summary.json',count:Object.keys(STATE.summary).length,required:true},
+    {path:'data/competitors.json',label:'competitors.json',count:Object.keys(STATE.competitors).length,required:false},
+    {path:'data/social.json',label:'social.json',count:STATE.social.length,required:false},
+  ];
+
+  el('ds-files').innerHTML = files.map(f=>{
+    const status = STATE.dataStatus[f.path];
+    const ok = status && status.ok;
+    const err = status && !status.ok;
+    const unk = !status;
+    return `<div class="data-card">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
+        <span class="status-dot ${ok?'status-ok':err?'status-err':'status-unk'}"></span>
+        <span style="font-size:12px;font-weight:600;color:var(--text)">${f.label}</span>
+        ${f.required?'<span class="badge badge-neg" style="margin-left:auto">Required</span>':'<span class="badge badge-neu" style="margin-left:auto">Optional</span>'}
+      </div>
+      <div style="font-size:11px;color:var(--text3)">${ok?'✓ Loaded — '+f.count+' records':err?'✗ Error: '+status.error:'? Not yet checked — click Refresh'}</div>
+    </div>`;
+  }).join('');
+
+  // Raw preview
+  const mentPreview = STATE.mentions.length ? JSON.stringify(STATE.mentions.slice(0,2),null,2) : 'Empty — mentions.json not loaded.\n\nCheck:\n1. Crawler has run (GitHub Actions → Polaris ORM — Full Crawl)\n2. data/mentions.json exists in your repo\n3. Repo is set to: adirispol / ORM-Dashboard / main in Settings';
+  el('ds-mentions-preview').textContent = mentPreview.substring(0,2000);
+
+  const sumPreview = Object.keys(STATE.summary).length ? JSON.stringify(STATE.summary,null,2) : 'Empty — summary.json not loaded.\n\nRun crawler manually: GitHub → Actions → Polaris ORM — Full Crawl → Run workflow';
+  el('ds-summary-preview').textContent = sumPreview.substring(0,2000);
+
+  // Field mapping
+  if(STATE.mentions.length){
+    const first = STATE.mentions[0];
+    el('ds-field-map').innerHTML = `<table><thead><tr><th>Field</th><th>Value (first record)</th><th>Type</th></tr></thead><tbody>`+
+      Object.entries(first).map(([k,v])=>`<tr>
+        <td style="color:var(--gold);font-family:monospace;font-size:11px">${k}</td>
+        <td style="color:var(--text2);max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px">${String(v).substring(0,100)}</td>
+        <td style="color:var(--text3);font-size:10px">${typeof v}</td>
+      </tr>`).join('')+`</tbody></table>`;
+  } else {
+    el('ds-field-map').innerHTML = '<div class="empty-state"><p>Load mentions data first.</p></div>';
   }
-  if (!data.length) { alert('No data to export.'); return; }
-  const rows = [headers, ...data.map(d => headers.map(h => `"${String(d[h]||'').replace(/"/g,'""')}"`))] ;
-  const csv = rows.map(r=>r.join(',')).join('\n');
+}
+
+// ═══════════════════════════════════════
+// CSV EXPORT
+// ═══════════════════════════════════════
+function exportCSV(type){
+  let data = [];
+  let filename = 'export.csv';
+  if(type==='listening'){ data=STATE.mentions; filename='polaris_mentions.csv'; }
+  if(type==='social'){ data=STATE.social; filename='polaris_social.csv'; }
+  if(type==='content'){ data=STATE.sheetContent; filename='polaris_content.csv'; }
+  if(!data.length){ alert('No data to export.'); return; }
+  const cols = Object.keys(data[0]);
+  const csv = [cols.join(','),...data.map(r=>cols.map(c=>`"${String(r[c]||'').replace(/"/g,'')}"`).join(','))].join('\n');
+  const blob = new Blob([csv],{type:'text/csv'});
   const a = document.createElement('a');
-  a.href = 'data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
-  a.download = `polaris-${tab}-${new Date().toISOString().slice(0,10)}.csv`;
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
   a.click();
 }
 
-// ══════════════════════════════════════════
-// KEYBOARD SHORTCUTS
-// ══════════════════════════════════════════
-document.addEventListener('keydown', e => {
-  if (e.shiftKey && e.key === 'D') switchTab('debug-hidden');
-  if (e.key === 'Escape') closeSettings();
-  if ((e.ctrlKey||e.metaKey) && e.key==='k') { e.preventDefault(); el('globalSearch').focus(); }
-});
-
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════
 // INIT
-// ══════════════════════════════════════════
-async function init() {
+// ═══════════════════════════════════════
+async function init(){
   loadConfig();
   await initDB();
   await refreshData();
-  renderHistory();
+  renderSettingsCampList();
+  setInterval(()=>refreshData(), 30*60*1000); // auto-refresh 30min
 }
-
-Chart.defaults.color = '#666';
-Chart.defaults.borderColor = 'rgba(255,255,255,0.05)';
-Chart.defaults.font.family = "'Poppins', sans-serif";
-Chart.defaults.font.size = 11;
 
 init();
 </script>
