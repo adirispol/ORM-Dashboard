@@ -152,7 +152,7 @@ tr:hover td{background:rgba(255,255,255,0.02)}
 .source-row:last-child{border-bottom:none}
 .source-bar{width:100px;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
 .source-fill{height:100%;border-radius:2px}
-.data-status-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.data-status-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px}
 .data-card{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px}
 .data-card .status-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px}
 .status-ok{background:var(--green)}
@@ -451,11 +451,11 @@ tr:hover td{background:rgba(255,255,255,0.02)}
 <div id="tab-datastatus" class="tab-panel">
   <div class="card" style="margin-bottom:14px">
     <div class="panel-title">Data pipeline health</div>
-    <div class="data-status-grid" id="ds-files"></div>
+    <div class="data-status-grid" id="ds-files" style="grid-template-columns:repeat(3,1fr)"></div>
   </div>
   <div class="grid2">
     <div class="card">
-      <div class="panel-title">Raw data preview — mentions.json</div>
+      <div class="panel-title">Raw data — output.json (primary source)</div>
       <div id="ds-mentions-preview" style="font-size:11px;color:var(--text2);font-family:monospace;background:var(--card2);padding:12px;border-radius:8px;max-height:300px;overflow:auto;white-space:pre-wrap;word-break:break-all"></div>
     </div>
     <div class="card">
@@ -679,20 +679,99 @@ async function fetchJSON(path){
   }
 }
 
-// FIX: normalize mentions — handle both array and object with mentions key
+// Normalize one raw mention record into standard shape
+function normalizeMention(m, defaultPlatform){
+  if(!m || typeof m !== 'object') return null;
+  const text = extractText(m);
+  const title = m.title || m.headline || m.question || m.subject || '';
+  if(!text && !title && !m.url && !m.link) return null;
+  return {
+    platform: m.platform || m.source || m.site || m.network || defaultPlatform || 'web',
+    text: text || title,
+    title: title,
+    url: m.url || m.link || m.permalink || m.postUrl || m.pageUrl || '',
+    sentiment: m.sentiment || m.sentiment_label || m.sentiment_score || 'neutral',
+    impressions: Number(m.impressions || m.score || m.upvotes || m.views || m.reach || m.likes || m.engagement || 0),
+    date: m.date || m.created_at || m.published_at || m.crawled_at || m.timestamp || m.postDate || '',
+    author: extractAuthor(m),
+  };
+}
+
+// Handle ALL possible crawler output shapes
 function normalizeMentions(raw){
   if(!raw) return [];
-  let arr = Array.isArray(raw) ? raw : (raw.mentions || raw.data || []);
-  return arr.map(m => ({
-    platform: m.platform || m.source || 'web',
-    text: extractText(m),
-    url: m.url || m.link || '',
-    sentiment: m.sentiment || 'neutral',
-    impressions: Number(m.impressions || m.score || m.upvotes || m.views || 0),
-    date: m.date || m.created_at || m.published_at || '',
-    author: extractAuthor(m),
-    title: m.title || '',
-  }));
+  let arr = [];
+
+  // Shape 1: bare array  [{...}, {...}]
+  if(Array.isArray(raw)){
+    arr = raw.map(m => normalizeMention(m)).filter(Boolean);
+    if(arr.length) return arr;
+  }
+
+  // Shape 2: {mentions: [{...}]}
+  if(Array.isArray(raw.mentions)){
+    arr = raw.mentions.map(m => normalizeMention(m)).filter(Boolean);
+    if(arr.length) return arr;
+  }
+
+  // Shape 3: {data: [{...}]}
+  if(Array.isArray(raw.data)){
+    arr = raw.data.map(m => normalizeMention(m)).filter(Boolean);
+    if(arr.length) return arr;
+  }
+
+  // Shape 4: {results: [{...}]}
+  if(Array.isArray(raw.results)){
+    arr = raw.results.map(m => normalizeMention(m)).filter(Boolean);
+    if(arr.length) return arr;
+  }
+
+  // Shape 5: {items: [{...}]}
+  if(Array.isArray(raw.items)){
+    arr = raw.items.map(m => normalizeMention(m)).filter(Boolean);
+    if(arr.length) return arr;
+  }
+
+  // Shape 6: {data: {mentions: [{...}]}}
+  if(raw.data && Array.isArray(raw.data.mentions)){
+    arr = raw.data.mentions.map(m => normalizeMention(m)).filter(Boolean);
+    if(arr.length) return arr;
+  }
+
+  // Shape 7: platform-keyed object {reddit: [{...}], quora: [{...}], ...}
+  // This is what the Apify multi-scraper often outputs
+  if(typeof raw === 'object' && !Array.isArray(raw)){
+    const platformKeys = ['reddit','quora','medium','twitter','linkedin','youtube','facebook','instagram','web','news','portal','google','bing'];
+    for(const key of platformKeys){
+      if(Array.isArray(raw[key])){
+        const mapped = raw[key].map(m => normalizeMention(m, key)).filter(Boolean);
+        arr = arr.concat(mapped);
+      }
+    }
+    if(arr.length) return arr;
+
+    // Shape 8: any key whose value is an array of objects with mention-like fields
+    for(const [key, val] of Object.entries(raw)){
+      if(Array.isArray(val) && val.length > 0){
+        const sample = val[0];
+        if(sample && typeof sample === 'object' && (sample.text || sample.title || sample.url || sample.content)){
+          const mapped = val.map(m => normalizeMention(m, key)).filter(Boolean);
+          arr = arr.concat(mapped);
+        }
+      }
+    }
+    if(arr.length) return arr;
+
+    // Shape 9: deeply nested — {polaris: {mentions: [...]}}
+    for(const val of Object.values(raw)){
+      if(val && typeof val === 'object' && !Array.isArray(val) && Array.isArray(val.mentions)){
+        const mapped = val.mentions.map(m => normalizeMention(m)).filter(Boolean);
+        arr = arr.concat(mapped);
+      }
+    }
+  }
+
+  return arr;
 }
 
 // FIX: normalize social — merge from mentions.json if social.json missing
@@ -725,17 +804,37 @@ async function refreshData(){
   btn.disabled = true;
   el('lastCrawlTime').textContent = 'Loading…';
 
-  const [mentionsRaw, socialRaw, competitorsRaw, summaryRaw] = await Promise.all([
+  // Fetch all known data files in parallel
+  const [mentionsRaw, outputRaw, socialRaw, competitorsRaw, summaryRaw] = await Promise.all([
     fetchJSON('data/mentions.json'),
+    fetchJSON('data/output.json'),
     fetchJSON('data/social.json'),
     fetchJSON('data/competitors.json'),
     fetchJSON('data/summary.json'),
   ]);
 
-  STATE.mentions = normalizeMentions(mentionsRaw);
+  // Store raws for Data Status debug
+  STATE.mentionsRaw = mentionsRaw;
+  STATE.outputRaw = outputRaw;
+
+  // PRIMARY: try mentions.json first, fall back to output.json
+  // mentions.json is currently [] — output.json has the real data
+  let parsedMentions = normalizeMentions(mentionsRaw);
+  if(parsedMentions.length === 0 && outputRaw){
+    console.log('[ORM] mentions.json empty — trying output.json');
+    parsedMentions = normalizeMentions(outputRaw);
+    STATE.mentionsRaw = outputRaw; // use output.json as the debug source
+  }
+
+  STATE.mentions = parsedMentions;
   STATE.social = normalizeSocial(socialRaw, STATE.mentions);
   STATE.competitors = competitorsRaw || {};
   STATE.summary = summaryRaw || {};
+
+  console.log('[ORM] mentions.json:', Array.isArray(mentionsRaw)?mentionsRaw.length+' items':'empty/object');
+  console.log('[ORM] output.json:', outputRaw?'loaded, type='+(Array.isArray(outputRaw)?'array['+outputRaw.length+']':typeof outputRaw):'null');
+  console.log('[ORM] Final mentions count:', STATE.mentions.length);
+  console.log('[ORM] social.json:', STATE.social.length, 'items');
 
   const lu = STATE.summary.last_updated || STATE.summary.crawled_at;
   if(lu){
@@ -884,11 +983,12 @@ function renderAll(){
 function calcBPS(){
   const m = STATE.mentions;
   const s = STATE.summary;
-  const total = m.length || s.total_mentions || 0;
-  if(!total) return 0;
-  const pos = m.filter(x=>x.sentiment==='positive').length || (s.sentiment||{}).positive || 0;
-  const neg = m.filter(x=>x.sentiment==='negative').length || (s.sentiment||{}).negative || 0;
-  const platCount = [...new Set(m.map(x=>x.platform))].length || Object.keys(s.platforms||{}).length;
+  // Use whichever source has data
+  const total = m.length || s.total_mentions || s.mentions_count || 0;
+  if(!total) return s.bps || s.brand_score || s.brand_presence_score || 0;
+  const pos = m.length ? m.filter(x=>x.sentiment==='positive').length : ((s.sentiment||{}).positive || 0);
+  const neg = m.length ? m.filter(x=>x.sentiment==='negative').length : ((s.sentiment||{}).negative || 0);
+  const platCount = m.length ? [...new Set(m.map(x=>x.platform))].length : Object.keys(s.platforms||{}).length;
   let score = 35;
   score += Math.min(25, total * 0.3);
   score += pos * 1.5;
@@ -903,11 +1003,13 @@ function calcBPS(){
 function renderOverview(){
   const m = STATE.mentions;
   const s = STATE.summary;
-  const total = m.length || s.total_mentions || 0;
-  const impr = m.reduce((a,x)=>a+(x.impressions||0),0) || s.impressions || s.total_impressions || 0;
-  const pos = m.filter(x=>x.sentiment==='positive').length || (s.sentiment||{}).positive || 0;
-  const neg = m.filter(x=>x.sentiment==='negative').length || (s.sentiment||{}).negative || 0;
-  const neu = m.filter(x=>x.sentiment==='neutral').length || (s.sentiment||{}).neutral || 0;
+  // Prefer mentions array; fall back to summary.json counts
+  const hasRealMentions = m.length > 0;
+  const total = m.length || s.total_mentions || s.mentions_count || 0;
+  const impr = hasRealMentions ? m.reduce((a,x)=>a+(x.impressions||0),0) : (s.impressions || s.total_impressions || s.estimated_impressions || 0);
+  const pos = hasRealMentions ? m.filter(x=>x.sentiment==='positive').length : ((s.sentiment||{}).positive || 0);
+  const neg = hasRealMentions ? m.filter(x=>x.sentiment==='negative').length : ((s.sentiment||{}).negative || 0);
+  const neu = hasRealMentions ? m.filter(x=>x.sentiment==='neutral').length : ((s.sentiment||{}).neutral || 0);
 
   // Get platforms from actual data, fall back to summary
   const platMap = {};
@@ -963,7 +1065,7 @@ function renderOverview(){
 
   // Actions
   const actions = [];
-  if(!STATE.cfg.user||STATE.cfg.user==='adirispol'&&total===0) actions.push({priority:'HIGH',text:'No data loaded — click Refresh or check Settings',tab:'datastatus'});
+  if(total===0) actions.push({priority:'HIGH',text:'No data loaded — click Refresh or check Settings',tab:'datastatus'});
   if(neg>0) actions.push({priority:'HIGH',text:`Respond to ${neg} negative mention${neg>1?'s':''}`,tab:'listening'});
   if(!STATE.cfg.sheet) actions.push({priority:'MED',text:'Connect Google Sheet for content tracking',tab:'content'});
   actions.push({priority:'LOW',text:'Check Data Status tab for pipeline health',tab:'datastatus'});
@@ -974,16 +1076,27 @@ function renderOverview(){
       <span style="color:var(--text3)">→</span>
     </div>`).join('') || '<div style="font-size:12px;color:var(--text3);padding:8px 0">No urgent actions</div>';
 
-  // Recent mentions
+  // Recent mentions — show summary info when mentions.json is empty but summary has data
   const recent = m.slice(0,8);
-  el('ov-recent').innerHTML = recent.length ? `<table><thead><tr><th>Platform</th><th>Content</th><th>Sentiment</th><th>Impressions</th></tr></thead><tbody>`+
-    recent.map(r=>`<tr>
-      <td>${platBadge(r.platform)}</td>
-      <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text2)">${r.text||r.title||''}</td>
-      <td>${sentBadge(r.sentiment)}</td>
-      <td style="text-align:right;color:var(--text3)">${fmtNum(r.impressions)}</td>
-    </tr>`).join('')+`</tbody></table>` :
-    '<div class="empty-state"><div class="icon">◎</div><p>No mentions loaded.</p><p>Click ↺ Refresh to load data from GitHub.</p></div>';
+  if(recent.length){
+    el('ov-recent').innerHTML = `<table><thead><tr><th>Platform</th><th>Content</th><th>Sentiment</th><th>Impressions</th></tr></thead><tbody>`+
+      recent.map(r=>`<tr>
+        <td>${platBadge(r.platform)}</td>
+        <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text2)">${r.text||r.title||''}</td>
+        <td>${sentBadge(r.sentiment)}</td>
+        <td style="text-align:right;color:var(--text3)">${fmtNum(r.impressions)}</td>
+      </tr>`).join('')+`</tbody></table>`;
+  } else if(total > 0) {
+    // mentions.json didn't parse as array — show diagnostic
+    el('ov-recent').innerHTML = `<div class="empty-state">
+      <div class="icon">⚡</div>
+      <p style="color:var(--orange);font-weight:600">${total} mentions exist in summary.json</p>
+      <p>But mentions.json couldn\'t be parsed as an array.</p>
+      <p style="margin-top:8px">→ <span style="color:var(--gold);cursor:pointer" onclick="switchTab(\'datastatus\')">Check Data Status tab</span> to inspect the raw JSON structure.</p>
+    </div>`;
+  } else {
+    el('ov-recent').innerHTML = '<div class="empty-state"><div class="icon">◎</div><p>No mentions loaded.</p><p>Click ↺ Refresh to load data from GitHub.</p></div>';
+  }
 
   // Campaign snapshot
   const campCounts = {};
@@ -1532,10 +1645,11 @@ async function exportHistoryCSV(){
 // ═══════════════════════════════════════
 function renderDataStatus(){
   const files = [
-    {path:'data/mentions.json',label:'mentions.json',count:STATE.mentions.length,required:true},
-    {path:'data/summary.json',label:'summary.json',count:Object.keys(STATE.summary).length,required:true},
-    {path:'data/competitors.json',label:'competitors.json',count:Object.keys(STATE.competitors).length,required:false},
-    {path:'data/social.json',label:'social.json',count:STATE.social.length,required:false},
+    {path:'data/mentions.json',label:'mentions.json',count:STATE.mentions.length,required:true,note:STATE.mentions.length===0?'⚠ Empty — dashboard reading from output.json':''},
+    {path:'data/output.json',label:'output.json',count:STATE.outputRaw?(Array.isArray(STATE.outputRaw)?STATE.outputRaw.length:Object.keys(STATE.outputRaw).length):0,required:true,note:'← Actual crawler output (primary data source)'},
+    {path:'data/summary.json',label:'summary.json',count:Object.keys(STATE.summary).length,required:true,note:''},
+    {path:'data/competitors.json',label:'competitors.json',count:Object.keys(STATE.competitors).length,required:false,note:''},
+    {path:'data/social.json',label:'social.json',count:STATE.social.length,required:false,note:'Apify social scrape'},
   ];
 
   el('ds-files').innerHTML = files.map(f=>{
@@ -1550,12 +1664,44 @@ function renderDataStatus(){
         ${f.required?'<span class="badge badge-neg" style="margin-left:auto">Required</span>':'<span class="badge badge-neu" style="margin-left:auto">Optional</span>'}
       </div>
       <div style="font-size:11px;color:var(--text3)">${ok?'✓ Loaded — '+f.count+' records':err?'✗ Error: '+status.error:'? Not yet checked — click Refresh'}</div>
+      ${f.note?`<div style="font-size:10px;color:var(--orange);margin-top:4px">${f.note}</div>`:''}
     </div>`;
   }).join('');
 
-  // Raw preview
-  const mentPreview = STATE.mentions.length ? JSON.stringify(STATE.mentions.slice(0,2),null,2) : 'Empty — mentions.json not loaded.\n\nCheck:\n1. Crawler has run (GitHub Actions → Polaris ORM — Full Crawl)\n2. data/mentions.json exists in your repo\n3. Repo is set to: adirispol / ORM-Dashboard / main in Settings';
-  el('ds-mentions-preview').textContent = mentPreview.substring(0,2000);
+  // Primary: show output.json (real data source)
+  let outputPreview;
+  const _op = STATE.outputRaw ? normalizeMentions(STATE.outputRaw) : [];
+  if(_op.length){
+    outputPreview = '✓ output.json — '+_op.length+' records parsed\n\nFirst 2 records:\n\n'+JSON.stringify(_op.slice(0,2),null,2);
+  } else if(STATE.outputRaw){
+    const raw = STATE.outputRaw;
+    const topKeys = Array.isArray(raw)?['(array, length '+raw.length+')']:Object.keys(raw);
+    outputPreview = '⚠ output.json loaded but 0 records parsed\nTop-level: '+(Array.isArray(raw)?'ARRAY['+raw.length+']':'OBJECT keys: '+topKeys.join(', '))+'\n\nRaw (first 800 chars):\n'+JSON.stringify(raw,null,2).substring(0,800);
+  } else {
+    outputPreview = '✗ output.json not found\n\nFix: check data/output.json exists in your GitHub repo\nCurrent config: '+STATE.cfg.user+'/'+STATE.cfg.repo+'/'+STATE.cfg.branch;
+  }
+  el('ds-mentions-preview').textContent = outputPreview.substring(0,2500);
+
+  // Secondary: merged mentions total
+  let mentPreview;
+  if(STATE.mentions.length){
+    mentPreview = '✓ TOTAL LOADED: '+STATE.mentions.length+' mentions (merged from all sources)\n\nFirst 2:\n\n'+JSON.stringify(STATE.mentions.slice(0,2),null,2);
+  } else if(STATE.mentionsRaw){
+    const raw = STATE.mentionsRaw;
+    const topKeys = Object.keys(raw);
+    let structureDesc = 'Top-level type: '+(Array.isArray(raw)?'ARRAY':'OBJECT')+'\nTop-level keys: '+topKeys.join(', ')+'\n\n';
+    // Show what's inside each key
+    for(const k of topKeys.slice(0,8)){
+      const v = raw[k];
+      if(Array.isArray(v)) structureDesc += `"${k}": Array of ${v.length} items. First item keys: ${v[0]?Object.keys(v[0]).join(', '):'empty'}\n`;
+      else if(typeof v === 'object' && v) structureDesc += `"${k}": Object with keys: ${Object.keys(v).join(', ')}\n`;
+      else structureDesc += `"${k}": ${typeof v} = ${String(v).substring(0,50)}\n`;
+    }
+    mentPreview = '⚠ LOADED BUT PARSE FAILED\n\n'+structureDesc+'\n--- Raw (first 800 chars) ---\n'+JSON.stringify(raw,null,2).substring(0,800);
+  } else {
+    mentPreview = '✗ mentions.json NOT LOADED\n\nCheck:\n1. GitHub Actions ran successfully (repo → Actions tab)\n2. data/mentions.json exists in repo\n3. Settings username/repo/branch are correct\n\nCurrent settings: '+STATE.cfg.user+'/'+STATE.cfg.repo+'/'+STATE.cfg.branch;
+  }
+  el('ds-mentions-preview').textContent = mentPreview.substring(0,2500);
 
   const sumPreview = Object.keys(STATE.summary).length ? JSON.stringify(STATE.summary,null,2) : 'Empty — summary.json not loaded.\n\nRun crawler manually: GitHub → Actions → Polaris ORM — Full Crawl → Run workflow';
   el('ds-summary-preview').textContent = sumPreview.substring(0,2000);
