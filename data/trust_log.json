@@ -1,6 +1,6 @@
 {
-  "crawl_time": "2026-05-16T04:53:42.893753+00:00",
-  "total_social": 0,
+  "crawl_time": "2026-05-17T05:12:38.018792+00:00",
+  "total_social": 34,
   "total_mentions": 0,
   "impression_formulas": {
     "linkedin": "reactions × 80  [Polaris formula: LinkedIn hides real impressions]",
@@ -121,44 +121,58 @@
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:\"Polaris School of Techno",
-      "status": "FAILED_TO_START",
-      "items": 0
+      "status": "SUCCEEDED",
+      "run_id": "nq3xdZ5QWj7O1jDo2",
+      "items_raw": 10,
+      "run_url": "https://console.apify.com/actors/runs/nq3xdZ5QWj7O1jDo2"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:#polariscampus OR @polari",
-      "status": "FAILED_TO_START",
-      "items": 0
+      "status": "SUCCEEDED",
+      "run_id": "3wRwXcthl5bNXlBeZ",
+      "items_raw": 10,
+      "run_url": "https://console.apify.com/actors/runs/3wRwXcthl5bNXlBeZ"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:#VibeCon OR #VibeCon2025 ",
-      "status": "FAILED_TO_START",
-      "items": 0
+      "status": "SUCCEEDED",
+      "run_id": "GZx4tGLdUF2dLf8hI",
+      "items_raw": 10,
+      "run_url": "https://console.apify.com/actors/runs/GZx4tGLdUF2dLf8hI"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:Agentathon Polaris OR Lyz",
-      "status": "FAILED_TO_START",
-      "items": 0
+      "status": "SUCCEEDED",
+      "run_id": "91W2otoL3QHk8ezNc",
+      "items_raw": 10,
+      "run_url": "https://console.apify.com/actors/runs/91W2otoL3QHk8ezNc"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:GSoC 2025 Polaris",
-      "status": "FAILED_TO_START",
-      "items": 0
+      "status": "SUCCEEDED",
+      "run_id": "K14JXwiHDPabnu779",
+      "items_raw": 10,
+      "run_url": "https://console.apify.com/actors/runs/K14JXwiHDPabnu779"
     },
     {
       "actor": "apify~instagram-scraper",
       "label": "Instagram",
-      "status": "FAILED_TO_START",
-      "items": 0
+      "status": "SUCCEEDED",
+      "run_id": "AawtMiXSTcyHq5Hlb",
+      "items_raw": 33,
+      "run_url": "https://console.apify.com/actors/runs/AawtMiXSTcyHq5Hlb"
     },
     {
       "actor": "apify~facebook-pages-scraper",
       "label": "Facebook",
-      "status": "FAILED_TO_START",
-      "items": 0
+      "status": "SUCCEEDED",
+      "run_id": "VIyBxIjU67yOfjPYm",
+      "items_raw": 1,
+      "run_url": "https://console.apify.com/actors/runs/VIyBxIjU67yOfjPYm"
     },
     {
       "actor": "trudax~reddit-scraper",
