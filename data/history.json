@@ -403,5 +403,20 @@
     },
     "impressions": 470233,
     "scraped_at": "2026-05-19T05:42:03.666652+00:00"
+  },
+  {
+    "date": "2026-05-20",
+    "social_posts": 0,
+    "mentions": 0,
+    "total": 0,
+    "by_platform": {},
+    "by_campaign": {},
+    "sentiment": {
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0
+    },
+    "impressions": 0,
+    "scraped_at": "2026-05-20T05:42:57.407211+00:00"
   }
 ]
