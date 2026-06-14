@@ -778,5 +778,20 @@
     },
     "impressions": 0,
     "scraped_at": "2026-06-13T05:56:43.585588+00:00"
+  },
+  {
+    "date": "2026-06-14",
+    "social_posts": 0,
+    "mentions": 0,
+    "total": 0,
+    "by_platform": {},
+    "by_campaign": {},
+    "sentiment": {
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0
+    },
+    "impressions": 0,
+    "scraped_at": "2026-06-14T06:15:32.338428+00:00"
   }
 ]
