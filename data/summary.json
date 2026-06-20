@@ -12,11 +12,11 @@
     "GSoC 2025": 1
   },
   "sentiment": {
-    "positive": 15,
-    "neutral": 17,
+    "positive": 16,
+    "neutral": 16,
     "negative": 2
   },
-  "impressions": 343816,
+  "impressions": 50402,
   "impression_formulas": {
     "linkedin": "reactions × 80  [Polaris formula: LinkedIn hides real impressions]",
     "twitter": "viewCount from Twitter API (REAL when available), else likes × 30",
@@ -27,5 +27,5 @@
     "news": "domain tier: major=8000, regional=3000, blog=800  [estimate]",
     "web": "Google search position × 600 + 400  [visibility estimate]"
   },
-  "last_updated": "2026-06-19T06:41:06.242978+00:00"
+  "last_updated": "2026-06-20T05:55:48.430796+00:00"
 }
