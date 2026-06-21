@@ -911,5 +911,27 @@
     },
     "impressions": 50402,
     "scraped_at": "2026-06-20T05:55:48.432465+00:00"
+  },
+  {
+    "date": "2026-06-21",
+    "social_posts": 34,
+    "mentions": 0,
+    "total": 34,
+    "by_platform": {
+      "instagram": 33,
+      "facebook": 1
+    },
+    "by_campaign": {
+      "General": 32,
+      "VibeCon": 1,
+      "GSoC 2025": 1
+    },
+    "sentiment": {
+      "positive": 17,
+      "neutral": 16,
+      "negative": 1
+    },
+    "impressions": 345328,
+    "scraped_at": "2026-06-21T06:28:41.550939+00:00"
   }
 ]
