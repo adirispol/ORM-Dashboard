@@ -7,17 +7,17 @@
     "facebook": 1
   },
   "campaigns": {
-    "General": 30,
-    "Admissions 2026": 2,
+    "Admissions 2026": 3,
+    "General": 29,
     "VibeCon": 1,
     "GSoC 2025": 1
   },
   "sentiment": {
-    "positive": 19,
-    "neutral": 13,
+    "positive": 18,
+    "neutral": 14,
     "negative": 2
   },
-  "impressions": 389280,
+  "impressions": 377593,
   "impression_formulas": {
     "linkedin": "reactions × 80  [Polaris formula: LinkedIn hides real impressions]",
     "twitter": "viewCount from Twitter API (REAL when available), else likes × 30",
@@ -28,5 +28,5 @@
     "news": "domain tier: major=8000, regional=3000, blog=800  [estimate]",
     "web": "Google search position × 600 + 400  [visibility estimate]"
   },
-  "last_updated": "2026-06-30T05:47:12.912953+00:00"
+  "last_updated": "2026-07-01T06:07:39.649448+00:00"
 }
