@@ -1,21 +1,57 @@
 [
   {
     "platform": "instagram",
+    "author": "polariscampus",
+    "text": "The best students usually get rewarded after four years.\n\nPolaris is backing 10 engineering students before Day 1.\n\n₹2 lakh for the top 3. A MacBook for the next 7.\n\nComment PAT and we’ll send you the scholarship link.",
+    "url": "https://www.instagram.com/p/DaUTer4ifT-/",
+    "date": "2026-07-03T04:25:58+00:00",
+    "likes": 12,
+    "comments": 0,
+    "reposts": 0,
+    "impressions": 240,
+    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
+    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
+    "sentiment": "positive",
+    "campaign": "Admissions 2026",
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-07-03T05:31:49.359696+00:00"
+  },
+  {
+    "platform": "instagram",
+    "author": "polariscampus",
+    "text": "3 GSoC tips every student needs before applying.",
+    "url": "https://www.instagram.com/p/DaS1QwvJ7Sa/",
+    "date": "2026-07-02T14:43:59+00:00",
+    "likes": 30,
+    "comments": 0,
+    "reposts": 0,
+    "impressions": 635,
+    "impressions_type": "real_instagram_video_views",
+    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
+    "sentiment": "positive",
+    "campaign": "GSoC 2025",
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-07-03T05:31:49.360832+00:00"
+  },
+  {
+    "platform": "instagram",
     "author": "thepolarisfellowship",
     "text": "10,000+ applications? You kept us rolling, and honestly, we’re floored!We’re genuinely humbled by the response. ❤️\n\nWe’re going through every single one, personally, line by line. No skimming, no shortcuts, promise.\n\nSo keep those 📩 open, updates coming your way soon.\n\nThis is just the start. Follow @thepolarisfellowship for India’s biggest student fellowship 🔥\n\n[Polaris School of Technology, The Polaris Fellowship, technology, coding, Ai, entrepreneurship, startup, tech enthusiasts]",
     "url": "https://www.instagram.com/p/DaQLrwstCqD/",
     "date": "2026-07-01T14:04:18+00:00",
-    "likes": 26,
-    "comments": 0,
+    "likes": 29,
+    "comments": 1,
     "reposts": 0,
-    "impressions": 520,
+    "impressions": 680,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.097269+00:00"
+    "scraped_at": "2026-07-03T05:31:49.359770+00:00"
   },
   {
     "platform": "instagram",
@@ -23,17 +59,17 @@
     "text": "Link in bio, or simply comment POLARIS. All the best! :)",
     "url": "https://www.instagram.com/p/DaQLUJmE4A1/",
     "date": "2026-07-01T13:57:40+00:00",
-    "likes": 0,
+    "likes": 61,
     "comments": 2,
     "reposts": 0,
-    "impressions": 200,
+    "impressions": 1420,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.098127+00:00"
+    "scraped_at": "2026-07-03T05:31:49.359790+00:00"
   },
   {
     "platform": "instagram",
@@ -41,17 +77,17 @@
     "text": "Kids These Days- Episode 10\n\nBuying clothes online shouldn’t feel like a gamble.\n\nThese two students built an AI that lets you see exactly how an outfit looks on you before you click “Buy.”\n\nThe fitting room just moved to your phone.",
     "url": "https://www.instagram.com/p/DaPcQb7ptK2/",
     "date": "2026-07-01T07:19:48+00:00",
-    "likes": 55,
+    "likes": 62,
     "comments": 3,
     "reposts": 0,
-    "impressions": 350,
+    "impressions": 404,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.097056+00:00"
+    "scraped_at": "2026-07-03T05:31:49.360005+00:00"
   },
   {
     "platform": "instagram",
@@ -59,17 +95,17 @@
     "text": "College fees should never decide your future.\n\nIf you’re an engineering student, this scholarship could cover up to ₹2 lakh of your education.\n\nApplications close soon. Comment SCHOLARSHIP and we’ll send you the details.",
     "url": "https://www.instagram.com/p/DaN0Ed0pg4t/",
     "date": "2026-06-30T15:56:47+00:00",
-    "likes": 36,
+    "likes": 38,
     "comments": 4,
     "reposts": 0,
-    "impressions": 631,
+    "impressions": 648,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": "Admissions 2026",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.097093+00:00"
+    "scraped_at": "2026-07-03T05:31:49.360033+00:00"
   },
   {
     "platform": "instagram",
@@ -80,14 +116,14 @@
     "likes": 27,
     "comments": 0,
     "reposts": 0,
-    "impressions": 442,
+    "impressions": 451,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.096838+00:00"
+    "scraped_at": "2026-07-03T05:31:49.359853+00:00"
   },
   {
     "platform": "instagram",
@@ -95,17 +131,17 @@
     "text": "We are hosting Hackarena 2.0. Here are all the details about it.",
     "url": "https://www.instagram.com/p/DaMqYvPpU54/",
     "date": "2026-06-30T05:13:10+00:00",
-    "likes": 47,
+    "likes": 48,
     "comments": 0,
     "reposts": 0,
-    "impressions": 529,
+    "impressions": 542,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.097290+00:00"
+    "scraped_at": "2026-07-03T05:31:49.359808+00:00"
   },
   {
     "platform": "instagram",
@@ -113,17 +149,17 @@
     "text": "Video by Vipul Tyagi on June 27, 2026. May be a selfie of one or more people, beard, eyeglasses, screen and text that says '2026 Btech'.",
     "url": "https://www.instagram.com/p/DaF7Wsez602/",
     "date": "2026-06-27T14:32:07+00:00",
-    "likes": 1243,
-    "comments": 1093,
+    "likes": 1348,
+    "comments": 1135,
     "reposts": 0,
-    "impressions": 52361,
+    "impressions": 56976,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.097119+00:00"
+    "scraped_at": "2026-07-03T05:31:49.360782+00:00"
   },
   {
     "platform": "instagram",
@@ -131,17 +167,17 @@
     "text": "We’ve launched the Polaris All India Scholarship. Here’s the complete breakdown.",
     "url": "https://www.instagram.com/p/DaFFx0qJxAQ/",
     "date": "2026-06-27T06:38:28+00:00",
-    "likes": 36,
-    "comments": 4,
+    "likes": 38,
+    "comments": 3,
     "reposts": 0,
-    "impressions": 570,
+    "impressions": 584,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": "Admissions 2026",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.096895+00:00"
+    "scraped_at": "2026-07-03T05:31:49.360263+00:00"
   },
   {
     "platform": "instagram",
@@ -149,17 +185,17 @@
     "text": "Wherever you’re starting your B.Tech in 2026, we will BACK YOU! 🌠\n\nIntroducing the All India Polaris Scholarship.\n\nTen students, selected from across the country, backed at the very beginning of their BTech journey with something real.\n\nRank 1 to 3 win ₹2,00,000 each - cash they can use however their journey demands. Fees, tools, courses, breathing room. You name it.\n\nRank 4 to 10 win a MacBook each - the most powerful laptop in the world, theirs from day one of engineering college.\n\nHere’s how it works:\n → Register for the Polaris Aptitude Test before 15th July\n → Top 500 write a scholarship essay\n → Top 50 move to a video interview\n → 10 winners. 3 get ₹2 lakh. 7 get a MacBook.\n\nIf you’re starting BTech in 2026 and are serious about building a future for yourself, registration link for the Polaris Aptitude Test (PAT) is in the comments and in our bio. Apply now!\n\n🧷Link in BIO & COMMENTS! \n\n#AllIndiaPolaris Scholarship #Polaris #EngineeringIndia #BTech2026 #Scholarship",
     "url": "https://www.instagram.com/p/DaDb2mopRhz/",
     "date": "2026-06-26T15:12:17+00:00",
-    "likes": 0,
+    "likes": 35,
     "comments": 1,
     "reposts": 0,
-    "impressions": 100,
+    "impressions": 800,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": "Admissions 2026",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.097207+00:00"
+    "scraped_at": "2026-07-03T05:31:49.359925+00:00"
   },
   {
     "platform": "instagram",
@@ -167,17 +203,17 @@
     "text": "Another world-class partner joins The Polaris Fellowship.\n\nWelcome, Wispr Flow.\n\nTogether, we’re giving the next generation of builders access to the tools they need to do their best work.\n\nLink in Bio.",
     "url": "https://www.instagram.com/p/DaDVwQPJLN9/",
     "date": "2026-06-26T14:19:08+00:00",
-    "likes": 0,
+    "likes": 12,
     "comments": 0,
     "reposts": 0,
-    "impressions": 50,
+    "impressions": 240,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.096770+00:00"
+    "scraped_at": "2026-07-03T05:31:49.360095+00:00"
   },
   {
     "platform": "instagram",
@@ -185,17 +221,17 @@
     "text": "In today’s AI era, the biggest fear is not just losing jobs… it’s losing direction.\n\nMukul Rustagi opens up about a world where degrees are no longer enough, tech jobs are changing fast, and an entire generation is confused about what to learn, which career to choose, and where money will be made in the next 5–10 years.\n\nIn this powerful podcast, he shares:\n\nHow AI is changing the future of tech jobs and why being “cheap talent” is no longer enough\nWhy YouTube and ChatGPT can become the two biggest tools for young people to build their future\nHow students can use skills, proof of work, and global opportunities to reach their first ₹1 crore\nWhy the next wave of wealth may come from solopreneurs, AI ventures, and product builders\nThe mistakes young entrepreneurs make while building ideas, companies, and wealth\n\nThis isn’t just a conversation about AI or technology.\n\nIt’s a roadmap for every young person who feels confused about career, money, skills, and the future.\n\nWatch the full conve",
     "url": "https://www.instagram.com/p/DaDRo95SiTR/",
     "date": "2026-06-26T13:44:34+00:00",
-    "likes": 662,
+    "likes": 672,
     "comments": 4,
     "reposts": 0,
-    "impressions": 9200,
+    "impressions": 9418,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.097802+00:00"
+    "scraped_at": "2026-07-03T05:31:49.360409+00:00"
   },
   {
     "platform": "instagram",
@@ -206,14 +242,14 @@
     "likes": 48,
     "comments": 1,
     "reposts": 0,
-    "impressions": 898,
+    "impressions": 901,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.097835+00:00"
+    "scraped_at": "2026-07-03T05:31:49.360733+00:00"
   },
   {
     "platform": "instagram",
@@ -224,14 +260,14 @@
     "likes": 53,
     "comments": 1,
     "reposts": 0,
-    "impressions": 967,
+    "impressions": 975,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "negative",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.097443+00:00"
+    "scraped_at": "2026-07-03T05:31:49.360219+00:00"
   },
   {
     "platform": "instagram",
@@ -242,14 +278,14 @@
     "likes": 25,
     "comments": 0,
     "reposts": 0,
-    "impressions": 373,
+    "impressions": 376,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.097498+00:00"
+    "scraped_at": "2026-07-03T05:31:49.360194+00:00"
   },
   {
     "platform": "instagram",
@@ -257,17 +293,17 @@
     "text": "Most legal AI tools help lawyers research.\n\nThis one goes a step further.\n\nBuilt by a Polaris student, LexForge helps lawyers build arguments, challenge them through a devil’s advocate mode, and even simulate courtroom debates.\n\nThe goal isn’t to replace lawyers, it’s to help them prepare better before stepping into court.\n\nA fascinating example of AI solving real-world problems with privacy and trust at its core.",
     "url": "https://www.instagram.com/p/DZ4sey4AuyF/",
     "date": "2026-06-22T11:08:13+00:00",
-    "likes": 38,
+    "likes": 39,
     "comments": 3,
     "reposts": 0,
-    "impressions": 532,
+    "impressions": 540,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.097586+00:00"
+    "scraped_at": "2026-07-03T05:31:49.360139+00:00"
   },
   {
     "platform": "instagram",
@@ -275,17 +311,17 @@
     "text": "Kids These Days — Episode 7\n\nMost students use AI to answer questions.\n\nRehan built an AI that studies with you.\n\nUpload your notes and it turns them into summaries, quizzes, flashcards, and even podcasts.",
     "url": "https://www.instagram.com/p/DZz_bXbJbdE/",
     "date": "2026-06-20T15:15:58+00:00",
-    "likes": 53,
+    "likes": 54,
     "comments": 14,
     "reposts": 0,
-    "impressions": 697,
+    "impressions": 699,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.097961+00:00"
+    "scraped_at": "2026-07-03T05:31:49.360065+00:00"
   },
   {
     "platform": "instagram",
@@ -293,17 +329,17 @@
     "text": "The best way to evaluate a college isn’t through brochures or rankings.\n\nIt’s by visiting the campus, talking to the students, meeting the mentors, and seeing how learning actually happens.\n\nSometimes, that’s all the clarity you need.",
     "url": "https://www.instagram.com/p/DZzDwkbJO-V/",
     "date": "2026-06-20T06:34:41+00:00",
-    "likes": 76,
+    "likes": 77,
     "comments": 3,
     "reposts": 0,
-    "impressions": 1706,
+    "impressions": 1711,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.097700+00:00"
+    "scraped_at": "2026-07-03T05:31:49.360324+00:00"
   },
   {
     "platform": "instagram",
@@ -311,17 +347,17 @@
     "text": "Kids These Days- Episode 6\n\nMost travel apps tell you where to go.\n\nSakshi and Manav built one that tells you the story behind where you already are.\n\nMeet Loci, an AI travel companion that turns every city into a guided tour.",
     "url": "https://www.instagram.com/p/DZxdgu8pll4/",
     "date": "2026-06-19T15:46:02+00:00",
-    "likes": 67,
+    "likes": 66,
     "comments": 0,
     "reposts": 0,
-    "impressions": 1190,
+    "impressions": 1194,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.097886+00:00"
+    "scraped_at": "2026-07-03T05:31:49.360856+00:00"
   },
   {
     "platform": "instagram",
@@ -339,7 +375,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.097620+00:00"
+    "scraped_at": "2026-07-03T05:31:49.360246+00:00"
   },
   {
     "platform": "instagram",
@@ -357,7 +393,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.097532+00:00"
+    "scraped_at": "2026-07-03T05:31:49.360292+00:00"
   },
   {
     "platform": "instagram",
@@ -365,17 +401,17 @@
     "text": "Most students wait until their final year to start building a career. Polaris students are doing it in Year 1.\n\n₹1 Cr+ in stipends, 109 opportunities, 35 global open-source selections, and internships across 11 countries.\n\nThis isn’t a placement report. It’s what happens when you focus on proof of work from Day 1.",
     "url": "https://www.instagram.com/p/DZr6DKSCSBD/",
     "date": "2026-06-17T11:54:08+00:00",
-    "likes": 0,
+    "likes": 121,
     "comments": 1,
     "reposts": 0,
-    "impressions": 100,
+    "impressions": 2520,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.098173+00:00"
+    "scraped_at": "2026-07-03T05:31:49.359964+00:00"
   },
   {
     "platform": "instagram",
@@ -386,14 +422,14 @@
     "likes": 89,
     "comments": 17,
     "reposts": 0,
-    "impressions": 1671,
+    "impressions": 1674,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.097662+00:00"
+    "scraped_at": "2026-07-03T05:31:49.360817+00:00"
   },
   {
     "platform": "instagram",
@@ -401,17 +437,17 @@
     "text": "Sehajdeep Kaur, a first year student@Polaris has been selected as a delegate for the HPAIR (Harvard Project for Asian and International Relations) Asia Conference 2026 - a prestigious global conference founded by Harvard students that brings together future leaders from across the world.\n\nThis year’s conference will be held in Hanoi, Vietnam, where some of the brightest, and most exceptional students will participate in keynote sessions, executive seminars, policy debates, workshops, networking events, and the renowned Impact Challenge alongside peers from dozens of countries.\n\nSince its founding in 1991, HPAIR has connected more than 40,000 delegates across conferences focused on leadership, global affairs, technology, business, policy, and international collaboration.\n\nFor us, it’s a true testament to our belief that when you place ambitious students in the right rooms, surround them with the right opportunities, and trust them with responsibility early, extraordinary things tend to ",
     "url": "https://www.instagram.com/p/DZpSuJVgttf/",
     "date": "2026-06-16T11:34:56+00:00",
-    "likes": 0,
+    "likes": 125,
     "comments": 1,
     "reposts": 0,
-    "impressions": 100,
+    "impressions": 2600,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.097409+00:00"
+    "scraped_at": "2026-07-03T05:31:49.360503+00:00"
   },
   {
     "platform": "instagram",
@@ -419,17 +455,17 @@
     "text": "You can read about great companies or you can sit inside them. \n\nThe Polaris Fellowship gives 10 student builders a chance to build across Bain, Blume, InMobi, Classplus, Emergent, and more for 6 months. \n\nApplications close June 28. Only 10 fellows will be selected nationwide. Comment FELLOWSHIP for the application link.",
     "url": "https://www.instagram.com/p/DZo5qEAiSoz/",
     "date": "2026-06-16T07:52:59+00:00",
-    "likes": 0,
+    "likes": 35,
     "comments": 5,
     "reposts": 0,
-    "impressions": 500,
+    "impressions": 1200,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.098267+00:00"
+    "scraped_at": "2026-07-03T05:31:49.360763+00:00"
   },
   {
     "platform": "instagram",
@@ -447,7 +483,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.098191+00:00"
+    "scraped_at": "2026-07-03T05:31:49.360898+00:00"
   },
   {
     "platform": "instagram",
@@ -455,17 +491,17 @@
     "text": "Polaris at World’s Largest Education Conference. \n\nNAFSA 2026 (the world’s largest international education conference) with over 10,000 educators from over 150 countries in attendance, just wrapped up in Orlando. \n\nOur Head of Academics, Avinash Ramakanth, was there, representing Polaris on one of the most prominent stages in global education. \nAnd this year’s theme couldn’t have felt more personal to us.\n\n“Global by Design.”\n\nNot global as a goal you work toward or as something you earn after four years and a visa application. Global as a decision - baked in from the very beginning.\n\nBecause for every student who walks into Polaris - You don’t chase global after you graduate. You don’t wait for a fellowship, a lucky break, or someone’s permission.\n\nYou get it on Day 1.\n\nReal projects, global teams, production-grade work - all in your first year, not your final one.\n\nAnd that’s not a promise. It’s already happening. Check out our website to know this year’s global internships and selec",
     "url": "https://www.instagram.com/p/DZhiKGWCdZr/",
     "date": "2026-06-13T11:12:58+00:00",
-    "likes": 0,
+    "likes": 116,
     "comments": 0,
     "reposts": 0,
-    "impressions": 50,
+    "impressions": 2320,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.098092+00:00"
+    "scraped_at": "2026-07-03T05:31:49.360624+00:00"
   },
   {
     "platform": "instagram",
@@ -483,43 +519,7 @@
     "campaign": "VibeCon",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.098108+00:00"
-  },
-  {
-    "platform": "instagram",
-    "author": "igniteroom.bangalore",
-    "text": "Bangalore Zonals - HackArena 2.0 🔥\n\n12th June'26 saw an immense wave of developers who brought onto the stage ideation and innovation ✨\n\n@polariscampus @igniteroom.india \n\n#igniteroom #polaris #hackarena #bangalore #hackathon",
-    "url": "https://www.instagram.com/p/DZfnWRsK6KF/",
-    "date": "2026-06-12T17:22:27+00:00",
-    "likes": 119,
-    "comments": 4,
-    "reposts": 0,
-    "impressions": 2018,
-    "impressions_type": "real_instagram_video_views",
-    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
-    "sentiment": "negative",
-    "campaign": null,
-    "tags_polaris": "Yes",
-    "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.098229+00:00"
-  },
-  {
-    "platform": "instagram",
-    "author": "polariscampus",
-    "text": "He was too scared for a mock interview. So he built an AI that does the interviewing for you. \n\nKids These Days, Episode 4. Upload your resume, pick the role, and it interviews you out loud like a real hiring manager. When you are done, it shows you exactly where you stumbled and how to fix it. \n\nBuilt in first year. From one nervous moment.",
-    "url": "https://www.instagram.com/p/DZeyONSJa-1/",
-    "date": "2026-06-12T09:37:06+00:00",
-    "likes": 37,
-    "comments": 0,
-    "reposts": 0,
-    "impressions": 791,
-    "impressions_type": "real_instagram_video_views",
-    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
-    "sentiment": "positive",
-    "campaign": null,
-    "tags_polaris": "No",
-    "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.097924+00:00"
+    "scraped_at": "2026-07-03T05:31:49.360516+00:00"
   },
   {
     "platform": "instagram",
@@ -527,35 +527,17 @@
     "text": "What is the strongest tangible proof of coding competence in real-world scenarios?\n\nOpen Source it is. Which is strongly engraved into the culture of Polaris.\n\nThis year, 18 Polaris students became part of that culture through Google Summer of Code 2026.\n\nAnd they’re not just contributing locally. They’re now working across open-source ecosystems spanning 9 countries, contributing to real-world systems in:\n- cybersecurity\n- healthcare & genomics\n- developer infrastructure\n- ⁠geospatial systems\n- ⁠programming languages\n\nWorking alongside experienced mentors, building systems used by developers and organizations across the world.\n\nBut behind every selection is a completely different story.\nWhile some students started with utmost clarity, some rebuilt from scratch after setbacks. Some learned by breaking things, fixing them, and trying again.\nWhat connects all of them is simple:\nThey showed up consistently.\n They kept building.\n\nAnd they contributed before they felt “ready.” That’s what o",
     "url": "https://www.instagram.com/p/DYFEfJbiauD/",
     "date": "2026-05-08T13:23:34+00:00",
-    "likes": 0,
+    "likes": 326,
     "comments": 11,
     "reposts": 0,
-    "impressions": 1100,
+    "impressions": 7620,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": "GSoC 2025",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.097008+00:00"
-  },
-  {
-    "platform": "instagram",
-    "author": "",
-    "text": "",
-    "url": "https://www.instagram.com/explore/tags/vibecon",
-    "date": "UNKNOWN",
-    "likes": 0,
-    "comments": 0,
-    "reposts": 0,
-    "impressions": 50,
-    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
-    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
-    "sentiment": "neutral",
-    "campaign": null,
-    "tags_polaris": "No",
-    "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.095911+00:00"
+    "scraped_at": "2026-07-03T05:31:49.360706+00:00"
   },
   {
     "platform": "instagram",
@@ -573,7 +555,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.095957+00:00"
+    "scraped_at": "2026-07-03T05:31:49.360866+00:00"
   },
   {
     "platform": "instagram",
@@ -591,7 +573,25 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:34:49.095979+00:00"
+    "scraped_at": "2026-07-03T05:31:49.360875+00:00"
+  },
+  {
+    "platform": "instagram",
+    "author": "",
+    "text": "",
+    "url": "https://www.instagram.com/explore/tags/vibecon",
+    "date": "UNKNOWN",
+    "likes": 0,
+    "comments": 0,
+    "reposts": 0,
+    "impressions": 50,
+    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
+    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
+    "sentiment": "neutral",
+    "campaign": null,
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-07-03T05:31:49.360883+00:00"
   },
   {
     "platform": "facebook",
@@ -599,16 +599,16 @@
     "text": "",
     "url": "",
     "date": "UNKNOWN",
-    "likes": 7370,
+    "likes": 7371,
     "comments": 0,
     "reposts": 0,
-    "impressions": 294800,
+    "impressions": 294840,
     "impressions_type": "engagement_estimate_(likes+comments×3+shares×5)×40",
     "impressions_formula": "",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-02T05:35:01.594492+00:00"
+    "scraped_at": "2026-07-03T05:32:06.671839+00:00"
   }
 ]
