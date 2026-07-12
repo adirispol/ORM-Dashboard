@@ -1378,5 +1378,27 @@
     },
     "impressions": 415401,
     "scraped_at": "2026-07-11T04:47:19.359391+00:00"
+  },
+  {
+    "date": "2026-07-12",
+    "social_posts": 34,
+    "mentions": 0,
+    "total": 34,
+    "by_platform": {
+      "instagram": 33,
+      "facebook": 1
+    },
+    "by_campaign": {
+      "General": 25,
+      "Admissions 2026": 7,
+      "GSoC 2025": 2
+    },
+    "sentiment": {
+      "positive": 15,
+      "neutral": 19,
+      "negative": 0
+    },
+    "impressions": 343563,
+    "scraped_at": "2026-07-12T04:57:04.572963+00:00"
   }
 ]
