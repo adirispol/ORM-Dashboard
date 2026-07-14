@@ -1,21 +1,75 @@
 [
   {
     "platform": "instagram",
+    "author": "thepolarisfellowship",
+    "text": "@esc.plan joins The Polaris Fellowship as an Ecosystem Partner. 🤝\n\nHeadquartered in Bengaluru, Escape Plan has rapidly emerged as one of India’s fastest-growing travel gear brands, scaling from a digital-first startup to 25+ offline stores with an annualized revenue run rate of over ₹300 crore.\n\nBacked by $30 million in venture funding, including a strategic investment from IndiGo Ventures, Escape Plan is redefining how modern travelers think about luggage, mobility, and travel essentials.\n\nFrom frequent flyers to first-time explorers, the brand is building products designed for a generation that’s always moving.\n\nWe’re proud to welcome Escape Plan to the growing Polaris Fellowship ecosystem, alongside founders, operators, investors, and some of the country’s most ambitious technology companies.\n\n#ThePolarisFellowship #EscapePlan #Retail #Startup",
+    "url": "https://www.instagram.com/p/DauOYS7R9nY/",
+    "date": "2026-07-13T06:01:42+00:00",
+    "likes": 2,
+    "comments": 0,
+    "reposts": 0,
+    "impressions": 50,
+    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
+    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
+    "sentiment": "positive",
+    "campaign": null,
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-07-14T04:29:31.965582+00:00"
+  },
+  {
+    "platform": "instagram",
+    "author": "thepolarisfellowship",
+    "text": "@rumik._ai joins The Polaris Fellowship as an Ecosystem Partner. 🤝🏻\n\nRumik AI became the first AI company from India to reach 1 million monthly active users, with its AI companion Ira spending over 100,000 minutes every day talking, laughing, learning, and interacting with people.\n\nBuilt with one of India’s fastest conversational AI voice models, Rumik.ai is redefining how humans interact with AI, making conversations feel more natural, expressive, and truly human.\n\nWe’re proud to welcome Rumik AI to the growing Polaris Fellowship ecosystem, alongside founders, operators, investors, and some of the world’s most ambitious technology companies.\n\n#ThePolarisFellowship #RumikAi #Ai #Tech #Startup",
+    "url": "https://www.instagram.com/p/Darl9BgRejJ/",
+    "date": "2026-07-12T05:30:27+00:00",
+    "likes": 3,
+    "comments": 0,
+    "reposts": 0,
+    "impressions": 60,
+    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
+    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
+    "sentiment": "positive",
+    "campaign": null,
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-07-14T04:29:31.965483+00:00"
+  },
+  {
+    "platform": "instagram",
     "author": "polariscampus",
     "text": "Episode 14- Kids These Days\n\nGen Z isn’t waiting to graduate before building.\n\nThese two students built an AI-powered multiplayer learning platform that turns boring notes into live classroom competitions.\n\nThe next generation of founders is already here.",
     "url": "https://www.instagram.com/p/DaqNB0rpR2T/",
     "date": "2026-07-11T16:34:09+00:00",
-    "likes": 37,
+    "likes": 38,
     "comments": 0,
     "reposts": 0,
-    "impressions": 1736,
+    "impressions": 1859,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.391181+00:00"
+    "scraped_at": "2026-07-14T04:29:31.965903+00:00"
+  },
+  {
+    "platform": "instagram",
+    "author": "thepolarisfellowship",
+    "text": "@mongodb joins The Polaris Fellowship as an Productivity Partner. 🤝\n\nMongoDB changed how modern applications store data by replacing rigid tables with a flexible document database.\n\nToday, nearly 30% of MongoDB Atlas’ cloud revenue comes from customers building Generative AI applications, making it one of the platforms powering the next wave of AI products.\n\nFrom startups to global enterprises, MongoDB helps developers build applications that scale faster, adapt quicker, and power millions of users.\n\nWe’re proud to welcome MongoDB to the growing Polaris Fellowship ecosystem, alongside founders, operators, investors, and some of the country’s most ambitious technology companies.\n\n#ThePolarisFellowship #MongoDB #Ai #Startup Tech",
+    "url": "https://www.instagram.com/p/DapnHK0y2O5/",
+    "date": "2026-07-11T11:02:18+00:00",
+    "likes": 3,
+    "comments": 0,
+    "reposts": 0,
+    "impressions": 60,
+    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
+    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
+    "sentiment": "positive",
+    "campaign": null,
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-07-14T04:29:31.965388+00:00"
   },
   {
     "platform": "instagram",
@@ -33,7 +87,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.391327+00:00"
+    "scraped_at": "2026-07-14T04:29:31.966201+00:00"
   },
   {
     "platform": "instagram",
@@ -51,7 +105,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.390307+00:00"
+    "scraped_at": "2026-07-14T04:29:31.965721+00:00"
   },
   {
     "platform": "instagram",
@@ -69,7 +123,7 @@
     "campaign": "Admissions 2026",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.392175+00:00"
+    "scraped_at": "2026-07-14T04:29:31.966122+00:00"
   },
   {
     "platform": "instagram",
@@ -77,17 +131,17 @@
     "text": "#ExaAi joins The Polaris Fellowship as a Productivity Partner. 🤝\n\nExa is building the search engine for the agentic era, already powering Cursor, HubSpot, and 400,000+ developers.\n\nWant to be one of our 10 lucky winners? These steps might come in handy.\n\n1) To enter the contest, you must follow The Polaris Fellowship, like this post, and comment your answers.\n\n2) Tag 2 friends in the comments to be eligible.\n\n3) A total of 10 winners will be selected across LinkedIn, X, and Instagram combined.\n\n#ThePolarisFellowship #ExaAI #ContestAlert",
     "url": "https://www.instagram.com/p/DanCMMQS7tZ/",
     "date": "2026-07-10T11:00:31+00:00",
-    "likes": 9,
+    "likes": 10,
     "comments": 5,
     "reposts": 0,
-    "impressions": 680,
+    "impressions": 700,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.392062+00:00"
+    "scraped_at": "2026-07-14T04:29:31.966929+00:00"
   },
   {
     "platform": "instagram",
@@ -105,7 +159,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.391650+00:00"
+    "scraped_at": "2026-07-14T04:29:31.967296+00:00"
   },
   {
     "platform": "instagram",
@@ -113,17 +167,17 @@
     "text": "Kids These Days Episode 13\n\nGoogle Assistant and Siri send your voice to company servers.\n\nSameer and Sachin built Orvyn, an Android assistant that runs on your phone and keeps your voice private.",
     "url": "https://www.instagram.com/p/DamcczHzz_X/",
     "date": "2026-07-10T05:30:13+00:00",
-    "likes": 57,
+    "likes": 58,
     "comments": 8,
     "reposts": 0,
-    "impressions": 3292,
+    "impressions": 3340,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.392691+00:00"
+    "scraped_at": "2026-07-14T04:29:31.967185+00:00"
   },
   {
     "platform": "instagram",
@@ -141,7 +195,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.392571+00:00"
+    "scraped_at": "2026-07-14T04:29:31.966289+00:00"
   },
   {
     "platform": "instagram",
@@ -159,7 +213,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.390896+00:00"
+    "scraped_at": "2026-07-14T04:29:31.966753+00:00"
   },
   {
     "platform": "instagram",
@@ -177,7 +231,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.391990+00:00"
+    "scraped_at": "2026-07-14T04:29:31.966495+00:00"
   },
   {
     "platform": "instagram",
@@ -185,17 +239,17 @@
     "text": "1L+ students have already taken the first step. Have you? \n\nThe Polaris Aptitude Test (PAT) is underway, and 1 Lakh students have already entered the race for the All India Polaris Scholarship (AIPS).\n\nThis is more than just an aptitude test - it’s your chance to showcase your potential, bring your ideas to life, and compete for rewards worth striving for:\n\n- Top 3 scholars receive ₹2 Lakhs each\n- Next 7 scholars win a MacBook\n\nTake the PAT. Make your mark.\n#AIPS #AllIndiaPolarisScholarship #PAT #PolarisAptitudeTest #FutureBuilders Scholarship Innovation Students TechEducation",
     "url": "https://www.instagram.com/p/DaiL4YDJd25/",
     "date": "2026-07-08T13:49:54+00:00",
-    "likes": 8,
+    "likes": 9,
     "comments": 0,
     "reposts": 0,
-    "impressions": 160,
+    "impressions": 180,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": "Admissions 2026",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.391770+00:00"
+    "scraped_at": "2026-07-14T04:29:31.966643+00:00"
   },
   {
     "platform": "instagram",
@@ -213,7 +267,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.392259+00:00"
+    "scraped_at": "2026-07-14T04:29:31.967416+00:00"
   },
   {
     "platform": "instagram",
@@ -231,7 +285,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.391680+00:00"
+    "scraped_at": "2026-07-14T04:29:31.966319+00:00"
   },
   {
     "platform": "instagram",
@@ -249,7 +303,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.392637+00:00"
+    "scraped_at": "2026-07-14T04:29:31.966836+00:00"
   },
   {
     "platform": "instagram",
@@ -267,7 +321,7 @@
     "campaign": "Admissions 2026",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.391708+00:00"
+    "scraped_at": "2026-07-14T04:29:31.966671+00:00"
   },
   {
     "platform": "instagram",
@@ -285,7 +339,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.391569+00:00"
+    "scraped_at": "2026-07-14T04:29:31.966579+00:00"
   },
   {
     "platform": "instagram",
@@ -303,7 +357,7 @@
     "campaign": "Admissions 2026",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.391793+00:00"
+    "scraped_at": "2026-07-14T04:29:31.966224+00:00"
   },
   {
     "platform": "instagram",
@@ -321,7 +375,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.392664+00:00"
+    "scraped_at": "2026-07-14T04:29:31.966957+00:00"
   },
   {
     "platform": "instagram",
@@ -339,7 +393,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.392494+00:00"
+    "scraped_at": "2026-07-14T04:29:31.967156+00:00"
   },
   {
     "platform": "instagram",
@@ -347,7 +401,7 @@
     "text": "What would you do with ₹2 lakh before college even begins?\n\nWe asked students what they would do with it.\n\nComment Scholarship to get all the details.",
     "url": "https://www.instagram.com/p/DaaonnWpCan/",
     "date": "2026-07-05T15:26:56+00:00",
-    "likes": 103,
+    "likes": 104,
     "comments": 14,
     "reposts": 0,
     "impressions": 2049,
@@ -357,7 +411,7 @@
     "campaign": "Admissions 2026",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.391359+00:00"
+    "scraped_at": "2026-07-14T04:29:31.966865+00:00"
   },
   {
     "platform": "instagram",
@@ -375,7 +429,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.391391+00:00"
+    "scraped_at": "2026-07-14T04:29:31.967328+00:00"
   },
   {
     "platform": "instagram",
@@ -393,7 +447,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.392418+00:00"
+    "scraped_at": "2026-07-14T04:29:31.967078+00:00"
   },
   {
     "platform": "instagram",
@@ -411,7 +465,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.392288+00:00"
+    "scraped_at": "2026-07-14T04:29:31.967213+00:00"
   },
   {
     "platform": "instagram",
@@ -429,61 +483,7 @@
     "campaign": "Admissions 2026",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.392321+00:00"
-  },
-  {
-    "platform": "instagram",
-    "author": "polariscampus",
-    "text": "3 GSoC tips every student needs before applying.",
-    "url": "https://www.instagram.com/p/DaS1QwvJ7Sa/",
-    "date": "2026-07-02T14:43:59+00:00",
-    "likes": 39,
-    "comments": 0,
-    "reposts": 0,
-    "impressions": 834,
-    "impressions_type": "real_instagram_video_views",
-    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
-    "sentiment": "positive",
-    "campaign": "GSoC 2025",
-    "tags_polaris": "No",
-    "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.392336+00:00"
-  },
-  {
-    "platform": "instagram",
-    "author": "himeeshmadaan",
-    "text": "Untold story of entrepreneurship.",
-    "url": "https://www.instagram.com/p/DaQcSsEyuzR/",
-    "date": "2026-07-01T16:27:11+00:00",
-    "likes": 750,
-    "comments": 6,
-    "reposts": 0,
-    "impressions": 9653,
-    "impressions_type": "real_instagram_video_views",
-    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
-    "sentiment": "neutral",
-    "campaign": null,
-    "tags_polaris": "No",
-    "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.392512+00:00"
-  },
-  {
-    "platform": "instagram",
-    "author": "thepolarisfellowship",
-    "text": "10,000+ applications? You kept us rolling, and honestly, we’re floored!We’re genuinely humbled by the response. ❤️\n\nWe’re going through every single one, personally, line by line. No skimming, no shortcuts, promise.\n\nSo keep those 📩 open, updates coming your way soon.\n\nThis is just the start. Follow @thepolarisfellowship for India’s biggest student fellowship 🔥\n\n[Polaris School of Technology, The Polaris Fellowship, technology, coding, Ai, entrepreneurship, startup, tech enthusiasts]",
-    "url": "https://www.instagram.com/p/DaQLrwstCqD/",
-    "date": "2026-07-01T14:04:18+00:00",
-    "likes": 33,
-    "comments": 1,
-    "reposts": 0,
-    "impressions": 760,
-    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
-    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
-    "sentiment": "neutral",
-    "campaign": null,
-    "tags_polaris": "Yes",
-    "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.392122+00:00"
+    "scraped_at": "2026-07-14T04:29:31.966991+00:00"
   },
   {
     "platform": "instagram",
@@ -491,17 +491,17 @@
     "text": "Wherever you’re starting your B.Tech in 2026, we will BACK YOU! 🌠\n\nIntroducing the All India Polaris Scholarship.\n\nTen students, selected from across the country, backed at the very beginning of their BTech journey with something real.\n\nRank 1 to 3 win ₹2,00,000 each - cash they can use however their journey demands. Fees, tools, courses, breathing room. You name it.\n\nRank 4 to 10 win a MacBook each - the most powerful laptop in the world, theirs from day one of engineering college.\n\nHere’s how it works:\n → Register for the Polaris Aptitude Test before 15th July\n → Top 500 write a scholarship essay\n → Top 50 move to a video interview\n → 10 winners. 3 get ₹2 lakh. 7 get a MacBook.\n\nIf you’re starting BTech in 2026 and are serious about building a future for yourself, registration link for the Polaris Aptitude Test (PAT) is in the comments and in our bio. Apply now!\n\n🧷Link in BIO & COMMENTS! \n\n#AllIndiaPolaris Scholarship #Polaris #EngineeringIndia #BTech2026 #Scholarship",
     "url": "https://www.instagram.com/p/DaDb2mopRhz/",
     "date": "2026-06-26T15:12:17+00:00",
-    "likes": 43,
+    "likes": 45,
     "comments": 4,
     "reposts": 0,
-    "impressions": 1260,
+    "impressions": 1300,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": "Admissions 2026",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.390804+00:00"
+    "scraped_at": "2026-07-14T04:29:31.965679+00:00"
   },
   {
     "platform": "instagram",
@@ -519,7 +519,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.391246+00:00"
+    "scraped_at": "2026-07-14T04:29:31.966064+00:00"
   },
   {
     "platform": "instagram",
@@ -527,17 +527,17 @@
     "text": "What is the strongest tangible proof of coding competence in real-world scenarios?\n\nOpen Source it is. Which is strongly engraved into the culture of Polaris.\n\nThis year, 18 Polaris students became part of that culture through Google Summer of Code 2026.\n\nAnd they’re not just contributing locally. They’re now working across open-source ecosystems spanning 9 countries, contributing to real-world systems in:\n- cybersecurity\n- healthcare & genomics\n- developer infrastructure\n- ⁠geospatial systems\n- ⁠programming languages\n\nWorking alongside experienced mentors, building systems used by developers and organizations across the world.\n\nBut behind every selection is a completely different story.\nWhile some students started with utmost clarity, some rebuilt from scratch after setbacks. Some learned by breaking things, fixing them, and trying again.\nWhat connects all of them is simple:\nThey showed up consistently.\n They kept building.\n\nAnd they contributed before they felt “ready.” That’s what o",
     "url": "https://www.instagram.com/p/DYFEfJbiauD/",
     "date": "2026-05-08T13:23:34+00:00",
-    "likes": 331,
+    "likes": 332,
     "comments": 11,
     "reposts": 0,
-    "impressions": 7720,
+    "impressions": 7740,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": "GSoC 2025",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.391491+00:00"
+    "scraped_at": "2026-07-14T04:29:31.966014+00:00"
   },
   {
     "platform": "instagram",
@@ -555,7 +555,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.390182+00:00"
+    "scraped_at": "2026-07-14T04:29:31.964870+00:00"
   },
   {
     "platform": "instagram",
@@ -573,7 +573,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.390225+00:00"
+    "scraped_at": "2026-07-14T04:29:31.964921+00:00"
   },
   {
     "platform": "instagram",
@@ -591,7 +591,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:01.390253+00:00"
+    "scraped_at": "2026-07-14T04:29:31.964943+00:00"
   },
   {
     "platform": "facebook",
@@ -599,16 +599,16 @@
     "text": "",
     "url": "",
     "date": "UNKNOWN",
-    "likes": 7558,
+    "likes": 7587,
     "comments": 0,
     "reposts": 0,
-    "impressions": 302320,
+    "impressions": 303480,
     "impressions_type": "engagement_estimate_(likes+comments×3+shares×5)×40",
     "impressions_formula": "",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-13T05:04:18.428843+00:00"
+    "scraped_at": "2026-07-14T04:29:49.333160+00:00"
   }
 ]
