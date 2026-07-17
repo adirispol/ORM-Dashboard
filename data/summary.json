@@ -7,16 +7,16 @@
     "facebook": 1
   },
   "campaigns": {
-    "General": 27,
-    "Admissions 2026": 6,
+    "General": 28,
+    "Admissions 2026": 5,
     "GSoC 2025": 1
   },
   "sentiment": {
-    "positive": 17,
-    "neutral": 17,
+    "positive": 18,
+    "neutral": 16,
     "negative": 0
   },
-  "impressions": 336117,
+  "impressions": 30295,
   "impression_formulas": {
     "linkedin": "reactions × 80  [Polaris formula: LinkedIn hides real impressions]",
     "twitter": "viewCount from Twitter API (REAL when available), else likes × 30",
@@ -27,5 +27,5 @@
     "news": "domain tier: major=8000, regional=3000, blog=800  [estimate]",
     "web": "Google search position × 600 + 400  [visibility estimate]"
   },
-  "last_updated": "2026-07-16T04:39:39.975853+00:00"
+  "last_updated": "2026-07-17T04:45:29.705050+00:00"
 }
