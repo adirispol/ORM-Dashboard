@@ -5,17 +5,17 @@
     "text": "Building for everyone means thinking beyond big cities.\n\nThese students created an offline-first AI workspace that combines note-taking, coding, and AI tools into one simple platform. Instead of switching between multiple apps, users can learn, code, organize, and create- all in one place, even with limited internet access.\n\nA simple idea, built to solve a real problem.",
     "url": "https://www.instagram.com/p/Da4XJ-JTrvM/",
     "date": "2026-07-17T04:30:07+00:00",
-    "likes": 3,
+    "likes": 23,
     "comments": 0,
     "reposts": 0,
-    "impressions": 215,
+    "impressions": 1308,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.907537+00:00"
+    "scraped_at": "2026-07-18T04:29:26.508619+00:00"
   },
   {
     "platform": "instagram",
@@ -23,17 +23,17 @@
     "text": "Kids These Days- Episode 15\n\nEvery college has clubs. Almost every college still runs them on WhatsApp groups and Excel sheets.\n\nGuthal and Arhant built one platform that brings the entire campus into one place.",
     "url": "https://www.instagram.com/p/Da2yRWKpNRa/",
     "date": "2026-07-16T13:50:49+00:00",
-    "likes": 40,
+    "likes": 49,
     "comments": 4,
     "reposts": 0,
-    "impressions": 2165,
+    "impressions": 2937,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.907492+00:00"
+    "scraped_at": "2026-07-18T04:29:26.508742+00:00"
   },
   {
     "platform": "instagram",
@@ -41,17 +41,17 @@
     "text": "AI is no longer a skill for the future. It’s a skill you can start building today.\n\nJoin this live bootcamp with a Microsoft Software Engineer and build your first AI tool in just 60 minutes.\n\nRegistration link is in the comments.",
     "url": "https://www.instagram.com/p/Dax-e23Jshp/",
     "date": "2026-07-14T17:00:32+00:00",
-    "likes": 33,
+    "likes": 34,
     "comments": 5,
     "reposts": 0,
-    "impressions": 1160,
+    "impressions": 1180,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.908229+00:00"
+    "scraped_at": "2026-07-18T04:29:26.508951+00:00"
   },
   {
     "platform": "instagram",
@@ -62,14 +62,50 @@
     "likes": 16,
     "comments": 0,
     "reposts": 0,
-    "impressions": 1535,
+    "impressions": 1602,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.907641+00:00"
+    "scraped_at": "2026-07-18T04:29:26.508759+00:00"
+  },
+  {
+    "platform": "instagram",
+    "author": "thepolarisfellowship",
+    "text": "@brightmoney.co joins The Polaris Fellowship as an Ecosystem Partner. 🤝🏻\n\nBuilt at the intersection of AI and personal finance, Bright Money uses its proprietary MoneyScience AI engine, powered by 34 intelligent algorithms, to help users pay off debt, optimize cash flow, build credit, and make smarter financial decisions in real time.\n\nInstead of relying on fixed budgeting rules, Bright Money continuously analyzes spending patterns, predicts cash flow, and automates financial decisions while protecting users from overdrafts.\n\nIt’s a powerful example of how AI can solve real-world problems at scale, making financial systems more intelligent, personalized, and accessible.\n\nWe’re proud to welcome Bright Money to the growing Polaris Fellowship ecosystem, alongside founders, operators, investors, and some of the world’s most ambitious technology companies.\n\n#ThePolarisFellowship #BrightMoney #Ai #Startup",
+    "url": "https://www.instagram.com/p/DaxYlzYyo2w/",
+    "date": "2026-07-14T11:32:33+00:00",
+    "likes": 4,
+    "comments": 1,
+    "reposts": 0,
+    "impressions": 180,
+    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
+    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
+    "sentiment": "positive",
+    "campaign": null,
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-07-18T04:29:26.508332+00:00"
+  },
+  {
+    "platform": "instagram",
+    "author": "thepolarisfellowship",
+    "text": "@aftershootco joins The Polaris Fellowship as an Ecosystem Partner. 🤝\n\nBuilt for modern photographers, Aftershoot is reimagining photo editing with AI that works entirely on your own computer. Unlike most AI editing tools, your images never leave your device - making the workflow faster, more private, and significantly more sustainable.\n\nIn a world where AI is increasingly cloud-first, Aftershoot is proving that powerful AI can also be privacy-first. \n\nTheir local AI approach is changing how creative professionals edit, cull, and deliver thousands of photos while keeping complete control of their data.\n\nWe’re proud to welcome Aftershoot to the growing Polaris Fellowship ecosystem, alongside founders, operators, investors, and some of the world’s most ambitious technology companies.\n\n#ThePolarisFellowship #Aftershoot #Ai #Startup",
+    "url": "https://www.instagram.com/p/DawwS5MxEkr/",
+    "date": "2026-07-14T05:37:32+00:00",
+    "likes": 2,
+    "comments": 1,
+    "reposts": 0,
+    "impressions": 140,
+    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
+    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
+    "sentiment": "positive",
+    "campaign": null,
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-07-18T04:29:26.509603+00:00"
   },
   {
     "platform": "instagram",
@@ -78,16 +114,16 @@
     "url": "https://www.instagram.com/p/Dauwn98ydPI/",
     "date": "2026-07-13T11:00:57+00:00",
     "likes": 7,
-    "comments": 1,
+    "comments": 2,
     "reposts": 0,
-    "impressions": 240,
+    "impressions": 340,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.907618+00:00"
+    "scraped_at": "2026-07-18T04:29:26.508406+00:00"
   },
   {
     "platform": "instagram",
@@ -105,7 +141,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.907458+00:00"
+    "scraped_at": "2026-07-18T04:29:26.508713+00:00"
   },
   {
     "platform": "instagram",
@@ -123,7 +159,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.907353+00:00"
+    "scraped_at": "2026-07-18T04:29:26.508834+00:00"
   },
   {
     "platform": "instagram",
@@ -134,14 +170,14 @@
     "likes": 38,
     "comments": 0,
     "reposts": 0,
-    "impressions": 2050,
+    "impressions": 2083,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.908187+00:00"
+    "scraped_at": "2026-07-18T04:29:26.509040+00:00"
   },
   {
     "platform": "instagram",
@@ -149,17 +185,17 @@
     "text": "@mongodb joins The Polaris Fellowship as an Productivity Partner. 🤝\n\nMongoDB changed how modern applications store data by replacing rigid tables with a flexible document database.\n\nToday, nearly 30% of MongoDB Atlas’ cloud revenue comes from customers building Generative AI applications, making it one of the platforms powering the next wave of AI products.\n\nFrom startups to global enterprises, MongoDB helps developers build applications that scale faster, adapt quicker, and power millions of users.\n\nWe’re proud to welcome MongoDB to the growing Polaris Fellowship ecosystem, alongside founders, operators, investors, and some of the country’s most ambitious technology companies.\n\n#ThePolarisFellowship #MongoDB #Ai #Startup Tech",
     "url": "https://www.instagram.com/p/DapnHK0y2O5/",
     "date": "2026-07-11T11:02:18+00:00",
-    "likes": 3,
+    "likes": 4,
     "comments": 0,
     "reposts": 0,
-    "impressions": 60,
+    "impressions": 80,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.909512+00:00"
+    "scraped_at": "2026-07-18T04:29:26.509490+00:00"
   },
   {
     "platform": "instagram",
@@ -177,7 +213,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.908896+00:00"
+    "scraped_at": "2026-07-18T04:29:26.509851+00:00"
   },
   {
     "platform": "instagram",
@@ -195,7 +231,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.909103+00:00"
+    "scraped_at": "2026-07-18T04:29:26.509520+00:00"
   },
   {
     "platform": "instagram",
@@ -213,7 +249,7 @@
     "campaign": "Admissions 2026",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.908948+00:00"
+    "scraped_at": "2026-07-18T04:29:26.509674+00:00"
   },
   {
     "platform": "instagram",
@@ -231,7 +267,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.908295+00:00"
+    "scraped_at": "2026-07-18T04:29:26.509179+00:00"
   },
   {
     "platform": "instagram",
@@ -239,17 +275,17 @@
     "text": "#InMobi joins The Polaris Fellowship as an Ecosystem Partner. 🤝🏻\n\r\nIndia’s first-ever tech unicorn, InMobi transformed the country’s startup ecosystem long before “unicorn” became a buzzword. \n\nToday, its AI-powered platform runs billions of real-time ad auctions, quietly powering the mobile experiences used by people around the world.\n\r\nEvery time an ad appears inside your favourite app, there’s a good chance InMobi’s technology helped make that decision in milliseconds - operating at a scale most users never even notice.\n\r\nWe’re excited to welcome InMobi to the growing Polaris Fellowship ecosystem, alongside founders, operators, investors, and some of the country’s most ambitious technology companies.\r\n\r\n\r\n#ThePolarisFellowship #InMobi #Advertising",
     "url": "https://www.instagram.com/p/DamfRgWxRSN/",
     "date": "2026-07-10T06:00:06+00:00",
-    "likes": 2,
+    "likes": 3,
     "comments": 0,
     "reposts": 0,
-    "impressions": 50,
+    "impressions": 60,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.909075+00:00"
+    "scraped_at": "2026-07-18T04:29:26.509118+00:00"
   },
   {
     "platform": "instagram",
@@ -260,14 +296,14 @@
     "likes": 61,
     "comments": 8,
     "reposts": 0,
-    "impressions": 3459,
+    "impressions": 3485,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.909131+00:00"
+    "scraped_at": "2026-07-18T04:29:26.509628+00:00"
   },
   {
     "platform": "instagram",
@@ -285,7 +321,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.908437+00:00"
+    "scraped_at": "2026-07-18T04:29:26.510059+00:00"
   },
   {
     "platform": "instagram",
@@ -293,17 +329,17 @@
     "text": "@bainandcompany joins The Polaris Fellowship as an Ecosystem Partner. 🤝\n\nOne of the world’s “Big Three” strategy consulting firms, Bain generates over $7.5 billion in annual revenue and pioneered the Net Promoter Score (NPS) - the customer loyalty framework now used by companies across the globe.\n\nFor decades, Bain has helped some of the world’s most influential businesses solve complex strategic challenges, drive transformation, and build category-defining companies.\n\nWe’re excited to welcome Bain & Company to the growing Polaris Fellowship ecosystem, alongside founders, operators, investors, and some of the country’s most ambitious technology companies.\n\n#ThePolarisFellowship #BainAndCompany #Startup",
     "url": "https://www.instagram.com/p/DakaV4KiMGn/",
     "date": "2026-07-09T10:36:00+00:00",
-    "likes": 12,
+    "likes": 13,
     "comments": 0,
     "reposts": 0,
-    "impressions": 240,
+    "impressions": 260,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.908376+00:00"
+    "scraped_at": "2026-07-18T04:29:26.509255+00:00"
   },
   {
     "platform": "instagram",
@@ -321,7 +357,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.908611+00:00"
+    "scraped_at": "2026-07-18T04:29:26.509397+00:00"
   },
   {
     "platform": "instagram",
@@ -339,7 +375,7 @@
     "campaign": "Admissions 2026",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.908673+00:00"
+    "scraped_at": "2026-07-18T04:29:26.509004+00:00"
   },
   {
     "platform": "instagram",
@@ -357,7 +393,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.908819+00:00"
+    "scraped_at": "2026-07-18T04:29:26.509932+00:00"
   },
   {
     "platform": "instagram",
@@ -375,7 +411,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.908707+00:00"
+    "scraped_at": "2026-07-18T04:29:26.510084+00:00"
   },
   {
     "platform": "instagram",
@@ -393,7 +429,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.909229+00:00"
+    "scraped_at": "2026-07-18T04:29:26.509781+00:00"
   },
   {
     "platform": "instagram",
@@ -411,7 +447,7 @@
     "campaign": "Admissions 2026",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.909161+00:00"
+    "scraped_at": "2026-07-18T04:29:26.509698+00:00"
   },
   {
     "platform": "instagram",
@@ -429,7 +465,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.909308+00:00"
+    "scraped_at": "2026-07-18T04:29:26.510003+00:00"
   },
   {
     "platform": "instagram",
@@ -447,43 +483,7 @@
     "campaign": "Admissions 2026",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.909433+00:00"
-  },
-  {
-    "platform": "instagram",
-    "author": "polariscampus",
-    "text": "Kids These Days Episode 11\n\nA college exam made Anant write code on paper.\n\nSo he built a platform where colleges can finally test code by actually running it.\n\nNo handwriting. No guessing. Just real code.",
-    "url": "https://www.instagram.com/p/Dac3n0npexJ/",
-    "date": "2026-07-06T12:16:40+00:00",
-    "likes": 69,
-    "comments": 8,
-    "reposts": 0,
-    "impressions": 1036,
-    "impressions_type": "real_instagram_video_views",
-    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
-    "sentiment": "positive",
-    "campaign": null,
-    "tags_polaris": "No",
-    "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.909335+00:00"
-  },
-  {
-    "platform": "instagram",
-    "author": "thepolarisfellowship",
-    "text": "@fam.india joins The Polaris Fellowship as an Ecosystem Partner.🤝🏻\n\nTrusted by over 10 million users and backed by some of the world’s leading investors including Google, Elevation Capital, and Accel, Fam has become one of India’s fastest-growing consumer fintech companies in recent years.\n\nFrom launching India’s first numberless card to products like prepaid cards, UPI payments, and more specially for Gen Z, they’re upping the bar on how young India interacts with money.\n\nWe’re excited to welcome Fam to the growing Polaris Fellowship ecosystem, alongside founders, operators, investors, and some of the country’s most ambitious technology companies.\n\n#ThePolarisFellowship #Ai #Tech #Startup",
-    "url": "https://www.instagram.com/p/Dacx81OyJeL/",
-    "date": "2026-07-06T11:27:14+00:00",
-    "likes": 12,
-    "comments": 0,
-    "reposts": 0,
-    "impressions": 240,
-    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
-    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
-    "sentiment": "neutral",
-    "campaign": null,
-    "tags_polaris": "No",
-    "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.909412+00:00"
+    "scraped_at": "2026-07-18T04:29:26.509718+00:00"
   },
   {
     "platform": "instagram",
@@ -491,17 +491,17 @@
     "text": "Wherever you’re starting your B.Tech in 2026, we will BACK YOU! 🌠\n\nIntroducing the All India Polaris Scholarship.\n\nTen students, selected from across the country, backed at the very beginning of their BTech journey with something real.\n\nRank 1 to 3 win ₹2,00,000 each - cash they can use however their journey demands. Fees, tools, courses, breathing room. You name it.\n\nRank 4 to 10 win a MacBook each - the most powerful laptop in the world, theirs from day one of engineering college.\n\nHere’s how it works:\n → Register for the Polaris Aptitude Test before 15th July\n → Top 500 write a scholarship essay\n → Top 50 move to a video interview\n → 10 winners. 3 get ₹2 lakh. 7 get a MacBook.\n\nIf you’re starting BTech in 2026 and are serious about building a future for yourself, registration link for the Polaris Aptitude Test (PAT) is in the comments and in our bio. Apply now!\n\n🧷Link in BIO & COMMENTS! \n\n#AllIndiaPolaris Scholarship #Polaris #EngineeringIndia #BTech2026 #Scholarship",
     "url": "https://www.instagram.com/p/DaDb2mopRhz/",
     "date": "2026-06-26T15:12:17+00:00",
-    "likes": 45,
+    "likes": 46,
     "comments": 4,
     "reposts": 0,
-    "impressions": 1300,
+    "impressions": 1320,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": "Admissions 2026",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.907729+00:00"
+    "scraped_at": "2026-07-18T04:29:26.508916+00:00"
   },
   {
     "platform": "instagram",
@@ -519,7 +519,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.908994+00:00"
+    "scraped_at": "2026-07-18T04:29:26.508451+00:00"
   },
   {
     "platform": "instagram",
@@ -537,25 +537,7 @@
     "campaign": "GSoC 2025",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.908134+00:00"
-  },
-  {
-    "platform": "instagram",
-    "author": "",
-    "text": "",
-    "url": "https://www.instagram.com/explore/tags/polarisschooloftechnology",
-    "date": "UNKNOWN",
-    "likes": 0,
-    "comments": 0,
-    "reposts": 0,
-    "impressions": 50,
-    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
-    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
-    "sentiment": "neutral",
-    "campaign": null,
-    "tags_polaris": "No",
-    "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.906806+00:00"
+    "scraped_at": "2026-07-18T04:29:26.508569+00:00"
   },
   {
     "platform": "instagram",
@@ -573,7 +555,25 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.906859+00:00"
+    "scraped_at": "2026-07-18T04:29:26.508142+00:00"
+  },
+  {
+    "platform": "instagram",
+    "author": "",
+    "text": "",
+    "url": "https://www.instagram.com/explore/tags/polarisschooloftechnology",
+    "date": "UNKNOWN",
+    "likes": 0,
+    "comments": 0,
+    "reposts": 0,
+    "impressions": 50,
+    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
+    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
+    "sentiment": "neutral",
+    "campaign": null,
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-07-18T04:29:26.508184+00:00"
   },
   {
     "platform": "instagram",
@@ -591,24 +591,24 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:06.906886+00:00"
+    "scraped_at": "2026-07-18T04:29:26.508200+00:00"
   },
   {
     "platform": "facebook",
-    "author": "",
+    "author": "PolarisCampus",
     "text": "",
-    "url": "https://www.facebook.com/polariscampus/",
+    "url": "",
     "date": "UNKNOWN",
-    "likes": 0,
+    "likes": 7646,
     "comments": 0,
     "reposts": 0,
-    "impressions": 50,
+    "impressions": 305840,
     "impressions_type": "engagement_estimate_(likes+comments×3+shares×5)×40",
     "impressions_formula": "",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-07-17T04:45:15.553575+00:00"
+    "scraped_at": "2026-07-18T04:29:35.792127+00:00"
   }
 ]
