@@ -1,21 +1,39 @@
 [
   {
     "platform": "instagram",
+    "author": "polariscampus",
+    "text": "The future won’t be built by people waiting for instructions.\n\nIt will be built by people solving real problems with AI, robotics, and assistive technology.\n\nThis weekend, the next generation of builders assembles at Polaris.",
+    "url": "https://www.instagram.com/p/DbtA1w3JQh_/",
+    "date": "2026-08-06T15:15:35+00:00",
+    "likes": 11,
+    "comments": 0,
+    "reposts": 0,
+    "impressions": 220,
+    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
+    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
+    "sentiment": "positive",
+    "campaign": null,
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-08-07T04:14:56.722096+00:00"
+  },
+  {
+    "platform": "instagram",
     "author": "thepolarisfellowship",
     "text": "Studies? On track. Work? In progress. Fun and games? Absolutely not skipped. Our fellows made sure of that. 🎮\n\n#ThePolarisFellowship",
     "url": "https://www.instagram.com/p/DbnH5ungnq9/",
     "date": "2026-08-04T08:21:46+00:00",
-    "likes": 58,
+    "likes": 66,
     "comments": 0,
     "reposts": 0,
-    "impressions": 1160,
+    "impressions": 1320,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.392104+00:00"
+    "scraped_at": "2026-08-07T04:14:56.721172+00:00"
   },
   {
     "platform": "instagram",
@@ -23,17 +41,17 @@
     "text": "What happens when you put 30 ambitious teams in one room for 24 hours?\n\nIdeas become prototypes.\nStrangers become teammates.\nBuilders become founders.\n\nThat’s Click-a-Thon at Polaris.",
     "url": "https://www.instagram.com/p/Dbii9PVJY4d/",
     "date": "2026-08-02T13:45:16+00:00",
-    "likes": 73,
+    "likes": 80,
     "comments": 2,
     "reposts": 0,
-    "impressions": 1126,
+    "impressions": 1169,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.392041+00:00"
+    "scraped_at": "2026-08-07T04:14:56.720817+00:00"
   },
   {
     "platform": "instagram",
@@ -51,7 +69,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.392709+00:00"
+    "scraped_at": "2026-08-07T04:14:56.721959+00:00"
   },
   {
     "platform": "instagram",
@@ -59,17 +77,17 @@
     "text": "24 hours. Countless ideas. One unforgettable experience.\n\nClick-a-Thon brought together students, developers, founders, and tech enthusiasts to solve real-world problems through technology.\n\nIt was about more than just coding. It was about building, learning, collaborating, and turning ideas into reality. Every challenge became an opportunity, and every conversation sparked something new.",
     "url": "https://www.instagram.com/p/DbfzSsyJAyH/",
     "date": "2026-08-01T12:07:40+00:00",
-    "likes": 64,
+    "likes": 68,
     "comments": 0,
     "reposts": 0,
-    "impressions": 578,
+    "impressions": 604,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.384656+00:00"
+    "scraped_at": "2026-08-07T04:14:56.721109+00:00"
   },
   {
     "platform": "instagram",
@@ -80,14 +98,14 @@
     "likes": 29,
     "comments": 0,
     "reposts": 0,
-    "impressions": 515,
+    "impressions": 537,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": "Lyzr/Agentathon",
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.384597+00:00"
+    "scraped_at": "2026-08-07T04:14:56.720857+00:00"
   },
   {
     "platform": "instagram",
@@ -95,17 +113,17 @@
     "text": "The biggest ideas aren’t built in classrooms.\nThey’re built under pressure.\n\n24 hours. 30 teams. 4 tracks. One stage.\n\nWelcome to Click-thon, India’s biggest ClickHouse Hackathon, now at Polaris.",
     "url": "https://www.instagram.com/p/DbcoJ_hpqAF/",
     "date": "2026-07-31T06:32:08+00:00",
-    "likes": 117,
+    "likes": 118,
     "comments": 0,
     "reposts": 0,
-    "impressions": 2340,
+    "impressions": 2360,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.391845+00:00"
+    "scraped_at": "2026-08-07T04:14:56.721814+00:00"
   },
   {
     "platform": "instagram",
@@ -113,17 +131,17 @@
     "text": "Those who go beyond “What if?” often end up where others only dream of going. 🔥\n\nThat’s exactly what this First Cohort of The Polaris Fellowship did.\n\nFrom 10,000+ applications, our team read every single one, personally, line by line. Round after round, we narrowed it down to the sharpest builders in the country. Not the loudest. The ones who actually shipped.\n\nThis is India’s Biggest Student Fellowship. And these are the ones who proved they belong here.\n\nPresenting the First Cohort. \nPresenting The Polaris Fellowship. 🔥\nThe next “What if?” could be yours. 💛\n\nThe First Fellows: Aastha Deshwal, Abhishek Kumawat, Amay Dixit, Bavishya Sankaranarayanan, Deepesh Ahlawat, Kunal Kashyap, Preynsh Thukral, Rahul Tripathi, Sarvesh Kannan and Vijay Srinivas 👏🏼\n\nCohort Ecosystem: \n@aftershootco @bainandcompany @blume_ventures @brightmoney.co @emergentlabs @esc.plan @fam.india #InMobi @rumik._ai \n\nProductivity Partners: \n#ExaAi @mongodb @neo4j @sarvam.ai_official @smallest.ai @wisprflowindia @wis",
     "url": "https://www.instagram.com/p/DbcgZxQCgEh/",
     "date": "2026-07-31T05:38:23+00:00",
-    "likes": 70,
+    "likes": 71,
     "comments": 5,
     "reposts": 0,
-    "impressions": 843,
+    "impressions": 857,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.391361+00:00"
+    "scraped_at": "2026-08-07T04:14:56.720990+00:00"
   },
   {
     "platform": "instagram",
@@ -134,14 +152,14 @@
     "likes": 26,
     "comments": 0,
     "reposts": 0,
-    "impressions": 440,
+    "impressions": 447,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.392815+00:00"
+    "scraped_at": "2026-08-07T04:14:56.720755+00:00"
   },
   {
     "platform": "instagram",
@@ -159,7 +177,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.391415+00:00"
+    "scraped_at": "2026-08-07T04:14:56.721202+00:00"
   },
   {
     "platform": "instagram",
@@ -177,7 +195,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.391978+00:00"
+    "scraped_at": "2026-08-07T04:14:56.721777+00:00"
   },
   {
     "platform": "instagram",
@@ -185,17 +203,17 @@
     "text": "Taking questions on startups, Bengaluru, and everything in between as we gear up to kick off The Polaris Fellowship. 🎤🥳\n\n#ThePolarisFellowship #Bengaluru",
     "url": "https://www.instagram.com/p/DbTVQ_DCPyf/",
     "date": "2026-07-27T15:55:19+00:00",
-    "likes": 50,
+    "likes": 51,
     "comments": 0,
     "reposts": 0,
-    "impressions": 526,
+    "impressions": 539,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.392164+00:00"
+    "scraped_at": "2026-08-07T04:14:56.721142+00:00"
   },
   {
     "platform": "instagram",
@@ -203,17 +221,17 @@
     "text": "Most students spend their first year figuring college out.\n\nShe spent hers going from zero coding to contributing to one of the world’s top open-source programs.",
     "url": "https://www.instagram.com/p/DbQp-ZCJqvH/",
     "date": "2026-07-26T15:00:15+00:00",
-    "likes": 60,
+    "likes": 61,
     "comments": 0,
     "reposts": 0,
-    "impressions": 150,
+    "impressions": 161,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.391749+00:00"
+    "scraped_at": "2026-08-07T04:14:56.722128+00:00"
   },
   {
     "platform": "instagram",
@@ -231,7 +249,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.393490+00:00"
+    "scraped_at": "2026-08-07T04:14:56.721997+00:00"
   },
   {
     "platform": "instagram",
@@ -249,7 +267,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.393718+00:00"
+    "scraped_at": "2026-08-07T04:14:56.721477+00:00"
   },
   {
     "platform": "instagram",
@@ -260,14 +278,14 @@
     "likes": 82,
     "comments": 0,
     "reposts": 0,
-    "impressions": 94,
+    "impressions": 98,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.392613+00:00"
+    "scraped_at": "2026-08-07T04:14:56.721012+00:00"
   },
   {
     "platform": "instagram",
@@ -285,7 +303,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.391927+00:00"
+    "scraped_at": "2026-08-07T04:14:56.721275+00:00"
   },
   {
     "platform": "instagram",
@@ -303,7 +321,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.384777+00:00"
+    "scraped_at": "2026-08-07T04:14:56.722016+00:00"
   },
   {
     "platform": "instagram",
@@ -314,14 +332,14 @@
     "likes": 113,
     "comments": 7,
     "reposts": 0,
-    "impressions": 74,
+    "impressions": 82,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.393749+00:00"
+    "scraped_at": "2026-08-07T04:14:56.720877+00:00"
   },
   {
     "platform": "instagram",
@@ -339,7 +357,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.392434+00:00"
+    "scraped_at": "2026-08-07T04:14:56.721662+00:00"
   },
   {
     "platform": "instagram",
@@ -357,7 +375,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.392579+00:00"
+    "scraped_at": "2026-08-07T04:14:56.721300+00:00"
   },
   {
     "platform": "instagram",
@@ -368,14 +386,14 @@
     "likes": 31,
     "comments": 0,
     "reposts": 0,
-    "impressions": 33,
+    "impressions": 35,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.384719+00:00"
+    "scraped_at": "2026-08-07T04:14:56.722057+00:00"
   },
   {
     "platform": "instagram",
@@ -386,14 +404,14 @@
     "likes": 58,
     "comments": 6,
     "reposts": 0,
-    "impressions": 47,
+    "impressions": 50,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.392866+00:00"
+    "scraped_at": "2026-08-07T04:14:56.721230+00:00"
   },
   {
     "platform": "instagram",
@@ -411,7 +429,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.393423+00:00"
+    "scraped_at": "2026-08-07T04:14:56.721605+00:00"
   },
   {
     "platform": "instagram",
@@ -422,14 +440,14 @@
     "likes": 19,
     "comments": 0,
     "reposts": 0,
-    "impressions": 22,
+    "impressions": 25,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.392897+00:00"
+    "scraped_at": "2026-08-07T04:14:56.721418+00:00"
   },
   {
     "platform": "instagram",
@@ -447,7 +465,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.393349+00:00"
+    "scraped_at": "2026-08-07T04:14:56.721907+00:00"
   },
   {
     "platform": "instagram",
@@ -465,25 +483,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.393634+00:00"
-  },
-  {
-    "platform": "instagram",
-    "author": "thepolarisfellowship",
-    "text": "@neo4j  joins The Polaris Fellowship as a Productivity Partner. 🤝\n\nWe’re proud to welcome Neo4j to the growing Polaris Fellowship ecosystem, alongside founders, operators, investors, and some of the world’s most ambitious technology companies.\n\nAnd to strengthen this partnership, we’re giving you a chance to experience them up close. Here are a few simple steps to boost your chances of winning:\n\n1) Follow @thepolarisfellowship, so you don’t miss out on knowing if you’re the one!\n\n2) Like this post, and comment your interesting thoughts. Get inspired, and inspire others too.\n\n#ThePolarisFellowship #Neo4j #AI #Startup #ContestAlert",
-    "url": "https://www.instagram.com/p/Dauwn98ydPI/",
-    "date": "2026-07-13T11:00:57+00:00",
-    "likes": 9,
-    "comments": 2,
-    "reposts": 0,
-    "impressions": 380,
-    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
-    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
-    "sentiment": "positive",
-    "campaign": null,
-    "tags_polaris": "No",
-    "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.393185+00:00"
+    "scraped_at": "2026-08-07T04:14:56.721749+00:00"
   },
   {
     "platform": "instagram",
@@ -501,7 +501,7 @@
     "campaign": "Admissions 2026",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.392321+00:00"
+    "scraped_at": "2026-08-07T04:14:56.721565+00:00"
   },
   {
     "platform": "instagram",
@@ -509,17 +509,17 @@
     "text": "Most students wait until their final year to start building a career. Polaris students are doing it in Year 1.\n\n₹1 Cr+ in stipends, 109 opportunities, 35 global open-source selections, and internships across 11 countries.\n\nThis isn’t a placement report. It’s what happens when you focus on proof of work from Day 1.",
     "url": "https://www.instagram.com/p/DZr6DKSCSBD/",
     "date": "2026-06-17T11:54:08+00:00",
-    "likes": 134,
+    "likes": 135,
     "comments": 1,
     "reposts": 0,
-    "impressions": 2780,
+    "impressions": 2800,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.392527+00:00"
+    "scraped_at": "2026-08-07T04:14:56.721062+00:00"
   },
   {
     "platform": "instagram",
@@ -527,35 +527,17 @@
     "text": "What is the strongest tangible proof of coding competence in real-world scenarios?\n\nOpen Source it is. Which is strongly engraved into the culture of Polaris.\n\nThis year, 18 Polaris students became part of that culture through Google Summer of Code 2026.\n\nAnd they’re not just contributing locally. They’re now working across open-source ecosystems spanning 9 countries, contributing to real-world systems in:\n- cybersecurity\n- healthcare & genomics\n- developer infrastructure\n- ⁠geospatial systems\n- ⁠programming languages\n\nWorking alongside experienced mentors, building systems used by developers and organizations across the world.\n\nBut behind every selection is a completely different story.\nWhile some students started with utmost clarity, some rebuilt from scratch after setbacks. Some learned by breaking things, fixing them, and trying again.\nWhat connects all of them is simple:\nThey showed up consistently.\n They kept building.\n\nAnd they contributed before they felt “ready.” That’s what o",
     "url": "https://www.instagram.com/p/DYFEfJbiauD/",
     "date": "2026-05-08T13:23:34+00:00",
-    "likes": 336,
+    "likes": 337,
     "comments": 11,
     "reposts": 0,
-    "impressions": 7820,
+    "impressions": 7840,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": "GSoC 2025",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.393054+00:00"
-  },
-  {
-    "platform": "instagram",
-    "author": "",
-    "text": "",
-    "url": "https://www.instagram.com/explore/tags/polarisschooloftechnology",
-    "date": "UNKNOWN",
-    "likes": 0,
-    "comments": 0,
-    "reposts": 0,
-    "impressions": 50,
-    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
-    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
-    "sentiment": "neutral",
-    "campaign": null,
-    "tags_polaris": "No",
-    "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.384461+00:00"
+    "scraped_at": "2026-08-07T04:14:56.721399+00:00"
   },
   {
     "platform": "instagram",
@@ -573,7 +555,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.384513+00:00"
+    "scraped_at": "2026-08-07T04:14:56.713110+00:00"
   },
   {
     "platform": "instagram",
@@ -591,7 +573,25 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:21.384540+00:00"
+    "scraped_at": "2026-08-07T04:14:56.713155+00:00"
+  },
+  {
+    "platform": "instagram",
+    "author": "",
+    "text": "",
+    "url": "https://www.instagram.com/explore/tags/polarisschooloftechnology",
+    "date": "UNKNOWN",
+    "likes": 0,
+    "comments": 0,
+    "reposts": 0,
+    "impressions": 50,
+    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
+    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
+    "sentiment": "neutral",
+    "campaign": null,
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-08-07T04:14:56.713179+00:00"
   },
   {
     "platform": "facebook",
@@ -599,16 +599,16 @@
     "text": "",
     "url": "",
     "date": "UNKNOWN",
-    "likes": 8415,
+    "likes": 8428,
     "comments": 0,
     "reposts": 0,
-    "impressions": 336600,
+    "impressions": 337120,
     "impressions_type": "engagement_estimate_(likes+comments×3+shares×5)×40",
     "impressions_formula": "",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-06T04:46:30.883667+00:00"
+    "scraped_at": "2026-08-07T04:15:05.393391+00:00"
   }
 ]
