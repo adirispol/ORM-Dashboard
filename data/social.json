@@ -2,20 +2,56 @@
   {
     "platform": "instagram",
     "author": "polariscampus",
-    "text": "This is what happens when every superpower shows up.\n\nNot a hackathon.\nA lab for building what’s next.",
-    "url": "https://www.instagram.com/p/DbyRBhQia8e/",
-    "date": "2026-08-08T16:13:07+00:00",
-    "likes": 30,
+    "text": "Inside AI Infra Day at Polaris.\n\nA room full of builders,\nfocused on the infrastructure behind the intelligence.",
+    "url": "https://www.instagram.com/p/Db3RDwRpNEg/",
+    "date": "2026-08-10T14:50:12+00:00",
+    "likes": 63,
     "comments": 0,
     "reposts": 0,
     "impressions": 600,
+    "impressions_type": "real_instagram_video_views",
+    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
+    "sentiment": "neutral",
+    "campaign": null,
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-08-11T03:23:37.907367+00:00"
+  },
+  {
+    "platform": "instagram",
+    "author": "polariscampus",
+    "text": "One day can change four years.\n\nStep onto campus, experience what you’re signing up for,\nand earn more than just a seat.",
+    "url": "https://www.instagram.com/p/Db24Cb_pwGA/",
+    "date": "2026-08-10T11:11:03+00:00",
+    "likes": 26,
+    "comments": 0,
+    "reposts": 0,
+    "impressions": 520,
+    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
+    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
+    "sentiment": "neutral",
+    "campaign": null,
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-08-11T03:23:37.914925+00:00"
+  },
+  {
+    "platform": "instagram",
+    "author": "polariscampus",
+    "text": "This is what happens when every superpower shows up.\n\nNot a hackathon.\nA lab for building what’s next.",
+    "url": "https://www.instagram.com/p/DbyRBhQia8e/",
+    "date": "2026-08-08T16:13:07+00:00",
+    "likes": 31,
+    "comments": 0,
+    "reposts": 0,
+    "impressions": 620,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.217641+00:00"
+    "scraped_at": "2026-08-11T03:23:37.914957+00:00"
   },
   {
     "platform": "instagram",
@@ -23,17 +59,17 @@
     "text": "Failure. Passion. Team. Startups. Life mantras. Our fellows sat down with seasoned entrepreneur Mr. Piyush Shah, co-founder, @lifeatinmobi, for a conversation that hit different. \n\nTurns out, all you need is #TiknaJaruriHai. 🙂\n\n#ThePolarisFellowship | @polariscampus",
     "url": "https://www.instagram.com/p/Dbx6gU5glgn/",
     "date": "2026-08-08T12:56:21+00:00",
-    "likes": 23,
+    "likes": 24,
     "comments": 0,
     "reposts": 0,
-    "impressions": 460,
+    "impressions": 480,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "negative",
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.217572+00:00"
+    "scraped_at": "2026-08-11T03:23:37.914368+00:00"
   },
   {
     "platform": "instagram",
@@ -41,17 +77,17 @@
     "text": "The job you’re preparing for today might not exist tomorrow.\n\nThe real question is: are you building skills that survive change?",
     "url": "https://www.instagram.com/p/DbxZPlepTXo/",
     "date": "2026-08-08T08:05:46+00:00",
-    "likes": 9,
+    "likes": 10,
     "comments": 1,
     "reposts": 0,
-    "impressions": 280,
+    "impressions": 300,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.218027+00:00"
+    "scraped_at": "2026-08-11T03:23:37.914085+00:00"
   },
   {
     "platform": "instagram",
@@ -69,7 +105,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.217779+00:00"
+    "scraped_at": "2026-08-11T03:23:37.914485+00:00"
   },
   {
     "platform": "instagram",
@@ -87,7 +123,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.217388+00:00"
+    "scraped_at": "2026-08-11T03:23:37.913454+00:00"
   },
   {
     "platform": "instagram",
@@ -95,17 +131,17 @@
     "text": "What happens when you put 30 ambitious teams in one room for 24 hours?\n\nIdeas become prototypes.\nStrangers become teammates.\nBuilders become founders.\n\nThat’s Click-a-Thon at Polaris.",
     "url": "https://www.instagram.com/p/Dbii9PVJY4d/",
     "date": "2026-08-02T13:45:16+00:00",
-    "likes": 83,
+    "likes": 84,
     "comments": 4,
     "reposts": 0,
-    "impressions": 1242,
+    "impressions": 1261,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.218263+00:00"
+    "scraped_at": "2026-08-11T03:23:37.913757+00:00"
   },
   {
     "platform": "instagram",
@@ -123,7 +159,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.217308+00:00"
+    "scraped_at": "2026-08-11T03:23:37.913829+00:00"
   },
   {
     "platform": "instagram",
@@ -134,14 +170,14 @@
     "likes": 68,
     "comments": 4,
     "reposts": 0,
-    "impressions": 627,
+    "impressions": 634,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.216706+00:00"
+    "scraped_at": "2026-08-11T03:23:37.914231+00:00"
   },
   {
     "platform": "instagram",
@@ -152,14 +188,14 @@
     "likes": 33,
     "comments": 0,
     "reposts": 0,
-    "impressions": 569,
+    "impressions": 579,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": "Lyzr/Agentathon",
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.216641+00:00"
+    "scraped_at": "2026-08-11T03:23:37.914516+00:00"
   },
   {
     "platform": "instagram",
@@ -177,7 +213,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.217845+00:00"
+    "scraped_at": "2026-08-11T03:23:37.914553+00:00"
   },
   {
     "platform": "instagram",
@@ -185,17 +221,17 @@
     "text": "Those who go beyond “What if?” often end up where others only dream of going. 🔥\n\nThat’s exactly what this First Cohort of The Polaris Fellowship did.\n\nFrom 10,000+ applications, our team read every single one, personally, line by line. Round after round, we narrowed it down to the sharpest builders in the country. Not the loudest. The ones who actually shipped.\n\nThis is India’s Biggest Student Fellowship. And these are the ones who proved they belong here.\n\nPresenting the First Cohort. \nPresenting The Polaris Fellowship. 🔥\nThe next “What if?” could be yours. 💛\n\nThe First Fellows: Aastha Deshwal, Abhishek Kumawat, Amay Dixit, Bavishya Sankaranarayanan, Deepesh Ahlawat, Kunal Kashyap, Preynsh Thukral, Rahul Tripathi, Sarvesh Kannan and Vijay Srinivas 👏🏼\n\nCohort Ecosystem: \n@aftershootco @bainandcompany @blume_ventures @brightmoney.co @emergentlabs @esc.plan @fam.india #InMobi @rumik._ai \n\nProductivity Partners: \n#ExaAi @mongodb @neo4j @sarvam.ai_official @smallest.ai @wisprflowindia @wis",
     "url": "https://www.instagram.com/p/DbcgZxQCgEh/",
     "date": "2026-07-31T05:38:23+00:00",
-    "likes": 77,
+    "likes": 78,
     "comments": 5,
     "reposts": 0,
-    "impressions": 885,
+    "impressions": 896,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.217511+00:00"
+    "scraped_at": "2026-08-11T03:23:37.914188+00:00"
   },
   {
     "platform": "instagram",
@@ -206,14 +242,14 @@
     "likes": 28,
     "comments": 0,
     "reposts": 0,
-    "impressions": 460,
+    "impressions": 463,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.217248+00:00"
+    "scraped_at": "2026-08-11T03:23:37.914414+00:00"
   },
   {
     "platform": "instagram",
@@ -231,7 +267,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.217809+00:00"
+    "scraped_at": "2026-08-11T03:23:37.914870+00:00"
   },
   {
     "platform": "instagram",
@@ -249,7 +285,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.218132+00:00"
+    "scraped_at": "2026-08-11T03:23:37.914622+00:00"
   },
   {
     "platform": "instagram",
@@ -257,17 +293,17 @@
     "text": "Taking questions on startups, Bengaluru, and everything in between as we gear up to kick off The Polaris Fellowship. 🎤🥳\n\n#ThePolarisFellowship #Bengaluru",
     "url": "https://www.instagram.com/p/DbTVQ_DCPyf/",
     "date": "2026-07-27T15:55:19+00:00",
-    "likes": 52,
+    "likes": 54,
     "comments": 0,
     "reposts": 0,
-    "impressions": 563,
+    "impressions": 569,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.217189+00:00"
+    "scraped_at": "2026-08-11T03:23:37.914282+00:00"
   },
   {
     "platform": "instagram",
@@ -275,17 +311,17 @@
     "text": "Most students spend their first year figuring college out.\n\nShe spent hers going from zero coding to contributing to one of the world’s top open-source programs.",
     "url": "https://www.instagram.com/p/DbQp-ZCJqvH/",
     "date": "2026-07-26T15:00:15+00:00",
-    "likes": 61,
+    "likes": 62,
     "comments": 0,
     "reposts": 0,
-    "impressions": 174,
+    "impressions": 179,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.217143+00:00"
+    "scraped_at": "2026-08-11T03:23:37.914446+00:00"
   },
   {
     "platform": "instagram",
@@ -303,7 +339,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.217610+00:00"
+    "scraped_at": "2026-08-11T03:23:37.914593+00:00"
   },
   {
     "platform": "instagram",
@@ -321,7 +357,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.217890+00:00"
+    "scraped_at": "2026-08-11T03:23:37.914663+00:00"
   },
   {
     "platform": "instagram",
@@ -332,14 +368,14 @@
     "likes": 83,
     "comments": 0,
     "reposts": 0,
-    "impressions": 107,
+    "impressions": 110,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.217530+00:00"
+    "scraped_at": "2026-08-11T03:23:37.914250+00:00"
   },
   {
     "platform": "instagram",
@@ -357,7 +393,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.218346+00:00"
+    "scraped_at": "2026-08-11T03:23:37.914842+00:00"
   },
   {
     "platform": "instagram",
@@ -368,14 +404,14 @@
     "likes": 17,
     "comments": 0,
     "reposts": 0,
-    "impressions": 57,
+    "impressions": 58,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.217409+00:00"
+    "scraped_at": "2026-08-11T03:23:37.914739+00:00"
   },
   {
     "platform": "instagram",
@@ -393,7 +429,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.218044+00:00"
+    "scraped_at": "2026-08-11T03:23:37.914679+00:00"
   },
   {
     "platform": "instagram",
@@ -411,7 +447,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.218189+00:00"
+    "scraped_at": "2026-08-11T03:23:37.914798+00:00"
   },
   {
     "platform": "instagram",
@@ -429,7 +465,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.218101+00:00"
+    "scraped_at": "2026-08-11T03:23:37.914981+00:00"
   },
   {
     "platform": "instagram",
@@ -447,43 +483,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.218228+00:00"
-  },
-  {
-    "platform": "instagram",
-    "author": "polariscampus",
-    "text": "Kids These Days- Episode 15\n\nEvery college has clubs. Almost every college still runs them on WhatsApp groups and Excel sheets.\n\nGuthal and Arhant built one platform that brings the entire campus into one place.",
-    "url": "https://www.instagram.com/p/Da2yRWKpNRa/",
-    "date": "2026-07-16T13:50:49+00:00",
-    "likes": 58,
-    "comments": 6,
-    "reposts": 0,
-    "impressions": 59,
-    "impressions_type": "real_instagram_video_views",
-    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
-    "sentiment": "positive",
-    "campaign": null,
-    "tags_polaris": "No",
-    "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.218073+00:00"
-  },
-  {
-    "platform": "instagram",
-    "author": "polariscampus",
-    "text": "AI is no longer a skill for the future. It’s a skill you can start building today.\n\nJoin this live bootcamp with a Microsoft Software Engineer and build your first AI tool in just 60 minutes.\n\nRegistration link is in the comments.",
-    "url": "https://www.instagram.com/p/Dax-e23Jshp/",
-    "date": "2026-07-14T17:00:32+00:00",
-    "likes": 36,
-    "comments": 9,
-    "reposts": 0,
-    "impressions": 1620,
-    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
-    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
-    "sentiment": "neutral",
-    "campaign": null,
-    "tags_polaris": "No",
-    "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.218302+00:00"
+    "scraped_at": "2026-08-11T03:23:37.914718+00:00"
   },
   {
     "platform": "instagram",
@@ -491,17 +491,17 @@
     "text": "Wherever you’re starting your B.Tech in 2026, we will BACK YOU! 🌠\n\nIntroducing the All India Polaris Scholarship.\n\nTen students, selected from across the country, backed at the very beginning of their BTech journey with something real.\n\nRank 1 to 3 win ₹2,00,000 each - cash they can use however their journey demands. Fees, tools, courses, breathing room. You name it.\n\nRank 4 to 10 win a MacBook each - the most powerful laptop in the world, theirs from day one of engineering college.\n\nHere’s how it works:\n → Register for the Polaris Aptitude Test before 15th July\n → Top 500 write a scholarship essay\n → Top 50 move to a video interview\n → 10 winners. 3 get ₹2 lakh. 7 get a MacBook.\n\nIf you’re starting BTech in 2026 and are serious about building a future for yourself, registration link for the Polaris Aptitude Test (PAT) is in the comments and in our bio. Apply now!\n\n🧷Link in BIO & COMMENTS! \n\n#AllIndiaPolaris Scholarship #Polaris #EngineeringIndia #BTech2026 #Scholarship",
     "url": "https://www.instagram.com/p/DaDb2mopRhz/",
     "date": "2026-06-26T15:12:17+00:00",
-    "likes": 55,
+    "likes": 56,
     "comments": 11,
     "reposts": 0,
-    "impressions": 2200,
+    "impressions": 2220,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": "Admissions 2026",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.217993+00:00"
+    "scraped_at": "2026-08-11T03:23:37.913945+00:00"
   },
   {
     "platform": "instagram",
@@ -519,7 +519,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.217357+00:00"
+    "scraped_at": "2026-08-11T03:23:37.914328+00:00"
   },
   {
     "platform": "instagram",
@@ -537,43 +537,7 @@
     "campaign": "GSoC 2025",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.217740+00:00"
-  },
-  {
-    "platform": "instagram",
-    "author": "",
-    "text": "",
-    "url": "https://www.instagram.com/explore/tags/polarisschooloftechnology",
-    "date": "UNKNOWN",
-    "likes": 0,
-    "comments": 0,
-    "reposts": 0,
-    "impressions": 50,
-    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
-    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
-    "sentiment": "neutral",
-    "campaign": null,
-    "tags_polaris": "No",
-    "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.216520+00:00"
-  },
-  {
-    "platform": "instagram",
-    "author": "",
-    "text": "",
-    "url": "https://www.instagram.com/explore/tags/vibecon",
-    "date": "UNKNOWN",
-    "likes": 0,
-    "comments": 0,
-    "reposts": 0,
-    "impressions": 50,
-    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
-    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
-    "sentiment": "neutral",
-    "campaign": null,
-    "tags_polaris": "No",
-    "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.216555+00:00"
+    "scraped_at": "2026-08-11T03:23:37.914051+00:00"
   },
   {
     "platform": "instagram",
@@ -591,24 +555,60 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:06.216580+00:00"
+    "scraped_at": "2026-08-11T03:23:37.907270+00:00"
+  },
+  {
+    "platform": "instagram",
+    "author": "",
+    "text": "",
+    "url": "https://www.instagram.com/explore/tags/polarisschooloftechnology",
+    "date": "UNKNOWN",
+    "likes": 0,
+    "comments": 0,
+    "reposts": 0,
+    "impressions": 50,
+    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
+    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
+    "sentiment": "neutral",
+    "campaign": null,
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-08-11T03:23:37.907306+00:00"
+  },
+  {
+    "platform": "instagram",
+    "author": "",
+    "text": "",
+    "url": "https://www.instagram.com/explore/tags/vibecon",
+    "date": "UNKNOWN",
+    "likes": 0,
+    "comments": 0,
+    "reposts": 0,
+    "impressions": 50,
+    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
+    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
+    "sentiment": "neutral",
+    "campaign": null,
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-08-11T03:23:37.907323+00:00"
   },
   {
     "platform": "facebook",
-    "author": "PolarisCampus",
+    "author": "",
     "text": "",
-    "url": "",
+    "url": "https://www.facebook.com/polariscampus/",
     "date": "UNKNOWN",
-    "likes": 8447,
+    "likes": 0,
     "comments": 0,
     "reposts": 0,
-    "impressions": 337880,
+    "impressions": 50,
     "impressions_type": "engagement_estimate_(likes+comments×3+shares×5)×40",
     "impressions_formula": "",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-10T03:30:22.940921+00:00"
+    "scraped_at": "2026-08-11T03:23:51.875772+00:00"
   }
 ]
