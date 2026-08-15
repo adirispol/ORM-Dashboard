@@ -2140,5 +2140,28 @@
     },
     "impressions": 367916,
     "scraped_at": "2026-08-14T03:42:16.712165+00:00"
+  },
+  {
+    "date": "2026-08-15",
+    "social_posts": 34,
+    "mentions": 0,
+    "total": 34,
+    "by_platform": {
+      "instagram": 33,
+      "facebook": 1
+    },
+    "by_campaign": {
+      "General": 31,
+      "Lyzr/Agentathon": 1,
+      "Admissions 2026": 1,
+      "GSoC 2025": 1
+    },
+    "sentiment": {
+      "positive": 10,
+      "neutral": 22,
+      "negative": 2
+    },
+    "impressions": 369445,
+    "scraped_at": "2026-08-15T02:37:38.546017+00:00"
   }
 ]
