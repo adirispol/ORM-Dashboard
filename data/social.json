@@ -1,21 +1,118 @@
 [
   {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "TejasAr25219742",
+      "url": "https://x.com/TejasAr25219742",
+      "twitterUrl": "https://twitter.com/TejasAr25219742",
+      "id": "1683007808352968705",
+      "name": "Tejas Arora",
+      "isVerified": false,
+      "isBlueVerified": true,
+      "profilePicture": "https://pbs.twimg.com/profile_images/2025255100370092032/XnUXkaw8_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/1683007808352968705/1771704233",
+      "description": "DeFi is inevitable. AI is the future\nOwn your money. Own your identity.\nBackend • Distributed Systems • Crypto\n🏆 Buildathon Winner | Open Source",
+      "location": "DELHI",
+      "followers": 162,
+      "following": 1701,
+      "protected": false,
+      "status": "",
+      "canDm": false,
+      "canMediaTag": true,
+      "createdAt": "Sun Jul 23 06:55:30 +0000 2023",
+      "entities": {
+        "description": {}
+      },
+      "favouritesCount": 304,
+      "isTranslator": false,
+      "mediaCount": 23,
+      "statusesCount": 149,
+      "translatorTypeEnum": "none",
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false
+    },
+    "text": "@polaris_fellows @polaris_code FORM",
+    "url": "https://x.com/TejasAr25219742/status/2090351061194477971",
+    "date": "2026-08-20T08:11:44+00:00",
+    "likes": 0,
+    "comments": 0,
+    "reposts": 0,
+    "impressions": 9,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "neutral",
+    "campaign": null,
+    "tags_polaris": "Yes",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:48.224221+00:00"
+  },
+  {
     "platform": "instagram",
     "author": "thepolarisfellowship",
     "text": "Today, you get a chance to be a hero. 👑\n\nThe Polaris Fellowship Campus Ambassador Program isn’t just about bringing in the second cohort. It’s about building a community, unlocking your leadership potential, and becoming the face of the Polaris Fellowship on your campus.\n\nBring in remarkable people. Help them discover what they can build. Get rewarded for the work you put in.\n\nBe the leader. Be the connector. Be a Polaris Campus Ambassador.\n\nDrop “FORM” in the comments to get the registration link.\n\n@polariscampus \n\n#ThePolarisFellowship #CampusAmbassador #HiringAlert",
     "url": "https://www.instagram.com/p/DcQCUqyAt2Q/",
     "date": "2026-08-20T05:41:53+00:00",
-    "likes": 15,
-    "comments": 7,
+    "likes": 24,
+    "comments": 16,
     "reposts": 0,
-    "impressions": 1000,
+    "impressions": 2080,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "negative",
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.336407+00:00"
+    "scraped_at": "2026-08-22T02:37:47.915727+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "0NoaSj",
+      "url": "https://x.com/0NoaSj",
+      "twitterUrl": "https://twitter.com/0NoaSj",
+      "id": "1536949398210596865",
+      "name": "Noah",
+      "isVerified": false,
+      "isBlueVerified": false,
+      "profilePicture": "https://pbs.twimg.com/profile_images/2083097711876726784/eJgEm-1K_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/1536949398210596865/1762685215",
+      "description": "🚀 Tech nerd | Space dreamer | Crypto believer\nLiving in Norway, born in 2000\nExploring the universe one blockchain at a time 🌍💫",
+      "location": "Norway",
+      "followers": 272,
+      "following": 376,
+      "protected": false,
+      "status": "",
+      "canDm": false,
+      "canMediaTag": true,
+      "createdAt": "Wed Jun 15 05:51:19 +0000 2022",
+      "entities": {
+        "description": {}
+      },
+      "fastFollowersCount": 0,
+      "favouritesCount": 1230,
+      "hasCustomTimelines": false,
+      "isTranslator": false,
+      "mediaCount": 128,
+      "statusesCount": 857,
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false
+    },
+    "text": "Working on a small game in the interactive sci fi adventure and resource management genre\n\nIve been building it in Twine and focusing on choices exploration and survival\n\nWill be submitting it to the #VibeCon2026 campaign soon\n\n@DogelonMars @Commander__APE https://t.co/zbAQ76VTkS",
+    "url": "https://x.com/0NoaSj/status/2088338571833049541",
+    "date": "2026-08-14T18:54:49+00:00",
+    "likes": 12,
+    "comments": 1,
+    "reposts": 3,
+    "impressions": 1611,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "positive",
+    "campaign": "VibeCon",
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:58.741073+00:00"
   },
   {
     "platform": "instagram",
@@ -23,17 +120,78 @@
     "text": "Constellation - The stars are aligning ✨ \n.\n.\n.\n.\n.\n#polarisschooloftechnology #juniors #explorepage #collegelife",
     "url": "https://www.instagram.com/p/DcBU_bcBN4A/",
     "date": "2026-08-14T12:36:28+00:00",
-    "likes": 122,
+    "likes": 124,
     "comments": 1,
     "reposts": 0,
-    "impressions": 2540,
+    "impressions": 2580,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.336299+00:00"
+    "scraped_at": "2026-08-22T02:37:47.915094+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "polaris_fellows",
+      "url": "https://x.com/polaris_fellows",
+      "twitterUrl": "https://twitter.com/polaris_fellows",
+      "id": "2072287559712169984",
+      "name": "The Polaris Fellowship",
+      "isVerified": false,
+      "isBlueVerified": true,
+      "profilePicture": "https://pbs.twimg.com/profile_images/2072306125354246144/Vnq6xWXv_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/2072287559712169984/1782971403",
+      "description": "India's Biggest Student Fellowship by Polaris School of Technology",
+      "location": "",
+      "followers": 49,
+      "following": 1,
+      "protected": false,
+      "status": "",
+      "canDm": false,
+      "canMediaTag": true,
+      "createdAt": "Wed Jul 01 13:06:50 +0000 2026",
+      "entities": {
+        "description": {},
+        "url": {
+          "urls": [
+            {
+              "display_url": "fellowship.polariscampus.com",
+              "expanded_url": "https://fellowship.polariscampus.com/",
+              "indices": [
+                0,
+                23
+              ],
+              "url": "https://t.co/OYsigLH7Gq"
+            }
+          ]
+        }
+      },
+      "favouritesCount": 32,
+      "isTranslator": false,
+      "mediaCount": 52,
+      "statusesCount": 65,
+      "translatorTypeEnum": "none",
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false
+    },
+    "text": "A in Abhishek stands for AI. Meet Abhishek Kumawat. 🤖\n\nFrom NIT Patna to building at @BainandCompany, he’s already been putting that AI brain to work.\n\nNow, as a Polaris Fellow, he’s ready for what comes next. 🚀\n\n#ThePolarisFellowship | @polaris_code https://t.co/FTOKpWOyLh",
+    "url": "https://x.com/polaris_fellows/status/2088238348041421241",
+    "date": "2026-08-14T12:16:34+00:00",
+    "likes": 2,
+    "comments": 0,
+    "reposts": 0,
+    "impressions": 23,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "neutral",
+    "campaign": null,
+    "tags_polaris": "Yes",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:48.224306+00:00"
   },
   {
     "platform": "instagram",
@@ -44,14 +202,14 @@
     "likes": 58,
     "comments": 0,
     "reposts": 0,
-    "impressions": 1198,
+    "impressions": 1231,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.335756+00:00"
+    "scraped_at": "2026-08-22T02:37:47.915046+00:00"
   },
   {
     "platform": "instagram",
@@ -59,17 +217,17 @@
     "text": "Inside AI Infra Day at Polaris.\n\nA room full of builders,\nfocused on the infrastructure behind the intelligence.",
     "url": "https://www.instagram.com/p/Db3RDwRpNEg/",
     "date": "2026-08-10T14:50:12+00:00",
-    "likes": 104,
+    "likes": 106,
     "comments": 2,
     "reposts": 0,
-    "impressions": 1070,
+    "impressions": 1113,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.337009+00:00"
+    "scraped_at": "2026-08-22T02:37:47.915300+00:00"
   },
   {
     "platform": "instagram",
@@ -77,17 +235,17 @@
     "text": "One day can change four years.\n\nStep onto campus, experience what you’re signing up for,\nand earn more than just a seat.",
     "url": "https://www.instagram.com/p/Db24Cb_pwGA/",
     "date": "2026-08-10T11:11:03+00:00",
-    "likes": 34,
+    "likes": 35,
     "comments": 0,
     "reposts": 0,
-    "impressions": 680,
+    "impressions": 700,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.336549+00:00"
+    "scraped_at": "2026-08-22T02:37:47.915870+00:00"
   },
   {
     "platform": "instagram",
@@ -95,17 +253,17 @@
     "text": "This is what happens when every superpower shows up.\n\nNot a hackathon.\nA lab for building what’s next.",
     "url": "https://www.instagram.com/p/DbyRBhQia8e/",
     "date": "2026-08-08T16:13:07+00:00",
-    "likes": 36,
+    "likes": 37,
     "comments": 0,
     "reposts": 0,
-    "impressions": 720,
+    "impressions": 740,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.336853+00:00"
+    "scraped_at": "2026-08-22T02:37:47.915754+00:00"
   },
   {
     "platform": "instagram",
@@ -123,7 +281,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.336256+00:00"
+    "scraped_at": "2026-08-22T02:37:47.915660+00:00"
   },
   {
     "platform": "instagram",
@@ -141,7 +299,196 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.336119+00:00"
+    "scraped_at": "2026-08-22T02:37:47.915928+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "CaptVenk",
+      "url": "https://x.com/CaptVenk",
+      "twitterUrl": "https://twitter.com/CaptVenk",
+      "id": "46359833",
+      "name": "Capt Venkat 🇮🇳",
+      "isVerified": false,
+      "isBlueVerified": true,
+      "profilePicture": "https://pbs.twimg.com/profile_images/1463456064054067200/5xh12Awk_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/46359833/1637945070",
+      "description": "raising a builder.",
+      "location": "Hyderabad, India",
+      "followers": 5989,
+      "following": 2945,
+      "protected": false,
+      "status": "",
+      "canDm": true,
+      "canMediaTag": true,
+      "createdAt": "Thu Jun 11 10:30:14 +0000 2009",
+      "entities": {
+        "description": {},
+        "url": {
+          "urls": [
+            {
+              "display_url": "robofynd.com",
+              "expanded_url": "https://robofynd.com",
+              "indices": [
+                0,
+                23
+              ],
+              "url": "https://t.co/2QjjJ5E6CK"
+            }
+          ]
+        }
+      },
+      "favouritesCount": 63554,
+      "isTranslator": false,
+      "mediaCount": 6090,
+      "statusesCount": 38153,
+      "translatorTypeEnum": "none",
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false
+    },
+    "text": "The Superhuman Lab with @therohaan and @knowShubhangi at @polaris_code https://t.co/qJ9NyEi6LH",
+    "url": "https://x.com/CaptVenk/status/2085971112325001520",
+    "date": "2026-08-08T06:07:23+00:00",
+    "likes": 17,
+    "comments": 0,
+    "reposts": 3,
+    "impressions": 693,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "neutral",
+    "campaign": null,
+    "tags_polaris": "Yes",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:48.224353+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "enoughtanu",
+      "url": "https://x.com/enoughtanu",
+      "twitterUrl": "https://twitter.com/enoughtanu",
+      "id": "1514889753228808195",
+      "name": "Tanu singh",
+      "isVerified": false,
+      "isBlueVerified": true,
+      "profilePicture": "https://pbs.twimg.com/profile_images/2088334126768427008/BCbYnNhY_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/1514889753228808195/1763110945",
+      "description": "Growth x Devrel  x Community | Neuroscience × AI",
+      "location": "Bengaluru, India",
+      "followers": 921,
+      "following": 369,
+      "protected": false,
+      "status": "",
+      "canDm": false,
+      "canMediaTag": true,
+      "createdAt": "Fri Apr 15 08:54:21 +0000 2022",
+      "entities": {
+        "description": {}
+      },
+      "favouritesCount": 2031,
+      "isTranslator": false,
+      "mediaCount": 631,
+      "statusesCount": 2266,
+      "translatorTypeEnum": "none",
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false,
+      "professional": {
+        "category": [
+          {
+            "icon_name": "IconBriefcaseStroke",
+            "id": 1059,
+            "name": "Engineer"
+          }
+        ],
+        "professional_type": "Business",
+        "rest_id": "1637608710993514496"
+      }
+    },
+    "text": "Running on pure passion (and almost no sleep) \n On my way to host Superhuman Lab Bengaluru today with @knowShubhangi 💃 at @polaris_code \n\n@claudeai @elseplayHQ @PcbCupid @DeepStationAI https://t.co/pkwLtUnf9r",
+    "url": "https://x.com/enoughtanu/status/2085900651683590251",
+    "date": "2026-08-08T01:27:24+00:00",
+    "likes": 2,
+    "comments": 1,
+    "reposts": 0,
+    "impressions": 96,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "neutral",
+    "campaign": null,
+    "tags_polaris": "Yes",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:48.224411+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "knowShubhangi",
+      "url": "https://x.com/knowShubhangi",
+      "twitterUrl": "https://twitter.com/knowShubhangi",
+      "id": "1047528319665758208",
+      "name": "Shubhangi Gupta",
+      "isVerified": false,
+      "isBlueVerified": true,
+      "profilePicture": "https://pbs.twimg.com/profile_images/2026717870798098432/VCJ_0c_7_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/1047528319665758208/1778189610",
+      "description": "Product, DevRel, AI 🥑| Neuroscience | Claude Code Ambassador 🧡 | Organiser @gdg_noida | Potterhead 🧙‍♂️ | Swiftie 🎶 | Thoughts My Own",
+      "location": "New Delhi, India",
+      "followers": 7665,
+      "following": 1628,
+      "protected": false,
+      "status": "",
+      "canDm": true,
+      "canMediaTag": true,
+      "createdAt": "Wed Oct 03 16:46:28 +0000 2018",
+      "entities": {
+        "description": {},
+        "url": {
+          "urls": [
+            {
+              "display_url": "knowshubhangi.com",
+              "expanded_url": "https://knowshubhangi.com/",
+              "indices": [
+                0,
+                23
+              ],
+              "url": "https://t.co/AB83jWuDBQ"
+            }
+          ]
+        }
+      },
+      "favouritesCount": 42207,
+      "isTranslator": false,
+      "mediaCount": 572,
+      "statusesCount": 4361,
+      "translatorTypeEnum": "none",
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false,
+      "pinnedTweetIds": [
+        "2062171418226536610"
+      ],
+      "professional": {
+        "category": [],
+        "professional_type": "Creator",
+        "rest_id": "1466468258220056576"
+      }
+    },
+    "text": "The space is all set! @polaris_code \n\nCan’t wait! Super excited!! \nLet’s build some AI x Hardware Assistive tech @claudeai @ClaudeDevs https://t.co/W1WgBzzGkj",
+    "url": "https://x.com/knowShubhangi/status/2085674440810213552",
+    "date": "2026-08-07T10:28:31+00:00",
+    "likes": 54,
+    "comments": 6,
+    "reposts": 1,
+    "impressions": 2241,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "neutral",
+    "campaign": null,
+    "tags_polaris": "Yes",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:48.224463+00:00"
   },
   {
     "platform": "instagram",
@@ -159,7 +506,343 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.337360+00:00"
+    "scraped_at": "2026-08-22T02:37:47.916161+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "polaris_fellows",
+      "url": "https://x.com/polaris_fellows",
+      "twitterUrl": "https://twitter.com/polaris_fellows",
+      "id": "2072287559712169984",
+      "name": "The Polaris Fellowship",
+      "isVerified": false,
+      "isBlueVerified": true,
+      "profilePicture": "https://pbs.twimg.com/profile_images/2072306125354246144/Vnq6xWXv_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/2072287559712169984/1782971403",
+      "description": "India's Biggest Student Fellowship by Polaris School of Technology",
+      "location": "",
+      "followers": 49,
+      "following": 1,
+      "protected": false,
+      "status": "",
+      "canDm": false,
+      "canMediaTag": true,
+      "createdAt": "Wed Jul 01 13:06:50 +0000 2026",
+      "entities": {
+        "description": {},
+        "url": {
+          "urls": [
+            {
+              "display_url": "fellowship.polariscampus.com",
+              "expanded_url": "https://fellowship.polariscampus.com/",
+              "indices": [
+                0,
+                23
+              ],
+              "url": "https://t.co/OYsigLH7Gq"
+            }
+          ]
+        }
+      },
+      "favouritesCount": 32,
+      "isTranslator": false,
+      "mediaCount": 52,
+      "statusesCount": 65,
+      "translatorTypeEnum": "none",
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false
+    },
+    "text": "The First Cohort fellows are talking about their excitement, plans, and more! And we're all ears! 🎧\n\n#ThePolarisFellowship @polaris_code https://t.co/6cOfqlNX39",
+    "url": "https://x.com/polaris_fellows/status/2085232067814846671",
+    "date": "2026-08-06T05:10:41+00:00",
+    "likes": 2,
+    "comments": 0,
+    "reposts": 0,
+    "impressions": 80,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "neutral",
+    "campaign": null,
+    "tags_polaris": "Yes",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:48.224515+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "UnityMarss",
+      "url": "https://x.com/UnityMarss",
+      "twitterUrl": "https://twitter.com/UnityMarss",
+      "id": "1973483297893392386",
+      "name": "Unity🐶🔴",
+      "isVerified": false,
+      "isBlueVerified": true,
+      "profilePicture": "https://pbs.twimg.com/profile_images/2086186073269358592/5RyNaM00_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/1973483297893392386/1777597688",
+      "description": "don't ask. idk.",
+      "location": "Mars",
+      "followers": 1462,
+      "following": 2295,
+      "protected": false,
+      "status": "",
+      "canDm": false,
+      "canMediaTag": true,
+      "createdAt": "Wed Oct 01 20:21:15 +0000 2025",
+      "entities": {
+        "description": {}
+      },
+      "fastFollowersCount": 0,
+      "favouritesCount": 33331,
+      "hasCustomTimelines": false,
+      "isTranslator": false,
+      "mediaCount": 7413,
+      "statusesCount": 25616,
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false,
+      "pinnedTweetIds": [
+        "2090895499905675268"
+      ]
+    },
+    "text": "I cleared \"ELON\" by ANONYMOUS in the VIBECON arcade. Your turn. @dogelonmars $ELON https://t.co/MqSembZGAm #DogelonMars #VibeCon",
+    "url": "https://x.com/UnityMarss/status/2085158588293538213",
+    "date": "2026-08-06T00:18:42+00:00",
+    "likes": 8,
+    "comments": 0,
+    "reposts": 1,
+    "impressions": 152,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "positive",
+    "campaign": "VibeCon",
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:58.741145+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "MarSnax",
+      "url": "https://x.com/MarSnax",
+      "twitterUrl": "https://twitter.com/MarSnax",
+      "id": "1242337406579347458",
+      "name": "Marzbar🚀",
+      "isVerified": false,
+      "isBlueVerified": true,
+      "profilePicture": "https://pbs.twimg.com/profile_images/2090323677287989250/SsEPN6Dt_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/1242337406579347458/1787206900",
+      "description": "Official DogelonMars Ambassador. https://t.co/STAgXlCF5d\n\nHome of the world's sweetest tweets! 🍿🍨 \nAccepting $ELON on X pay soon! \n\nMake Aliens 👽 Great Again",
+      "location": "Dogelon Metaverse",
+      "followers": 1806,
+      "following": 920,
+      "protected": false,
+      "status": "",
+      "canDm": true,
+      "canMediaTag": true,
+      "createdAt": "Tue Mar 24 06:28:23 +0000 2020",
+      "entities": {
+        "description": {
+          "urls": [
+            {
+              "display_url": "DogelonMars.com",
+              "expanded_url": "http://DogelonMars.com",
+              "indices": [
+                33,
+                56
+              ],
+              "url": "https://t.co/STAgXlCF5d"
+            }
+          ]
+        }
+      },
+      "fastFollowersCount": 0,
+      "favouritesCount": 235460,
+      "hasCustomTimelines": true,
+      "isTranslator": false,
+      "mediaCount": 11058,
+      "statusesCount": 62664,
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false,
+      "pinnedTweetIds": [
+        "2090209420584116488"
+      ],
+      "professional": {
+        "category": [
+          {
+            "icon_name": "IconBriefcaseStroke",
+            "id": 727,
+            "name": "Shopping & Retail"
+          }
+        ],
+        "professional_type": "Business",
+        "rest_id": "1756559034772029908"
+      }
+    },
+    "text": "I built \"DOGELONTING\" in the VIBECON arcade — can you clear it? 😂😅🤪\n\n @dogelonmars $ELON https://t.co/PEFEH1EIUD #DogelonMars #VibeCon",
+    "url": "https://x.com/MarSnax/status/2085137451127865534",
+    "date": "2026-08-05T22:54:42+00:00",
+    "likes": 14,
+    "comments": 1,
+    "reposts": 1,
+    "impressions": 190,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "positive",
+    "campaign": "VibeCon",
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:58.741194+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "CreativeGracey",
+      "url": "https://x.com/CreativeGracey",
+      "twitterUrl": "https://twitter.com/CreativeGracey",
+      "id": "1280802678558224385",
+      "name": "Gracey Dugar",
+      "isVerified": false,
+      "isBlueVerified": true,
+      "profilePicture": "https://pbs.twimg.com/profile_images/2079511551237935104/6y6rugn8_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/1280802678558224385/1784691294",
+      "description": "Robotics https://t.co/WGr8OdPY5L | Product Management | Co-Founder @LaGravitea | Certified Mountaineer @nim_india | Guitarist | CommunityIntern @RapidNative |",
+      "location": "Bangalore and Jamshedpur",
+      "followers": 1559,
+      "following": 2287,
+      "protected": false,
+      "status": "",
+      "canDm": true,
+      "canMediaTag": true,
+      "createdAt": "Wed Jul 08 09:55:49 +0000 2020",
+      "entities": {
+        "description": {
+          "urls": [
+            {
+              "display_url": "minesafeai.in",
+              "expanded_url": "http://minesafeai.in",
+              "indices": [
+                9,
+                32
+              ],
+              "url": "https://t.co/WGr8OdPY5L"
+            }
+          ]
+        },
+        "url": {
+          "urls": [
+            {
+              "display_url": "github.com/GraceyDugar",
+              "expanded_url": "https://github.com/GraceyDugar",
+              "indices": [
+                0,
+                23
+              ],
+              "url": "https://t.co/QCZMutyrXT"
+            }
+          ]
+        }
+      },
+      "favouritesCount": 18925,
+      "isTranslator": false,
+      "mediaCount": 248,
+      "statusesCount": 1586,
+      "translatorTypeEnum": "none",
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false,
+      "pinnedTweetIds": [
+        "2089598212848152939"
+      ],
+      "professional": {
+        "category": [
+          {
+            "icon_name": "IconBriefcaseStroke",
+            "id": 713,
+            "name": "Science & Technology"
+          }
+        ],
+        "professional_type": "Creator",
+        "rest_id": "1461688585493499911"
+      }
+    },
+    "text": "@CaptVenk @knowShubhangi @elseplayHQ @PcbCupid @AskBaluBabu @polaris_code @therohaan Looking forward to it.",
+    "url": "https://x.com/CreativeGracey/status/2084839815086997532",
+    "date": "2026-08-05T03:12:01+00:00",
+    "likes": 2,
+    "comments": 0,
+    "reposts": 0,
+    "impressions": 50,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "neutral",
+    "campaign": null,
+    "tags_polaris": "Yes",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:48.224553+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "CaptVenk",
+      "url": "https://x.com/CaptVenk",
+      "twitterUrl": "https://twitter.com/CaptVenk",
+      "id": "46359833",
+      "name": "Capt Venkat 🇮🇳",
+      "isVerified": false,
+      "isBlueVerified": true,
+      "profilePicture": "https://pbs.twimg.com/profile_images/1463456064054067200/5xh12Awk_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/46359833/1637945070",
+      "description": "raising a builder.",
+      "location": "Hyderabad, India",
+      "followers": 5989,
+      "following": 2945,
+      "protected": false,
+      "status": "",
+      "canDm": true,
+      "canMediaTag": true,
+      "createdAt": "Thu Jun 11 10:30:14 +0000 2009",
+      "entities": {
+        "description": {},
+        "url": {
+          "urls": [
+            {
+              "display_url": "robofynd.com",
+              "expanded_url": "https://robofynd.com",
+              "indices": [
+                0,
+                23
+              ],
+              "url": "https://t.co/2QjjJ5E6CK"
+            }
+          ]
+        }
+      },
+      "favouritesCount": 63554,
+      "isTranslator": false,
+      "mediaCount": 6090,
+      "statusesCount": 38153,
+      "translatorTypeEnum": "none",
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false
+    },
+    "text": "@knowShubhangi @elseplayHQ @PcbCupid @AskBaluBabu @polaris_code @therohaan @CreativeGracey want to join. Laksh is coming.",
+    "url": "https://x.com/CaptVenk/status/2084706940207431931",
+    "date": "2026-08-04T18:24:01+00:00",
+    "likes": 1,
+    "comments": 1,
+    "reposts": 0,
+    "impressions": 121,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "neutral",
+    "campaign": null,
+    "tags_polaris": "Yes",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:48.224591+00:00"
   },
   {
     "platform": "instagram",
@@ -177,7 +860,145 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.336335+00:00"
+    "scraped_at": "2026-08-22T02:37:47.916198+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "shlokbuilds",
+      "url": "https://x.com/shlokbuilds",
+      "twitterUrl": "https://twitter.com/shlokbuilds",
+      "id": "2068859836255924224",
+      "name": "Shlok Madhekar",
+      "isVerified": false,
+      "isBlueVerified": true,
+      "profilePicture": "https://pbs.twimg.com/profile_images/2084121430506246144/mvu6EgpE_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/2068859836255924224/1785728527",
+      "description": "15. swe. founder. 13x hackathon winner.\n\nposting what i build.",
+      "location": "San Fransisco",
+      "followers": 41,
+      "following": 59,
+      "protected": false,
+      "status": "",
+      "canDm": false,
+      "canMediaTag": true,
+      "createdAt": "Mon Jun 22 00:58:29 +0000 2026",
+      "entities": {
+        "description": {},
+        "url": {
+          "urls": [
+            {
+              "display_url": "probe0.xyz",
+              "expanded_url": "http://probe0.xyz",
+              "indices": [
+                0,
+                23
+              ],
+              "url": "https://t.co/vThdPZnn6j"
+            }
+          ]
+        }
+      },
+      "favouritesCount": 103,
+      "isTranslator": false,
+      "mediaCount": 0,
+      "statusesCount": 955,
+      "translatorTypeEnum": "none",
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false,
+      "pinnedTweetIds": [
+        "2083700600550920559"
+      ],
+      "professional": {
+        "category": [],
+        "professional_type": "Creator",
+        "rest_id": "2076902965474886071"
+      }
+    },
+    "text": "@iamvs2002 @hackzurich @ClickHouseDB @polaris_code professional hackathons are a different sport. the best constraint is a judge who can understand the value before asking for the architecture.",
+    "url": "https://x.com/shlokbuilds/status/2084149728422580242",
+    "date": "2026-08-03T05:29:51+00:00",
+    "likes": 2,
+    "comments": 1,
+    "reposts": 0,
+    "impressions": 27,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "positive",
+    "campaign": null,
+    "tags_polaris": "Yes",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:48.224634+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "iamvs2002",
+      "url": "https://x.com/iamvs2002",
+      "twitterUrl": "https://twitter.com/iamvs2002",
+      "id": "1152602965758238720",
+      "name": "Vaibhav - building Needle",
+      "isVerified": false,
+      "isBlueVerified": true,
+      "profilePicture": "https://pbs.twimg.com/profile_images/1939949130605846528/aRZM7xLW_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/1152602965758238720/1725899432",
+      "description": "Building Needle\n- find buyers already looking for your product across  Reddit, X, HN, GitHub in one place ranked by buying intent\n\nBangalore | Treks | Travel",
+      "location": "Find your customers →",
+      "followers": 627,
+      "following": 393,
+      "protected": false,
+      "status": "",
+      "canDm": true,
+      "canMediaTag": true,
+      "createdAt": "Sat Jul 20 15:35:36 +0000 2019",
+      "entities": {
+        "description": {},
+        "url": {
+          "urls": [
+            {
+              "display_url": "useneedle.net",
+              "expanded_url": "https://useneedle.net/",
+              "indices": [
+                0,
+                23
+              ],
+              "url": "https://t.co/q8bCLfK6ta"
+            }
+          ]
+        }
+      },
+      "favouritesCount": 27321,
+      "isTranslator": false,
+      "mediaCount": 900,
+      "statusesCount": 12875,
+      "translatorTypeEnum": "none",
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false,
+      "pinnedTweetIds": [
+        "2061086761259016609"
+      ],
+      "professional": {
+        "category": [],
+        "professional_type": "Creator",
+        "rest_id": "2027391366419161367"
+      }
+    },
+    "text": "Attended a hackathon after 3 years. Last time it was @hackzurich back in 2023.\n\nIt's rare to find a good hackathon for professionals and not just for students. Somehow got into #clickathon by @ClickHouseDB - great hackathon, and at a superb place (@polaris_code)\n\nBuilt a product for @atlys - which when given new feature specs- gives you a complete implementation plan, DDL, and as it goes live, you can track how good the feature is working - using @ClickHouseDB tools - Langfuse, LibreChat, ClickHouse Cloud DB.\n\nDidn't make it to the top, but definitely gonna be using it for Needle (@use_needle)\n\nGreat experience. Also, won a coffee maker, but I am not much of a coffee person. Lol.",
+    "url": "https://x.com/iamvs2002/status/2084144851868930319",
+    "date": "2026-08-03T05:10:28+00:00",
+    "likes": 22,
+    "comments": 4,
+    "reposts": 0,
+    "impressions": 1240,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "positive",
+    "campaign": null,
+    "tags_polaris": "Yes",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:48.224707+00:00"
   },
   {
     "platform": "instagram",
@@ -188,14 +1009,14 @@
     "likes": 85,
     "comments": 4,
     "reposts": 0,
-    "impressions": 1324,
+    "impressions": 1329,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.336206+00:00"
+    "scraped_at": "2026-08-22T02:37:47.915616+00:00"
   },
   {
     "platform": "instagram",
@@ -213,7 +1034,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.336607+00:00"
+    "scraped_at": "2026-08-22T02:37:47.916060+00:00"
   },
   {
     "platform": "instagram",
@@ -224,14 +1045,14 @@
     "likes": 70,
     "comments": 4,
     "reposts": 0,
-    "impressions": 676,
+    "impressions": 679,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.336824+00:00"
+    "scraped_at": "2026-08-22T02:37:47.915510+00:00"
   },
   {
     "platform": "instagram",
@@ -239,17 +1060,17 @@
     "text": "The Lyzr AI Hackathon at Polaris School of Technology brought together students, professionals, and AI enthusiasts to solve real-world challenges through innovation. From networking and learning to building impactful AI solutions, the event showcased the talent and collaborative spirit shaping the future of technology. Congratulations to every participant and finalist for making this an inspiring experience.",
     "url": "https://www.instagram.com/p/DbdDaJ7usfN/",
     "date": "2026-07-31T10:30:05+00:00",
-    "likes": 35,
+    "likes": 36,
     "comments": 0,
     "reposts": 0,
-    "impressions": 612,
+    "impressions": 618,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": "Lyzr/Agentathon",
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.337320+00:00"
+    "scraped_at": "2026-08-22T02:37:47.915348+00:00"
   },
   {
     "platform": "instagram",
@@ -257,17 +1078,17 @@
     "text": "The biggest ideas aren’t built in classrooms.\nThey’re built under pressure.\n\n24 hours. 30 teams. 4 tracks. One stage.\n\nWelcome to Click-thon, India’s biggest ClickHouse Hackathon, now at Polaris.",
     "url": "https://www.instagram.com/p/DbcoJ_hpqAF/",
     "date": "2026-07-31T06:32:08+00:00",
-    "likes": 139,
+    "likes": 140,
     "comments": 0,
     "reposts": 0,
-    "impressions": 2780,
+    "impressions": 2800,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.336740+00:00"
+    "scraped_at": "2026-08-22T02:37:47.916119+00:00"
   },
   {
     "platform": "instagram",
@@ -278,14 +1099,14 @@
     "likes": 79,
     "comments": 5,
     "reposts": 0,
-    "impressions": 927,
+    "impressions": 931,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.337250+00:00"
+    "scraped_at": "2026-08-22T02:37:47.916349+00:00"
   },
   {
     "platform": "instagram",
@@ -296,14 +1117,14 @@
     "likes": 28,
     "comments": 0,
     "reposts": 0,
-    "impressions": 486,
+    "impressions": 488,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.337072+00:00"
+    "scraped_at": "2026-08-22T02:37:47.916244+00:00"
   },
   {
     "platform": "instagram",
@@ -321,7 +1142,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.336779+00:00"
+    "scraped_at": "2026-08-22T02:37:47.915899+00:00"
   },
   {
     "platform": "instagram",
@@ -339,7 +1160,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.336985+00:00"
+    "scraped_at": "2026-08-22T02:37:47.916504+00:00"
   },
   {
     "platform": "instagram",
@@ -350,14 +1171,14 @@
     "likes": 54,
     "comments": 0,
     "reposts": 0,
-    "impressions": 593,
+    "impressions": 596,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.336887+00:00"
+    "scraped_at": "2026-08-22T02:37:47.915259+00:00"
   },
   {
     "platform": "instagram",
@@ -368,14 +1189,14 @@
     "likes": 63,
     "comments": 0,
     "reposts": 0,
-    "impressions": 194,
+    "impressions": 199,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.337285+00:00"
+    "scraped_at": "2026-08-22T02:37:47.915960+00:00"
   },
   {
     "platform": "instagram",
@@ -393,7 +1214,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.337467+00:00"
+    "scraped_at": "2026-08-22T02:37:47.915570+00:00"
   },
   {
     "platform": "instagram",
@@ -411,7 +1232,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.336933+00:00"
+    "scraped_at": "2026-08-22T02:37:47.915198+00:00"
   },
   {
     "platform": "instagram",
@@ -422,14 +1243,79 @@
     "likes": 84,
     "comments": 0,
     "reposts": 0,
-    "impressions": 130,
+    "impressions": 132,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.337429+00:00"
+    "scraped_at": "2026-08-22T02:37:47.916370+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "sommerkamp",
+      "url": "https://x.com/sommerkamp",
+      "twitterUrl": "https://twitter.com/sommerkamp",
+      "id": "37639444",
+      "name": "Deirdre Sommerkamp",
+      "isVerified": false,
+      "isBlueVerified": true,
+      "profilePicture": "https://pbs.twimg.com/profile_images/895680766310580226/lhieOPFT_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/37639444/1776884810",
+      "description": "Helping companies become AI-native. Building on Replit... the secure enterprise platform for innovation.",
+      "location": "Charleston, SC",
+      "followers": 354,
+      "following": 615,
+      "protected": false,
+      "status": "",
+      "canDm": false,
+      "canMediaTag": true,
+      "createdAt": "Mon May 04 11:18:51 +0000 2009",
+      "entities": {
+        "description": {},
+        "url": {
+          "urls": [
+            {
+              "display_url": "dsommerkamp.com",
+              "expanded_url": "http://dsommerkamp.com",
+              "indices": [
+                0,
+                23
+              ],
+              "url": "https://t.co/JIwigKtC86"
+            }
+          ]
+        }
+      },
+      "fastFollowersCount": 0,
+      "favouritesCount": 2899,
+      "hasCustomTimelines": true,
+      "isTranslator": false,
+      "mediaCount": 382,
+      "statusesCount": 1004,
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false,
+      "pinnedTweetIds": [
+        "2086550298256953432"
+      ]
+    },
+    "text": "Still thinking about (and acting on) all the creativity that @Replit makes possible.\n\nThe installations by @volvoxlabs were incredible. \n\n #vibecon https://t.co/6DiXdZ69h0",
+    "url": "https://x.com/sommerkamp/status/2080073635998416906",
+    "date": "2026-07-22T23:32:55+00:00",
+    "likes": 7,
+    "comments": 0,
+    "reposts": 1,
+    "impressions": 218,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "positive",
+    "campaign": "VibeCon",
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:58.741231+00:00"
   },
   {
     "platform": "instagram",
@@ -447,7 +1333,56 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.337409+00:00"
+    "scraped_at": "2026-08-22T02:37:47.915423+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "kaitojusrikanth",
+      "url": "https://x.com/kaitojusrikanth",
+      "twitterUrl": "https://twitter.com/kaitojusrikanth",
+      "id": "241587006",
+      "name": "srikanth sri",
+      "isVerified": false,
+      "isBlueVerified": true,
+      "profilePicture": "https://pbs.twimg.com/profile_images/2042545515355869184/VZy0W_Ji_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/241587006/1775205037",
+      "description": "The Ultimate Nerd @NerdNationpro| Creating AI-powered student OS that unifies unlimited learning, creativity & healthier networking.",
+      "location": "India",
+      "followers": 67,
+      "following": 398,
+      "protected": false,
+      "status": "",
+      "canDm": false,
+      "canMediaTag": true,
+      "createdAt": "Sat Jan 22 16:48:08 +0000 2011",
+      "entities": {
+        "description": {}
+      },
+      "fastFollowersCount": 0,
+      "favouritesCount": 172,
+      "hasCustomTimelines": false,
+      "isTranslator": false,
+      "mediaCount": 27,
+      "statusesCount": 296,
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false
+    },
+    "text": "We built an AI powered Social Networking platform for college students (mobile first)using emergent @emergentlabs .... End to end zero coding 🎯\n\nNeed your upvote ❤️ to win🥇\n\nhttps://t.co/VGzirfqfpm\n\n@emergentlabs @rajshamani  #buildinpublic #vibecon #hackathon",
+    "url": "https://x.com/kaitojusrikanth/status/2079468553628275077",
+    "date": "2026-07-21T07:28:32+00:00",
+    "likes": 2,
+    "comments": 0,
+    "reposts": 0,
+    "impressions": 86,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "positive",
+    "campaign": "VibeCon",
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:58.741281+00:00"
   },
   {
     "platform": "instagram",
@@ -458,14 +1393,14 @@
     "likes": 17,
     "comments": 0,
     "reposts": 0,
-    "impressions": 64,
+    "impressions": 65,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.336955+00:00"
+    "scraped_at": "2026-08-22T02:37:47.916524+00:00"
   },
   {
     "platform": "instagram",
@@ -483,7 +1418,404 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.337025+00:00"
+    "scraped_at": "2026-08-22T02:37:47.915451+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "codeinlive",
+      "url": "https://x.com/codeinlive",
+      "twitterUrl": "https://twitter.com/codeinlive",
+      "id": "1699698619069382656",
+      "name": "Hemang Choudhary",
+      "isVerified": false,
+      "isBlueVerified": true,
+      "profilePicture": "https://pbs.twimg.com/profile_images/2016594566040743936/jKiDayGd_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/1699698619069382656/1769628548",
+      "description": "",
+      "location": "",
+      "followers": 17,
+      "following": 117,
+      "protected": false,
+      "status": "",
+      "canDm": false,
+      "canMediaTag": false,
+      "createdAt": "Thu Sep 07 08:18:59 +0000 2023",
+      "entities": {
+        "description": {},
+        "url": {
+          "urls": [
+            {
+              "display_url": "developer.coehemang.dev",
+              "expanded_url": "https://developer.coehemang.dev",
+              "indices": [
+                0,
+                23
+              ],
+              "url": "https://t.co/Y8f6DvzsID"
+            }
+          ]
+        }
+      },
+      "fastFollowersCount": 0,
+      "favouritesCount": 26,
+      "hasCustomTimelines": false,
+      "isTranslator": false,
+      "mediaCount": 16,
+      "statusesCount": 106,
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false
+    },
+    "text": "Hi and Hola, To the great people of the internet,\n\nI am happy to share that I made it into Round 4 of the Polaris Fellowship 2026 by Polaris School of Technology.\n\nRound 4 is an interview call with industry professionals and partner-company panels. I am really excited to move forward and fill in the proceedings for it.\n\n@polaris_fellows thanks for the fabulous experience in all the rounds",
+    "url": "https://x.com/codeinlive/status/2074164227338904054",
+    "date": "2026-07-06T16:11:02+00:00",
+    "likes": 5,
+    "comments": 2,
+    "reposts": 0,
+    "impressions": 259,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "positive",
+    "campaign": null,
+    "tags_polaris": "Yes",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:25.510370+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "luki_notlowkey",
+      "url": "https://x.com/luki_notlowkey",
+      "twitterUrl": "https://twitter.com/luki_notlowkey",
+      "id": "1577322154059669504",
+      "name": "L. K. (💜, 💛)",
+      "isVerified": false,
+      "isBlueVerified": true,
+      "profilePicture": "https://pbs.twimg.com/profile_images/1833497085338849280/gucp2ASN_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/1577322154059669504/1737144872",
+      "description": "Just a Corporate Girl Living in the Startup World 💖",
+      "location": "Global",
+      "followers": 1272,
+      "following": 681,
+      "protected": false,
+      "status": "",
+      "canDm": false,
+      "canMediaTag": true,
+      "createdAt": "Tue Oct 04 15:38:10 +0000 2022",
+      "entities": {
+        "description": {},
+        "url": {
+          "urls": [
+            {
+              "display_url": "chainbase.com",
+              "expanded_url": "http://chainbase.com",
+              "indices": [
+                0,
+                23
+              ],
+              "url": "https://t.co/t39moyjnHo"
+            }
+          ]
+        }
+      },
+      "fastFollowersCount": 0,
+      "favouritesCount": 1342,
+      "hasCustomTimelines": true,
+      "isTranslator": false,
+      "mediaCount": 197,
+      "statusesCount": 1284,
+      "affiliatesHighlightedLabel": {
+        "label": {
+          "badge": {
+            "url": "https://pbs.twimg.com/profile_images/2011754699448598542/PBUDt31G_bigger.jpg"
+          },
+          "description": "Chainbase (💜,💛)",
+          "url": {
+            "url": "https://twitter.com/ChainbaseHQ",
+            "urlType": "DeepLink"
+          },
+          "userLabelDisplayType": "Badge",
+          "userLabelType": "BusinessLabel"
+        }
+      },
+      "possiblySensitive": false
+    },
+    "text": "Have you had the AI perfume experience yet? 🌸\n\nI finally did at #VibeCon hosted by @Replit, and it was one of the coolest AI experiences.\n\nYou sit down, have a conversation with AI, and a few minutes later it creates a perfume inspired by you. \n\nMine was a blend of bergamot, jasmine, and spring flowers🌷. Apparently I'm calm(sometimes), compassionate, and grounded...🥰\nI'll take that. \n\nI love seeing AI show up as something playful, artistic, and surprisingly personal.\n\nHuge kudos to Tigris L. for creating such a unique experience.\n\nHave you tried the AI perfume experience? \nWhat fragrance did AI create for you?\n\nALSO!!! Thanks to my babe @neflorious for the ticket!",
+    "url": "https://x.com/luki_notlowkey/status/2072193869731836080",
+    "date": "2026-07-01T05:41:32+00:00",
+    "likes": 19,
+    "comments": 5,
+    "reposts": 0,
+    "impressions": 696,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "positive",
+    "campaign": "VibeCon",
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:58.741353+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "Razzshares",
+      "url": "https://x.com/Razzshares",
+      "twitterUrl": "https://twitter.com/Razzshares",
+      "id": "1441632177746165764",
+      "name": "Razz Shares",
+      "isVerified": false,
+      "isBlueVerified": true,
+      "profilePicture": "https://pbs.twimg.com/profile_images/2078164553934987264/4KNIP-H5_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/1441632177746165764/1784986631",
+      "description": "Content Creator | DMs open for collabs & promotions",
+      "location": "",
+      "followers": 11797,
+      "following": 10567,
+      "protected": false,
+      "status": "",
+      "canDm": true,
+      "canMediaTag": false,
+      "createdAt": "Sat Sep 25 05:14:44 +0000 2021",
+      "entities": {
+        "description": {},
+        "url": {
+          "urls": [
+            {
+              "display_url": "razzsharesweb3.lovable.app/#top",
+              "expanded_url": "https://razzsharesweb3.lovable.app/#top",
+              "indices": [
+                0,
+                23
+              ],
+              "url": "https://t.co/9o8v74dGR0"
+            }
+          ]
+        }
+      },
+      "fastFollowersCount": 0,
+      "favouritesCount": 22823,
+      "hasCustomTimelines": true,
+      "isTranslator": false,
+      "mediaCount": 3296,
+      "statusesCount": 27336,
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false,
+      "professional": {
+        "category": [
+          {
+            "icon_name": "IconBriefcaseStroke",
+            "id": 1042,
+            "name": "Content Creator"
+          }
+        ],
+        "professional_type": "Creator",
+        "rest_id": "1711401626819551534"
+      }
+    },
+    "text": "I like Vibecon words.\n\nAI makes our work easier, but good ideas and creativity always comes from people.\n\nUsing correctly AI can make much easier.\n\n@Replit  #Vibecon https://t.co/qhmMxab0NE",
+    "url": "https://x.com/Razzshares/status/2072180464434217130",
+    "date": "2026-07-01T04:48:16+00:00",
+    "likes": 14,
+    "comments": 13,
+    "reposts": 1,
+    "impressions": 24049,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "positive",
+    "campaign": "VibeCon",
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:58.741389+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "GufranAbir_",
+      "url": "https://x.com/GufranAbir_",
+      "twitterUrl": "https://twitter.com/GufranAbir_",
+      "id": "1703734571261706240",
+      "name": "𓀚 𝗚𝗨𝗙𝗥𝗔𝗡 ㋡",
+      "isVerified": false,
+      "isBlueVerified": false,
+      "profilePicture": "https://pbs.twimg.com/profile_images/2069491604126306304/jCoBE3ky_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/1703734571261706240/1782240223",
+      "description": "Crypto | NFTs | DeFi | Building in Web3 | Blockchain Explorer | Bull Market Addict | Bullish on the Future | Full-time Crypto Degen | Lost in the charts 📉→📈 |",
+      "location": "web3",
+      "followers": 10479,
+      "following": 5980,
+      "protected": false,
+      "status": "",
+      "canDm": false,
+      "canMediaTag": true,
+      "createdAt": "Mon Sep 18 11:36:26 +0000 2023",
+      "entities": {
+        "description": {},
+        "url": {
+          "urls": [
+            {
+              "display_url": "t.me/gufran_abir",
+              "expanded_url": "https://t.me/gufran_abir",
+              "indices": [
+                0,
+                23
+              ],
+              "url": "https://t.co/xLuhyN2a9M"
+            }
+          ]
+        }
+      },
+      "fastFollowersCount": 0,
+      "favouritesCount": 22447,
+      "hasCustomTimelines": false,
+      "isTranslator": false,
+      "mediaCount": 489,
+      "statusesCount": 22218,
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false,
+      "professional": {
+        "category": [
+          {
+            "icon_name": "IconBriefcaseStroke",
+            "id": 994,
+            "name": "Content Publisher"
+          }
+        ],
+        "professional_type": "Creator",
+        "rest_id": "1766992222203855017"
+      }
+    },
+    "text": "Director of “Her,” Spike Jonze, dropped some powerful thoughts on AI, taste &amp; creativity at Vibecon. This isn’t about AI replacing us — it’s about the beautiful ways it helps us express what makes us human. Truly inspiring. @Replit #Vibecon https://t.co/OBjnLHuXo5",
+    "url": "https://x.com/GufranAbir_/status/2072178967923339272",
+    "date": "2026-07-01T04:42:19+00:00",
+    "likes": 84,
+    "comments": 88,
+    "reposts": 1,
+    "impressions": 480,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "positive",
+    "campaign": "VibeCon",
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:58.741436+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "Rehan8803",
+      "url": "https://x.com/Rehan8803",
+      "twitterUrl": "https://twitter.com/Rehan8803",
+      "id": "1861649117715537925",
+      "name": "REHAN",
+      "isVerified": false,
+      "isBlueVerified": true,
+      "profilePicture": "https://pbs.twimg.com/profile_images/2009604147700723712/_RSD8KLq_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/1861649117715537925/1767962385",
+      "description": "Crypto Since 2022 | Web3 Analyst | Researching Early Projects | Airdrops • Testnets • Trading • Investing | DM for Collab🤝",
+      "location": "",
+      "followers": 8146,
+      "following": 6918,
+      "protected": false,
+      "status": "",
+      "canDm": false,
+      "canMediaTag": true,
+      "createdAt": "Wed Nov 27 05:52:14 +0000 2024",
+      "entities": {
+        "description": {}
+      },
+      "fastFollowersCount": 0,
+      "favouritesCount": 13244,
+      "hasCustomTimelines": false,
+      "isTranslator": false,
+      "mediaCount": 414,
+      "statusesCount": 12193,
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false
+    },
+    "text": "Creativity isn't about replacing people—it's about expanding what's possible with the right tools. \n\nThat idea really stood out to me at Vibecon.\n\nCurious to hear your take.\n@repl.it #Vibecon #AI #Creativity https://t.co/GiO9c2TOBx",
+    "url": "https://x.com/Rehan8803/status/2072149505492017275",
+    "date": "2026-07-01T02:45:15+00:00",
+    "likes": 4,
+    "comments": 0,
+    "reposts": 0,
+    "impressions": 79,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "positive",
+    "campaign": "VibeCon",
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:58.741481+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "joejossy_12",
+      "url": "https://x.com/joejossy_12",
+      "twitterUrl": "https://twitter.com/joejossy_12",
+      "id": "402596989",
+      "name": "Joe Joe",
+      "isVerified": false,
+      "isBlueVerified": true,
+      "profilePicture": "https://pbs.twimg.com/profile_images/2006358556145012736/AkmkUrbe_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/402596989/1767188129",
+      "description": "Driving Web3 Project Growth & Innovation | Web3 Content Creator & Writer | Tier 1 KOL | Strategic Project Amb @trondao @BingXofficial @_kultGames @foresoGlobal",
+      "location": "Vietnam",
+      "followers": 19648,
+      "following": 15089,
+      "protected": false,
+      "status": "",
+      "canDm": true,
+      "canMediaTag": false,
+      "createdAt": "Tue Nov 01 09:34:43 +0000 2011",
+      "entities": {
+        "description": {},
+        "url": {
+          "urls": [
+            {
+              "display_url": "t.me/Jossyflicks",
+              "expanded_url": "http://t.me/Jossyflicks",
+              "indices": [
+                0,
+                23
+              ],
+              "url": "https://t.co/Nc4yDdgE3f"
+            }
+          ]
+        }
+      },
+      "fastFollowersCount": 0,
+      "favouritesCount": 65554,
+      "hasCustomTimelines": true,
+      "isTranslator": false,
+      "mediaCount": 2441,
+      "statusesCount": 126620,
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false,
+      "pinnedTweetIds": [
+        "2080569868521177340"
+      ]
+    },
+    "text": "One idea from Spike Jonze at Vibecon has been stuck in my head:\n\nAI can assist the creative process, but taste, curiosity, and genuine human perspective are still what give great work its meaning.\n\nWorth watching.\n\n@Replit\n\n#Vibecon #AI #Creativity https://t.co/TdnhANZo3X",
+    "url": "https://x.com/joejossy_12/status/2072066806483652703",
+    "date": "2026-06-30T21:16:38+00:00",
+    "likes": 2,
+    "comments": 2,
+    "reposts": 0,
+    "impressions": 20151,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "positive",
+    "campaign": "VibeCon",
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:58.741519+00:00"
   },
   {
     "platform": "instagram",
@@ -491,17 +1823,93 @@
     "text": "Wherever you’re starting your B.Tech in 2026, we will BACK YOU! 🌠\n\nIntroducing the All India Polaris Scholarship.\n\nTen students, selected from across the country, backed at the very beginning of their BTech journey with something real.\n\nRank 1 to 3 win ₹2,00,000 each - cash they can use however their journey demands. Fees, tools, courses, breathing room. You name it.\n\nRank 4 to 10 win a MacBook each - the most powerful laptop in the world, theirs from day one of engineering college.\n\nHere’s how it works:\n → Register for the Polaris Aptitude Test before 15th July\n → Top 500 write a scholarship essay\n → Top 50 move to a video interview\n → 10 winners. 3 get ₹2 lakh. 7 get a MacBook.\n\nIf you’re starting BTech in 2026 and are serious about building a future for yourself, registration link for the Polaris Aptitude Test (PAT) is in the comments and in our bio. Apply now!\n\n🧷Link in BIO & COMMENTS! \n\n#AllIndiaPolaris Scholarship #Polaris #EngineeringIndia #BTech2026 #Scholarship",
     "url": "https://www.instagram.com/p/DaDb2mopRhz/",
     "date": "2026-06-26T15:12:17+00:00",
-    "likes": 60,
+    "likes": 61,
     "comments": 11,
     "reposts": 0,
-    "impressions": 2300,
+    "impressions": 2320,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": "Admissions 2026",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.336698+00:00"
+    "scraped_at": "2026-08-22T02:37:47.915840+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "Iamkaifyyy",
+      "url": "https://x.com/Iamkaifyyy",
+      "twitterUrl": "https://twitter.com/Iamkaifyyy",
+      "id": "1713570506417328129",
+      "name": "Kaifyyy.sh ( scaling arc ) 🇭🇰",
+      "isVerified": false,
+      "isBlueVerified": false,
+      "profilePicture": "https://pbs.twimg.com/profile_images/2069402617445576704/77NUAfeW_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/1713570506417328129/1782304517",
+      "description": "prev @revlabzai rn @amigoIndia • \nbuilding @nodestudiosh\nref `AIML ~ Web3  • lifting heavy • shipping \nfintech obsessed •",
+      "location": "香港",
+      "followers": 877,
+      "following": 586,
+      "protected": false,
+      "status": "",
+      "canDm": true,
+      "canMediaTag": true,
+      "createdAt": "Sun Oct 15 15:01:11 +0000 2023",
+      "entities": {
+        "description": {},
+        "url": {
+          "urls": [
+            {
+              "display_url": "kaifyyy-sh.vercel.app",
+              "expanded_url": "http://kaifyyy-sh.vercel.app",
+              "indices": [
+                0,
+                23
+              ],
+              "url": "https://t.co/SYmWxy2YqC"
+            }
+          ]
+        }
+      },
+      "fastFollowersCount": 0,
+      "favouritesCount": 10187,
+      "hasCustomTimelines": false,
+      "isTranslator": false,
+      "mediaCount": 607,
+      "statusesCount": 7077,
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false,
+      "pinnedTweetIds": [
+        "2085812990205640892"
+      ],
+      "professional": {
+        "category": [
+          {
+            "icon_name": "IconBriefcaseStroke",
+            "id": 144,
+            "name": "Education"
+          }
+        ],
+        "professional_type": "Creator",
+        "rest_id": "1879221247789482075"
+      }
+    },
+    "text": "Just submitted my application for Round 2 of #ThePolarisFellowship \nPolaris School of Technology  \n\nThank you, Polaris School of Technology, for this opportunity.\n\n#ThePolarisFellowship #Builders #BuildInPublic #AI #Startups #SoftwareDevelopment https://t.co/DCjmfjcLs5",
+    "url": "https://x.com/Iamkaifyyy/status/2067356344743821391",
+    "date": "2026-06-17T21:18:56+00:00",
+    "likes": 63,
+    "comments": 13,
+    "reposts": 0,
+    "impressions": 4492,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "neutral",
+    "campaign": null,
+    "tags_polaris": "Yes",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:25.510454+00:00"
   },
   {
     "platform": "instagram",
@@ -509,17 +1917,156 @@
     "text": "Most students wait until their final year to start building a career. Polaris students are doing it in Year 1.\n\n₹1 Cr+ in stipends, 109 opportunities, 35 global open-source selections, and internships across 11 countries.\n\nThis isn’t a placement report. It’s what happens when you focus on proof of work from Day 1.",
     "url": "https://www.instagram.com/p/DZr6DKSCSBD/",
     "date": "2026-06-17T11:54:08+00:00",
-    "likes": 142,
+    "likes": 143,
     "comments": 1,
     "reposts": 0,
-    "impressions": 2940,
+    "impressions": 2960,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.337125+00:00"
+    "scraped_at": "2026-08-22T02:37:47.916006+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "kushagra396",
+      "url": "https://x.com/kushagra396",
+      "twitterUrl": "https://twitter.com/kushagra396",
+      "id": "1905644228807663617",
+      "name": "Kushagra Shukla",
+      "isVerified": false,
+      "isBlueVerified": false,
+      "profilePicture": "https://pbs.twimg.com/profile_images/1943913545428590592/3o7_qwBz_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/1905644228807663617/1752351094",
+      "description": "I just build things :)",
+      "location": "India ",
+      "followers": 37,
+      "following": 29,
+      "protected": false,
+      "status": "",
+      "canDm": false,
+      "canMediaTag": true,
+      "createdAt": "Fri Mar 28 15:33:05 +0000 2025",
+      "entities": {
+        "description": {},
+        "url": {
+          "urls": [
+            {
+              "display_url": "linkedin.com/in/kushagra-sh…",
+              "expanded_url": "http://www.linkedin.com/in/kushagra-shukla66",
+              "indices": [
+                0,
+                23
+              ],
+              "url": "https://t.co/C8WKlgFuag"
+            }
+          ]
+        }
+      },
+      "fastFollowersCount": 0,
+      "favouritesCount": 6725,
+      "hasCustomTimelines": false,
+      "isTranslator": false,
+      "mediaCount": 331,
+      "statusesCount": 583,
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false
+    },
+    "text": "Got selected in the Polaris Fellowship ( for round 2) \n\nthis video is all about , who i am , what i build , and what i wanted to build in future :)\n\norganized by Polaris School of Technology\nlet's see , where it goes... \n\nps : sorry for bad camera quality\n\n#ThePolarisFellowship https://t.co/JhdnFSv1kw",
+    "url": "https://x.com/kushagra396/status/2065785244519993489",
+    "date": "2026-06-13T13:15:57+00:00",
+    "likes": 8,
+    "comments": 2,
+    "reposts": 0,
+    "impressions": 901,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "negative",
+    "campaign": null,
+    "tags_polaris": "Yes",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:25.510515+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "sagarbjethi",
+      "url": "https://x.com/sagarbjethi",
+      "twitterUrl": "https://twitter.com/sagarbjethi",
+      "id": "246125882",
+      "name": "Sagar jethi",
+      "isVerified": false,
+      "isBlueVerified": true,
+      "profilePicture": "https://pbs.twimg.com/profile_images/1890293077186588672/UaCWCslS_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/246125882/1535651125",
+      "description": "Blockchain OG (2017) | AI & Web3 Builder\nFounder : https://t.co/FQomi8p2W4 | ex @velvet_capital @privateAicom\n30+ Hackathon Wins | Built 0→1 Products\nChainlink Advocate",
+      "location": "",
+      "followers": 1195,
+      "following": 4163,
+      "protected": false,
+      "status": "",
+      "canDm": false,
+      "canMediaTag": true,
+      "createdAt": "Wed Feb 02 05:18:44 +0000 2011",
+      "entities": {
+        "description": {
+          "urls": [
+            {
+              "display_url": "codeminto.com",
+              "expanded_url": "http://codeminto.com",
+              "indices": [
+                51,
+                74
+              ],
+              "url": "https://t.co/FQomi8p2W4"
+            }
+          ]
+        },
+        "url": {
+          "urls": [
+            {
+              "display_url": "linkedin.com/in/sagarjethi",
+              "expanded_url": "https://www.linkedin.com/in/sagarjethi",
+              "indices": [
+                0,
+                23
+              ],
+              "url": "https://t.co/6sl9Wyn2lm"
+            }
+          ]
+        }
+      },
+      "fastFollowersCount": 0,
+      "favouritesCount": 6965,
+      "hasCustomTimelines": true,
+      "isTranslator": false,
+      "mediaCount": 415,
+      "statusesCount": 1757,
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false,
+      "pinnedTweetIds": [
+        "1951464951186428275"
+      ]
+    },
+    "text": "POV: Bengaluru’s smartest AI & blockchain builders were all in one room\n\nAI-Native Development: Building the Future with AI, Cloud, and Blockchain | Powered by @chainlinklabs \n\nSo many builders showed up.\nThe energy was unreal.\n\nThanks you somuch all the support  by 🎤 Host & Speakers:\n@TanishaSin98494  — Tech creator & community host\nSagar Jethi — Chainlink ecosystem & real-world use cases\n@TrainWitShubham  AI Ops, MLOps & scaling AI systems\n@NeerajPenumaka  — Data Science & backend engineering\nThanks  team of @nasikolabs and @iSnehaBiradar \n\nThis was my first event outside Ahmedabad, and Bengaluru made it unforgettable ❤️\n\nHuge thanks to everyone who joined and special thanks to Polaris School of Technology for supporting the community 🙌\n\n@Chainlink_IN \n\n#Chainlink #BangaloreAI #BengaluruAI #BLRAI",
+    "url": "https://x.com/sagarbjethi/status/2052762791430496329",
+    "date": "2026-05-08T14:49:22+00:00",
+    "likes": 18,
+    "comments": 2,
+    "reposts": 3,
+    "impressions": 480,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "negative",
+    "campaign": null,
+    "tags_polaris": "Yes",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:25.511264+00:00"
   },
   {
     "platform": "instagram",
@@ -527,35 +2074,600 @@
     "text": "What is the strongest tangible proof of coding competence in real-world scenarios?\n\nOpen Source it is. Which is strongly engraved into the culture of Polaris.\n\nThis year, 18 Polaris students became part of that culture through Google Summer of Code 2026.\n\nAnd they’re not just contributing locally. They’re now working across open-source ecosystems spanning 9 countries, contributing to real-world systems in:\n- cybersecurity\n- healthcare & genomics\n- developer infrastructure\n- ⁠geospatial systems\n- ⁠programming languages\n\nWorking alongside experienced mentors, building systems used by developers and organizations across the world.\n\nBut behind every selection is a completely different story.\nWhile some students started with utmost clarity, some rebuilt from scratch after setbacks. Some learned by breaking things, fixing them, and trying again.\nWhat connects all of them is simple:\nThey showed up consistently.\n They kept building.\n\nAnd they contributed before they felt “ready.” That’s what o",
     "url": "https://www.instagram.com/p/DYFEfJbiauD/",
     "date": "2026-05-08T13:23:34+00:00",
-    "likes": 343,
+    "likes": 345,
     "comments": 11,
     "reposts": 0,
-    "impressions": 7960,
+    "impressions": 8000,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": "GSoC 2025",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.336517+00:00"
+    "scraped_at": "2026-08-22T02:37:47.916473+00:00"
   },
   {
-    "platform": "instagram",
-    "author": "",
-    "text": "",
-    "url": "https://www.instagram.com/explore/tags/vibecon",
-    "date": "UNKNOWN",
-    "likes": 0,
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "rootconf",
+      "url": "https://x.com/rootconf",
+      "twitterUrl": "https://twitter.com/rootconf",
+      "id": "500669196",
+      "name": "Rootconf",
+      "isVerified": false,
+      "isBlueVerified": false,
+      "profilePicture": "https://pbs.twimg.com/profile_images/1359377975502802945/Bc0v4p1Y_normal.png",
+      "coverPicture": "",
+      "description": "Platform Engineering meet-up on 25 July\nRootconf Annual Conference coming up in November 2026. Stay tuned.",
+      "location": "Bangalore, India",
+      "followers": 2905,
+      "following": 331,
+      "protected": false,
+      "status": "",
+      "canDm": false,
+      "canMediaTag": true,
+      "createdAt": "Thu Feb 23 10:43:27 +0000 2012",
+      "entities": {
+        "description": {},
+        "url": {
+          "urls": [
+            {
+              "display_url": "hasgeek.com/rootconf#membe…",
+              "expanded_url": "https://hasgeek.com/rootconf#membership",
+              "indices": [
+                0,
+                23
+              ],
+              "url": "https://t.co/eEU0ZXYDqV"
+            }
+          ]
+        }
+      },
+      "fastFollowersCount": 0,
+      "favouritesCount": 1313,
+      "hasCustomTimelines": false,
+      "isTranslator": false,
+      "mediaCount": 1320,
+      "statusesCount": 4966,
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false,
+      "pinnedTweetIds": [
+        "2062514381943124078"
+      ]
+    },
+    "text": "@AnirudhRowjee @arpit_bhayani @felderainc @IndiaRust 8/n Rootconf Special Edition on Databases \nMay 29–30 | Bengaluru https://t.co/7hWe8mAUpP \nVenue: Polaris School of Technology",
+    "url": "https://x.com/rootconf/status/2051701382902956063",
+    "date": "2026-05-05T16:31:43+00:00",
+    "likes": 2,
     "comments": 0,
     "reposts": 0,
-    "impressions": 50,
-    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
-    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
+    "impressions": 63,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "neutral",
+    "campaign": null,
+    "tags_polaris": "Yes",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:25.511573+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "ShwetaRKohli",
+      "url": "https://x.com/ShwetaRKohli",
+      "twitterUrl": "https://twitter.com/ShwetaRKohli",
+      "id": "83530820",
+      "name": "Shweta Rajpal Kohli",
+      "isVerified": false,
+      "isBlueVerified": true,
+      "profilePicture": "https://pbs.twimg.com/profile_images/2046967520947761153/ofQ7FG5M_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/83530820/1786953478",
+      "description": "President & CEO, Startup Policy Forum (SPF); Bridging innovation and policy ecosystems; ex Sequoia Capital, Peak XV, Uber, Salesforce, NDTV",
+      "location": "New Delhi",
+      "followers": 21008,
+      "following": 6520,
+      "protected": false,
+      "status": "",
+      "canDm": true,
+      "canMediaTag": true,
+      "createdAt": "Mon Oct 19 05:36:33 +0000 2009",
+      "entities": {
+        "description": {},
+        "url": {
+          "urls": [
+            {
+              "display_url": "indiaspf.org",
+              "expanded_url": "http://www.indiaspf.org",
+              "indices": [
+                0,
+                23
+              ],
+              "url": "https://t.co/PwUaf7QYGY"
+            }
+          ]
+        }
+      },
+      "fastFollowersCount": 0,
+      "favouritesCount": 13172,
+      "hasCustomTimelines": true,
+      "isTranslator": false,
+      "mediaCount": 388,
+      "statusesCount": 5615,
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false,
+      "pinnedTweetIds": [
+        "2077621789082132869"
+      ]
+    },
+    "text": "🎬‼️ The teaser dropped last week. Now the full episode. Mukund Jha, founder of Emergent, arguably among the fastest-growing AI companies in the world right now, joined us on IndiaAI in Action, a special series of Startup Policy Forum, in collaboration with IndiaAI Mission. \n\nWe spent time with Mukund at Vibecon, Emergent's blockbuster hackathon that saw 25,000 applicants compete for 300 spots, with the winner walking away with a Y Combinator interview. The energy at the venue - Polaris School of Technology - said everything about where Indian AI is headed.\n\nHere's what we covered:\n\n➡️ The AI opportunity: global and India. Mukund's take is unequivocal: we are underhyped. The transformation coming from new AI companies will be “magical.” Software that once cost $1M to build now costs $10K. India's edge? The largest population, a data advantage, and an application layer wide open for the taking. His advice: building global is as hard as building for India. So you might as well think big.\n",
+    "url": "https://x.com/ShwetaRKohli/status/2049774049539297319",
+    "date": "2026-04-30T08:53:11+00:00",
+    "likes": 8,
+    "comments": 2,
+    "reposts": 1,
+    "impressions": 712,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "positive",
+    "campaign": "VibeCon",
+    "tags_polaris": "Yes",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:25.511804+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "StackDhruv",
+      "url": "https://x.com/StackDhruv",
+      "twitterUrl": "https://twitter.com/StackDhruv",
+      "id": "1924131027141713920",
+      "name": "dhruvieiei",
+      "isVerified": false,
+      "isBlueVerified": true,
+      "profilePicture": "https://pbs.twimg.com/profile_images/1937359279566295040/UHYM5hzR_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/1924131027141713920/1786417948",
+      "description": "19. Building Aggressively.",
+      "location": "Pune",
+      "followers": 4960,
+      "following": 763,
+      "protected": false,
+      "status": "",
+      "canDm": true,
+      "canMediaTag": true,
+      "createdAt": "Sun May 18 15:52:52 +0000 2025",
+      "entities": {
+        "description": {},
+        "url": {
+          "urls": [
+            {
+              "display_url": "agnost.ai",
+              "expanded_url": "http://agnost.ai",
+              "indices": [
+                0,
+                23
+              ],
+              "url": "https://t.co/b24FZtaGlU"
+            }
+          ]
+        }
+      },
+      "fastFollowersCount": 0,
+      "favouritesCount": 2797,
+      "hasCustomTimelines": false,
+      "isTranslator": false,
+      "mediaCount": 578,
+      "statusesCount": 3163,
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false
+    },
+    "text": "https://t.co/xyOlOgZLmv",
+    "url": "https://x.com/StackDhruv/status/2047665080083603540",
+    "date": "2026-04-24T13:12:53+00:00",
+    "likes": 42,
+    "comments": 4,
+    "reposts": 0,
+    "impressions": 1766,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.311528+00:00"
+    "scraped_at": "2026-08-22T02:35:25.511848+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "archygupta22",
+      "url": "https://x.com/archygupta22",
+      "twitterUrl": "https://twitter.com/archygupta22",
+      "id": "1444219308641382409",
+      "name": "Archy Gupta",
+      "isVerified": false,
+      "isBlueVerified": true,
+      "profilePicture": "https://pbs.twimg.com/profile_images/2006390573494939648/s2sl9lKu_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/1444219308641382409/1760034543",
+      "description": "Software Engineer III @Google | Tech & AI | Partnerships: workwitharchygupta@gmail.com | 800k @Linkedin | 70k @Instagram",
+      "location": "United States",
+      "followers": 7927,
+      "following": 317,
+      "protected": false,
+      "status": "",
+      "canDm": true,
+      "canMediaTag": true,
+      "createdAt": "Sat Oct 02 08:35:00 +0000 2021",
+      "entities": {
+        "description": {},
+        "url": {
+          "urls": [
+            {
+              "display_url": "linkedin.com/in/archy-gupta…",
+              "expanded_url": "https://www.linkedin.com/in/archy-gupta-myprofile",
+              "indices": [
+                0,
+                23
+              ],
+              "url": "https://t.co/2oZd5oIFMA"
+            }
+          ]
+        }
+      },
+      "fastFollowersCount": 0,
+      "favouritesCount": 3659,
+      "hasCustomTimelines": false,
+      "isTranslator": false,
+      "mediaCount": 626,
+      "statusesCount": 3494,
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false,
+      "professional": {
+        "category": [
+          {
+            "icon_name": "IconBriefcaseStroke",
+            "id": 713,
+            "name": "Science & Technology"
+          }
+        ],
+        "professional_type": "Creator",
+        "rest_id": "1640217822629609472"
+      }
+    },
+    "text": "Over the weekend, I was in Bangalore and Delhi for two AI events. ✅\n\n📍Bangalore had the @emergentlabs Hackathon (VibeCon) by @ycombinator at Polaris School of Technology. \n\n👉Theme was “Vibe code your way into YC.”\n\nThe energy was crazy. \nA room full of participants team, i was amazed to see what they were building & demos.\n\nTop 10 presented their work. 3 won. ✌️\n\nThere were CEOs, board members, founders, creators and industry leaders in the same room to network. 💯\n\nOne can learn so much in a few hours at these events. It exposes you to the technology in real world and tells you what’s happening on ground. \n\nWhat are the top products right now❓\nWhat kind of ideas are getting funded by Y Combinator❓\nWhat interesting things are people building❓\n\nNot just this,\n\n- If you’re an engineer, you get inspired to build a personal project.\n- If you’re a PM, you see patterns or potentially your next feature. \n- If you are an entrepreneur, you get new ideas. \n\nBeyond this the people you meet, networ",
+    "url": "https://x.com/archygupta22/status/2046216972636229957",
+    "date": "2026-04-20T13:18:37+00:00",
+    "likes": 11,
+    "comments": 3,
+    "reposts": 0,
+    "impressions": 982,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "positive",
+    "campaign": "VibeCon",
+    "tags_polaris": "Yes",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:25.511963+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "prasadsawant97",
+      "url": "https://x.com/prasadsawant97",
+      "twitterUrl": "https://twitter.com/prasadsawant97",
+      "id": "813108475",
+      "name": "Prasad Sawant",
+      "isVerified": false,
+      "isBlueVerified": false,
+      "profilePicture": "https://pbs.twimg.com/profile_images/1882692843690663936/E0ZgKiva_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/813108475/1737703877",
+      "description": "Senior Developer Advocate @lyzr__ai | Ex-Co-Founder @letsupgrade_in | Building & Scaling Developer Ecosystems 10K to 1.9M+\n\nBuilding @ai_mumbai_ & @ffdg_mumbai",
+      "location": "Navi Mumbai",
+      "followers": 288,
+      "following": 258,
+      "protected": false,
+      "status": "",
+      "canDm": true,
+      "canMediaTag": true,
+      "createdAt": "Sun Sep 09 13:11:39 +0000 2012",
+      "entities": {
+        "description": {},
+        "url": {
+          "urls": [
+            {
+              "display_url": "prasadasawant.dev",
+              "expanded_url": "https://prasadasawant.dev",
+              "indices": [
+                0,
+                23
+              ],
+              "url": "https://t.co/cuI65U3aO4"
+            }
+          ]
+        }
+      },
+      "fastFollowersCount": 0,
+      "favouritesCount": 589,
+      "hasCustomTimelines": true,
+      "isTranslator": false,
+      "mediaCount": 103,
+      "statusesCount": 374,
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false
+    },
+    "text": "If you are at @emergentlabs  Vibecon this week, next week come to the @lyzr__ai  Agentathon on 25th April at Polaris!\n\nHighly curated crowd (I personally checked every profile), got my LinkedIn restricted twice in a day.\n\nKept a few slots for the builders from Vibecon. Link in comments.",
+    "url": "https://x.com/prasadsawant97/status/2044852339635577110",
+    "date": "2026-04-16T18:56:03+00:00",
+    "likes": 14,
+    "comments": 4,
+    "reposts": 0,
+    "impressions": 564,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "positive",
+    "campaign": "VibeCon",
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:36:21.446621+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "mukundjha",
+      "url": "https://x.com/mukundjha",
+      "twitterUrl": "https://twitter.com/mukundjha",
+      "id": "74211576",
+      "name": "Mukund Jha",
+      "isVerified": false,
+      "isBlueVerified": true,
+      "profilePicture": "https://pbs.twimg.com/profile_images/1953355875877568512/fQeWsnms_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/74211576/1768930582",
+      "description": "Founder & CEO, @emergentlabs,  Vibe-coder.\n\nHiring across all roles in SF/BLR.",
+      "location": "San Francisco, CA",
+      "followers": 15654,
+      "following": 1281,
+      "protected": false,
+      "status": "",
+      "canDm": true,
+      "canMediaTag": true,
+      "createdAt": "Mon Sep 14 17:35:02 +0000 2009",
+      "entities": {
+        "description": {},
+        "url": {
+          "urls": [
+            {
+              "display_url": "emergent.sh",
+              "expanded_url": "https://emergent.sh",
+              "indices": [
+                0,
+                23
+              ],
+              "url": "https://t.co/ipU4vaPvFo"
+            }
+          ]
+        }
+      },
+      "fastFollowersCount": 0,
+      "favouritesCount": 1236,
+      "hasCustomTimelines": true,
+      "isTranslator": false,
+      "mediaCount": 213,
+      "statusesCount": 837,
+      "affiliatesHighlightedLabel": {
+        "label": {
+          "badge": {
+            "url": "https://pbs.twimg.com/profile_images/1913617233001295872/hYKnojsI_bigger.jpg"
+          },
+          "description": "Emergent",
+          "url": {
+            "url": "https://twitter.com/emergentlabs",
+            "urlType": "DeepLink"
+          },
+          "userLabelDisplayType": "Badge",
+          "userLabelType": "BusinessLabel"
+        }
+      },
+      "possiblySensitive": false,
+      "pinnedTweetIds": [
+        "2077399351840936413"
+      ]
+    },
+    "text": "When you're building the future, you need a space that speaks the same language: ambition.\n\nWe're excited to have Polaris School of Technology as a Venue Partner for VibeCon India by @emergentlabs.\n\nPolaris doesn't do \"traditional.\" They ripped up the textbooks and built something that looks more like a builder's playground than an old-school campus. That backdrop is exactly what VibeCon needs.\n\n300 of India's top builders will gather in a venue designed for building the future. \n\nThe venue is locked. The builders are on their way.\n\nLess than 2 days to go.",
+    "url": "https://x.com/mukundjha/status/2044058189889712468",
+    "date": "2026-04-14T14:20:23+00:00",
+    "likes": 38,
+    "comments": 7,
+    "reposts": 0,
+    "impressions": 2398,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "positive",
+    "campaign": "VibeCon",
+    "tags_polaris": "Yes",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:25.512017+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "lyzr__ai",
+      "url": "https://x.com/lyzr__ai",
+      "twitterUrl": "https://twitter.com/lyzr__ai",
+      "id": "1808145452736696321",
+      "name": "Lyzr AI",
+      "isVerified": false,
+      "isBlueVerified": true,
+      "profilePicture": "https://pbs.twimg.com/profile_images/1996123372661735430/qGtWlNIx_normal.png",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/1808145452736696321/1776847112",
+      "description": "Reimagine enterprise workflows with Agentic AI automation.",
+      "location": "New York City",
+      "followers": 587,
+      "following": 3,
+      "protected": false,
+      "status": "",
+      "canDm": true,
+      "canMediaTag": true,
+      "createdAt": "Tue Jul 02 14:27:39 +0000 2024",
+      "entities": {
+        "description": {}
+      },
+      "fastFollowersCount": 0,
+      "favouritesCount": 2047,
+      "hasCustomTimelines": false,
+      "isTranslator": false,
+      "mediaCount": 316,
+      "statusesCount": 548,
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false
+    },
+    "text": "Join us at Agentathon on 25 April 2026 at Polaris, Bengaluru, for a day of ideating, building, and shipping the future of AI agents.\n\nWith a prize pool of ₹2,00,000+, it's time to bring your best ideas to life. Powered by Architect by Lyzr. 🚀\n\nRegister Now: https://t.co/5ltSaujqHn\n\nA big shout out to our partners\n@polaris_code | @Logitech | @TheProductfolks | @AICollectiveCo | @Hack_Culture | @qdrant_engine | @TheBuildersC | @__hidevs",
+    "url": "https://x.com/lyzr__ai/status/2044024445476712905",
+    "date": "2026-04-14T12:06:18+00:00",
+    "likes": 42,
+    "comments": 7,
+    "reposts": 5,
+    "impressions": 2477,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "positive",
+    "campaign": "Lyzr/Agentathon",
+    "tags_polaris": "Yes",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:36:21.446733+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "prasadsawant97",
+      "url": "https://x.com/prasadsawant97",
+      "twitterUrl": "https://twitter.com/prasadsawant97",
+      "id": "813108475",
+      "name": "Prasad Sawant",
+      "isVerified": false,
+      "isBlueVerified": false,
+      "profilePicture": "https://pbs.twimg.com/profile_images/1882692843690663936/E0ZgKiva_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/813108475/1737703877",
+      "description": "Senior Developer Advocate @lyzr__ai | Ex-Co-Founder @letsupgrade_in | Building & Scaling Developer Ecosystems 10K to 1.9M+\n\nBuilding @ai_mumbai_ & @ffdg_mumbai",
+      "location": "Navi Mumbai",
+      "followers": 288,
+      "following": 258,
+      "protected": false,
+      "status": "",
+      "canDm": true,
+      "canMediaTag": true,
+      "createdAt": "Sun Sep 09 13:11:39 +0000 2012",
+      "entities": {
+        "description": {},
+        "url": {
+          "urls": [
+            {
+              "display_url": "prasadasawant.dev",
+              "expanded_url": "https://prasadasawant.dev",
+              "indices": [
+                0,
+                23
+              ],
+              "url": "https://t.co/cuI65U3aO4"
+            }
+          ]
+        }
+      },
+      "fastFollowersCount": 0,
+      "favouritesCount": 589,
+      "hasCustomTimelines": true,
+      "isTranslator": false,
+      "mediaCount": 103,
+      "statusesCount": 374,
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false
+    },
+    "text": "The \"special something\" is here. 🛰️\n\nBengaluru is electric right now with @emergentlabs Vibecon and @ycombinator Startup School setting the pace. To ride that wave to the finish line, we’re hosting the @lyzr__ai  Agentathon the practical finale to a massive week of AI.\n\n🤝 The Room: 500 hand-picked Business Execs, AI Consultants, SMB Founders, Product Managers and Solution Architects and more \n🛠️ The Challenge: Go from Idea ➔ Live URL in 5 hours using @ArchitectByLyzr  \n💰 The Stakes: ₹2,00,000 Prize Pool + Premium @Logitech  MX Gear.\n\n📍 Polaris, Bengaluru | April 25th\n\nLet’s turn the inspiration from Vibecon and the ambition of YC into live, working agents. See you at the sprint! ⚡️\n\nApply now (Vetting is strict): 👉 https://t.co/mhfeGyrlHT 🧵👇",
+    "url": "https://x.com/prasadsawant97/status/2043681199164698697",
+    "date": "2026-04-13T13:22:22+00:00",
+    "likes": 11,
+    "comments": 2,
+    "reposts": 2,
+    "impressions": 524,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "positive",
+    "campaign": "VibeCon",
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:36:21.446822+00:00"
+  },
+  {
+    "platform": "twitter",
+    "author": {
+      "type": "user",
+      "userName": "Divyetweets",
+      "url": "https://x.com/Divyetweets",
+      "twitterUrl": "https://twitter.com/Divyetweets",
+      "id": "768992196",
+      "name": "Divye Agarwal",
+      "isVerified": false,
+      "isBlueVerified": true,
+      "profilePicture": "https://pbs.twimg.com/profile_images/2059286440744476672/mc_c7_9a_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/768992196/1681895226",
+      "description": "Co-Founder @binge_labs",
+      "location": "India",
+      "followers": 2395,
+      "following": 613,
+      "protected": false,
+      "status": "",
+      "canDm": true,
+      "canMediaTag": true,
+      "createdAt": "Mon Aug 20 06:52:08 +0000 2012",
+      "entities": {
+        "description": {},
+        "url": {
+          "urls": [
+            {
+              "display_url": "bingelabs.in",
+              "expanded_url": "https://bingelabs.in/",
+              "indices": [
+                0,
+                23
+              ],
+              "url": "https://t.co/wfF3IIi3Xy"
+            }
+          ]
+        }
+      },
+      "fastFollowersCount": 0,
+      "favouritesCount": 7608,
+      "hasCustomTimelines": true,
+      "isTranslator": false,
+      "mediaCount": 544,
+      "statusesCount": 6040,
+      "affiliatesHighlightedLabel": {},
+      "possiblySensitive": false,
+      "professional": {
+        "category": [],
+        "professional_type": "Creator",
+        "rest_id": "1464937907689439235"
+      }
+    },
+    "text": "Our YouTube channel Polaris School Of Technology (@PolarisCampus) with 20K+ subscribers has been hacked and removed today.\n\nWe have lost access to the channel and all its content. This is extremely concerning for our students and community.\n\nRequesting urgent help from the team to review and restore the channel.\n\n@TeamYouTube @YouTubeCreators @YouTube @YouTubeIndia @YTCreatorsIndia",
+    "url": "https://x.com/Divyetweets/status/2032348653776748622",
+    "date": "2026-03-13T06:50:52+00:00",
+    "likes": 9,
+    "comments": 2,
+    "reposts": 1,
+    "impressions": 834,
+    "impressions_type": "real_twitter_views",
+    "impressions_formula": "viewCount from Twitter API (REAL when available), else likes × 30",
+    "sentiment": "negative",
+    "campaign": null,
+    "tags_polaris": "Yes",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:35:25.512075+00:00"
   },
   {
     "platform": "instagram",
@@ -573,7 +2685,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.311568+00:00"
+    "scraped_at": "2026-08-22T02:37:47.914910+00:00"
   },
   {
     "platform": "instagram",
@@ -591,7 +2703,25 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:32.336158+00:00"
+    "scraped_at": "2026-08-22T02:37:47.914940+00:00"
+  },
+  {
+    "platform": "instagram",
+    "author": "",
+    "text": "",
+    "url": "https://www.instagram.com/explore/tags/vibecon",
+    "date": "UNKNOWN",
+    "likes": 0,
+    "comments": 0,
+    "reposts": 0,
+    "impressions": 50,
+    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
+    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
+    "sentiment": "neutral",
+    "campaign": null,
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-08-22T02:37:47.914966+00:00"
   },
   {
     "platform": "facebook",
@@ -599,16 +2729,16 @@
     "text": "",
     "url": "",
     "date": "UNKNOWN",
-    "likes": 8432,
+    "likes": 8430,
     "comments": 0,
     "reposts": 0,
-    "impressions": 337280,
+    "impressions": 337200,
     "impressions_type": "engagement_estimate_(likes+comments×3+shares×5)×40",
     "impressions_formula": "",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-08-21T02:48:49.432422+00:00"
+    "scraped_at": "2026-08-22T02:38:00.494996+00:00"
   }
 ]
