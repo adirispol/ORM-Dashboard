@@ -1,26 +1,23 @@
 {
   "total_mentions": 0,
-  "total_social": 67,
-  "total_combined": 67,
+  "total_social": 34,
+  "total_combined": 34,
   "platforms": {
     "instagram": 33,
-    "twitter": 33,
     "facebook": 1
   },
   "campaigns": {
-    "Admissions 2026": 6,
-    "General": 44,
+    "Admissions 2026": 7,
+    "General": 25,
     "Campus Life": 1,
-    "VibeCon": 14,
-    "GSoC 2025": 1,
-    "Lyzr/Agentathon": 1
+    "GSoC 2025": 1
   },
   "sentiment": {
-    "positive": 30,
-    "neutral": 32,
-    "negative": 5
+    "positive": 14,
+    "neutral": 17,
+    "negative": 3
   },
-  "impressions": 483817,
+  "impressions": 428668,
   "impression_formulas": {
     "linkedin": "reactions × 80  [Polaris formula: LinkedIn hides real impressions]",
     "twitter": "viewCount from Twitter API (REAL when available), else likes × 30",
@@ -31,5 +28,5 @@
     "news": "domain tier: major=8000, regional=3000, blog=800  [estimate]",
     "web": "Google search position × 600 + 400  [visibility estimate]"
   },
-  "last_updated": "2026-09-01T06:40:10.444282+00:00"
+  "last_updated": "2026-09-02T06:16:37.969526+00:00"
 }
