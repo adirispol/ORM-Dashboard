@@ -1,5 +1,5 @@
 {
-  "crawl_time": "2026-09-09T06:28:19.180097+00:00",
+  "crawl_time": "2026-09-10T06:26:57.059072+00:00",
   "total_social": 34,
   "total_mentions": 0,
   "impression_formulas": {
@@ -122,57 +122,57 @@
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:\"Polaris School of Techno",
       "status": "SUCCEEDED",
-      "run_id": "Q6QecrTqoVaeoRrmW",
+      "run_id": "CMnckh5UCqQBwa4rT",
       "items_raw": 10,
-      "run_url": "https://console.apify.com/actors/runs/Q6QecrTqoVaeoRrmW"
+      "run_url": "https://console.apify.com/actors/runs/CMnckh5UCqQBwa4rT"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:#polariscampus OR @polari",
       "status": "SUCCEEDED",
-      "run_id": "kRa15Gxiuxd1vLbqe",
+      "run_id": "VlgI1pJ3dLbuMDGe2",
       "items_raw": 10,
-      "run_url": "https://console.apify.com/actors/runs/kRa15Gxiuxd1vLbqe"
+      "run_url": "https://console.apify.com/actors/runs/VlgI1pJ3dLbuMDGe2"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:#VibeCon OR #VibeCon2025 ",
       "status": "SUCCEEDED",
-      "run_id": "uT8e5boR0rNtL0hGh",
+      "run_id": "aX4qyj8WJAVuuZppj",
       "items_raw": 10,
-      "run_url": "https://console.apify.com/actors/runs/uT8e5boR0rNtL0hGh"
+      "run_url": "https://console.apify.com/actors/runs/aX4qyj8WJAVuuZppj"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:Agentathon Polaris OR Lyz",
       "status": "SUCCEEDED",
-      "run_id": "qqJRcEQ7cPbXTzvmt",
+      "run_id": "ptQZEZLdUDig310XN",
       "items_raw": 10,
-      "run_url": "https://console.apify.com/actors/runs/qqJRcEQ7cPbXTzvmt"
+      "run_url": "https://console.apify.com/actors/runs/ptQZEZLdUDig310XN"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:GSoC 2025 Polaris",
       "status": "SUCCEEDED",
-      "run_id": "NLjuj7dg0nsh41X6C",
+      "run_id": "iPV6aYkPVnwrxx7Dz",
       "items_raw": 10,
-      "run_url": "https://console.apify.com/actors/runs/NLjuj7dg0nsh41X6C"
+      "run_url": "https://console.apify.com/actors/runs/iPV6aYkPVnwrxx7Dz"
     },
     {
       "actor": "apify~instagram-scraper",
       "label": "Instagram",
       "status": "SUCCEEDED",
-      "run_id": "t8gZrPfzgkcQ1bIHr",
+      "run_id": "DlsHbx8bbVITuCgGC",
       "items_raw": 33,
-      "run_url": "https://console.apify.com/actors/runs/t8gZrPfzgkcQ1bIHr"
+      "run_url": "https://console.apify.com/actors/runs/DlsHbx8bbVITuCgGC"
     },
     {
       "actor": "apify~facebook-pages-scraper",
       "label": "Facebook",
       "status": "SUCCEEDED",
-      "run_id": "issVNyz3vcmaLWpJs",
+      "run_id": "gyLnl0oiiOsAaAOLI",
       "items_raw": 1,
-      "run_url": "https://console.apify.com/actors/runs/issVNyz3vcmaLWpJs"
+      "run_url": "https://console.apify.com/actors/runs/gyLnl0oiiOsAaAOLI"
     },
     {
       "actor": "trudax~reddit-scraper",
