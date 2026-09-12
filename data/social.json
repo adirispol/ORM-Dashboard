@@ -6,16 +6,16 @@
     "url": "https://www.instagram.com/p/DdETfGapfBQ/",
     "date": "2026-09-09T12:56:04+00:00",
     "likes": -1,
-    "comments": 1,
+    "comments": 2,
     "reposts": 0,
-    "impressions": 776,
+    "impressions": 824,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.936199+00:00"
+    "scraped_at": "2026-09-12T06:15:54.697334+00:00"
   },
   {
     "platform": "instagram",
@@ -33,7 +33,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.935957+00:00"
+    "scraped_at": "2026-09-12T06:15:54.696389+00:00"
   },
   {
     "platform": "instagram",
@@ -51,7 +51,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.935605+00:00"
+    "scraped_at": "2026-09-12T06:15:54.696732+00:00"
   },
   {
     "platform": "instagram",
@@ -62,14 +62,14 @@
     "likes": -1,
     "comments": 0,
     "reposts": 0,
-    "impressions": 1686,
+    "impressions": 1713,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.936521+00:00"
+    "scraped_at": "2026-09-12T06:15:54.697106+00:00"
   },
   {
     "platform": "instagram",
@@ -77,17 +77,17 @@
     "text": "Stoked to be hosting a Listening Session of my upcoming EP, Dear Diary for the students of Polaris School of Technology, Bangalore! \nDate : 10th September 2026\nTime : 6 pm\n\nSee you there ✨❤️\n@polariscampus #bringyourdiary 📝",
     "url": "https://www.instagram.com/p/Dc_RjMLTHLH/",
     "date": "2026-09-07T14:00:04+00:00",
-    "likes": 4942,
-    "comments": 55,
+    "likes": 5282,
+    "comments": 58,
     "reposts": 0,
-    "impressions": 40910,
+    "impressions": 44426,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "negative",
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.936979+00:00"
+    "scraped_at": "2026-09-12T06:15:54.696777+00:00"
   },
   {
     "platform": "instagram",
@@ -105,7 +105,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.937524+00:00"
+    "scraped_at": "2026-09-12T06:15:54.696895+00:00"
   },
   {
     "platform": "instagram",
@@ -116,14 +116,14 @@
     "likes": -1,
     "comments": 0,
     "reposts": 0,
-    "impressions": 747,
+    "impressions": 763,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.937138+00:00"
+    "scraped_at": "2026-09-12T06:15:54.697184+00:00"
   },
   {
     "platform": "instagram",
@@ -134,14 +134,14 @@
     "likes": -1,
     "comments": 0,
     "reposts": 0,
-    "impressions": 1440,
+    "impressions": 1472,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.936636+00:00"
+    "scraped_at": "2026-09-12T06:15:54.696980+00:00"
   },
   {
     "platform": "instagram",
@@ -159,7 +159,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.936415+00:00"
+    "scraped_at": "2026-09-12T06:15:54.696482+00:00"
   },
   {
     "platform": "instagram",
@@ -177,7 +177,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.936811+00:00"
+    "scraped_at": "2026-09-12T06:15:54.697239+00:00"
   },
   {
     "platform": "instagram",
@@ -195,7 +195,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.936109+00:00"
+    "scraped_at": "2026-09-12T06:15:54.697454+00:00"
   },
   {
     "platform": "instagram",
@@ -213,7 +213,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.936704+00:00"
+    "scraped_at": "2026-09-12T06:15:54.698172+00:00"
   },
   {
     "platform": "instagram",
@@ -224,14 +224,14 @@
     "likes": -1,
     "comments": 5,
     "reposts": 0,
-    "impressions": 1993,
+    "impressions": 2011,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "negative",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.936277+00:00"
+    "scraped_at": "2026-09-12T06:15:54.697542+00:00"
   },
   {
     "platform": "instagram",
@@ -239,17 +239,17 @@
     "text": "the most heartwarming closure to Constellation’2026, by the one and only @this.is.gini ✨🎸\n\nfour years of achieving dreams started with a lot of sukoon and a night our students will remember for months to come! 🎵",
     "url": "https://www.instagram.com/p/Dc0ZIzIiTNg/",
     "date": "2026-09-03T08:33:54+00:00",
-    "likes": 4440,
+    "likes": 4455,
     "comments": 10,
     "reposts": 0,
-    "impressions": 89800,
+    "impressions": 90100,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.937283+00:00"
+    "scraped_at": "2026-09-12T06:15:54.697913+00:00"
   },
   {
     "platform": "instagram",
@@ -260,14 +260,14 @@
     "likes": -1,
     "comments": 0,
     "reposts": 0,
-    "impressions": 1780,
+    "impressions": 1790,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": "Admissions 2026",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.936345+00:00"
+    "scraped_at": "2026-09-12T06:15:54.697620+00:00"
   },
   {
     "platform": "instagram",
@@ -275,17 +275,17 @@
     "text": "Day 3 of Constellation 2026 brought the industry to campus before the first class even began (like the first two days!) ✨\n\n🎤 Meghana Swami — Talent Acquisition, LinkedIn\nThe First 10 Employees Decide If a Startup Lives. How to Become One of These 10.\n\n🌠 Anubhav Sethi — Software Engineer, Google\nFrom Developer to Thought Leader: Building a Personal Brand Around What You Know\n\n🤖 Pallab Sarkar — VP of Engineering, Ati Robotics\nFrom Code to Robots\n\n🚀 Saaquib Daawodani — VP of Talent, Blume Ventures\nMeghana Swami — Talent Acquisition, LinkedIn\nThe First 10 Employees Decide If a Startup Lives. How to Become One of These 10.\n\n🌍 Manuel Doderer — Co-founder, Code.Berlin\nOpportunities in Germany: Jobs and Education\n\nFour years of preparation begins with an afternoon like this one. Five people who have already built the careers our students are working towards, in a room, answering every question honestly. \n\nThis is week one at Polaris. \n\n(Polaris School of Technology | BTech admission 2026 | Bes",
     "url": "https://www.instagram.com/p/Dcv6IwYAJ10/",
     "date": "2026-09-01T14:46:03+00:00",
-    "likes": 556,
+    "likes": 560,
     "comments": 3,
     "reposts": 0,
-    "impressions": 11420,
+    "impressions": 11500,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": "Admissions 2026",
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.937074+00:00"
+    "scraped_at": "2026-09-12T06:15:54.698022+00:00"
   },
   {
     "platform": "instagram",
@@ -303,7 +303,7 @@
     "campaign": "Admissions 2026",
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.936569+00:00"
+    "scraped_at": "2026-09-12T06:15:54.697675+00:00"
   },
   {
     "platform": "instagram",
@@ -311,17 +311,17 @@
     "text": "Thank you, @polariscampus , for having me! 🙌\n\nFour years. Countless possibilities. One journey. 🚀\n\nHad an amazing time at Constellation 2026 connecting with some incredibly bright minds and sharing a few thoughts on making the most of college life✨\n\n#Constellation2026 #CollegeLife #StudentLife #CareerGrowth EngineeringStudents",
     "url": "https://www.instagram.com/p/DctrijjjxCI/",
     "date": "2026-08-31T18:00:01+00:00",
-    "likes": 233,
+    "likes": 235,
     "comments": 0,
     "reposts": 0,
-    "impressions": 4660,
+    "impressions": 4700,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "negative",
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.937249+00:00"
+    "scraped_at": "2026-09-12T06:15:54.698071+00:00"
   },
   {
     "platform": "instagram",
@@ -332,14 +332,14 @@
     "likes": -1,
     "comments": 0,
     "reposts": 0,
-    "impressions": 1027,
+    "impressions": 1035,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.936930+00:00"
+    "scraped_at": "2026-09-12T06:15:54.697874+00:00"
   },
   {
     "platform": "instagram",
@@ -357,7 +357,7 @@
     "campaign": "Admissions 2026",
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.937187+00:00"
+    "scraped_at": "2026-09-12T06:15:54.697736+00:00"
   },
   {
     "platform": "instagram",
@@ -368,14 +368,14 @@
     "likes": -1,
     "comments": 3,
     "reposts": 0,
-    "impressions": 1166,
+    "impressions": 1174,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.936764+00:00"
+    "scraped_at": "2026-09-12T06:15:54.698639+00:00"
   },
   {
     "platform": "instagram",
@@ -386,14 +386,14 @@
     "likes": 474,
     "comments": 12,
     "reposts": 0,
-    "impressions": 27807,
+    "impressions": 27835,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.937206+00:00"
+    "scraped_at": "2026-09-12T06:15:54.698091+00:00"
   },
   {
     "platform": "instagram",
@@ -401,17 +401,17 @@
     "text": "Constellation 2026, Day 2 🌟 | \nNew faces, new ideas, and the beginning of something we’ve been building towards all year.\n\n(BTech admission 2026 | Best engineering college in Bengaluru | Polaris School of Technology | BTech computer science Bangalore | Industry partnered BTech program | Google, AWS and Microsoft curriculum partnerships | New-age tech school India | Freshman orientation 2026)",
     "url": "https://www.instagram.com/p/DcqqLOPifxr/",
     "date": "2026-08-30T13:50:22+00:00",
-    "likes": 155,
+    "likes": 157,
     "comments": 2,
     "reposts": 0,
-    "impressions": 3300,
+    "impressions": 3340,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": "Admissions 2026",
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.937725+00:00"
+    "scraped_at": "2026-09-12T06:15:54.698685+00:00"
   },
   {
     "platform": "instagram",
@@ -422,14 +422,14 @@
     "likes": -1,
     "comments": 0,
     "reposts": 0,
-    "impressions": 1837,
+    "impressions": 1846,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.937685+00:00"
+    "scraped_at": "2026-09-12T06:15:54.698426+00:00"
   },
   {
     "platform": "instagram",
@@ -437,17 +437,17 @@
     "text": "Constellation 2026, Day 2 | 11 speakers, from Salesforce to NVIDIA to the Shark Tank featured insideFPV! 🚀\n\nDay two wasn’t merely a lecture series. It was eleven people who have built things at scale, in a room with students who have not even begun their computer science engineering journey! ✨\n\nWe were glad to host:\n\n🎯 Govinda Sambamurthy, SVP Engineering, Salesforce, and Puneet Patwari, Principal Engineer, Atlassian, on what actually gets engineers hired, promoted and noticed\n\n🛩️ Deyvant Bhardwaj, Co-founder, InsideFPV Drones, on why he built hardware in India when everyone advised against it\n\n⚙️ Siddhant Agarwal, Senior Developer Relations Advocate, ClickHouse, and Shivendra Yadav, CTO, NVIDIA Ecosystem, HCLTech, on what it takes to move AI from localhost to national scale\n\n🌍 Anubha Maneshwar, Founder, Smartly Labs and GirlScript Foundation, on building careers and communities through open source\n\n📚 Alekhya Chakrabarty, Senior Vice President, InfoEdge, on the story and strategy behin",
     "url": "https://www.instagram.com/p/DcqP5TdCbnk/",
     "date": "2026-08-30T10:00:06+00:00",
-    "likes": 213,
+    "likes": 214,
     "comments": 3,
     "reposts": 0,
-    "impressions": 4560,
+    "impressions": 4580,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": "Admissions 2026",
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.937440+00:00"
+    "scraped_at": "2026-09-12T06:15:54.698356+00:00"
   },
   {
     "platform": "instagram",
@@ -455,17 +455,17 @@
     "text": "our pookie co-founder 🌸✨ @rustagi_mukul",
     "url": "https://www.instagram.com/p/Dcp-vgDgoBC/",
     "date": "2026-08-30T07:30:50+00:00",
-    "likes": 269,
+    "likes": 271,
     "comments": 2,
     "reposts": 0,
-    "impressions": 5580,
+    "impressions": 5620,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.937743+00:00"
+    "scraped_at": "2026-09-12T06:15:54.698568+00:00"
   },
   {
     "platform": "instagram",
@@ -473,17 +473,17 @@
     "text": "🏆 Recognising 31 of our students for their open source contributions in 2026! ✨\n\n💻 Open source work is done outside class hours, with no marks attached to it. These students chose to do it anyway.\n\n🎓 Professor Matthew Hole from The Australian National University presented each of them with a trophy.\n\n👏 We are proud of all of of our achievers, and grateful to Professor Hole for taking the time to be there.\n\n(open source contributions students, btech students open source projects, engineering college bangalore, student achievements engineering college, australian national university, polaris school of technology, best btech colleges in bangalore, computer science students github, global engineering careers, btech admission 2026)",
     "url": "https://www.instagram.com/p/Dcp9PneieSe/",
     "date": "2026-08-30T07:17:45+00:00",
-    "likes": 150,
+    "likes": 151,
     "comments": 1,
     "reposts": 0,
-    "impressions": 3100,
+    "impressions": 3120,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": "Admissions 2026",
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.937589+00:00"
+    "scraped_at": "2026-09-12T06:15:54.698545+00:00"
   },
   {
     "platform": "instagram",
@@ -501,7 +501,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.937626+00:00"
+    "scraped_at": "2026-09-12T06:15:54.698469+00:00"
   },
   {
     "platform": "instagram",
@@ -519,7 +519,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.936005+00:00"
+    "scraped_at": "2026-09-12T06:15:54.696537+00:00"
   },
   {
     "platform": "instagram",
@@ -537,43 +537,7 @@
     "campaign": "GSoC 2025",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.935850+00:00"
-  },
-  {
-    "platform": "instagram",
-    "author": "",
-    "text": "",
-    "url": "https://www.instagram.com/explore/tags/polariscampus",
-    "date": "UNKNOWN",
-    "likes": 0,
-    "comments": 0,
-    "reposts": 0,
-    "impressions": 50,
-    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
-    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
-    "sentiment": "neutral",
-    "campaign": null,
-    "tags_polaris": "No",
-    "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.928573+00:00"
-  },
-  {
-    "platform": "instagram",
-    "author": "",
-    "text": "",
-    "url": "https://www.instagram.com/explore/tags/polarisschooloftechnology",
-    "date": "UNKNOWN",
-    "likes": 0,
-    "comments": 0,
-    "reposts": 0,
-    "impressions": 50,
-    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
-    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
-    "sentiment": "neutral",
-    "campaign": null,
-    "tags_polaris": "No",
-    "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.935865+00:00"
+    "scraped_at": "2026-09-12T06:15:54.696650+00:00"
   },
   {
     "platform": "instagram",
@@ -591,7 +555,43 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:38.936943+00:00"
+    "scraped_at": "2026-09-12T06:15:54.695786+00:00"
+  },
+  {
+    "platform": "instagram",
+    "author": "",
+    "text": "",
+    "url": "https://www.instagram.com/explore/tags/polariscampus",
+    "date": "UNKNOWN",
+    "likes": 0,
+    "comments": 0,
+    "reposts": 0,
+    "impressions": 50,
+    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
+    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
+    "sentiment": "neutral",
+    "campaign": null,
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-09-12T06:15:54.695845+00:00"
+  },
+  {
+    "platform": "instagram",
+    "author": "",
+    "text": "",
+    "url": "https://www.instagram.com/explore/tags/polarisschooloftechnology",
+    "date": "UNKNOWN",
+    "likes": 0,
+    "comments": 0,
+    "reposts": 0,
+    "impressions": 50,
+    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
+    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
+    "sentiment": "neutral",
+    "campaign": null,
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-09-12T06:15:54.695868+00:00"
   },
   {
     "platform": "facebook",
@@ -599,16 +599,16 @@
     "text": "",
     "url": "",
     "date": "UNKNOWN",
-    "likes": 8403,
+    "likes": 8401,
     "comments": 0,
     "reposts": 0,
-    "impressions": 336120,
+    "impressions": 336040,
     "impressions_type": "engagement_estimate_(likes+comments×3+shares×5)×40",
     "impressions_formula": "",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-09-11T06:30:48.014359+00:00"
+    "scraped_at": "2026-09-12T06:16:08.050877+00:00"
   }
 ]
