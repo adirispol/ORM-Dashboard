@@ -8,16 +8,16 @@
     "reddit": 91
   },
   "campaigns": {
-    "General": 121,
-    "Admissions 2026": 3,
+    "General": 122,
+    "Admissions 2026": 2,
     "GSoC 2025": 1
   },
   "sentiment": {
-    "positive": 17,
-    "neutral": 105,
-    "negative": 3
+    "positive": 15,
+    "neutral": 108,
+    "negative": 2
   },
-  "impressions": 155329,
+  "impressions": 157316,
   "impression_formulas": {
     "linkedin": "reactions × 80  [Polaris formula: LinkedIn hides real impressions]",
     "twitter": "viewCount from Twitter API (REAL when available), else likes × 30",
@@ -28,5 +28,5 @@
     "news": "domain tier: major=8000, regional=3000, blog=800  [estimate]",
     "web": "Google search position × 600 + 400  [visibility estimate]"
   },
-  "last_updated": "2026-09-26T06:31:12.818054+00:00"
+  "last_updated": "2026-09-27T06:57:57.888752+00:00"
 }
