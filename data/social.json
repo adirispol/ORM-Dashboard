@@ -15,7 +15,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.567958+00:00"
+    "scraped_at": "2026-10-19T06:36:17.929263+00:00"
   },
   {
     "platform": "instagram",
@@ -33,7 +33,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.567852+00:00"
+    "scraped_at": "2026-10-19T06:36:17.929422+00:00"
   },
   {
     "platform": "instagram",
@@ -51,7 +51,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.567933+00:00"
+    "scraped_at": "2026-10-19T06:36:17.929908+00:00"
   },
   {
     "platform": "instagram",
@@ -69,7 +69,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.568186+00:00"
+    "scraped_at": "2026-10-19T06:36:17.929331+00:00"
   },
   {
     "platform": "instagram",
@@ -80,14 +80,14 @@
     "likes": -1,
     "comments": 0,
     "reposts": 0,
-    "impressions": 909,
+    "impressions": 914,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.568459+00:00"
+    "scraped_at": "2026-10-19T06:36:17.929748+00:00"
   },
   {
     "platform": "instagram",
@@ -105,7 +105,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.567327+00:00"
+    "scraped_at": "2026-10-19T06:36:17.929697+00:00"
   },
   {
     "platform": "instagram",
@@ -123,7 +123,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.568409+00:00"
+    "scraped_at": "2026-10-19T06:36:17.929504+00:00"
   },
   {
     "platform": "instagram",
@@ -141,7 +141,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.568330+00:00"
+    "scraped_at": "2026-10-19T06:36:17.929568+00:00"
   },
   {
     "platform": "instagram",
@@ -159,7 +159,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.568076+00:00"
+    "scraped_at": "2026-10-19T06:36:17.929194+00:00"
   },
   {
     "platform": "instagram",
@@ -168,16 +168,16 @@
     "url": "https://www.instagram.com/p/DeUW6vEjK--/",
     "date": "2026-10-10T15:01:35+00:00",
     "likes": -1,
-    "comments": 8,
+    "comments": 9,
     "reposts": 0,
-    "impressions": 780,
+    "impressions": 880,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "negative",
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.567763+00:00"
+    "scraped_at": "2026-10-19T06:36:17.929633+00:00"
   },
   {
     "platform": "instagram",
@@ -188,14 +188,14 @@
     "likes": 38,
     "comments": 1,
     "reposts": 0,
-    "impressions": 573,
+    "impressions": 578,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": "Admissions 2026",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.569213+00:00"
+    "scraped_at": "2026-10-19T06:36:17.930638+00:00"
   },
   {
     "platform": "instagram",
@@ -213,7 +213,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.568647+00:00"
+    "scraped_at": "2026-10-19T06:36:17.930519+00:00"
   },
   {
     "platform": "instagram",
@@ -231,7 +231,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.568536+00:00"
+    "scraped_at": "2026-10-19T06:36:17.930477+00:00"
   },
   {
     "platform": "instagram",
@@ -249,7 +249,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.569023+00:00"
+    "scraped_at": "2026-10-19T06:36:17.930270+00:00"
   },
   {
     "platform": "instagram",
@@ -260,14 +260,14 @@
     "likes": -1,
     "comments": 0,
     "reposts": 0,
-    "impressions": 785,
+    "impressions": 792,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "negative",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.568949+00:00"
+    "scraped_at": "2026-10-19T06:36:17.930022+00:00"
   },
   {
     "platform": "instagram",
@@ -278,14 +278,14 @@
     "likes": -1,
     "comments": 0,
     "reposts": 0,
-    "impressions": 732,
+    "impressions": 734,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.568830+00:00"
+    "scraped_at": "2026-10-19T06:36:17.930139+00:00"
   },
   {
     "platform": "instagram",
@@ -303,7 +303,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.568898+00:00"
+    "scraped_at": "2026-10-19T06:36:17.930586+00:00"
   },
   {
     "platform": "instagram",
@@ -311,17 +311,17 @@
     "text": "What if your phone could warn you before a street became unsafe?\n\nThat’s the kind of problem worth building for.\n\nTwo Polaris students took a very real, everyday concern and turned it into a tech solution designed around prevention, awareness, and getting help when it matters.\n\nBecause the best technology isn’t always the most complicated.\n\nSometimes, it’s the one that solves a problem people actually live with.\n\n[women safety, women safety technology, safety app, personal safety, safety technology, Al for safety, tech for good, social impact technology, student innovation, student startup, engineering students, app development, technology for good, Polaris students, innovation, Bangalore tech]\n\n#startupindia #womensafetyapp #ᴠɪʀᴀʟᴘᴏsᴛ #instagram #polarisschooloftechnology",
     "url": "https://www.instagram.com/p/DeCGs3OiZ3R/",
     "date": "2026-10-03T12:53:33+00:00",
-    "likes": 19040,
-    "comments": 262,
+    "likes": 19571,
+    "comments": 267,
     "reposts": 0,
-    "impressions": 407000,
+    "impressions": 418120,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.569098+00:00"
+    "scraped_at": "2026-10-19T06:36:17.930401+00:00"
   },
   {
     "platform": "instagram",
@@ -339,7 +339,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.568710+00:00"
+    "scraped_at": "2026-10-19T06:36:17.929971+00:00"
   },
   {
     "platform": "instagram",
@@ -357,7 +357,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.568781+00:00"
+    "scraped_at": "2026-10-19T06:36:17.930090+00:00"
   },
   {
     "platform": "instagram",
@@ -375,7 +375,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.569158+00:00"
+    "scraped_at": "2026-10-19T06:36:17.930328+00:00"
   },
   {
     "platform": "instagram",
@@ -386,14 +386,14 @@
     "likes": -1,
     "comments": 0,
     "reposts": 0,
-    "impressions": 1080,
+    "impressions": 1083,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.568603+00:00"
+    "scraped_at": "2026-10-19T06:36:17.930207+00:00"
   },
   {
     "platform": "instagram",
@@ -404,14 +404,14 @@
     "likes": -1,
     "comments": 0,
     "reposts": 0,
-    "impressions": 1233,
+    "impressions": 1234,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.569394+00:00"
+    "scraped_at": "2026-10-19T06:36:17.930900+00:00"
   },
   {
     "platform": "instagram",
@@ -429,7 +429,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.569326+00:00"
+    "scraped_at": "2026-10-19T06:36:17.930832+00:00"
   },
   {
     "platform": "instagram",
@@ -447,7 +447,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.569443+00:00"
+    "scraped_at": "2026-10-19T06:36:17.930701+00:00"
   },
   {
     "platform": "instagram",
@@ -458,14 +458,14 @@
     "likes": 125,
     "comments": 1,
     "reposts": 0,
-    "impressions": 1305,
+    "impressions": 1308,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.569269+00:00"
+    "scraped_at": "2026-10-19T06:36:17.930955+00:00"
   },
   {
     "platform": "instagram",
@@ -483,7 +483,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.569516+00:00"
+    "scraped_at": "2026-10-19T06:36:17.930773+00:00"
   },
   {
     "platform": "instagram",
@@ -494,14 +494,14 @@
     "likes": 47,
     "comments": 16,
     "reposts": 0,
-    "impressions": 1457,
+    "impressions": 1459,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": "Admissions 2026",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.569536+00:00"
+    "scraped_at": "2026-10-19T06:36:17.930974+00:00"
   },
   {
     "platform": "instagram",
@@ -519,7 +519,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.568119+00:00"
+    "scraped_at": "2026-10-19T06:36:17.929244+00:00"
   },
   {
     "platform": "instagram",
@@ -537,25 +537,7 @@
     "campaign": "GSoC 2025",
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.568273+00:00"
-  },
-  {
-    "platform": "instagram",
-    "author": "",
-    "text": "",
-    "url": "https://www.instagram.com/explore/tags/polarisschooloftechnology",
-    "date": "UNKNOWN",
-    "likes": 0,
-    "comments": 0,
-    "reposts": 0,
-    "impressions": 50,
-    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
-    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
-    "sentiment": "neutral",
-    "campaign": null,
-    "tags_polaris": "No",
-    "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.567207+00:00"
+    "scraped_at": "2026-10-19T06:36:17.929833+00:00"
   },
   {
     "platform": "instagram",
@@ -573,7 +555,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.567247+00:00"
+    "scraped_at": "2026-10-19T06:36:17.928731+00:00"
   },
   {
     "platform": "instagram",
@@ -591,7 +573,25 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:28.567263+00:00"
+    "scraped_at": "2026-10-19T06:36:17.928771+00:00"
+  },
+  {
+    "platform": "instagram",
+    "author": "",
+    "text": "",
+    "url": "https://www.instagram.com/explore/tags/polarisschooloftechnology",
+    "date": "UNKNOWN",
+    "likes": 0,
+    "comments": 0,
+    "reposts": 0,
+    "impressions": 50,
+    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
+    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
+    "sentiment": "neutral",
+    "campaign": null,
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-10-19T06:36:17.928786+00:00"
   },
   {
     "platform": "facebook",
@@ -609,6 +609,6 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-10-18T06:24:37.528240+00:00"
+    "scraped_at": "2026-10-19T06:36:26.999888+00:00"
   }
 ]
