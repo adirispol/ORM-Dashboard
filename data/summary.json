@@ -1,23 +1,23 @@
 {
-  "total_mentions": 67,
+  "total_mentions": 92,
   "total_social": 34,
-  "total_combined": 101,
+  "total_combined": 126,
   "platforms": {
     "instagram": 33,
     "facebook": 1,
-    "reddit": 67
+    "reddit": 92
   },
   "campaigns": {
-    "General": 99,
+    "General": 124,
     "Campus Life": 1,
     "Admissions 2026": 1
   },
   "sentiment": {
-    "positive": 13,
-    "neutral": 83,
-    "negative": 5
+    "positive": 15,
+    "neutral": 104,
+    "negative": 7
   },
-  "impressions": 548492,
+  "impressions": 558125,
   "impression_formulas": {
     "linkedin": "reactions × 80  [Polaris formula: LinkedIn hides real impressions]",
     "twitter": "viewCount from Twitter API (REAL when available), else likes × 30",
@@ -28,5 +28,5 @@
     "news": "domain tier: major=8000, regional=3000, blog=800  [estimate]",
     "web": "Google search position × 600 + 400  [visibility estimate]"
   },
-  "last_updated": "2026-10-25T06:37:25.227746+00:00"
+  "last_updated": "2026-10-26T06:46:53.005451+00:00"
 }
