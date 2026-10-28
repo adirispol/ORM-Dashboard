@@ -1,7 +1,7 @@
 {
-  "crawl_time": "2026-10-27T06:41:02.047656+00:00",
+  "crawl_time": "2026-10-28T07:12:28.442788+00:00",
   "total_social": 34,
-  "total_mentions": 66,
+  "total_mentions": 64,
   "impression_formulas": {
     "linkedin": "reactions × 80  [Polaris formula: LinkedIn hides real impressions]",
     "twitter": "viewCount from Twitter API (REAL when available), else likes × 30",
@@ -122,81 +122,81 @@
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:\"Polaris School of Techno",
       "status": "SUCCEEDED",
-      "run_id": "MODE0nvlq9v2t9P2W",
+      "run_id": "43wUHDCZ8YSgqMYiu",
       "items_raw": 10,
-      "run_url": "https://console.apify.com/actors/runs/MODE0nvlq9v2t9P2W"
+      "run_url": "https://console.apify.com/actors/runs/43wUHDCZ8YSgqMYiu"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:#polariscampus OR @polari",
       "status": "SUCCEEDED",
-      "run_id": "TJ62dVjKeixGgdFFN",
+      "run_id": "e1xLf81fNLg79G6Kq",
       "items_raw": 10,
-      "run_url": "https://console.apify.com/actors/runs/TJ62dVjKeixGgdFFN"
+      "run_url": "https://console.apify.com/actors/runs/e1xLf81fNLg79G6Kq"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:#VibeCon OR #VibeCon2025 ",
       "status": "SUCCEEDED",
-      "run_id": "k4PFYkTsK0R39yFTx",
+      "run_id": "itukT32DWVZexX3rI",
       "items_raw": 10,
-      "run_url": "https://console.apify.com/actors/runs/k4PFYkTsK0R39yFTx"
+      "run_url": "https://console.apify.com/actors/runs/itukT32DWVZexX3rI"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:Agentathon Polaris OR Lyz",
       "status": "SUCCEEDED",
-      "run_id": "KAuWTL4QKK0ZxZaSm",
+      "run_id": "l0TIhreG4IKhWZjvJ",
       "items_raw": 10,
-      "run_url": "https://console.apify.com/actors/runs/KAuWTL4QKK0ZxZaSm"
+      "run_url": "https://console.apify.com/actors/runs/l0TIhreG4IKhWZjvJ"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:GSoC 2025 Polaris",
       "status": "SUCCEEDED",
-      "run_id": "omA08YnZFc5TE1mjH",
+      "run_id": "BC77BoIN59slf1hY9",
       "items_raw": 10,
-      "run_url": "https://console.apify.com/actors/runs/omA08YnZFc5TE1mjH"
+      "run_url": "https://console.apify.com/actors/runs/BC77BoIN59slf1hY9"
     },
     {
       "actor": "apify~instagram-scraper",
       "label": "Instagram",
       "status": "SUCCEEDED",
-      "run_id": "mO2YfcASHhqGRfFEn",
+      "run_id": "pExDn5fN3A8h92gUH",
       "items_raw": 33,
-      "run_url": "https://console.apify.com/actors/runs/mO2YfcASHhqGRfFEn"
+      "run_url": "https://console.apify.com/actors/runs/pExDn5fN3A8h92gUH"
     },
     {
       "actor": "apify~facebook-pages-scraper",
       "label": "Facebook",
       "status": "SUCCEEDED",
-      "run_id": "AnlSqkXeXcWbkkgxE",
+      "run_id": "tex505NEyTlnyd1iY",
       "items_raw": 1,
-      "run_url": "https://console.apify.com/actors/runs/AnlSqkXeXcWbkkgxE"
+      "run_url": "https://console.apify.com/actors/runs/tex505NEyTlnyd1iY"
     },
     {
       "actor": "trudax~reddit-scraper",
       "label": "Reddit:Polaris School of Technol",
       "status": "SUCCEEDED",
-      "run_id": "sBDANMoHYREIoaMdd",
-      "items_raw": 28,
-      "run_url": "https://console.apify.com/actors/runs/sBDANMoHYREIoaMdd"
+      "run_id": "MrTCnMWEKuSKZkbf4",
+      "items_raw": 40,
+      "run_url": "https://console.apify.com/actors/runs/MrTCnMWEKuSKZkbf4"
     },
     {
       "actor": "trudax~reddit-scraper",
       "label": "Reddit:PST Bangalore Polaris",
       "status": "SUCCEEDED",
-      "run_id": "syzAGCGfHQnyVCBj3",
-      "items_raw": 42,
-      "run_url": "https://console.apify.com/actors/runs/syzAGCGfHQnyVCBj3"
+      "run_id": "4uuSL3Lh3kdhCfIuL",
+      "items_raw": 46,
+      "run_url": "https://console.apify.com/actors/runs/4uuSL3Lh3kdhCfIuL"
     },
     {
       "actor": "trudax~reddit-scraper",
       "label": "Reddit:VibeCon Polaris",
       "status": "SUCCEEDED",
-      "run_id": "QznNjnB1HJTDaY62s",
+      "run_id": "1ejNVrlCyijkKb9LG",
       "items_raw": 50,
-      "run_url": "https://console.apify.com/actors/runs/QznNjnB1HJTDaY62s"
+      "run_url": "https://console.apify.com/actors/runs/1ejNVrlCyijkKb9LG"
     },
     {
       "actor": "apify~quora-scraper",
