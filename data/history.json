@@ -3845,5 +3845,28 @@
     },
     "impressions": 557332,
     "scraped_at": "2026-10-28T07:12:28.440019+00:00"
+  },
+  {
+    "date": "2026-10-29",
+    "social_posts": 34,
+    "mentions": 41,
+    "total": 75,
+    "by_platform": {
+      "instagram": 33,
+      "facebook": 1,
+      "reddit": 41
+    },
+    "by_campaign": {
+      "General": 72,
+      "Campus Life": 2,
+      "Admissions 2026": 1
+    },
+    "sentiment": {
+      "positive": 17,
+      "neutral": 53,
+      "negative": 5
+    },
+    "impressions": 554781,
+    "scraped_at": "2026-10-29T07:34:25.516607+00:00"
   }
 ]
