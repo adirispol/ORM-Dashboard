@@ -3914,5 +3914,31 @@
     },
     "impressions": 76579,
     "scraped_at": "2026-10-31T07:24:36.533504+00:00"
+  },
+  {
+    "date": "2026-11-01",
+    "social_posts": 67,
+    "mentions": 52,
+    "total": 119,
+    "by_platform": {
+      "instagram": 33,
+      "twitter": 33,
+      "facebook": 1,
+      "reddit": 52
+    },
+    "by_campaign": {
+      "General": 103,
+      "Campus Life": 2,
+      "VibeCon": 12,
+      "Admissions 2026": 1,
+      "Lyzr/Agentathon": 1
+    },
+    "sentiment": {
+      "positive": 40,
+      "neutral": 73,
+      "negative": 6
+    },
+    "impressions": 128778,
+    "scraped_at": "2026-11-01T07:57:24.064115+00:00"
   }
 ]
