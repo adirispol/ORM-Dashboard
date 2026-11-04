@@ -1,5 +1,5 @@
 {
-  "crawl_time": "2026-11-03T08:24:58.856054+00:00",
+  "crawl_time": "2026-11-04T07:53:18.127465+00:00",
   "total_social": 34,
   "total_mentions": 77,
   "impression_formulas": {
@@ -122,81 +122,81 @@
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:\"Polaris School of Techno",
       "status": "SUCCEEDED",
-      "run_id": "4AmYO76kltOyBpaZz",
+      "run_id": "N4g7ugCIZlOPM5In5",
       "items_raw": 10,
-      "run_url": "https://console.apify.com/actors/runs/4AmYO76kltOyBpaZz"
+      "run_url": "https://console.apify.com/actors/runs/N4g7ugCIZlOPM5In5"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:#polariscampus OR @polari",
       "status": "SUCCEEDED",
-      "run_id": "vNtJSYJqIxFv3IX86",
+      "run_id": "Bqldhg3Lvf4FQAngK",
       "items_raw": 10,
-      "run_url": "https://console.apify.com/actors/runs/vNtJSYJqIxFv3IX86"
+      "run_url": "https://console.apify.com/actors/runs/Bqldhg3Lvf4FQAngK"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:#VibeCon OR #VibeCon2025 ",
       "status": "SUCCEEDED",
-      "run_id": "N8W8OiUcwDWorQpMf",
+      "run_id": "Tgmxs1UvWIFUyVh1T",
       "items_raw": 10,
-      "run_url": "https://console.apify.com/actors/runs/N8W8OiUcwDWorQpMf"
+      "run_url": "https://console.apify.com/actors/runs/Tgmxs1UvWIFUyVh1T"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:Agentathon Polaris OR Lyz",
       "status": "SUCCEEDED",
-      "run_id": "9zsoeIMYsNlRCFrxU",
+      "run_id": "DRmhHjjIkFt4gbBcS",
       "items_raw": 10,
-      "run_url": "https://console.apify.com/actors/runs/9zsoeIMYsNlRCFrxU"
+      "run_url": "https://console.apify.com/actors/runs/DRmhHjjIkFt4gbBcS"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:GSoC 2025 Polaris",
       "status": "SUCCEEDED",
-      "run_id": "el0dj5DF3BMZ1EXHN",
+      "run_id": "njIn3SFPexnQ1BKW1",
       "items_raw": 10,
-      "run_url": "https://console.apify.com/actors/runs/el0dj5DF3BMZ1EXHN"
+      "run_url": "https://console.apify.com/actors/runs/njIn3SFPexnQ1BKW1"
     },
     {
       "actor": "apify~instagram-scraper",
       "label": "Instagram",
       "status": "SUCCEEDED",
-      "run_id": "zdn5NuOkJhZjlz8oN",
+      "run_id": "empB1uMStvLwkxCTi",
       "items_raw": 33,
-      "run_url": "https://console.apify.com/actors/runs/zdn5NuOkJhZjlz8oN"
+      "run_url": "https://console.apify.com/actors/runs/empB1uMStvLwkxCTi"
     },
     {
       "actor": "apify~facebook-pages-scraper",
       "label": "Facebook",
       "status": "SUCCEEDED",
-      "run_id": "lrg66NfNGAINZd6tf",
+      "run_id": "D3Li7P5kJtvgZLSuZ",
       "items_raw": 1,
-      "run_url": "https://console.apify.com/actors/runs/lrg66NfNGAINZd6tf"
+      "run_url": "https://console.apify.com/actors/runs/D3Li7P5kJtvgZLSuZ"
     },
     {
       "actor": "trudax~reddit-scraper",
       "label": "Reddit:Polaris School of Technol",
       "status": "SUCCEEDED",
-      "run_id": "kYK72UmdeoF0xX8Mv",
-      "items_raw": 11,
-      "run_url": "https://console.apify.com/actors/runs/kYK72UmdeoF0xX8Mv"
+      "run_id": "wQzhI4WCcmhTzFgas",
+      "items_raw": 23,
+      "run_url": "https://console.apify.com/actors/runs/wQzhI4WCcmhTzFgas"
     },
     {
       "actor": "trudax~reddit-scraper",
       "label": "Reddit:PST Bangalore Polaris",
       "status": "SUCCEEDED",
-      "run_id": "caO7PZxsWAoHRl8DX",
+      "run_id": "0ti6eJR4rD4MiHgH1",
       "items_raw": 50,
-      "run_url": "https://console.apify.com/actors/runs/caO7PZxsWAoHRl8DX"
+      "run_url": "https://console.apify.com/actors/runs/0ti6eJR4rD4MiHgH1"
     },
     {
       "actor": "trudax~reddit-scraper",
       "label": "Reddit:VibeCon Polaris",
       "status": "SUCCEEDED",
-      "run_id": "xLnjI6GyRv72igveq",
+      "run_id": "DqN4eMFMXElFIrkkl",
       "items_raw": 50,
-      "run_url": "https://console.apify.com/actors/runs/xLnjI6GyRv72igveq"
+      "run_url": "https://console.apify.com/actors/runs/DqN4eMFMXElFIrkkl"
     },
     {
       "actor": "apify~quora-scraper",

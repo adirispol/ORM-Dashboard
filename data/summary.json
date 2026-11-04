@@ -13,11 +13,11 @@
     "Admissions 2026": 1
   },
   "sentiment": {
-    "positive": 16,
-    "neutral": 88,
-    "negative": 7
+    "positive": 15,
+    "neutral": 92,
+    "negative": 4
   },
-  "impressions": 83107,
+  "impressions": 81508,
   "impression_formulas": {
     "linkedin": "reactions × 80  [Polaris formula: LinkedIn hides real impressions]",
     "twitter": "viewCount from Twitter API (REAL when available), else likes × 30",
@@ -28,5 +28,5 @@
     "news": "domain tier: major=8000, regional=3000, blog=800  [estimate]",
     "web": "Google search position × 600 + 400  [visibility estimate]"
   },
-  "last_updated": "2026-11-03T08:24:58.849469+00:00"
+  "last_updated": "2026-11-04T07:53:18.119305+00:00"
 }
