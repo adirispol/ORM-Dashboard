@@ -1,6 +1,6 @@
 {
-  "crawl_time": "2026-11-16T08:21:35.689442+00:00",
-  "total_social": 0,
+  "crawl_time": "2026-11-17T09:39:39.960147+00:00",
+  "total_social": 34,
   "total_mentions": 0,
   "impression_formulas": {
     "linkedin": "reactions × 80  [Polaris formula: LinkedIn hides real impressions]",
@@ -121,62 +121,82 @@
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:\"Polaris School of Techno",
-      "status": "FAILED_TO_START",
-      "items": 0
+      "status": "SUCCEEDED",
+      "run_id": "QzCvFJZ5u4TkaGOLP",
+      "items_raw": 10,
+      "run_url": "https://console.apify.com/actors/runs/QzCvFJZ5u4TkaGOLP"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:#polariscampus OR @polari",
-      "status": "FAILED_TO_START",
-      "items": 0
+      "status": "SUCCEEDED",
+      "run_id": "V11wn5pDT0HWAizqO",
+      "items_raw": 10,
+      "run_url": "https://console.apify.com/actors/runs/V11wn5pDT0HWAizqO"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:#VibeCon OR #VibeCon2025 ",
-      "status": "FAILED_TO_START",
-      "items": 0
+      "status": "SUCCEEDED",
+      "run_id": "FhE5LxQFu4ieLK4Wd",
+      "items_raw": 10,
+      "run_url": "https://console.apify.com/actors/runs/FhE5LxQFu4ieLK4Wd"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:Agentathon Polaris OR Lyz",
-      "status": "FAILED_TO_START",
-      "items": 0
+      "status": "SUCCEEDED",
+      "run_id": "2rFmdggH7qiavfDi4",
+      "items_raw": 10,
+      "run_url": "https://console.apify.com/actors/runs/2rFmdggH7qiavfDi4"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:GSoC 2025 Polaris",
-      "status": "FAILED_TO_START",
-      "items": 0
+      "status": "SUCCEEDED",
+      "run_id": "relCIJmonvq0r36Rz",
+      "items_raw": 10,
+      "run_url": "https://console.apify.com/actors/runs/relCIJmonvq0r36Rz"
     },
     {
       "actor": "apify~instagram-scraper",
       "label": "Instagram",
-      "status": "FAILED_TO_START",
-      "items": 0
+      "status": "SUCCEEDED",
+      "run_id": "UthkOWGHiL3Q799xD",
+      "items_raw": 33,
+      "run_url": "https://console.apify.com/actors/runs/UthkOWGHiL3Q799xD"
     },
     {
       "actor": "apify~facebook-pages-scraper",
       "label": "Facebook",
-      "status": "FAILED_TO_START",
-      "items": 0
+      "status": "SUCCEEDED",
+      "run_id": "8NibvA2swffZdAEzd",
+      "items_raw": 1,
+      "run_url": "https://console.apify.com/actors/runs/8NibvA2swffZdAEzd"
     },
     {
       "actor": "trudax~reddit-scraper",
       "label": "Reddit:Polaris School of Technol",
-      "status": "FAILED_TO_START",
-      "items": 0
+      "status": "SUCCEEDED",
+      "run_id": "hwLS0K9UU8kSRhBgq",
+      "items_raw": 0,
+      "run_url": "https://console.apify.com/actors/runs/hwLS0K9UU8kSRhBgq"
     },
     {
       "actor": "trudax~reddit-scraper",
       "label": "Reddit:PST Bangalore Polaris",
-      "status": "FAILED_TO_START",
-      "items": 0
+      "status": "SUCCEEDED",
+      "run_id": "3hQqpCXCe8BB6WaBZ",
+      "items_raw": 0,
+      "run_url": "https://console.apify.com/actors/runs/3hQqpCXCe8BB6WaBZ"
     },
     {
       "actor": "trudax~reddit-scraper",
       "label": "Reddit:VibeCon Polaris",
-      "status": "FAILED_TO_START",
-      "items": 0
+      "status": "SUCCEEDED",
+      "run_id": "HLLoobuqdFPybxGX6",
+      "items_raw": 0,
+      "run_url": "https://console.apify.com/actors/runs/HLLoobuqdFPybxGX6"
     },
     {
       "actor": "apify~quora-scraper",

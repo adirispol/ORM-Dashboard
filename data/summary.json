@@ -1,15 +1,21 @@
 {
   "total_mentions": 0,
-  "total_social": 0,
-  "total_combined": 0,
-  "platforms": {},
-  "campaigns": {},
-  "sentiment": {
-    "positive": 0,
-    "neutral": 0,
-    "negative": 0
+  "total_social": 34,
+  "total_combined": 34,
+  "platforms": {
+    "instagram": 33,
+    "facebook": 1
   },
-  "impressions": 0,
+  "campaigns": {
+    "General": 33,
+    "Campus Life": 1
+  },
+  "sentiment": {
+    "positive": 22,
+    "neutral": 11,
+    "negative": 1
+  },
+  "impressions": 80193,
   "impression_formulas": {
     "linkedin": "reactions × 80  [Polaris formula: LinkedIn hides real impressions]",
     "twitter": "viewCount from Twitter API (REAL when available), else likes × 30",
@@ -20,5 +26,5 @@
     "news": "domain tier: major=8000, regional=3000, blog=800  [estimate]",
     "web": "Google search position × 600 + 400  [visibility estimate]"
   },
-  "last_updated": "2026-11-16T08:21:35.685029+00:00"
+  "last_updated": "2026-11-17T09:39:39.956031+00:00"
 }
