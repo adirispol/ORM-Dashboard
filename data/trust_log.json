@@ -1,5 +1,5 @@
 {
-  "crawl_time": "2026-11-17T09:39:39.960147+00:00",
+  "crawl_time": "2026-11-18T08:58:30.658248+00:00",
   "total_social": 34,
   "total_mentions": 0,
   "impression_formulas": {
@@ -122,81 +122,81 @@
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:\"Polaris School of Techno",
       "status": "SUCCEEDED",
-      "run_id": "QzCvFJZ5u4TkaGOLP",
+      "run_id": "KAwPMlc4RH8hPxYyp",
       "items_raw": 10,
-      "run_url": "https://console.apify.com/actors/runs/QzCvFJZ5u4TkaGOLP"
+      "run_url": "https://console.apify.com/actors/runs/KAwPMlc4RH8hPxYyp"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:#polariscampus OR @polari",
       "status": "SUCCEEDED",
-      "run_id": "V11wn5pDT0HWAizqO",
+      "run_id": "gXHlgB9gTWXvX5jbc",
       "items_raw": 10,
-      "run_url": "https://console.apify.com/actors/runs/V11wn5pDT0HWAizqO"
+      "run_url": "https://console.apify.com/actors/runs/gXHlgB9gTWXvX5jbc"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:#VibeCon OR #VibeCon2025 ",
       "status": "SUCCEEDED",
-      "run_id": "FhE5LxQFu4ieLK4Wd",
+      "run_id": "fztlavVSbHOrouSle",
       "items_raw": 10,
-      "run_url": "https://console.apify.com/actors/runs/FhE5LxQFu4ieLK4Wd"
+      "run_url": "https://console.apify.com/actors/runs/fztlavVSbHOrouSle"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:Agentathon Polaris OR Lyz",
       "status": "SUCCEEDED",
-      "run_id": "2rFmdggH7qiavfDi4",
+      "run_id": "ZamfAnC5qLrzMgRcA",
       "items_raw": 10,
-      "run_url": "https://console.apify.com/actors/runs/2rFmdggH7qiavfDi4"
+      "run_url": "https://console.apify.com/actors/runs/ZamfAnC5qLrzMgRcA"
     },
     {
       "actor": "apidojo~tweet-scraper",
       "label": "Twitter:GSoC 2025 Polaris",
       "status": "SUCCEEDED",
-      "run_id": "relCIJmonvq0r36Rz",
+      "run_id": "c9CQm1jaBIOHl6LeP",
       "items_raw": 10,
-      "run_url": "https://console.apify.com/actors/runs/relCIJmonvq0r36Rz"
+      "run_url": "https://console.apify.com/actors/runs/c9CQm1jaBIOHl6LeP"
     },
     {
       "actor": "apify~instagram-scraper",
       "label": "Instagram",
       "status": "SUCCEEDED",
-      "run_id": "UthkOWGHiL3Q799xD",
+      "run_id": "JJKbiOUJ6w7UQoirx",
       "items_raw": 33,
-      "run_url": "https://console.apify.com/actors/runs/UthkOWGHiL3Q799xD"
+      "run_url": "https://console.apify.com/actors/runs/JJKbiOUJ6w7UQoirx"
     },
     {
       "actor": "apify~facebook-pages-scraper",
       "label": "Facebook",
       "status": "SUCCEEDED",
-      "run_id": "8NibvA2swffZdAEzd",
+      "run_id": "gyHnEXq7NJFwYQvGK",
       "items_raw": 1,
-      "run_url": "https://console.apify.com/actors/runs/8NibvA2swffZdAEzd"
+      "run_url": "https://console.apify.com/actors/runs/gyHnEXq7NJFwYQvGK"
     },
     {
       "actor": "trudax~reddit-scraper",
       "label": "Reddit:Polaris School of Technol",
       "status": "SUCCEEDED",
-      "run_id": "hwLS0K9UU8kSRhBgq",
+      "run_id": "xcsp9I2XAhGrQlvkT",
       "items_raw": 0,
-      "run_url": "https://console.apify.com/actors/runs/hwLS0K9UU8kSRhBgq"
+      "run_url": "https://console.apify.com/actors/runs/xcsp9I2XAhGrQlvkT"
     },
     {
       "actor": "trudax~reddit-scraper",
       "label": "Reddit:PST Bangalore Polaris",
       "status": "SUCCEEDED",
-      "run_id": "3hQqpCXCe8BB6WaBZ",
+      "run_id": "EfaAScddAJN10Li7W",
       "items_raw": 0,
-      "run_url": "https://console.apify.com/actors/runs/3hQqpCXCe8BB6WaBZ"
+      "run_url": "https://console.apify.com/actors/runs/EfaAScddAJN10Li7W"
     },
     {
       "actor": "trudax~reddit-scraper",
       "label": "Reddit:VibeCon Polaris",
       "status": "SUCCEEDED",
-      "run_id": "HLLoobuqdFPybxGX6",
+      "run_id": "KcrYEgorrKttONhCj",
       "items_raw": 0,
-      "run_url": "https://console.apify.com/actors/runs/HLLoobuqdFPybxGX6"
+      "run_url": "https://console.apify.com/actors/runs/KcrYEgorrKttONhCj"
     },
     {
       "actor": "apify~quora-scraper",

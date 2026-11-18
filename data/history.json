@@ -4272,5 +4272,26 @@
     },
     "impressions": 80193,
     "scraped_at": "2026-11-17T09:39:39.957907+00:00"
+  },
+  {
+    "date": "2026-11-18",
+    "social_posts": 34,
+    "mentions": 0,
+    "total": 34,
+    "by_platform": {
+      "instagram": 33,
+      "facebook": 1
+    },
+    "by_campaign": {
+      "General": 33,
+      "Campus Life": 1
+    },
+    "sentiment": {
+      "positive": 23,
+      "neutral": 10,
+      "negative": 1
+    },
+    "impressions": 67182,
+    "scraped_at": "2026-11-18T08:58:30.654513+00:00"
   }
 ]
