@@ -11,11 +11,11 @@
     "Campus Life": 1
   },
   "sentiment": {
-    "positive": 23,
-    "neutral": 10,
+    "positive": 22,
+    "neutral": 11,
     "negative": 1
   },
-  "impressions": 68084,
+  "impressions": 58459,
   "impression_formulas": {
     "linkedin": "reactions × 80  [Polaris formula: LinkedIn hides real impressions]",
     "twitter": "viewCount from Twitter API (REAL when available), else likes × 30",
@@ -26,5 +26,5 @@
     "news": "domain tier: major=8000, regional=3000, blog=800  [estimate]",
     "web": "Google search position × 600 + 400  [visibility estimate]"
   },
-  "last_updated": "2026-11-19T09:16:30.806037+00:00"
+  "last_updated": "2026-11-20T09:00:42.752815+00:00"
 }
