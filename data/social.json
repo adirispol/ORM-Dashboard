@@ -15,7 +15,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.669868+00:00"
+    "scraped_at": "2026-11-21T08:38:27.137661+00:00"
   },
   {
     "platform": "instagram",
@@ -33,7 +33,7 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.667361+00:00"
+    "scraped_at": "2026-11-21T08:38:27.137750+00:00"
   },
   {
     "platform": "instagram",
@@ -42,16 +42,16 @@
     "url": "https://www.instagram.com/p/Df35BxmCe4J/",
     "date": "2026-11-18T06:44:27+00:00",
     "likes": -1,
-    "comments": 0,
+    "comments": 2,
     "reposts": 0,
-    "impressions": 50,
+    "impressions": 180,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.668403+00:00"
+    "scraped_at": "2026-11-21T08:38:27.136575+00:00"
   },
   {
     "platform": "instagram",
@@ -62,14 +62,14 @@
     "likes": -1,
     "comments": 0,
     "reposts": 0,
-    "impressions": 2171,
+    "impressions": 2219,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.667753+00:00"
+    "scraped_at": "2026-11-21T08:38:27.136670+00:00"
   },
   {
     "platform": "instagram",
@@ -87,7 +87,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.667168+00:00"
+    "scraped_at": "2026-11-21T08:38:27.136829+00:00"
   },
   {
     "platform": "instagram",
@@ -98,14 +98,14 @@
     "likes": -1,
     "comments": 2,
     "reposts": 0,
-    "impressions": 2132,
+    "impressions": 2173,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.667945+00:00"
+    "scraped_at": "2026-11-21T08:38:27.137301+00:00"
   },
   {
     "platform": "instagram",
@@ -123,7 +123,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.670069+00:00"
+    "scraped_at": "2026-11-21T08:38:27.138240+00:00"
   },
   {
     "platform": "instagram",
@@ -134,14 +134,14 @@
     "likes": -1,
     "comments": 0,
     "reposts": 0,
-    "impressions": 3113,
+    "impressions": 3142,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.667834+00:00"
+    "scraped_at": "2026-11-21T08:38:27.136739+00:00"
   },
   {
     "platform": "instagram",
@@ -159,7 +159,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.668028+00:00"
+    "scraped_at": "2026-11-21T08:38:27.138307+00:00"
   },
   {
     "platform": "instagram",
@@ -177,7 +177,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.667546+00:00"
+    "scraped_at": "2026-11-21T08:38:27.137459+00:00"
   },
   {
     "platform": "instagram",
@@ -195,7 +195,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.669640+00:00"
+    "scraped_at": "2026-11-21T08:38:27.138375+00:00"
   },
   {
     "platform": "instagram",
@@ -213,7 +213,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.667638+00:00"
+    "scraped_at": "2026-11-21T08:38:27.136441+00:00"
   },
   {
     "platform": "instagram",
@@ -224,14 +224,14 @@
     "likes": -1,
     "comments": 2,
     "reposts": 0,
-    "impressions": 4060,
+    "impressions": 4086,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.668872+00:00"
+    "scraped_at": "2026-11-21T08:38:27.137969+00:00"
   },
   {
     "platform": "instagram",
@@ -239,17 +239,17 @@
     "text": "Your next big idea could be worth $15,000 ⭐️\n\nHackGlobal is back, and this time, the stakes are even bigger!\n\nBuild, experiment, and compete for a $15,000 prize pool across cash, gear, credits, and more. Plus, get a shot at exciting internship opportunities and certificates.\n\nTwo days. A global community of builders. And endless possibilities to create something impactful.\n\n🗓️14-15 November 2026\n\n💻Online\n\n⚡️Powered by Vultr\n\nReady to build for the world? Register now link in bio!\n\n[HackGlobal, global hackathon 2026, online hackathon, coding competition, $15000 prize pool, software development, Al hackathon, student developers, developer community, hackathon prizes, tech internships, coding challenge, programming competition, Vultr, Polaris School of Technology]\n\n#hackglobal #hackathon #coding #developers #polaris",
     "url": "https://www.instagram.com/p/Dfe-14MA2GU/",
     "date": "2026-11-08T14:35:59+00:00",
-    "likes": 365,
-    "comments": 59,
+    "likes": 377,
+    "comments": 60,
     "reposts": 0,
-    "impressions": 13200,
+    "impressions": 13540,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.668759+00:00"
+    "scraped_at": "2026-11-21T08:38:27.137369+00:00"
   },
   {
     "platform": "instagram",
@@ -260,14 +260,14 @@
     "likes": 41,
     "comments": 0,
     "reposts": 0,
-    "impressions": 1896,
+    "impressions": 1924,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.668937+00:00"
+    "scraped_at": "2026-11-21T08:38:27.137030+00:00"
   },
   {
     "platform": "instagram",
@@ -285,7 +285,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.668279+00:00"
+    "scraped_at": "2026-11-21T08:38:27.137127+00:00"
   },
   {
     "platform": "instagram",
@@ -296,14 +296,14 @@
     "likes": -1,
     "comments": 0,
     "reposts": 0,
-    "impressions": 2240,
+    "impressions": 2250,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.669096+00:00"
+    "scraped_at": "2026-11-21T08:38:27.136913+00:00"
   },
   {
     "platform": "instagram",
@@ -321,7 +321,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.669959+00:00"
+    "scraped_at": "2026-11-21T08:38:27.137210+00:00"
   },
   {
     "platform": "instagram",
@@ -339,7 +339,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.668147+00:00"
+    "scraped_at": "2026-11-21T08:38:27.137556+00:00"
   },
   {
     "platform": "instagram",
@@ -350,14 +350,14 @@
     "likes": -1,
     "comments": 1,
     "reposts": 0,
-    "impressions": 3818,
+    "impressions": 3826,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.668679+00:00"
+    "scraped_at": "2026-11-21T08:38:27.138148+00:00"
   },
   {
     "platform": "instagram",
@@ -375,7 +375,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.669556+00:00"
+    "scraped_at": "2026-11-21T08:38:27.137843+00:00"
   },
   {
     "platform": "instagram",
@@ -393,7 +393,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.668997+00:00"
+    "scraped_at": "2026-11-21T08:38:27.137879+00:00"
   },
   {
     "platform": "instagram",
@@ -404,14 +404,14 @@
     "likes": -1,
     "comments": 0,
     "reposts": 0,
-    "impressions": 2926,
+    "impressions": 2931,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.668597+00:00"
+    "scraped_at": "2026-11-21T08:38:27.138069+00:00"
   },
   {
     "platform": "instagram",
@@ -420,16 +420,16 @@
     "url": "https://www.instagram.com/p/DfKHPBSiXX4/",
     "date": "2026-10-31T12:03:32+00:00",
     "likes": 213,
-    "comments": 17,
+    "comments": 18,
     "reposts": 0,
-    "impressions": 5960,
+    "impressions": 6060,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.668478+00:00"
+    "scraped_at": "2026-11-21T08:38:27.136976+00:00"
   },
   {
     "platform": "instagram",
@@ -440,14 +440,14 @@
     "likes": -1,
     "comments": 0,
     "reposts": 0,
-    "impressions": 2977,
+    "impressions": 2983,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.669261+00:00"
+    "scraped_at": "2026-11-21T08:38:27.138608+00:00"
   },
   {
     "platform": "instagram",
@@ -465,7 +465,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.669337+00:00"
+    "scraped_at": "2026-11-21T08:38:27.138673+00:00"
   },
   {
     "platform": "instagram",
@@ -474,16 +474,16 @@
     "url": "https://www.instagram.com/p/DfCUSHDCX36/",
     "date": "2026-10-28T11:23:38+00:00",
     "likes": -1,
-    "comments": 20,
+    "comments": 21,
     "reposts": 0,
-    "impressions": 1980,
+    "impressions": 2080,
     "impressions_type": "engagement_estimate_(likes+comments×5)×20",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "positive",
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.669745+00:00"
+    "scraped_at": "2026-11-21T08:38:27.138828+00:00"
   },
   {
     "platform": "instagram",
@@ -494,14 +494,14 @@
     "likes": 140,
     "comments": 1,
     "reposts": 0,
-    "impressions": 5131,
+    "impressions": 5140,
     "impressions_type": "real_instagram_video_views",
     "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
     "sentiment": "neutral",
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.670178+00:00"
+    "scraped_at": "2026-11-21T08:38:27.138467+00:00"
   },
   {
     "platform": "instagram",
@@ -519,7 +519,7 @@
     "campaign": null,
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.669446+00:00"
+    "scraped_at": "2026-11-21T08:38:27.138558+00:00"
   },
   {
     "platform": "instagram",
@@ -537,43 +537,7 @@
     "campaign": "Campus Life",
     "tags_polaris": "Yes",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.669177+00:00"
-  },
-  {
-    "platform": "instagram",
-    "author": "",
-    "text": "",
-    "url": "https://www.instagram.com/explore/tags/vibecon",
-    "date": "UNKNOWN",
-    "likes": 0,
-    "comments": 0,
-    "reposts": 0,
-    "impressions": 50,
-    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
-    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
-    "sentiment": "neutral",
-    "campaign": null,
-    "tags_polaris": "No",
-    "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.666942+00:00"
-  },
-  {
-    "platform": "instagram",
-    "author": "",
-    "text": "",
-    "url": "https://www.instagram.com/explore/tags/polariscampus",
-    "date": "UNKNOWN",
-    "likes": 0,
-    "comments": 0,
-    "reposts": 0,
-    "impressions": 50,
-    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
-    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
-    "sentiment": "neutral",
-    "campaign": null,
-    "tags_polaris": "No",
-    "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.666991+00:00"
+    "scraped_at": "2026-11-21T08:38:27.138737+00:00"
   },
   {
     "platform": "instagram",
@@ -591,7 +555,43 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:56:52.667013+00:00"
+    "scraped_at": "2026-11-21T08:38:27.136298+00:00"
+  },
+  {
+    "platform": "instagram",
+    "author": "",
+    "text": "",
+    "url": "https://www.instagram.com/explore/tags/polariscampus",
+    "date": "UNKNOWN",
+    "likes": 0,
+    "comments": 0,
+    "reposts": 0,
+    "impressions": 50,
+    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
+    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
+    "sentiment": "neutral",
+    "campaign": null,
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-11-21T08:38:27.136336+00:00"
+  },
+  {
+    "platform": "instagram",
+    "author": "",
+    "text": "",
+    "url": "https://www.instagram.com/explore/tags/vibecon",
+    "date": "UNKNOWN",
+    "likes": 0,
+    "comments": 0,
+    "reposts": 0,
+    "impressions": 50,
+    "impressions_type": "engagement_estimate_(likes+comments×5)×20",
+    "impressions_formula": "videoViewCount (REAL for videos), else (likes + comments×5) × 20",
+    "sentiment": "neutral",
+    "campaign": null,
+    "tags_polaris": "No",
+    "competitor": null,
+    "scraped_at": "2026-11-21T08:38:27.136353+00:00"
   },
   {
     "platform": "facebook",
@@ -609,6 +609,6 @@
     "campaign": null,
     "tags_polaris": "No",
     "competitor": null,
-    "scraped_at": "2026-11-20T08:57:01.107961+00:00"
+    "scraped_at": "2026-11-21T08:38:35.511620+00:00"
   }
 ]

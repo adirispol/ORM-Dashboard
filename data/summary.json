@@ -15,7 +15,7 @@
     "neutral": 11,
     "negative": 1
   },
-  "impressions": 58459,
+  "impressions": 59339,
   "impression_formulas": {
     "linkedin": "reactions × 80  [Polaris formula: LinkedIn hides real impressions]",
     "twitter": "viewCount from Twitter API (REAL when available), else likes × 30",
@@ -26,5 +26,5 @@
     "news": "domain tier: major=8000, regional=3000, blog=800  [estimate]",
     "web": "Google search position × 600 + 400  [visibility estimate]"
   },
-  "last_updated": "2026-11-20T09:00:42.752815+00:00"
+  "last_updated": "2026-11-21T08:41:12.013183+00:00"
 }
