@@ -4479,5 +4479,25 @@
     },
     "impressions": 59081,
     "scraped_at": "2026-11-27T10:02:54.406764+00:00"
+  },
+  {
+    "date": "2026-11-28",
+    "social_posts": 34,
+    "mentions": 0,
+    "total": 34,
+    "by_platform": {
+      "instagram": 33,
+      "facebook": 1
+    },
+    "by_campaign": {
+      "General": 34
+    },
+    "sentiment": {
+      "positive": 21,
+      "neutral": 11,
+      "negative": 2
+    },
+    "impressions": 54277,
+    "scraped_at": "2026-11-28T09:17:47.844440+00:00"
   }
 ]
